@@ -1,28 +1,33 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div :v-loading="true">
+    111
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  name: "App",
+  components: {},
+  created(){
+    // console.log();
+    if(!this.$store.state.loginState.isLogin)
+      this.open();
+  },
+  methods:{
+    open() {
+        this.$alert('checkyourmessage', 'OASystem', {
+      confirmButtonText: '确定',
+      callback: action => {
+        this.$message({
+          type: '',
+          message: `action: ${ action }`
+        });
+      }
+    });
+    }
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
