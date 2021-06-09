@@ -1,19 +1,18 @@
 <template>
-  <div class="" @click="test">1</div>
+  <router-view></router-view>
 </template>
 
 <script>
 export default {
   name: "App",
+
   components: {},
-  created(){
-    
+  beforeUpdate() {
+    if (this.$route.path !== '/login' && !this.$store.state.loginState.logined) {
+      this.$router.push("/login"); 
+    }
   },
-  methods:{
-    test(){
-      this.$store.commit('doLogin',{});
-    },
-  }
+  methods: {},
 };
 </script>
 
