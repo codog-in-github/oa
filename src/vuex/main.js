@@ -30,4 +30,4 @@ export const store = new Vuex.Store({
             router.push('/login');
         }
     }
-})
+})            

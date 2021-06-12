@@ -5,16 +5,21 @@
 </template>
 
 <script>
+import { checkLoginStatus } from '@/axios/main'
+
 export default {
   name: "App",
 
   components: {},
-  beforeUpdate() {
-    if (this.$route.path !== '/login' && !this.$store.state.loginState.logined) {
-      this.$router.push("/login"); 
-    }
+  created() {
+    checkLoginStatus(
+      this.$store,
+      this.$router
+    );
   },
-  methods: {},
+  methods: {
+
+  },
 };
 </script>
 

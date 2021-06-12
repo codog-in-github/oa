@@ -8,9 +8,11 @@ import ElementUI from 'element-ui'
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 
-new Vue({
+const v = new Vue({
   el:'#app',
   render: h => h(App),
   store,
   router,
-})
+});
+
+export default v;

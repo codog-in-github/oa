@@ -17,7 +17,6 @@
 </template>
 <script>
 import { doLogin } from '@/axios/main'
-// import { mapActions } from 'vuex';
 
 export default {
   data(){
