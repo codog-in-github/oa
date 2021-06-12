@@ -1,0 +1,3 @@
+export const SUCCESS = 0;
+export const NO_LOGIN = 1;
+export const PASSWORD_ERROR = 2;

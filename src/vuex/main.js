@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+// import { doLogin } from '../axios/main';
 
 Vue.use(Vuex);
 
@@ -21,5 +22,12 @@ export const store = new Vuex.Store({
             loginState.info = {};
             loginState.logined = false;
         },
+    },
+    actions:{
+        //强制退出
+        logoutEnforce({commit}, router){
+            commit('logout');
+            router.push('/login');
+        }
     }
 })
