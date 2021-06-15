@@ -2,30 +2,40 @@
   <div>
     <div><el-button type="warning" @click="doLogout">logout</el-button></div>
     <div>
-        <edit-table :col='col' :data='data'/>
+        <edit-table :cols='cols' :data='data'/>
     </div>
   </div>
 </template>
 <script>
-import { logout, getTableConfig } from "@/axios/main";
+import { logout, getTableConfig, getTableData } from "@/api/main";
 import EditTable from '../components/editTable.vue';
 
 export default {
   data() {
     return {
-        col:[],
+        tableId:1,
+        cols:[],
         data:[]
     }
   },
   created(){
       getTableConfig(
-          'main',
+          this.tableId,
           (data)=>{
-              this.col = data;
+              this.cols = data;
           },
           this.$store,
           this.$router
-      );
+      ).then(()=>getTableData(
+          this.tableId,
+          this.cols,
+          (data)=>{
+              this.data = data;
+          },
+          this.$store,
+          this.$router
+      ));
+      
   },
   methods: {
     doLogout() {

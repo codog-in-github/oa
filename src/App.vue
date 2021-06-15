@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { checkLoginStatus } from '@/axios/main'
+import { checkLoginStatus } from '@/api/main'
 
 export default {
   name: "App",

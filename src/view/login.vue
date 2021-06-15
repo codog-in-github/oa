@@ -16,7 +16,7 @@
   </div>
 </template>
 <script>
-import { doLogin } from '@/axios/main'
+import { doLogin } from '@/api/main'
 
 export default {
   data(){
