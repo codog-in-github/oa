@@ -16,7 +16,6 @@
   </div>
 </template>
 <script>
-import { doLogin } from '@/api/main'
 
 export default {
   data(){
@@ -37,11 +36,9 @@ export default {
         //no user password
         return 
       }
-      doLogin(
+      this.$doLogin(
         this.form.username, 
-        this.form.password,
-        this.$store,
-        this.$router,
+        this.form.password
       );
     },
   }

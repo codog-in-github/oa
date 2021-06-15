@@ -7,7 +7,7 @@
   </div>
 </template>
 <script>
-import { logout, getTableConfig, getTableData } from "@/api/main";
+import { getTableConfig, getTableData } from "@/api/main";
 import EditTable from '../components/editTable.vue';
 
 export default {
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     doLogout() {
-      logout(this.$store, this.$router);
+      this.$logout();
     },
   },
   components: {

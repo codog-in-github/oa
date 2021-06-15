@@ -25,9 +25,10 @@ export const store = new Vuex.Store({
     },
     actions:{
         //强制退出
-        logoutEnforce({commit}, router){
+        logoutEnforce({commit}, vm){
             commit('logout');
-            router.push('/login');
+            // console.log(vm);
+            vm.$router.push('/login');
         }
     }
 })            
