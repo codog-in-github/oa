@@ -5,17 +5,14 @@
 </template>
 
 <script>
-import { checkLoginStatus } from '@/api/main'
+// import { checkLoginStatus } from '@/api/main'
 
 export default {
   name: "App",
 
   components: {},
   created() {
-    checkLoginStatus(
-      this.$store,
-      this.$router
-    );
+    this.$checkLoginStatus();
   },
   methods: {
 

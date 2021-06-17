@@ -54,6 +54,17 @@ export class Api{
             this.$api.promise.catch(console.log);
         }
 
+        Vue.prototype.$checkLoginStatus = function(){
+            this.$api.checkStateCodeServer(
+                ()=>axios.get(
+                    LOGIN_STATUS,
+                ),
+                (data)=>{
+                    this.$store.commit('doLogin',data)
+                },
+                this,
+            );
+        }
     }
     
     constructor (optios){
@@ -99,46 +110,6 @@ const checkStateCodeServer = function (promise, successCall, {dispatch}, router)
     });
 }
 
-export const doLogin = (username, password, {commit}, router) => {
-    axios.post(
-        LOGIN_PATH,
-        qs.stringify({
-            username,
-            password,
-        })
-    ).then(({data})=>{
-        switch (data.error){
-            case statecode.PASSWORD_ERROR:
-                console.log('password error');
-                break;
-            case statecode.SUCCESS:
-                commit('doLogin',data.data);
-                router.push('/');  
-                break;
-        }
-    })
-};
-export const logout = function(store, router){
-    return checkStateCodeServer(
-        axios.get(LOGOUT_PATH),
-        ()=>{},
-        store,
-        router
-    );
-}
-//确认在线状态
-export const checkLoginStatus = function(store, router){
-    return checkStateCodeServer(
-        axios.get(
-            LOGIN_STATUS,
-        ),
-        (data)=>{
-            store.commit('doLogin',data)
-        },
-        store,
-        router
-    );
-}
 // 获取表配置
 export const getTableConfig = function (tableId, successCall, store, router){
     return checkStateCodeServer(
