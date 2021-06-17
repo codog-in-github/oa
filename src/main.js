@@ -7,14 +7,11 @@ import ElementUI from 'element-ui'
 import {Api} from './api/main'
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
-Vue.use(Api,'test data');
+Vue.use(Api);
 
-
-const v = new Vue({
+export default new Vue({
   el:'#app',
   render: h => h(App),
   store,
   router,
 });
-
-export default v;
