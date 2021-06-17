@@ -11,13 +11,13 @@ let routes = [
         children:[
             {
                 path:'',
-                omponent:()=>import('@/view/main/calender.vue'),
+                component:()=>import('@/view/main/calender.vue'),
             },{
                 path:'/calender',
-                omponent:()=>import('@/view/main/calender.vue'),
+                component:()=>import('@/view/main/calender.vue'),
             },{
                 path:'/calender',
-                omponent:()=>import('@/view//main/calender.vue'),
+                component:()=>import('@/view//main/calender.vue'),
             },
         ],
     },{
