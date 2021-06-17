@@ -7,7 +7,19 @@ Vue.use(VueRouter);
 let routes = [
     {
         path:'/',
-        component:()=>import('@/view/main.vue'),
+        component:()=>import('@/view/frame.vue'),
+        children:[
+            {
+                path:'',
+                omponent:()=>import('@/view/main/calender.vue'),
+            },{
+                path:'/calender',
+                omponent:()=>import('@/view/main/calender.vue'),
+            },{
+                path:'/calender',
+                omponent:()=>import('@/view//main/calender.vue'),
+            },
+        ],
     },{
         path:'/login',
         component:()=>import('@/view/login.vue'),
