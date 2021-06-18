@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="index-container">
         <Schedules />
     </div>
 </template>
