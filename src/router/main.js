@@ -7,17 +7,17 @@ Vue.use(VueRouter);
 let routes = [
     {
         path:'/',
-        component:()=>import('@/view/frame.vue'),
+        component:()=>import('@/view/newFrame.vue'),
         children:[
             {
                 path:'',
-                component:()=>import('@/view/main/calender.vue'),
+                component:()=>import('@/view/main/index.vue'),
             },{
                 path:'/calender',
-                component:()=>import('@/view/main/calender.vue'),
+                component:()=>import('@/view/main/index.vue'),
             },{
                 path:'/calender',
-                component:()=>import('@/view//main/calender.vue'),
+                component:()=>import('@/view//main/index.vue'),
             },
         ],
     },{
