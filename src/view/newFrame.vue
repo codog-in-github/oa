@@ -19,30 +19,38 @@ export default {
 </script>
 <style scoped>
 .container{
-    position: relative;
     background: #CFE0F4;
     height: 100vh;
     width: 100vw;
+    padding: 60px 0 0 0;
+    overflow: hidden;
 }
 .header,
 .body{
     width: 100%;
-    height: 100%;
-    box-sizing: border-box;
+}
+.body{
+    margin: -60px 0 0 0;
+    height: 100% ;
     display: flex;
-    padding: 60px 0 0 0;
+    box-sizing: border-box;
+    padding: 0 0 0 80px;
 }
 .header{
     height: 60px;
-    /* background:#000; */
+    background:#000;
     position:absolute;
+    margin: -60px 0 0 0;
 }
 .side{
     width: 80px;
     height: 100%;
-    /* background: red; */
+    margin:  0 0 0 -80px;
+    position: absolute;
+    background: red;
 }
 .view{
     height: 100%;
+    width: 100%;
 }
 </style>
