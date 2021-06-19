@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="root">
   <router-view></router-view>
   </div>
 </template>
@@ -11,7 +11,7 @@ export default {
   name: "App",
 
   components: {},
-  created() {
+  beforeCreate() {
     this.$checkLoginStatus();
   },
   methods: {
@@ -19,10 +19,3 @@ export default {
   },
 };
 </script>
-
-<style>
-*{
-  margin: 0;
-  padding: 0;
-}
-</style>

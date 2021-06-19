@@ -59,7 +59,7 @@ export class Api{
                 ()=>axios.get(
                     LOGIN_STATUS,
                 ),
-                (data)=>{
+                ({data})=>{
                     this.$store.commit('doLogin',data)
                 },
                 this,

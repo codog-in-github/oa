@@ -9,14 +9,20 @@
             <div class="date-item" v-for="date in showDate" :key="date">
                 <div class="cell-title">{{date}}</div>
                 <div class="todos" >
-                    <li  
-                        v-for="{id, name, type} in todoInDay(date)" 
+                    <div  
+                        v-for="{id, name, type, state} in todoInDay(date)" 
                         :key="id"
                         class="todo"
-                        :class="type"
+                        :class="'list-'+type"
                         >
                         {{name}}
-                    </li>
+                        <div 
+                            :class="{complete:state}"
+                            class="todo-state"
+                            >
+                            ✓
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -28,10 +34,10 @@ export default {
         return {
             plan:{
                 '2021-6-18':[
-                    {id:1,name:'放假了',type:'success'},
-                    {id:2,name:'上班了',type:'info'},
-                    {id:3,name:'又加班',type:'warning'},
-                    {id:4,name:'吃夜宵',type:'danger'},
+                    {id:1,name:'放假了',type:'success',state:true},
+                    {id:2,name:'上班了',type:'primary',state:true},
+                    {id:3,name:'又加班',type:'warning',state:false},
+                    {id:4,name:'吃夜宵',type:'danger' ,state:false},
                 ]
             },
             showDate:[
@@ -62,10 +68,7 @@ export default {
     display: inline-block;
     /* box-sizing: border-box; */
     /* width: 100%; */
-    margin: 30px;
     padding: 25px;
-    color:#636D76;
-    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif
 }
 .title{
     display: flex;
@@ -90,9 +93,24 @@ export default {
     text-align: right;
 }
 .todos{
-    list-style-type: circle;
 }
 .todo{
+    margin: 3px 0;
+    position: relative;
+}
+.todo-state{
+    position: absolute;
+    right: 5px;
+    top: 2px;
+    padding: 0 9px;
+    font-size: 5px;
+    border-radius: 3em;
+    border: 2px solid #409EFF;
+    color:#409EFF;
+}
+.complete{
+    background: #409EFF;
+    color: #fff;
 }
 </style>
 

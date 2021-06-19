@@ -1,34 +1,31 @@
 <template>
     <div class="index-container">
         <Schedules />
+        <calendar-mini style="margin:0 0 0 30px;" />
     </div>
 </template>
 <script>
 import Schedules from '@/components/calendar/schedules.vue'
+import CalendarMini from '../../components/calendar/calendarMini.vue'
 export default {
     data(){
-        return {
-            date:new Date(),
-            todos:{
-                '2021-5-17':[
-                    {id:1, name:'骑马',type:'warning'}
-                ],
-                '2021-5-18':[
-                    {id:1, name:'射箭',type:'success'},
-                    {id:2, name:'游泳',type:'warning'},
-                    {id:3, name:'爬山',type:'success'},
-                ],
-            }
-        }
+        return {}
     },
     methods:{
 
     },
     components:{
         Schedules,
+        CalendarMini,
     }
 }
 </script>
 
 <style scoped>
+.index-container{
+    display: flex;
+    flex-flow: nowrap row;
+    justify-content: space-around;
+    align-items: flex-start;
+}
 </style>
