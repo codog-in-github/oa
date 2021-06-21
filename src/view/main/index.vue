@@ -1,12 +1,12 @@
 <template>
     <div class="index-container">
-        <Schedules />
-        <calendar-mini style="margin:0 0 0 30px;" />
+        <div class="oldtable-container">
+            <old-table />
+        </div>
     </div>
 </template>
 <script>
-import Schedules from '@/components/calendar/schedules.vue'
-import CalendarMini from '../../components/calendar/calendarMini.vue'
+import OldTable from '../../components/OldTable.vue'
 export default {
     data(){
         return {}
@@ -15,17 +15,18 @@ export default {
 
     },
     components:{
-        Schedules,
-        CalendarMini,
+        OldTable
     }
 }
 </script>
 
 <style scoped>
 .index-container{
-    display: flex;
-    flex-flow: nowrap row;
-    justify-content: space-around;
-    align-items: flex-start;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+}
+.oldtable-container{
+    padding: 30px 80px;
 }
 </style>

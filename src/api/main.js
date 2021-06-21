@@ -47,7 +47,7 @@ export class Api{
                         break;
                     case statecode.SUCCESS:
                         this.$store.commit('doLogin',data.data);
-                        this.$router.push('/');  
+                        this.$router.push('/frame');  
                         break;
                 }
             }

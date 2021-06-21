@@ -7,17 +7,22 @@ Vue.use(VueRouter);
 let routes = [
     {
         path:'/',
+        redirect:'/login',
+    },
+    {
+        path:'/frame',
         component:()=>import('@/view/newFrame.vue'),
         children:[
             {
-                path:'',
+                path:'/frame',
+                redirect:'/frame/index',
+            },
+            {
+                path:'/frame/index',
                 component:()=>import('@/view/main/index.vue'),
             },{
-                path:'/calender',
-                component:()=>import('@/view/main/index.vue'),
-            },{
-                path:'/calender',
-                component:()=>import('@/view//main/index.vue'),
+                path:'/frame/form',
+                component:()=>import('@/view/main/form.vue'),
             },
         ],
     },{

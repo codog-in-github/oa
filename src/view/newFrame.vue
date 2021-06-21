@@ -4,12 +4,6 @@
             <div class="title">
             </div>
             <div class="info">
-                <badge value="99+" type="warning">
-                    <div class="el-icon-message info-button"></div>
-                </badge>
-                <badge value="99+" type="success">
-                    <div class="el-icon-chat-dot-square info-button"></div>
-                </badge>
                 <span>HELLO!&nbsp;{{user.name}}</span>
                 <el-button 
                     type="danger" 
@@ -22,14 +16,23 @@
         </div>
         <div class="body">
             <div class="side">
-                <button
-                    class="btn-side-menu el-icon-s-home btn-side-menu-active"
-                    >
-                </button>
-                <button
-                    class="btn-side-menu el-icon-s-order"
-                    >
-                </button>
+                <el-menu
+                        default-active="0"
+                        class="el-menu-vertical-demo"
+                        background-color="#545c64"
+                        text-color="#fff"
+                        active-text-color="#ffd04b"
+                        @select="linkTo"
+                        >
+                        <el-menu-item index="0">
+                            <i class="el-icon-menu"></i>
+                            <span slot="title">menu1</span>
+                        </el-menu-item>
+                        <el-menu-item index="1">
+                            <i class="el-icon-setting"></i>
+                            <span slot="title">menu2</span>
+                        </el-menu-item>
+                        </el-menu>
             </div>
             <router-view class="view"></router-view>
         </div>
@@ -38,24 +41,37 @@
 </template>
 <script>
 import {mapState} from 'vuex'
-import Badge from '../components/badge.vue';
 export default {
     computed:{
         ...mapState({
             user: state => state.loginState.info,
         }),
     },
-    methods: {
-      logout(){
-          this.$logout();
-      }
+    data(){
+        return {
+            menuDirection:[
+                '/frame/index',
+                '/frame/form',
+            ],
+        };
     },
-    components: { Badge },
+    methods: {
+        logout(){
+            this.$logout();
+        },
+        linkTo(index){
+            const url = this.menuDirection[index];
+
+            if(this.$route.path !== url){
+                this.$router.push(url);
+            }
+        }
+    },
 }
 </script>
 <style scoped>
 .frame-container{
-    background: #CFE0F4;
+    background: #545c64;
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -84,6 +100,7 @@ export default {
     justify-content: space-around;
     width: 300px;
     font-size: 20px;
+    color: #fff;
 }
 .logout{
     flex-shrink: 0;
@@ -94,56 +111,8 @@ export default {
     flex-grow: 1;
     z-index: 2;
 }
-.side{
-    width: 80px;
-    height: 100%;
-    flex-grow: 0;
-    flex-shrink: 0;
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: flex-start;
-    align-items: center;
-}
-.view{
-    flex-flow: 1;
-}
 .info-button{
     font-size: 30px;
 }
-.bubble-box{
-    background: #B5D7F3;
-    position: absolute;
-    border-radius: 50%;
-    animation: bubble 20s infinite ;
-    width: 10vmin;
-    height: 10vmin;
-    z-index: 1;
-}
-@keyframes bubble {
-    0% {
-        left: 50vw;
-        bottom: 0;
-        width: 10vmin;
-        height: 10vmin;
-        opacity: 0;
-    }
-    0% {
-        opacity: .1;
-    }
-    50%{
-        top: 30vh;
-        left: 70vw;
-        opacity: .5;
-    }
-    70%{
-        opacity: .9;
-    }
-    100% {
-        top: 0;
-        left: 500px;
-        width: 50vmin;
-        height: 50vmin;
-        opacity: 0;
-    }
-}
+
 </style>
