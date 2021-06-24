@@ -16,18 +16,40 @@ const LOGIN_STATUS = BASE_PATH + '/Index/';
 axios.defaults.withCredentials = true;
 
 
+//需要添加建提起的方法 
+
+const needInterceptorsMethods = [
+    {
+        //需要被拦截器的方法
+        methods:[
+            '$checkLoginStatus',
+            '$logout'
+        ],
+        //拦截器
+        interceptor:(vm,{data})=>{
+
+            switch(data.error){
+                case statecode.WITHOUT_LOGIN:{
+                    console.log(vm);
+                    vm.$store.dispatch('logoutEnforce',vm);
+                    return Promise.reject('WITHOUT_LOGIN');
+                }
+                case statecode.SUCCESS:{
+                    return data;
+                }
+            }
+        }
+    }
+]
+
 //接口插件
 export class Api{
     
     static install = function (Vue, options) {
         Vue.prototype.$api = new Api(options);
         //登出
-        Vue.prototype.$logout  = function () {
-            this.$api.checkStateCodeServer(
-                ()=>axios.get(LOGOUT_PATH),
-                ()=>{},
-                this
-            )
+        Vue.prototype._$logout  = function () {
+            axios.get(LOGOUT_PATH);
         }
         //登录
         Vue.prototype.$doLogin = function(username, password) {
@@ -54,16 +76,30 @@ export class Api{
             this.$api.promise.catch(console.log);
         }
 
-        Vue.prototype.$checkLoginStatus = function(){
-            this.$api.checkStateCodeServer(
-                ()=>axios.get(
-                    LOGIN_STATUS,
-                ),
-                ({data})=>{
-                    this.$store.commit('doLogin',data)
-                },
-                this,
-            );
+        Vue.prototype._$checkLoginStatus = function(){
+            this.$api.queue = ()=>axios.get(LOGIN_STATUS);
+            this.$api.queue = (data)=>{
+                console.log(this.$store.state);
+                this.$store.commit('doLogin',data);
+            };
+        }
+        //注册代理监听器
+        for(const item of needInterceptorsMethods){
+            for(const method of item.methods){
+                //注册同名代理对象并监听 调用前添加拦截器 结束后注销
+                Vue.prototype[method] = new Proxy(Vue.prototype['_'+method],{
+                        apply(target, thisArg, argumentsList){
+
+                            const  interceptor = axios.interceptors.response.use((data)=>{
+                                return item.interceptor(thisArg, data);
+                            });
+                            target.apply(thisArg, ...argumentsList);
+                            axios.interceptors.response.eject(interceptor);
+
+                        },
+                    }
+                );
+            }
         }
     }
     
@@ -75,24 +111,6 @@ export class Api{
     set queue (successCall){
         this.promise = this.promise.then(
             data=>successCall(data)
-        );
-    }
-    //接收所有返回状态码  分类处理
-    checkStateCodeServer = function (todo, successCall,vm) {
-        this.queue = todo;
-        this.queue = ({data})=>{
-            switch(data.error){
-                case statecode.WITHOUT_LOGIN:{
-                    console.log(vm);
-                    vm.$store.dispatch('logoutEnforce',vm);
-                    break;
-                }
-                case statecode.SUCCESS:{
-                    successCall(data);
-                    break;
-                }
-            }
-        }
+        )
     }
 }
-//删除数据

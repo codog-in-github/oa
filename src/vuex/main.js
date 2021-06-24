@@ -15,6 +15,7 @@ export const store = new Vuex.Store({
     },
     mutations:{
         doLogin({loginState},info){
+            console.log(info);
             loginState.info = info;
             loginState.logined = true;
         },
