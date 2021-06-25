@@ -93,8 +93,9 @@ export class Api{
                             const  interceptor = axios.interceptors.response.use((data)=>{
                                 return item.interceptor(thisArg, data);
                             });
-                            target.apply(thisArg, ...argumentsList);
+                            const re = target.apply(thisArg, ...argumentsList);
                             axios.interceptors.response.eject(interceptor);
+                            return re;
 
                         },
                     }
