@@ -78,9 +78,8 @@ export class Api{
 
         Vue.prototype._$checkLoginStatus = function(){
             this.$api.queue = ()=>axios.get(LOGIN_STATUS);
-            this.$api.queue = (data)=>{
-                console.log(this.$store.state);
-                this.$store.commit('doLogin',data);
+            this.$api.queue = ({data})=>{
+                this.$store.commit('doLogin',data.data);
             };
         }
         //注册代理监听器

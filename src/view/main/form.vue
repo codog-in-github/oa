@@ -1,91 +1,9 @@
 <template>
     <div class="form">
-        <div class="header">
-            <div class="header-left">
-                <div><b>管理情報</b> </div>
-                <div class="header-input-box">
-                    <title-group title="BKG DATE">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                    <title-group title="BKG  NO.">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                    <title-group title="BKG TYPE">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                    <title-group title="INCOTERMS">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                    <title-group title="BKG STAFF">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                    <title-group title="IN SALES">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                    <title-group title="DG">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                </div>
-            </div>
-            <div class="header-right">
-                <el-button size="mini" type="primary">BKG登録</el-button>
-                <el-button size="mini" type="primary">BKG削除</el-button>
-                <el-button size="mini" type="primary">BKG編集</el-button>
-                <el-button size="mini" type="primary">各種申請〇〇登録</el-button>
-                <br>
-                <br>
-                <el-button size="mini" type="primary">各種書類作成</el-button>
-                <el-button size="mini" type="primary">メール作成</el-button>
-                <el-button size="mini" type="primary">コスト確認</el-button>
-                <el-button size="mini" type="primary">&nbsp;</el-button>
-            </div>
-        </div>
+        <form-header></form-header>
         <div class="body">
             <div class="left">
-                <div class="upper">
-                    <div class="title">取引業者情報</div>
-                    <div>
-                        <title-group title="BOOKER">
-                            <el-input size="mini"></el-input>
-                        </title-group>
-                        <div>/</div>
-                        <title-group title="B/STAFF">
-                            <el-input size="mini"></el-input>
-                        </title-group>
-                        <el-button size="mini" type="primary">NEW ADD</el-button>
-                    </div>
-                    <div>
-                        <title-group title="SHIPPER">
-                            <el-input size="mini"></el-input>
-                        </title-group>
-                    </div>
-                    <div>
-                        <title-group title="FORWARDER">
-                            <el-input size="mini"></el-input>
-                        </title-group>
-                        <div>/</div>
-                        <title-group title="F/STAFF">
-                            <el-input size="mini"></el-input>
-                        </title-group>
-                        <el-button size="mini" type="primary">NEW ADD</el-button>
-                    </div>
-                    <div>
-                        <title-group title="CONSIGNEE">
-                            <el-input size="mini"></el-input>
-                        </title-group>
-                    </div>
-                    <div>
-                        
-                        <title-group title="DRAYAGE">
-                            <el-input size="mini"></el-input>
-                        </title-group>
-                        <div>/</div>
-                        <title-group title="D/STAFF">
-                            <el-input size="mini"></el-input>
-                        </title-group>
-                        <el-button size="mini" type="primary">NEW ADD</el-button>
-                    </div>
-                </div>
+            <form-upper></form-upper>
                 <div class="lower">
                     <div class="title">
                         船社情報
@@ -252,13 +170,18 @@
 </template>
 <script>
 import TitleGroup from '../../components/titleGroup.vue'
+import FormHeader from './form/formHeader.vue'
+import FormUpper from './form/formUpper.vue'
 
 export default {
-  components: { TitleGroup },
+  components: { 
+      TitleGroup,
+      FormHeader,
+    FormUpper
+  },
     
 }
 </script>
-
 <style scoped>
 .form{
     background: #545C64;

@@ -69,7 +69,7 @@ export default {
     },
     beforeRouteEnter(to, from, next){
         next(vm=>{
-            if(vm.$store.state.loginState.logined){
+            if(sessionStorage.getItem('logined')){
                next(); 
             } else {
                 vm.$router.push('/login');

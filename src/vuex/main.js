@@ -15,13 +15,14 @@ export const store = new Vuex.Store({
     },
     mutations:{
         doLogin({loginState},info){
-            console.log(info);
             loginState.info = info;
             loginState.logined = true;
+            sessionStorage.setItem('logined',true);
         },
         logout({loginState}){
             loginState.info = {};
             loginState.logined = false;
+            sessionStorage.setItem('logined',false);
         },
     },
     actions:{
