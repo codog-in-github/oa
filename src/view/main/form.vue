@@ -4,95 +4,7 @@
         <div class="body">
             <div class="left">
             <form-upper></form-upper>
-                <div class="lower">
-                    <div class="title">
-                        船社情報
-                    </div>
-                    <div>
-                        <title-group title="CARRIER">
-                            <el-input size="mini"></el-input>
-                        </title-group>
-                        <div>/</div>
-                        <title-group title="C/STAFF">
-                            <el-input size="mini"></el-input>
-                        </title-group>
-                        <el-button size="mini" type="primary">NEW ADD</el-button>
-                    </div>
-                    <div>
-                        <title-group title="SERVICE">
-                            <el-input size="mini"></el-input>
-                        </title-group>
-                        <title-group title="VESSEL NAME">
-                            <el-input size="mini"></el-input>
-                        </title-group>
-                        <div>/</div>
-                        <title-group title="VOYAGE">
-                            <el-input size="mini"></el-input>
-                        </title-group>
-                    </div>
-                    <div class="prot-message" style="align-items:flex-start;">
-                        <div class="loading">
-                            <div class="title">
-                                PORT OF LOADING<br/><br/>
-                            </div>
-                            <div>
-                                <title-group title="COUNTRY">
-                                    <el-input size="mini"></el-input>
-                                </title-group>
-                                <title-group title="PORT">
-                                    <el-input size="mini"></el-input>
-                                </title-group>
-                            </div>
-                            <div>
-                                <title-group title="ETA">
-                                    <el-input size="mini"></el-input>
-                                </title-group>
-                                <title-group title="ETD">
-                                    <el-input size="mini"></el-input>
-                                </title-group>
-                                </div>
-                            <div>
-                                <title-group title="CY OPEN">
-                                    <el-input size="mini"></el-input>
-                                </title-group>
-                                <title-group title="CY CUT">
-                                    <el-input size="mini"></el-input>
-                                </title-group>
-                            </div>
-                            <div style="justify-content:flex-end;">
-                                <title-group title="DOC CUT">
-                                    <el-input size="mini"></el-input>
-                                </title-group>
-                            </div>
-                        </div>
-                        <div class="delivery">
-                            <div class="title">
-                                PORT OF DELIVERY<br/><br/>
-                            </div>
-                            <div>
-                                <title-group title="COUNTRY">
-                                    <el-input size="mini"></el-input>
-                                </title-group>
-                                <title-group title="PORT">
-                                    <el-input size="mini"></el-input>
-                                </title-group>
-                            </div>
-                            <div>
-                                <title-group title="ETA">
-                                    <el-input size="mini"></el-input>
-                                </title-group>
-                            </div>
-                            <div>
-                                <title-group title="FREE TIME DEM">
-                                    <el-input size="mini"></el-input>
-                                </title-group>
-                                <title-group title="FREE TIME DET">
-                                    <el-input size="mini"></el-input>
-                                </title-group>
-                            </div>
-                            </div>
-                    </div>
-                </div>
+            <form-lower></form-lower>
             </div>
             <div class="center">
                 <div class="title">コンテナ情報</div>
@@ -169,16 +81,16 @@
     </div>
 </template>
 <script>
-import TitleGroup from '../../components/titleGroup.vue'
 import FormHeader from './form/formHeader.vue'
+import FormLower from './form/formLower.vue'
 import FormUpper from './form/formUpper.vue'
 
 export default {
-  components: { 
-      TitleGroup,
-      FormHeader,
-    FormUpper
-  },
+    components: { 
+        FormHeader,
+        FormUpper,
+        FormLower
+    },
     
 }
 </script>
@@ -262,16 +174,6 @@ export default {
 .lower{
     flex-grow: 1;
     overflow: auto;
-}
-.loading{
-    background: red;
-    color: #fff;
-    padding: 10px;
-}
-.delivery{
-    background: lightblue;
-    color: #000;
-    padding: 10px;
 }
 .header-left>div:nth-child(2){
     display: flex;
