@@ -5,20 +5,20 @@
             <div class="header-input-box">
                 <title-group title="BKG DATE">
                     <el-date-picker
-                        v-model="date"
+                        v-model="bkgDate"
                         type="date"
                         size="mini"
                         placeholder="选择日期">
                     </el-date-picker>
                 </title-group>
                 <title-group title="BKG  NO.">
-                    <el-input size="mini"></el-input>
+                    <el-input size="mini" v-model="bkgNo"></el-input>
                 </title-group>
-                <title-group title="">
-                    <el-input size="mini"></el-input>
+                <title-group title="B/L NO.">
+                    <el-input size="mini" v-model="blNo"></el-input>
                 </title-group>
                 <title-group title="BKG TYPE">
-                    <el-input size="mini"></el-input>
+                    <el-input size="mini" v-model="bkgType"></el-input>
                 </title-group>
                 <title-group title="INCOTERMS">
                     <el-input size="mini" v-model="incoterms">
@@ -26,13 +26,13 @@
                     </el-input>
                 </title-group>
                 <title-group title="BKG STAFF">
-                    <el-input size="mini"></el-input>
+                    <el-input size="mini"  v-model="bkgStaff"></el-input>
                 </title-group>
                 <title-group title="IN SALES">
-                    <el-input size="mini"></el-input>
+                    <el-input size="mini" v-model="inSales"></el-input>
                 </title-group>
-                <title-group title="DG">
-                    <el-input size="mini"></el-input>
+                <title-group title="DG" >
+                    <el-input size="mini" v-model="dg"></el-input>
                 </title-group>
             </div>
         </div>
@@ -52,14 +52,20 @@
 </template>
 <script>
 import TitleGroup from '../../../components/titleGroup.vue'
-
 export default{ 
     computed:{
+
     },
     data(){
         return {
-            date:new Date(),
-            incoterms:this.$store.state.loginState.info.username,
+            bkgDate: new Date(),
+            bkgNo:'',
+            blNo:'',
+            bkgType:'',
+            incoterms:'',
+            bkgStaff:'',
+            inSales:'',
+            dg:'',
         }
     },
     components:{

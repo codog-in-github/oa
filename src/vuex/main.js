@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import header from './modules/header'
 // import { doLogin } from '../axios/main';
 
 Vue.use(Vuex);
@@ -32,5 +33,8 @@ export const store = new Vuex.Store({
             // console.log(vm);
             vm.$router.push('/login');
         }
-    }
+    },
+    modules:{
+        header,
+    },
 })            

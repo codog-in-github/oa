@@ -8,10 +8,7 @@ const BASE_PATH  = 'http://127.0.0.1:81/Oa';
 const LOGIN_PATH = BASE_PATH + '/Index/login';
 const LOGOUT_PATH = BASE_PATH + '/Index/logout';
 const LOGIN_STATUS = BASE_PATH + '/Index/';
-// const TABLE_PATH = BASE_PATH + '/Table/getTableConfig';
-// const TABLE_DATA_PATH = BASE_PATH + '/Table/getTableData';
-// const INSERT_TABLE_DATA = BASE_PATH + '/Table/insertData';
-// const UPDATE_TANLE_DATA = BASE_PATH + '/Table/updateData';
+const INTI_CONF = BASE_PATH + '/Config/initConf';
 
 axios.defaults.withCredentials = true;
 
@@ -23,7 +20,8 @@ const needInterceptorsMethods = [
         //需要被拦截器的方法
         methods:[
             '$checkLoginStatus',
-            '$logout'
+            '$logout',
+            '$initConfig'
         ],
         //拦截器
         interceptor:(vm,{data})=>{
@@ -52,7 +50,7 @@ export class Api{
             axios.get(LOGOUT_PATH);
         }
         //登录
-        Vue.prototype.$doLogin = function(username, password) {
+        Vue.prototype.$doLogin = function(username, password,callback) {
             
             this.$api.queue = ()=>axios.post(
                 LOGIN_PATH,
@@ -65,9 +63,11 @@ export class Api{
             this.$api.queue = ({data})=>{
                 switch (data.error){
                     case statecode.PASSWORD_ERROR:
+                        callback();
                         console.log('password error');
                         break;
                     case statecode.SUCCESS:
+                        callback();
                         this.$store.commit('doLogin',data.data);
                         this.$router.push('/frame');  
                         break;
@@ -82,6 +82,12 @@ export class Api{
                 this.$store.commit('doLogin',data.data);
             };
         }
+
+        Vue.prototype._$initConfig = function(){
+            this.$api.queue = ()=>axios.get(INTI_CONF);
+        }
+
+        
         //注册代理监听器
         for(const item of needInterceptorsMethods){
             for(const method of item.methods){
