@@ -103,6 +103,7 @@ export default {
     flex-flow: column nowrap;
     justify-content: flex-start;
     font-size: 13px;
+    overflow: auto;
 }
 .header,
 .upper,

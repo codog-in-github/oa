@@ -8,7 +8,7 @@ const BASE_PATH  = 'http://127.0.0.1:81/Oa';
 const LOGIN_PATH = BASE_PATH + '/Index/login';
 const LOGOUT_PATH = BASE_PATH + '/Index/logout';
 const LOGIN_STATUS = BASE_PATH + '/Index/';
-const INTI_CONF = BASE_PATH + '/Config/initConf';
+const INTI_CONF = BASE_PATH + '/Config/initConfig';
 
 axios.defaults.withCredentials = true;
 
@@ -83,8 +83,9 @@ export class Api{
             };
         }
 
-        Vue.prototype._$initConfig = function(){
+        Vue.prototype._$initConfig = function(cb){
             this.$api.queue = ()=>axios.get(INTI_CONF);
+            this.$api.queue = cb;
         }
 
         
@@ -98,7 +99,7 @@ export class Api{
                             const  interceptor = axios.interceptors.response.use((data)=>{
                                 return item.interceptor(thisArg, data);
                             });
-                            const re = target.apply(thisArg, ...argumentsList);
+                            const re = target.apply(thisArg, argumentsList);
                             axios.interceptors.response.eject(interceptor);
                             return re;
 

@@ -1,8 +1,17 @@
 <template>
     <div class="header">
         <div class="header-left">
-            <div><b>管理情報</b> </div>
+            <div><b>管理情報</b></div>
             <div class="header-input-box">
+                <form-item-selector 
+                    v-for="config in bkgConfigs"
+                    :config="config"
+                    :key="config.id"
+                    :value="value[config.params_name]"
+                    @change="changeHandler"
+                ></form-item-selector>
+            </div>
+            <!-- <div class="header-input-box">
                 <title-group title="BKG DATE">
                     <el-date-picker
                         v-model="bkgDate"
@@ -12,7 +21,10 @@
                     </el-date-picker>
                 </title-group>
                 <title-group title="BKG  NO.">
-                    <el-input size="mini" v-model="bkgNo"></el-input>
+                    <el-input size="mini" 
+                        v-model="bkgNo"
+                        @blur="blNo = bkgNo"
+                    ></el-input>
                 </title-group>
                 <title-group title="B/L NO.">
                     <el-input size="mini" v-model="blNo"></el-input>
@@ -26,7 +38,11 @@
                     </el-input>
                 </title-group>
                 <title-group title="BKG STAFF">
-                    <el-input size="mini"  v-model="bkgStaff"></el-input>
+                    <el-input size="mini"  
+                        v-model="bkgStaff"
+                        :placeholder="username"
+                        >
+                    </el-input>
                 </title-group>
                 <title-group title="IN SALES">
                     <el-input size="mini" v-model="inSales"></el-input>
@@ -34,7 +50,7 @@
                 <title-group title="DG" >
                     <el-input size="mini" v-model="dg"></el-input>
                 </title-group>
-            </div>
+            </div> -->
         </div>
         <div class="header-right">
             <el-button size="mini" type="primary">BKG登録</el-button>
@@ -51,26 +67,36 @@
     </div>
 </template>
 <script>
-import TitleGroup from '../../../components/titleGroup.vue'
+import { mapState } from 'vuex'
+import FormItemSelector from '../../../components/FormItemSelector.vue'
+// import TitleGroup from '../../../components/titleGroup.vue'
 export default{ 
+    created(){
+        this.$initConfig(({data})=>{
+            console.log(data);
+            this.bkgConfigs = data.data;
+        });
+    },
     computed:{
-
+        ...mapState({
+            username:state=>state.loginState.info.username
+        }),
     },
     data(){
         return {
-            bkgDate: new Date(),
-            bkgNo:'',
-            blNo:'',
-            bkgType:'',
-            incoterms:'',
-            bkgStaff:'',
-            inSales:'',
-            dg:'',
+            bkgConfigs:[],
+            value:{},
+        }
+    },
+    methods:{
+        changeHandler(data,name){
+            console.log(data,name);
         }
     },
     components:{
-        TitleGroup,
-    }
+        // TitleGroup,
+        FormItemSelector,
+    },
 }
 </script>
 <style scoped>
