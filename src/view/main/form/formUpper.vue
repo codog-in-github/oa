@@ -40,6 +40,11 @@ import LinkSelect from '../../../components/linkSelect.vue'
 import TitleGroup from '../../../components/titleGroup.vue'
 
 export default{ 
+    created(){
+        this.$traderConfig(({data})=>{
+            console.log(data)
+        });
+    },
     computed:{
     },
     data(){

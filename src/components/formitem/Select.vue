@@ -3,7 +3,6 @@
         <el-select
             v-model="val"
             size="mini"
-            @change="changeHandler"
         >
             <el-option
                 v-for="opt in  config.detail"
@@ -16,24 +15,25 @@
 </template>
 <script>
 import TitleGroup from '../titleGroup.vue';
-export default {
-    props:['config','value'],
-    data(){
+import { formItem } from '@/mixin/main.js'
 
-        return {
-            val:this.value,
-        }
-    },
+export default {
+    props:['config','value',],
     methods:{
-        changeHandler(){
-            if(this.val != this.value ){
-                this.$emit(
-                    'change', 
-                    this.val, 
-                    this.config.params_name);
+        defaultValue(){
+            switch(this.config.default){
+                case 'loginUser':{
+                    return this.$store.state.loginState.info.id;
+                }
+                default:{
+                    return this.value || '';
+                }
             }
         }
     },
+    mixins:[
+        formItem,
+    ],
     components: { 
         TitleGroup,
     },

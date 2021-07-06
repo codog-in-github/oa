@@ -3,12 +3,13 @@ import qs from 'qs'
 import * as statecode from './statecode';
 
 
-const BASE_PATH  = 'http://127.0.0.1:81/Oa';
+const BASE_PATH  = process.env.NODE_ENV === 'production' ? '/Oa':'http://127.0.0.1:81/Oa';
 
 const LOGIN_PATH = BASE_PATH + '/Index/login';
 const LOGOUT_PATH = BASE_PATH + '/Index/logout';
 const LOGIN_STATUS = BASE_PATH + '/Index/';
 const INTI_CONF = BASE_PATH + '/Config/initConfig';
+const TRADER_CONF = BASE_PATH + '/Config/traderConfig';
 
 axios.defaults.withCredentials = true;
 
@@ -21,7 +22,8 @@ const needInterceptorsMethods = [
         methods:[
             '$checkLoginStatus',
             '$logout',
-            '$initConfig'
+            '$initConfig',
+            '$traderConfig',
         ],
         //拦截器
         interceptor:(vm,{data})=>{
@@ -85,6 +87,11 @@ export class Api{
 
         Vue.prototype._$initConfig = function(cb){
             this.$api.queue = ()=>axios.get(INTI_CONF);
+            this.$api.queue = cb;
+        }
+        
+        Vue.prototype._$traderConfig = function(cb){
+            this.$api.queue = ()=>axios.get(TRADER_CONF);
             this.$api.queue = cb;
         }
 

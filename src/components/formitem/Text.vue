@@ -5,20 +5,24 @@
         <el-input
             size="mini"
             v-model="value"
-            @change="changeHandler"
         >
         </el-input>
     </title-group>
 </template>
 <script>
 import titleGroup from '../titleGroup.vue'
+import { formItem } from '@/mixin/main.js'
+
 export default {
     props:['config','value'],
     methods:{
-        changeHandler(){
-            this.$emit('chage',this.value, this.config.params_name);
-        },
+        defaultValue(){
+            return this.value || '';
+        }
     },
+    mixins:[
+        formItem,
+    ],
     components: { titleGroup },
     
 }

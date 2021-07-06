@@ -11,46 +11,6 @@
                     @change="changeHandler"
                 ></form-item-selector>
             </div>
-            <!-- <div class="header-input-box">
-                <title-group title="BKG DATE">
-                    <el-date-picker
-                        v-model="bkgDate"
-                        type="date"
-                        size="mini"
-                        placeholder="选择日期">
-                    </el-date-picker>
-                </title-group>
-                <title-group title="BKG  NO.">
-                    <el-input size="mini" 
-                        v-model="bkgNo"
-                        @blur="blNo = bkgNo"
-                    ></el-input>
-                </title-group>
-                <title-group title="B/L NO.">
-                    <el-input size="mini" v-model="blNo"></el-input>
-                </title-group>
-                <title-group title="BKG TYPE">
-                    <el-input size="mini" v-model="bkgType"></el-input>
-                </title-group>
-                <title-group title="INCOTERMS">
-                    <el-input size="mini" v-model="incoterms">
-
-                    </el-input>
-                </title-group>
-                <title-group title="BKG STAFF">
-                    <el-input size="mini"  
-                        v-model="bkgStaff"
-                        :placeholder="username"
-                        >
-                    </el-input>
-                </title-group>
-                <title-group title="IN SALES">
-                    <el-input size="mini" v-model="inSales"></el-input>
-                </title-group>
-                <title-group title="DG" >
-                    <el-input size="mini" v-model="dg"></el-input>
-                </title-group>
-            </div> -->
         </div>
         <div class="header-right">
             <el-button size="mini" type="primary">BKG登録</el-button>
@@ -73,7 +33,6 @@ import FormItemSelector from '../../../components/FormItemSelector.vue'
 export default{ 
     created(){
         this.$initConfig(({data})=>{
-            console.log(data);
             this.bkgConfigs = data.data;
         });
     },
@@ -90,7 +49,7 @@ export default{
     },
     methods:{
         changeHandler(data,name){
-            console.log(data,name);
+            this.value[name] = data;
         }
     },
     components:{
