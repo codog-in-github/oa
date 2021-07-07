@@ -1,5 +1,7 @@
 <template>
-    <div class="header">
+    <div class="header" 
+            v-loading="loading"
+        >
         <div class="header-left">
             <div><b>管理情報</b></div>
             <div class="header-input-box">
@@ -32,9 +34,13 @@ import FormItemSelector from '../../../components/FormItemSelector.vue'
 // import TitleGroup from '../../../components/titleGroup.vue'
 export default{ 
     created(){
+        this.loading = (true);
         this.$initConfig(({data})=>{
             this.bkgConfigs = data.data;
         });
+    },
+    updated(){
+        this.loading = (false);
     },
     computed:{
         ...mapState({
@@ -45,11 +51,15 @@ export default{
         return {
             bkgConfigs:[],
             value:{},
+            loading:true,
         }
     },
     methods:{
         changeHandler(data,name){
             this.value[name] = data;
+        },
+        updatedLoadingState(state){
+            this.$emit('loadingChange','header',state);
         }
     },
     components:{

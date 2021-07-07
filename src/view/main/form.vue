@@ -1,9 +1,11 @@
 <template>
     <div class="form">
-        <form-header></form-header>
+        <form-header
+        ></form-header>
         <div class="body">
             <div class="left">
-            <form-upper></form-upper>
+            <form-upper 
+            ></form-upper>
             <form-lower></form-lower>
             </div>
             <div class="center">
@@ -86,6 +88,16 @@ import FormLower from './form/formLower.vue'
 import FormUpper from './form/formUpper.vue'
 
 export default {
+    data(){
+        return {
+            loading:{},
+        }
+    },
+    methods:{
+        loadinHandler(name, state){
+            this.loading[name] = state;
+        },
+    },
     components: { 
         FormHeader,
         FormUpper,
