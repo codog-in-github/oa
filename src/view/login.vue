@@ -173,4 +173,9 @@ export default {
     top: 0;
   }
 }
+@media screen and (max-width:930px) {
+  .animation-position{
+    display: none;
+  }
+}
 </style>
