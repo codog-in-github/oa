@@ -3,110 +3,59 @@
         <div class="title">
             船社情報
         </div>
-        <div>
-            <link-select
-                fatherName="CARRIER"
-                childName="C/STAFF"
-                childType='suggest'
-            ></link-select>
-            <el-button size="mini" type="primary">NEW ADD</el-button>
-        </div>
-        <div>
-            <title-group title="SERVICE">
-                <el-input size="mini"></el-input>
-            </title-group>
-            <link-select
-                fatherName="VESSEL NAME"
-                childName="VOYAGE"
-                childType='suggest'
-            ></link-select>
-            <!-- <title-group title="VESSEL NAME">
-                <el-input size="mini"></el-input>
-            </title-group>
-            <div>/</div>
-            <title-group title="VOYAGE">
-                <el-input size="mini"></el-input>
-            </title-group> -->
-        </div>
+        <form-item-selector 
+            v-for="config in configs['shipper']"
+            :config="config"
+            :key="config.id"
+            :value="value[config.params_name]"
+            @change="changeHandler"
+        ></form-item-selector>
         <div class="prot-message" style="align-items:flex-start;">
             <div class="loading">
                 <div class="title">
                     PORT OF LOADING<br/><br/>
                 </div>
-                <div>
-                    <title-group title="COUNTRY">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                    <title-group title="PORT">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                </div>
-                <div>
-                    <title-group title="ETA">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                    <title-group title="ETD">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                    </div>
-                <div>
-                    <title-group title="CY OPEN">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                    <title-group title="CY CUT">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                </div>
-                <div style="justify-content:flex-end;">
-                    <title-group title="DOC CUT">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                </div>
+                <form-item-selector 
+                    v-for="config in configs['port_of_loading']"
+                    :config="config"
+                    :key="config.id"
+                    :value="value[config.params_name]"
+                    @change="changeHandler"
+                ></form-item-selector>
             </div>
             <div class="delivery">
                 <div class="title">
                     PORT OF DELIVERY<br/><br/>
                 </div>
-                <div>
-                    <title-group title="COUNTRY">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                    <title-group title="PORT">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                </div>
-                <div>
-                    <title-group title="ETA">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                </div>
-                <div>
-                    <title-group title="FREE TIME DEM">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                    <title-group title="FREE TIME DET">
-                        <el-input size="mini"></el-input>
-                    </title-group>
-                </div>
+                
+                <form-item-selector 
+                    v-for="config in configs['port_of_delovery']"
+                    :config="config"
+                    :key="config.id"
+                    :value="value[config.params_name]"
+                    @change="changeHandler"
+                ></form-item-selector>
                 </div>
         </div>
     </div>
 </template>
 <script>
-import LinkSelect from '../../../components/linkSelect.vue'
-import TitleGroup from '../../../components/titleGroup.vue'
+// import TitleGroup from '../../../components/titleGroup.vue'
+import { formBoard } from '@/mixin/main.js'
 
 export default{ 
+    created(){
+        this.$shipperConfig(({data})=>{
+            console.log(data);
+            this.configs = data.data;
+        })
+    },
     computed:{
+
     },
-    data(){
-        return {
-        }
-    },
-    components:{
-        TitleGroup,
-        LinkSelect,
-    }
+    mixins:[
+        formBoard,
+    ],
 }
 </script>
 <style scoped>

@@ -1,41 +1,39 @@
 <template>
     <div class="link">
-        <title-group :title="fatherName">
+        <title-group :title="config.title">
             <el-select
-                :size="size"
-                v-model="fatherValue"
-                @change="chageFatherHandler"
+                size="mini"
+                v-model="val"
+                filterable 
             >
                 <el-option 
                     v-for="option in fatherOptions"
-                    :key="option.id || Symbel(0)"
+                    :key="config.id + '_' +option.id"
                     :label="option.label"
-                    :value="option.value"
+                    :value="option.id"
                 >
                 </el-option>
             </el-select>
         </title-group>
         <span>/</span>
-        <title-group :title="childName">
+        <title-group :title="config.child.title">
             <el-autocomplete
-                v-if="childType === 'suggest'"
-                v-model="childValue"
-                :size="size"
+                v-if="config.child.type === 'linkSuggest'"
+                v-model="childVal"
+                size="mini"
                 :fetch-suggestions="findsuggests"
-                @change="chageChildHandler"
 
             ></el-autocomplete>
             <el-select
-                v-if="childType ==='select'"
-                :size="size"
-                v-model="childValue"
-                @change="chageChildHandler"
+                v-else
+                size="mini"
+                v-model="childVal"
             >
                 <el-option 
                     v-for="option in childOptions"
-                    :key="option.id || Symbel(0)"
+                    :key="option.id"
                     :label="option.label"
-                    :value="option.value"
+                    :value="option.id"
                 >
                 </el-option>
             </el-select>
@@ -43,33 +41,34 @@
     </div>
 </template>
 <script>
-import TitleGroup from './titleGroup.vue';
-import doubleFormItem from '@/mixin/main.js';
+import TitleGroup from '../titleGroup.vue';
+import { doubleFormItem } from '@/mixin/main.js';
 
 export default {
     props:{
         config:{
-            default:()=>[],
+            default:()=>({}),
         },
-        size:{
-            default:'mini',
+        value:{
+            default:'',
         },
-        childType:{
-            default:'select',
-        }
+        'async-method':{
+            default:false,
+        },
     },
     computed:{
         
         fatherOptions(){
-            return this.options.filter(i=>i.pid=='');
+            return this.config.detail || [];
         },
         childOptions(){
-            if(this.fatherValue == '') return [];
-            return this.options.filter(i=>i.pid === this.fatherValue);
+            if(this.val == '') return [];
+            return this.config.child.detail?.filter(i=>i.pid == this.val) || [];
         },
         suggestOptions(){
-            return this.childOptions.map(x=>{return {value:x.label}});
-        }
+            return [];
+            // return this.childOptions.map(x=>{return {value:x.label}});
+        },
     },
     methods:{
         findsuggests(val,cb){
@@ -79,6 +78,7 @@ export default {
                 cb(this.suggestOptions.filter(x=>x.value.indexOf(val)!==-1));
             }
         },
+        chageFatherHandler(){},
     },
     mixins:[
         doubleFormItem,

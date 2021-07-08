@@ -13,9 +13,7 @@
     </div>
 </template>
 <script>
-import FormItemSelector from '../../../components/FormItemSelector.vue';
-// import LinkSelect from '../../../components/linkSelect.vue'
-// import TitleGroup from '../../../components/titleGroup.vue'
+import { formBoard } from '@/mixin/main.js';
 
 export default{ 
     created(){
@@ -29,34 +27,13 @@ export default{
     },
     computed:{
     },
-    data(){
-        return {
-            loading:true,
-            configs:[],
-            value:{},
-        }
-    },
-    methods:{
-        changeHandler(data,name){
-            this.value[name] = data;
-        },
-        updatedLoadingState(state){
-            this.$emit('loadingChange','upper',state);
-        }
-    },
-    components:{
-        // TitleGroup,
-        // LinkSelect,
-        FormItemSelector,
-    }
+    mixins:[
+        formBoard,
+    ],
 }
 </script>
 <style scoped>
 .upper{
     position: relative;
-}
-.upper > *{
-    display: flex;
-    align-items: flex-end;
 }
 </style>

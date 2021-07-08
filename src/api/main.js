@@ -10,6 +10,8 @@ const LOGOUT_PATH = BASE_PATH + '/Index/logout';
 const LOGIN_STATUS = BASE_PATH + '/Index/';
 const INTI_CONF = BASE_PATH + '/Config/initConfig';
 const TRADER_CONF = BASE_PATH + '/Config/traderConfig';
+const SHIPPER_CONF = BASE_PATH + '/Config/shipperConfig';
+const PORT_CONF = BASE_PATH + '/Config/getPortAsync';
 
 axios.defaults.withCredentials = true;
 
@@ -24,13 +26,14 @@ const needInterceptorsMethods = [
             '$logout',
             '$initConfig',
             '$traderConfig',
+            '$shipperConfig',
+            '$getPort',
         ],
         //拦截器
         interceptor:(vm,{data})=>{
 
             switch(data.error){
                 case statecode.WITHOUT_LOGIN:{
-                    console.log(vm);
                     vm.$store.dispatch('logoutEnforce',vm);
                     return Promise.reject('WITHOUT_LOGIN');
                 }
@@ -92,6 +95,16 @@ export class Api{
         
         Vue.prototype._$traderConfig = function(cb){
             this.$api.queue = ()=>axios.get(TRADER_CONF);
+            this.$api.queue = cb;
+        }
+
+        Vue.prototype._$shipperConfig = function(cb){
+            this.$api.queue = ()=>axios.get(SHIPPER_CONF);
+            this.$api.queue = cb;
+        }
+        
+        Vue.prototype._$getPort = function(pid, cb){
+            this.$api.queue = ()=>axios.get(`${PORT_CONF}/pid/${pid}`);
             this.$api.queue = cb;
         }
 

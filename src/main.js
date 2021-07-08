@@ -16,14 +16,14 @@ Vue.directive('loading',{
   inserted(el,binding){
     const LoadControl = Vue.extend(Loading);
     const LoadngComp = new LoadControl().$mount();
-    console.log(el);
+    // console.log(el);
     el._loadingDom = LoadngComp;
     el.style.position = el.style.position || 'relative';
     if(binding.value !== binding.valueOld){
       binding.value? 
         el.appendChild(el._loadingDom.$el) :
         el.removeChild(el._loadingDom.$el);
-        console.log(el);
+        // console.log(el);
     }
   },
   update(el, binding){
