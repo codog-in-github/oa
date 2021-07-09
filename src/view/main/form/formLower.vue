@@ -77,12 +77,6 @@ export default{
     color: #000;
     padding: 10px;
 }
-.loading > div,
-.delivery > div{
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-end;
-}
 .port-message{
     display: flex;
     justify-content: space-around;
