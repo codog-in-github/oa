@@ -13,21 +13,22 @@ Vue.use(ElementUI);
 Vue.use(Api);
 
 Vue.directive('loading',{
-  inserted(el,binding){
+  bind(el){
     const LoadControl = Vue.extend(Loading);
     const LoadngComp = new LoadControl().$mount();
     // console.log(el);
     el._loadingDom = LoadngComp;
     el.style.position = el.style.position || 'relative';
-    if(binding.value !== binding.valueOld){
-      binding.value? 
-        el.appendChild(el._loadingDom.$el) :
-        el.removeChild(el._loadingDom.$el);
-        // console.log(el);
+  },
+  inserted(el,binding){
+    if(binding.value !== binding.oldValue){
+      if(binding.value){
+        el.appendChild(el._loadingDom.$el);
+      }
     }
   },
   update(el, binding){
-    if(binding.value !== binding.valueOld){
+    if(binding.value !== binding.oldValue){
       binding.value? 
         el.appendChild(el._loadingDom.$el) :
         el.removeChild(el._loadingDom.$el);

@@ -7,19 +7,29 @@
         <form-item-selector 
             v-if="configs[0]"
             :config="configs[0]"
-            :key="configs[0].id"
             :value="value[configs[0].params_name]"
             @change="changeHandler"
         ></form-item-selector>
         <form-item-selector 
             v-if="configs[1]"
             :config="configs[1]"
-            :key="configs[1].id"
             :value="value[configs[1].params_name]"
             @change="changeHandler"
         ></form-item-selector>
+        <form-item-selector 
+            v-for="extra in extras"
+            :config="extra"
+            :key="extra.flag"
+            @change="changeHandler"
+        ></form-item-selector>
         <div>
-            <el-button size="mini" type="primary">VANNING PLACE ADD</el-button>
+            <el-button 
+                size="mini" 
+                type="primary"
+                @click="vannningPlaceAddHandler"
+            >
+                VANNING PLACE ADD
+            </el-button>
         </div>
         <div class="container-input-title">
             <span>Conntainer type</span><span>QUANTITY</span>
@@ -55,7 +65,6 @@
         <form-item-selector 
             v-if="configs[2]"
             :config="configs[2]"
-            :key="configs[2].id"
             :value="value[configs[2].params_name]"
             @change="changeHandler"
         ></form-item-selector>
@@ -64,11 +73,44 @@
 <script>
 import {formBoard} from '@/mixin/main.js'
 export default {
+    data(){
+        return{
+            extras:[],
+        };
+    },
     created(){
+        this.loading=true;
         this.$containerConfig(({data})=>{
             this.configs = data.data;
             this.loading = false
         });
+    },
+    computed:{
+        changeHandlerExtra(flag){
+            return (data, name) => {
+                console.log(flag, data, name);
+                this.value[`${name}${flag}`] = data;
+            }
+        },
+    },
+    methods:{
+        vannningPlaceAddHandler(){
+            const flag = this.extras.length;
+            const limit = 4;
+            if(flag>=limit){
+                this.$notify.error({
+                    title: 'error',
+                    message: `max ${limit+1}`,
+                });
+                return ;
+            }
+            const tmp = {
+                flag,
+                ...this.configs[1],
+            }
+            tmp.params_name += flag;
+            this.extras.push(tmp);
+        },
     },
     mixins:[
         formBoard,

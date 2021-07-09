@@ -14,7 +14,7 @@ export default {
     props:['config','value'],
     computed:{
         componentsMap(){
-            console.log(this.config.type);
+            // console.log(this.config.type);
             switch (this.config.type){
                 case 'number': case 'text':{
                     return ()=>import('./formitem/Text.vue');

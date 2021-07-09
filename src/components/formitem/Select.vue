@@ -5,7 +5,7 @@
             size="mini"
         >
             <el-option
-                v-for="opt in  config.detail"
+                v-for="opt in config.detail"
                 :key="opt.id"
                 :label="opt.label"
                 :value="opt.id"
@@ -19,7 +19,7 @@ import { formItem } from '@/mixin/main.js'
 
 export default {
     props:['config','value',],
-    methods:{
+    computed:{
         defaultValue(){
             switch(this.config.default){
                 case 'loginUser':{

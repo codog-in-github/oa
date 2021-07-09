@@ -5,6 +5,7 @@
         <el-input
             size="mini"
             v-model="val"
+            :type="config.type === 'textarea'?'textarea':'input'"
         >
         </el-input>
     </title-group>
@@ -15,7 +16,7 @@ import { formItem } from '@/mixin/main.js'
 
 export default {
     props:['config','value'],
-    methods:{
+    computed:{
         defaultValue(){
             return this.value || '';
         }

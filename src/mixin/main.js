@@ -1,14 +1,11 @@
 export const formItem = {
     data(){
         return {
-            val : this.value
+            val : '',
         }
     },
     created(){
-        this.$emit('change',
-            this.defaultValue() || '', 
-            this.config.params_name
-        );
+        this.val = this.defaultValue || '';
     },
     watch:{
         val(newVal, OldVal){
@@ -33,7 +30,7 @@ export const doubleFormItem = {
         return {
             val:this.value,
             childVal:this.childValue,
-            childLoading:false
+            childLoading:false,
         }
     },
     mounted(){
@@ -79,9 +76,6 @@ export const formBoard = {
         changeHandler(data,name){
             this.value[name] = data;
         },
-        updatedLoadingState(state){
-            this.$emit('loadingChange','upper',state);
-        }
     },
     components:{
         FormItemSelector,
