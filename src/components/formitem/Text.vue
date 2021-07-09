@@ -4,7 +4,7 @@
     >
         <el-input
             size="mini"
-            v-model="value"
+            v-model="val"
         >
         </el-input>
     </title-group>

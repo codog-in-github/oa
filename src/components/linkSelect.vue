@@ -35,6 +35,7 @@
                     :size="size"
                     v-model="childValue"
                     @change="chageChildHandler"
+                    :loading="childLoading"
                 >
                     <el-option 
                         v-for="option in childOptions"

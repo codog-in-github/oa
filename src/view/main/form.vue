@@ -4,61 +4,10 @@
         ></form-header>
         <div class="body">
             <div class="left">
-            <form-upper 
-            ></form-upper>
+            <form-upper></form-upper>
             <form-lower></form-lower>
             </div>
-            <div class="center">
-                <div class="title">コンテナ情報</div>
-                <div>
-                    <div class="lable">COMMON</div>
-                    <el-input size="mini"></el-input>
-                </div>
-                <div>
-                    <div class="lable">VAN PLACE</div>
-                    <el-input size="mini"></el-input>
-                </div>
-                <div>
-                    <el-button size="mini" type="primary">VANNING PLACE ADD</el-button>
-                </div>
-                <div class="container-input-title">
-                    <span>Conntainer type</span><span>QUANTITY</span>
-                </div>
-                <div class="container-input-group">
-                    <span>1</span>
-                    <el-input size="mini"></el-input>
-                    <el-input size="mini"></el-input>
-                </div>
-                <div class="container-input-group">
-                    <span>2</span>
-                    <el-input size="mini"></el-input>
-                    <el-input size="mini"></el-input>
-                </div>
-                <div class="container-input-group">
-                    <span>3</span>
-                    <el-input size="mini"></el-input>
-                    <el-input size="mini"></el-input>
-                </div>
-                <div class="container-input-group">
-                    <span>4</span>
-                    <el-input size="mini"></el-input>
-                    <el-input size="mini"></el-input>
-                </div>
-                <div class="container-input-group">
-                    <span>5</span>
-                    <el-input size="mini"></el-input>
-                    <el-input size="mini"></el-input>
-                </div>
-                <div>
-                    <el-button type="primary">ENTER</el-button>
-                </div>
-                <div class="title">
-                    REMARKS(備考)
-                </div>
-                <div>
-                    <el-input type="textarea" value="BKGのみ"></el-input>
-                </div>
-            </div>
+            <form-center></form-center>
             <div class="right">
                 <div class="title">
                     コンテナ＆ドレージ詳細情報
@@ -83,6 +32,7 @@
     </div>
 </template>
 <script>
+import FormCenter from './form/FormCenter.vue'
 import FormHeader from './form/formHeader.vue'
 import FormLower from './form/formLower.vue'
 import FormUpper from './form/formUpper.vue'
@@ -101,9 +51,9 @@ export default {
     components: { 
         FormHeader,
         FormUpper,
-        FormLower
-    },
-    
+        FormLower,
+        FormCenter,
+    },   
 }
 </script>
 <style scoped>

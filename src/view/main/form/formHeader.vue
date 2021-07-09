@@ -34,13 +34,13 @@ import FormItemSelector from '../../../components/FormItemSelector.vue'
 // import TitleGroup from '../../../components/titleGroup.vue'
 export default{ 
     created(){
-        this.loading = (true);
+        this.loading = true;
         this.$initConfig(({data})=>{
             this.bkgConfigs = data.data;
         });
     },
     updated(){
-        this.loading = (false);
+        this.loading = false;
     },
     computed:{
         ...mapState({

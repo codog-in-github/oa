@@ -28,6 +28,7 @@
                 v-else
                 size="mini"
                 v-model="childVal"
+                :loading="childLoading"
             >
                 <el-option 
                     v-for="option in childOptions"

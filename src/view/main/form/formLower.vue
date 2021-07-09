@@ -1,5 +1,6 @@
 <template>
-    <div class="lower">
+    <div class="lower"
+        v-loading="loading">
         <div class="title">
             船社情報
         </div>
@@ -46,12 +47,11 @@ import { formBoard } from '@/mixin/main.js'
 export default{ 
     created(){
         this.$shipperConfig(({data})=>{
-            console.log(data);
             this.configs = data.data;
+            this.loading = false
         })
     },
     computed:{
-
     },
     mixins:[
         formBoard,

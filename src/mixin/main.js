@@ -11,7 +11,13 @@ export const formItem = {
         );
     },
     watch:{
-        value(newVal, OldVal){
+        val(newVal, OldVal){
+            if(this.config.type === 'number' && newVal !== OldVal){
+                if(!/^\d*.?\d*$/.test(newVal)){
+                    this.val = OldVal;
+                    return;
+                }
+            }
             if(newVal !== OldVal){
                 this.$emit('change',
                     newVal || '', 
@@ -27,6 +33,7 @@ export const doubleFormItem = {
         return {
             val:this.value,
             childVal:this.childValue,
+            childLoading:false
         }
     },
     mounted(){
@@ -39,9 +46,15 @@ export const doubleFormItem = {
                 this.$emit('change', newVal, this.config.params_name);
                 this.childVal = '';
                 if(this.asyncMethod){
-                    this['$' + this.asyncMethod](newVal,({data})=>{
-                        this.config.child.detail = data.data;
-                    });
+                    //异步请求二级联动选项
+                    this.childLoading = true;
+                    this['$' + this.asyncMethod](
+                        newVal,
+                        ({data})=>{
+                            this.config.child.detail = data.data;
+                            this.childLoading= false;
+                        }
+                    );
                 }
             }
         },
@@ -55,7 +68,6 @@ export const doubleFormItem = {
 import FormItemSelector from '@/components/FormItemSelector.vue';
 
 export const formBoard = {
-    
     data(){
         return {
             loading:true,
@@ -72,8 +84,6 @@ export const formBoard = {
         }
     },
     components:{
-        // TitleGroup,
-        // LinkSelect,
         FormItemSelector,
     }
 }
