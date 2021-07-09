@@ -5,6 +5,7 @@
         :value="value"
         :async-method="asyncMethod"
         @change="changeHandler"
+        :class="`${config.params_name}-${config.id}`"
     />
 </template>
 <script>
