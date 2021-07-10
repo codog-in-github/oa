@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import header from './modules/header'
+import form from './modules/form'
 // import { doLogin } from '../axios/main';
 
 Vue.use(Vuex);
@@ -35,6 +35,6 @@ export const store = new Vuex.Store({
         }
     },
     modules:{
-        header,
+        form,
     },
 })            

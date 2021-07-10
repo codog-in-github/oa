@@ -16,7 +16,9 @@
         </div>
         <div class="header-right">
             <el-button size="mini" type="primary">BKG登録</el-button>
-            <el-button size="mini" type="primary">BKG削除</el-button>
+            <el-button size="mini" type="primary"
+                @click="deleteButtonHandler"
+            >BKG削除</el-button>
             <el-button size="mini" type="primary">BKG編集</el-button>
             <el-button size="mini" type="primary">各種申請〇〇登録</el-button>
             <br>
@@ -60,6 +62,23 @@ export default{
         },
         updatedLoadingState(state){
             this.$emit('loadingChange','header',state);
+        },
+        deleteButtonHandler(){
+            this.$confirm('Are you sure?', 'alert', {
+                confirmButtonText: 'ok',
+                cancelButtonText: 'cancel',
+                type: 'warning'
+            }).then(() => {
+                this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                });
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: 'error'
+                });          
+            });
         }
     },
     components:{

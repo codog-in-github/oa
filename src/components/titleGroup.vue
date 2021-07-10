@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div>{{title}}</div>
+        <div class="title">{{title}}</div>
         <slot>
             noData
         </slot>
