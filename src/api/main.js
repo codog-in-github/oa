@@ -12,6 +12,7 @@ const INTI_CONF = BASE_PATH + '/Config/initConfig';
 const TRADER_CONF = BASE_PATH + '/Config/traderConfig';
 const SHIPPER_CONF = BASE_PATH + '/Config/shipperConfig';
 const CONTAINER_CONF = BASE_PATH + '/Config/containerConfig';
+const CONTAINER_DETAIL_CONF = BASE_PATH + '/Config/containerDetailConfig';
 const PORT_CONF = BASE_PATH + '/Config/getPortAsync';
 
 axios.defaults.withCredentials = true;
@@ -29,7 +30,8 @@ const needInterceptorsMethods = [
             '$traderConfig',
             '$shipperConfig',
             '$getPort',
-            '$containerConfig'
+            '$containerConfig',
+            '$containerDetailConfig',
         ],
         //拦截器
         interceptor:(vm,{data})=>{
@@ -107,6 +109,11 @@ export class Api{
         
         Vue.prototype._$containerConfig = function(cb){
             this.$api.queue = ()=>axios.get(CONTAINER_CONF);
+            this.$api.queue = cb;
+        }
+
+        Vue.prototype._$containerDetailConfig = function(cb){
+            this.$api.queue = ()=>axios.get(CONTAINER_DETAIL_CONF);
             this.$api.queue = cb;
         }
 

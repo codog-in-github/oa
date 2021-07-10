@@ -4,8 +4,8 @@ export default {
         containerTypeLength:1,
     },
     mutations:{
-        addContainerType(state){
-            state.containerTypeLength ++;
+        setContainerTypeLength(state,len){
+            state.containerTypeLength = len;
         }
     },
     actions:{

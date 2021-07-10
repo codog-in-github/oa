@@ -63,7 +63,7 @@ export const doubleFormItem = {
     },
 };
 import FormItemSelector from '@/components/FormItemSelector.vue';
-
+ 
 export const formBoard = {
     data(){
         return {
@@ -76,6 +76,11 @@ export const formBoard = {
         changeHandler(data,name){
             this.value[name] = data;
         },
+        getUploadData(){
+            return {
+                
+            };
+        }
     },
     components:{
         FormItemSelector,

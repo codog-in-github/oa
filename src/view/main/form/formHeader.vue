@@ -6,7 +6,7 @@
             <div><b>管理情報</b></div>
             <div class="header-input-box">
                 <form-item-selector 
-                    v-for="config in bkgConfigs"
+                    v-for="config in configs"
                     :config="config"
                     :key="config.id"
                     :value="value[config.params_name]"
@@ -15,7 +15,9 @@
             </div>
         </div>
         <div class="header-right">
-            <el-button size="mini" type="primary">BKG登録</el-button>
+            <el-button size="mini" type="primary"
+                @click="$emit('save-data')"
+            >BKG登録</el-button>
             <el-button size="mini" type="primary"
                 @click="deleteButtonHandler"
             >BKG削除</el-button>
@@ -32,29 +34,21 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-import FormItemSelector from '../../../components/FormItemSelector.vue'
+import FormItemSelector from '@/components/FormItemSelector.vue'
+import { formBoard } from '@/mixin/main';
 // import TitleGroup from '../../../components/titleGroup.vue'
 export default{ 
     created(){
         this.loading = true;
         this.$initConfig(({data})=>{
-            this.bkgConfigs = data.data;
+            this.configs = data.data;
+            this.loading = false;
         });
-    },
-    updated(){
-        this.loading = false;
     },
     computed:{
         ...mapState({
             username:state=>state.loginState.info.username
         }),
-    },
-    data(){
-        return {
-            bkgConfigs:[],
-            value:{},
-            loading:true,
-        }
     },
     methods:{
         changeHandler(data,name){
@@ -81,6 +75,9 @@ export default{
             });
         }
     },
+    mixins:[
+        formBoard,
+    ],
     components:{
         // TitleGroup,
         FormItemSelector,

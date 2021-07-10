@@ -85,6 +85,7 @@ export default {
         };
     },
     created(){
+        this.$store.commit('form/setContainerTypeLength',this.containerTypeConfigs.length+1);
         this.loading=true;
         this.$containerConfig(({data})=>{
             this.configs = data.data['container'];
@@ -139,7 +140,7 @@ export default {
             tmp.config[0].params_name += flag;
             tmp.config[1].params_name += flag;
             this.containerTypeConfigs.push(tmp);
-            this.$store.commit('form/addContainerType');
+            this.$store.commit('form/setContainerTypeLength',flag+2);
         }
     },
     mixins:[

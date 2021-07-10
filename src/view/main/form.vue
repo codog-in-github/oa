@@ -1,33 +1,24 @@
 <template>
     <div class="form">
         <form-header
+            ref="header"
+            @save-data="saveDataHandler"
         ></form-header>
         <div class="body">
             <div class="left">
-            <form-upper></form-upper>
-            <form-lower></form-lower>
+            <form-upper
+                ref="upper"
+            ></form-upper>
+            <form-lower
+                ref="lower"
+            ></form-lower>
             </div>
-            <form-center></form-center>
-            <div class="right">
-                <div class="title">
-                    コンテナ＆ドレージ詳細情報
-                </div>
-                <div>
-                    <el-button type="primary" size="mini">button1</el-button>
-                    <el-button type="primary" size="mini">button2</el-button>
-                    <el-button type="primary" size="mini">button3</el-button>
-                    <el-button type="primary" size="mini">button4</el-button>
-                    <el-button type="primary" size="mini">button5</el-button>
-                    <el-button type="primary" size="mini">button6</el-button>
-                    <el-button type="primary" size="mini">button7</el-button>
-                </div>
-                <br/>
-                <hr/>
-                <br/>
-                <div>
-                    
-                </div>
-            </div>
+            <form-center
+                ref="center"
+            ></form-center>
+            <container-detail
+                ref="detail"
+            />
         </div>
     </div>
 </template>
@@ -36,16 +27,34 @@ import FormCenter from './form/FormCenter.vue'
 import FormHeader from './form/formHeader.vue'
 import FormLower from './form/formLower.vue'
 import FormUpper from './form/formUpper.vue'
+import ContainerDetail from './form/ContainerDetail.vue'
 
 export default {
     data(){
         return {
             loading:{},
+            uploadData:{},
         }
     },
     methods:{
         loadinHandler(name, state){
             this.loading[name] = state;
+        },
+        saveDataHandler(){
+            const needUpload = [
+                'header',
+                'upper',
+                'lower',
+                'center',
+                'detail',
+            ];
+            for(const ref of needUpload){
+                this.uploadData = {
+                    ...this.uploadData,
+                    ...this.$refs[ref].getUploadData(),
+                }
+            }
+            console.log(this.uploadData);
         },
     },
     components: { 
@@ -53,6 +62,7 @@ export default {
         FormUpper,
         FormLower,
         FormCenter,
+        ContainerDetail,
     },   
 }
 </script>
@@ -120,23 +130,8 @@ export default {
 .upper >.title{
     display: block;
 }
-.lower > div,
-.upper > div,
-.loading > div,
-.delivery > div{
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-end;
-}
-.lower > div >*,
-.upper > div >*,
-.loading > div >*,
-.delivery > div >*{
-    margin: 0 2px;
-}
 .lower{
     flex-grow: 1;
-    overflow: auto;
 }
 .header-left>div:nth-child(2){
     display: flex;
