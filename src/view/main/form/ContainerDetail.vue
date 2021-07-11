@@ -19,9 +19,9 @@
         <br/>
         <div class="detail-box">
             <detail-item
-                v-for="(id, k) in (this.containerIdMap[this.displayContainerId] || [])"
+                v-for="id in displayList"
                 :detail-id="id"
-                :key="k"
+                :key="id"
                 :detail-configs="configs"
                 @add="addHandler"
                 @copy="addHandler"
@@ -48,26 +48,26 @@ export default {
     },
     data(){
         return {
+            displayList:[],
             containerIdMap:{},
             displayContainerId:-1,
         }
     },
     methods:{
+        copyToDispaly(){
+            this.displayList = this.containerIdMap[this.displayContainerId];
+        },
         displayDetail(id){
             this.displayContainerId = id;
             if(!this.containerIdMap[this.displayContainerId]?.length>0){
-                this.containerIdMap[this.displayContainerId] = [Math.random()]
+                this.containerIdMap[this.displayContainerId] = [Math.random()];
             }
+            this.copyToDispaly();
             
         },
         addHandler(){
-            console.log(this.containerIdMap[this.displayContainerId]);
-            this.$set(
-                this.containerIdMap,
-                this.displayContainerId,
-                (this.containerIdMap[this.displayContainerId].push(Math.random())
-                    ,this.containerIdMap[this.displayContainerId]),
-            )
+            this.containerIdMap[this.displayContainerId].push(Math.random())
+            this.copyToDispaly();
         }
     },
     mixins:[
