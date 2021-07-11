@@ -101,10 +101,10 @@ export default {
 }
 .body{
     flex-grow: 1;
+    height: 1px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
-    overflow: auto;
 }
 .left{
     width: 33%;
@@ -132,6 +132,8 @@ export default {
 }
 .lower{
     flex-grow: 1;
+    height: 1px;
+    overflow: auto;
 }
 .header-left>div:nth-child(2){
     display: flex;

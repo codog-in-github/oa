@@ -7,107 +7,82 @@
         </div>
         <div>
             <el-button 
-                v-for="i in buttons"
-                :key="i"
+                v-for="(id, key) in containerTypeIds"
+                :key="key"
                 type="primary" 
                 size="mini"
-                @click="displayDetail(i)"
-            >button{{i+1}}</el-button>
+                @click="displayDetail(id)"
+            >button{{key+1}}</el-button>
         </div>
         <br/>
         <hr/>
         <br/>
         <div class="detail-box">
-            <div class="detail">
-                <div class="flag">1</div>
-                <div class="inputs">
-                    <form-item-selector 
-                        v-for="config in configs"
-                        :config="config"
-                        :key="config.id"
-                        :value="value[config.params_name]"
-                        @change="changeHandler"
-                    ></form-item-selector>
-                </div>
-                <div class="buttons">
-                    <el-button type="primary" size="mini">ADD</el-button>
-                    <el-button type="primary" size="mini">COPY</el-button>
-                    <el-button type="danger" size="mini">DEL</el-button>
-                </div>
-            </div>
+            <detail-item
+                v-for="(id, k) in (this.containerIdMap[this.displayContainerId] || [])"
+                :detail-id="id"
+                :key="k"
+                :detail-configs="configs"
+                @add="addHandler"
+                @copy="addHandler"
+            ></detail-item>
         </div>
     </div>
 </template>
 <script>
 import { mapState } from 'vuex'
 import { formBoard } from '@/mixin/main'
+import DetailItem from '@/components/formitem/DetailItem.vue';
 export default {
     created(){
         this.loading = true;
-        this.$containerDetailConfig((({data})=>{
+        this.$containerDetailConfig(({data})=>{
             this.configs = data.data;
             this.loading = false;
-        }));
-    },
-    data(){
-        return {
-
-        }
+        });
     },
     computed:{
         ...mapState('form',{
-            containerTypeLength:state=>state.containerTypeLength
+            containerTypeIds:state=>state.containerTypeIds
         }),
-        buttons(){
-            const btn = [];
-            for(let i=0; i<this.containerTypeLength; i++){
-                btn.push(i);
-            }
-            return btn;
-        },
+    },
+    data(){
+        return {
+            containerIdMap:{},
+            displayContainerId:-1,
+        }
     },
     methods:{
         displayDetail(id){
-            console.log(id)
+            this.displayContainerId = id;
+            if(!this.containerIdMap[this.displayContainerId]?.length>0){
+                this.containerIdMap[this.displayContainerId] = [Math.random()]
+            }
+            
         },
+        addHandler(){
+            console.log(this.containerIdMap[this.displayContainerId]);
+            this.$set(
+                this.containerIdMap,
+                this.displayContainerId,
+                (this.containerIdMap[this.displayContainerId].push(Math.random())
+                    ,this.containerIdMap[this.displayContainerId]),
+            )
+        }
     },
     mixins:[
         formBoard
     ],
+    components: { 
+        DetailItem 
+    },
 }
 </script>
 <style scoped>
+.right{
+    overflow:auto;
+}
 .detail-box{
     width: 100%;
-}
-.detail{
-    display: flex;
-    justify-content: space-around;
-    border: solid #000 1px;
-}
-.detail+.detail{
-    margin-top: 4px;
-}
-.flag{
-    flex: 0 0 2em;    
-}
-.inputs{
-    width: 1px;
-    flex: 1 1 10px;
-    display: flex;
-    flex-flow: wrap;
-}
-.inputs>div{
-    width: 10em;
-}
-.buttons{
-    display: flex;
-    flex-flow: column;
-    flex: 0 0  4em;
-    align-items:inherit;
-    justify-content: space-between;
-}
-.buttons>*{
-    margin-left: 0;
 }
 </style>

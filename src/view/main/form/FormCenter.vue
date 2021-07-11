@@ -38,32 +38,24 @@
             <div class="container-input-title">
                 <span>Conntainer type</span><span>QUANTITY</span>
             </div>
-            <div class="container-input-group">
-                <span>1</span>
+            <div class="container-input-group"
+                v-for="(id, index) in containerTypeIds"
+                :key="id"
+            >
+                <span>{{index+1}}</span>
                 <form-item-selector 
                     v-for="containerType in containerTypeConfig"
                     :config="containerType"
-                    :key="containerType.id"
+                    :key="containerType.id+'_'+id"
                     @change="changeHandler"
                 ></form-item-selector>
             </div>
-            <div class="container-input-group"
-                v-for="extra in containerTypeConfigs"
-                :key="extra.flag"
-            >
-                <span>{{extra.flag+2}}</span>
-                <form-item-selector 
-                    v-for="containerType in extra.config"
-                    :config="containerType"
-                    :key="containerType.id+'_'+extra.flag"
-                    @change="changeHandler"
-                ></form-item-selector>
-            </div>
-            <div>
+            <div style="text-align:right">
                 <el-button
                     type="primary"
+                    size="mini"
                     @click="containerTypeAddHandler"
-                >ENTER</el-button>
+                >add</el-button>
             </div>
         </div>
         <form-item-selector 
@@ -76,6 +68,7 @@
 </template>
 <script>
 import {formBoard} from '@/mixin/main.js'
+import { mapState } from 'vuex';
 export default {
     data(){
         return{
@@ -85,7 +78,7 @@ export default {
         };
     },
     created(){
-        this.$store.commit('form/setContainerTypeLength',this.containerTypeConfigs.length+1);
+        this.$store.commit('form/clearContainerTypeId');
         this.loading=true;
         this.$containerConfig(({data})=>{
             this.configs = data.data['container'];
@@ -94,6 +87,9 @@ export default {
         });
     },
     computed:{
+        ...mapState('form',{
+            containerTypeIds:state=>state.containerTypeIds,
+        }),
         changeHandlerExtra(flag){
             return (data, name) => {
                 console.log(flag, data, name);
@@ -121,26 +117,14 @@ export default {
             this.extraVanPlaceConfigs.push(tmp);
         },
         containerTypeAddHandler(){
-            const flag = this.containerTypeConfigs.length;
-            const limit = 6;
-            if(flag>=limit){
-                this.$notify.error({
+            if(this.containerTypeIds.length >=6){
+                 this.$notify.error({
                     title: 'error',
-                    message: `max ${limit+1}`,
+                    message: `max 6`,
                 });
-                return ;
+            }else{
+                this.$store.commit('form/addContainerTypeId',Math.random());
             }
-            const tmp = {
-                flag,
-                config:[
-                    {...this.containerTypeConfig[0]},
-                    {...this.containerTypeConfig[1]}
-                ],
-            }
-            tmp.config[0].params_name += flag;
-            tmp.config[1].params_name += flag;
-            this.containerTypeConfigs.push(tmp);
-            this.$store.commit('form/setContainerTypeLength',flag+2);
         }
     },
     mixins:[

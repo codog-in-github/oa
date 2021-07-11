@@ -28,8 +28,12 @@ export default {
                 case 'userSelect': case 'select':{
                     return ()=>import('./formitem/Select.vue');
                 }
-                case 'countrySelect': case 'linkSelect':
+                case 'countrySelect': case 'linkSelect':{
                     return ()=>import('./formitem/LinkSelect.vue');
+                }
+                case 'timeRange':{
+                    return ()=>import('./formitem/TimeRange.vue');
+                }
                 default:{
                     return ()=>import('./formitem/Text.vue');
                 }

@@ -70,11 +70,13 @@ export const formBoard = {
             loading:true,
             configs:[],
             value:{},
+            isEdited:false,
         }
     },
     methods:{
         changeHandler(data,name){
             this.value[name] = data;
+            this.isEdited = true;
         },
         getUploadData(){
             return {
