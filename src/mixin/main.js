@@ -9,12 +9,6 @@ export const formItem = {
     },
     watch:{
         val(newVal, OldVal){
-            if(this.config.type === 'number' && newVal !== OldVal){
-                if(!/^\d*\.?\d*$/.test(newVal)){
-                    this.val = OldVal;
-                    return;
-                }
-            }
             if(newVal !== OldVal){
                 this.$emit('change',
                     newVal || '', 

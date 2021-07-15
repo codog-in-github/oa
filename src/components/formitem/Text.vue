@@ -5,7 +5,7 @@
         <el-input
             size="mini"
             v-model="val"
-            :type="config.type === 'textarea'?'textarea':'input'"
+            :type="type"
         >
         </el-input>
     </title-group>
@@ -19,7 +19,20 @@ export default {
     computed:{
         defaultValue(){
             return this.value || '';
-        }
+        },
+        type(){
+            switch (this.config.type){
+                case 'textarea':{
+                    return 'textarea';
+                }
+                case 'number':{
+                    return 'number';
+                }
+                default:{
+                    return 'input';
+                }
+            }
+        },
     },
     mixins:[
         formItem,
