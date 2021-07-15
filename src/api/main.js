@@ -15,6 +15,8 @@ const CONTAINER_CONF = BASE_PATH + '/Config/containerConfig';
 const CONTAINER_DETAIL_CONF = BASE_PATH + '/Config/containerDetailConfig';
 const PORT_CONF = BASE_PATH + '/Config/getPortAsync';
 
+const GET_BKG_LIST = BASE_PATH + '/Bkg/getList';
+
 axios.defaults.withCredentials = true;
 
 
@@ -23,16 +25,47 @@ axios.defaults.withCredentials = true;
 const needInterceptorsMethods = [
     {
         //需要被拦截器的方法
-        methods:[
-            '$checkLoginStatus',
-            '$logout',
-            '$initConfig',
-            '$traderConfig',
-            '$shipperConfig',
-            '$getPort',
-            '$containerConfig',
-            '$containerDetailConfig',
-        ],
+        methods:{
+            $checkLoginStatus(){
+                this.$api.queue = ()=>axios.get(LOGIN_STATUS);
+                this.$api.queue = ({data})=>{
+                    this.$store.commit('doLogin',data.data);
+                };
+            },
+            $logout(){
+                axios.get(LOGOUT_PATH);
+            },
+            $initConfig(cb){
+                this.$api.queue = ()=>axios.get(INTI_CONF);
+                this.$api.queue = cb;
+            },
+            $traderConfig(cb){
+                this.$api.queue = ()=>axios.get(TRADER_CONF);
+                this.$api.queue = cb;
+            },
+            $shipperConfig(cb){
+                this.$api.queue = ()=>axios.get(SHIPPER_CONF);
+                this.$api.queue = cb;
+            },
+            $getPort(pid, cb){
+
+                this.$api.queue = ()=>axios.get(`${PORT_CONF}/pid/${pid}`);
+                this.$api.queue = cb;
+            },
+            $containerConfig(cb){
+                this.$api.queue = ()=>axios.get(CONTAINER_CONF);
+                this.$api.queue = cb;
+            },
+            $containerDetailConfig(cb){
+                this.$api.queue = ()=>axios.get(CONTAINER_DETAIL_CONF);
+                this.$api.queue = cb;
+
+            },
+            $getList(cb){
+                this.$api.queue = ()=>axios.get(GET_BKG_LIST);
+                this.$api.queue = cb;
+            },
+        },
         //拦截器
         interceptor:(vm,{data})=>{
 
@@ -54,10 +87,6 @@ export class Api{
     
     static install = function (Vue, options) {
         Vue.prototype.$api = new Api(options);
-        //登出
-        Vue.prototype._$logout  = function () {
-            axios.get(LOGOUT_PATH);
-        }
         //登录
         Vue.prototype.$doLogin = function(username, password,callback) {
             
@@ -85,49 +114,13 @@ export class Api{
             this.$api.promise.catch(console.log);
         }
 
-        Vue.prototype._$checkLoginStatus = function(){
-            this.$api.queue = ()=>axios.get(LOGIN_STATUS);
-            this.$api.queue = ({data})=>{
-                this.$store.commit('doLogin',data.data);
-            };
-        }
-
-        Vue.prototype._$initConfig = function(cb){
-            this.$api.queue = ()=>axios.get(INTI_CONF);
-            this.$api.queue = cb;
-        }
-        
-        Vue.prototype._$traderConfig = function(cb){
-            this.$api.queue = ()=>axios.get(TRADER_CONF);
-            this.$api.queue = cb;
-        }
-
-        Vue.prototype._$shipperConfig = function(cb){
-            this.$api.queue = ()=>axios.get(SHIPPER_CONF);
-            this.$api.queue = cb;
-        }
-        
-        Vue.prototype._$containerConfig = function(cb){
-            this.$api.queue = ()=>axios.get(CONTAINER_CONF);
-            this.$api.queue = cb;
-        }
-
-        Vue.prototype._$containerDetailConfig = function(cb){
-            this.$api.queue = ()=>axios.get(CONTAINER_DETAIL_CONF);
-            this.$api.queue = cb;
-        }
-
-        Vue.prototype._$getPort = function(pid, cb){
-            this.$api.queue = ()=>axios.get(`${PORT_CONF}/pid/${pid}`);
-            this.$api.queue = cb;
-        }
 
         
         //注册代理监听器
         for(const item of needInterceptorsMethods){
-            for(const method of item.methods){
+            for(const methodName in item.methods){
                 //注册同名代理对象并监听 调用前添加拦截器 结束后注销
-                Vue.prototype[method] = new Proxy(Vue.prototype['_'+method],{
+                Vue.prototype[methodName] = new Proxy(item.methods[methodName],{
                         apply(target, thisArg, argumentsList){
 
                             const  interceptor = axios.interceptors.response.use((data)=>{
