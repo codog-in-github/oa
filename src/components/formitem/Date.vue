@@ -4,6 +4,7 @@
             v-model="val"
             type="date"
             size="mini"
+            style="width:auto;"
             @change="$emit('change', val, config.params_name)"
         >
         </el-date-picker>
