@@ -15,13 +15,13 @@
             </div>
         </div>
         <div class="body">
-            <div class="side">
+            <side>
                 <el-menu
                         default-active="0"
                         class="el-menu-vertical-demo"
-                        background-color="#545c64"
-                        text-color="#fff"
-                        active-text-color="#ffd04b"
+                        background-color="#aaa"
+                        text-color="#000"
+                        active-text-color="red"
                         @select="linkTo"
                         >
                         <el-menu-item index="0">
@@ -33,7 +33,7 @@
                             <span slot="title">menu2</span>
                         </el-menu-item>
                         </el-menu>
-            </div>
+            </side>
             <router-view class="view"></router-view>
         </div>
         <div class="bubble-box"></div>
@@ -50,7 +50,7 @@ export default {
     data(){
         return {
             menuDirection:[
-                '/frame/index',
+                '/frame/list',
                 '/frame/form',
             ],
         };
@@ -80,7 +80,7 @@ export default {
 </script>
 <style scoped>
 .frame-container{
-    background: #545c64;
+    background: #bbb;
     height: 100vh;
     width: 100vw;
     display: flex;

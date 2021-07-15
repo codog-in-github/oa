@@ -15,7 +15,7 @@ let routes = [
         children:[
             {
                 path:'/frame',
-                redirect:'/frame/index',
+                redirect:'/frame/list',
             },
             {
                 path:'/frame/index',
@@ -23,6 +23,9 @@ let routes = [
             },{
                 path:'/frame/form',
                 component:()=>import('@/view/main/form.vue'),
+            },{
+                path:'/frame/list',
+                component:()=>import('@/view/main/BKGList.vue'),
             },
         ],
     },{
