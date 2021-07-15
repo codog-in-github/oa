@@ -3,7 +3,7 @@
   padding: 0;
 }
 .root{
-    font-family: Monaco,Consolas,Andale Mono,Ubuntu Mono,monospace,"Microsoft YaHei";
+    font-family: Consolas,Monaco，Andale Mono,Ubuntu Mono,monospace,"Microsoft YaHei";
     color:#636D76;
 }
 .shadow-card{
