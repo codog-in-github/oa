@@ -1,45 +1,30 @@
 <template>
     <div class="frame-container">
         <aside>
-            <el-menu
-                default-active="0"
-                class="el-menu-vertical-demo"
-                background-color="#aaa"
-                text-color="#000"
-                active-text-color="red"
-                @select="linkTo"
-            >
-            <el-menu-item index="0">
-                <i class="el-icon-menu"></i>
-                <span slot="title">menu1</span>
-            </el-menu-item>
-            <el-menu-item index="1">
-                <i class="el-icon-setting"></i>
-                <span slot="title">menu2</span>
-            </el-menu-item>
-            </el-menu>
-        </aside>
-        <main>
-            <header> 
-                <div class="info">
-                    <span>HELLO!&nbsp;{{user.name}}</span>
-                    <el-button 
-                        type="danger" 
-                        class="el-icon-switch-button" 
-                        circle 
-                        size="mini"
-                        @click.native="logout">
-                    </el-button>
-                </div>
+            <header class="shadow-card"> 
+                <span>Hello!<br/>{{user.name}}</span>
+                <el-button 
+                    type="danger" 
+                    class="el-icon-switch-button" 
+                    circle 
+                    size="mini"
+                    @click.native="logout">
+                </el-button>
             </header>
-            <section>
-                <router-view class="view"></router-view>
-            </section>
+            <column-nav
+                :urls="menu"
+            ></column-nav>
+        </aside>
+        <main
+            class="shadow-card"
+        >
+            <router-view class="view"></router-view>
         </main>
     </div>
 </template>
 <script>
 import {mapState} from 'vuex'
+import ColumnNav from '@/components/ColumnNav'
 export default {
     computed:{
         ...mapState({
@@ -48,9 +33,9 @@ export default {
     },
     data(){
         return {
-            menuDirection:[
-                '/frame/list',
-                '/frame/form',
+            menu:[
+                {to:'/frame/list',label:'list'},
+                {to:'/frame/form',label:'form'},
             ],
         };
     },
@@ -58,13 +43,6 @@ export default {
         logout(){
             this.$logout();
         },
-        linkTo(index){
-            const url = this.menuDirection[index];
-
-            if(this.$route.path !== url){
-                this.$router.push(url);
-            }
-        }
     },
     beforeRouteEnter(to, from, next){
         next(vm=>{
@@ -75,6 +53,9 @@ export default {
             }
         })
     },
+    components:{
+        ColumnNav,
+    }
 }
 </script>
 <style scoped>
@@ -86,62 +67,41 @@ export default {
     flex-flow: nowrap row;
     overflow: hidden;
     align-items: flex-start;
+    padding: 10px;
+    box-sizing: border-box;
 }
 aside{
-    border-radius: 4px;
-    overflow: hidden;
-    flex :0 0 auto;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: rgba(0, 0, 0, .5) 1px 1px 2px;
-    margin: 5px;
+    display: flex;
+    flex-flow: column;
+    margin-right: 5px;
+}
+aside > * + *{
+    margin-top: 10px;
+}
+header > *{
+    flex: 1 1 auto;
 }
 main{
     flex: 1 1 auto;
-    margin: 0 10px 0 0;
+    box-sizing: border-box;
     height: 100%;
     width: 1px;
     display: flex;
     flex-flow: column;
+    overflow: auto;
+    padding: 10px;
+    background: #fff;
 }
 header{
-    height: 60px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
     flex:0 0 auto;
     z-index: 2;
     display: flex;
     justify-content: space-between;
     padding: 0 30px;
     box-sizing: border-box;
-}
-section{
-    flex: 1 1 auto;
-    width: 100%;
-    margin: 10px;
-    border-radius: 10px;
-    overflow: auto;
-    padding: 10px;
     background: #fff;
-    box-shadow: rgba(0, 0, 0, .5) 1px 1px 2px;
 }
-.info{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 300px;
-    font-size: 20px;
-    color: #fff;
-}
-.logout{
-    flex-shrink: 0;
-    flex-grow: 0;
-}
-.body{
-    display: flex;
-    flex-grow: 1;
-    z-index: 2;
-}
-.info-button{
-    font-size: 30px;
-}
-
 </style>

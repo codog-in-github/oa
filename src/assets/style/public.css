@@ -6,55 +6,7 @@
     font-family: Monaco,Consolas,Andale Mono,Ubuntu Mono,monospace,"Microsoft YaHei";
     color:#636D76;
 }
-/* 按钮 */
-button{
-    border: none;
-    cursor: pointer;
-}
-.btn-pink{
-    height: 25px;
-    width: 25px;
-    margin: 5px;
-    border-radius: 50%;
-    outline: none;
-    color: #fff;
-    background: #FDE2E2;
-}
-.btn-pink:hover{
-    background: #FEF0F0;
-    color: #333;
-}
-.btn-side-menu{
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
-    color: #409EFF;
-    background:none;
-    margin: 30px 0;
-    font-size: 30px;
-}
-.btn-side-menu-active {
-    background-color: #F7FAFF;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .2) ;
-}
-/* list-before */
-.list-success::before{
-    content: '•';
-    color: #67C23A;
-}
-.list-primary::before{
-    content: '•';
-    color: #409EFF;
-}
-.list-warning::before{
-    content: '•';
-    color: #E6A23C;
-}
-.list-info::before{
-    content: '•';
-    color: #909399;
-}
-.list-danger::before{
-    content: '•';
-    color: #F56C6C;
+.shadow-card{
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, .3) 1px 1px 3px;
 }
