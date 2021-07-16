@@ -5,13 +5,66 @@
         <div class="header-left">
             <div><b>管理情報</b></div>
             <div class="header-input-box">
-                <form-item-selector 
-                    v-for="config in configs"
-                    :config="config"
-                    :key="config.id"
-                    :value="value[config.params_name]"
-                    @change="changeHandler"
-                ></form-item-selector>
+                <title-group title="BKG DATE">
+                    <el-date-picker
+                        v-model="bkg_date"
+                        size="mini"
+                        style="width:auto;"
+                    ></el-date-picker>
+                </title-group>
+                <title-group title="BKG NO.">
+                    <el-input
+                        v-model="bkg_no"
+                        @blur="bl_no = bkg_no?bkg_no:bl_no"
+                        size="mini"
+                    ></el-input>
+                </title-group>
+                <title-group title="b/l NO.">
+                    <el-input
+                        v-model="bl_no"
+                        size="mini"
+                    ></el-input>
+                </title-group>
+                <title-group title="BKG type">
+                    <el-input
+                        v-model="bkg_type"
+                        size="mini"
+                    ></el-input>
+                </title-group>
+                <title-group title="BKG STAFF">
+                    <el-select
+                        v-model="bkg_staff"
+                        size="mini"
+                        @focus="getOptions(1,'user')"
+                    >
+                        <el-option
+                            v-for="{id, label} in options.user"
+                            :key="id"
+                            :value="id"
+                            :label="label"
+                        ></el-option>
+                    </el-select>
+                </title-group>
+                <title-group title="IN SALES">
+                    <el-select
+                        v-model="in_sales"
+                        size="mini"
+                        @focus="getOptions(1,'user')"
+                    >
+                        <el-option
+                            v-for="{id, label} in options.user"
+                            :key="id"
+                            :value="id"
+                            :label="label"
+                        ></el-option>
+                    </el-select>
+                </title-group>
+                <title-group title="DG">
+                    <el-select
+                        v-model="dg"
+                        size="mini"
+                    ></el-select>
+                </title-group>
             </div>
         </div>
         <div class="header-right">
@@ -34,29 +87,43 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-import FormItemSelector from '@/components/FormItemSelector.vue'
-import { formBoard } from '@/mixin/main';
-// import TitleGroup from '../../../components/titleGroup.vue'
+import TitleGroup from '@/components/titleGroup.vue';
 export default{ 
+    data(){
+        return {
+            bkg_date:null,
+            bkg_no:null,
+            bl_no:null,
+            bkg_type:null,
+            bkg_staff:null,
+            in_sales:null,
+            dg:null,
+
+            options:{
+                user:[],
+            },
+            loading:false
+        };
+    },
     created(){
-        this.loading = true;
-        this.$initConfig(({data})=>{
-            this.configs = data.data;
-            this.loading = false;
-        });
+        if(this.isNewOrder){
+            this.bkg_staff = this.userId;
+            this.options.user.push({id:this.userId,label:this.name});
+        }
     },
     computed:{
         ...mapState({
-            username:state=>state.loginState.info.username
+            name:state=>state.loginState.info.name,
+            userId:state=>state.loginState.info.id,
         }),
+        ...mapState('form',{
+            bkgId:state=>state.bkgId,
+        }),
+        isNewOrder(){
+            return !this.bkgId;
+        },
     },
     methods:{
-        changeHandler(data,name){
-            this.value[name] = data;
-        },
-        updatedLoadingState(state){
-            this.$emit('loadingChange','header',state);
-        },
         deleteButtonHandler(){
             this.$confirm('Are you sure?', 'alert', {
                 confirmButtonText: 'ok',
@@ -73,14 +140,17 @@ export default{
                     message: 'error'
                 });          
             });
-        }
+        },
+        getOptions(selectId , argName){
+            const  options = this.options[argName];
+            if(options.loaded === undefined){
+                options.loaded = true;
+                this.$getOptions(selectId,options);
+            }
+        },
     },
-    mixins:[
-        formBoard,
-    ],
     components:{
-        // TitleGroup,
-        FormItemSelector,
+        TitleGroup,
     },
 }
 </script>

@@ -9,6 +9,7 @@ const LOGIN_PATH = BASE_PATH + '/Index/login';
 const LOGOUT_PATH = BASE_PATH + '/Index/logout';
 const LOGIN_STATUS = BASE_PATH + '/Index/';
 const INTI_CONF = BASE_PATH + '/Config/initConfig';
+const OPTIONS_LIST = BASE_PATH + '/Config/getOptions';
 const TRADER_CONF = BASE_PATH + '/Config/traderConfig';
 const SHIPPER_CONF = BASE_PATH + '/Config/shipperConfig';
 const CONTAINER_CONF = BASE_PATH + '/Config/containerConfig';
@@ -34,6 +35,13 @@ const needInterceptorsMethods = [
             },
             $logout(){
                 axios.get(LOGOUT_PATH);
+            },
+            $getOptions(selectId,optionsArray, fatherOptionsId){
+                this.$api.queue = ()=>axios.get(`${OPTIONS_LIST}/sid/${selectId}/pid/${fatherOptionsId||''}`);
+                this.$api.queue = ({data})=>{
+                    optionsArray.shift(0, optionsArray.length);
+                    optionsArray.push(...data.data);
+                };
             },
             $initConfig(cb){
                 this.$api.queue = ()=>axios.get(INTI_CONF);
