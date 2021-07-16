@@ -2,38 +2,105 @@
    <div class="upper" v-loading="loading"> 
        <div class="title">取引業者情報</div>
         <div class="header-input-box">
-            <form-item-selector 
-                v-for="config in configs"
-                :config="config"
-                :key="config.id"
-                :value="value[config.params_name]"
-                @change="changeHandler"
-            ></form-item-selector>
+            <div class="group">
+                <title-group 
+                    title="BOOKER">
+                    <el-select
+                        v-model="booker"
+                        size="mini">
+                    </el-select>
+                </title-group>
+                <span class="delimiter">&sol;</span>
+                <title-group 
+                    title="B/STAFF">
+                    <el-input
+                        size="mini"
+                        v-model="b_staff"    
+                    ></el-input>
+                </title-group>
+            </div>
+            <title-group 
+                title="SHIPPER">
+                <el-input
+                    size="mini" 
+                    v-model="shipper"   
+                ></el-input>
+            </title-group>
+            <div class="group">
+                <title-group 
+                    title="FORWARDER">
+                    <el-select
+                        v-model="forwarder"
+                        size="mini">
+                    </el-select>
+                </title-group>
+                <span class="delimiter">&sol;</span>
+                <title-group 
+                    title="F/STAFF">
+                    <el-input
+                        size="mini"
+                        v-model="f_staff"
+                    ></el-input>
+                </title-group>
+            </div>
+            <title-group 
+                title="CONSIGNEE">
+                <el-input
+                    size="mini"
+                    v-model="consignee"
+                ></el-input>
+            </title-group>
+            <div class="group">
+                <title-group 
+                    title="DATYAGE">
+                    <el-select
+                        v-model="drayage"
+                        size="mini">
+                    </el-select>
+                </title-group>
+                <span class="delimiter">&sol;</span>
+                <title-group 
+                    title="D/STAFF">
+                    <el-input
+                        size="mini"
+                        v-model="d_staff"
+                    ></el-input>
+                </title-group>
+            </div>
         </div>
     </div>
 </template>
 <script>
-import { formBoard } from '@/mixin/main.js';
+// import { formBoard } from '@/mixin/main.js';
+import TitleGroup from '@/components/titleGroup.vue';
 
 export default{ 
-    created(){
-        this.loading = true;
-        this.$traderConfig(({data})=>{
-            this.configs = data.data;
-            this.loading = false;
-        });
+    data(){
+        return{
+            booker:null,
+            b_staff:null,
+            shipper:null,
+            forwarder:null,
+            f_staff:null,
+            consignee:null,
+            drayage:null,
+            d_staff:null,
+
+            loading:false,
+        }
     },
-    updated(){
+    components:{
+        TitleGroup,
     },
-    computed:{
-    },
-    mixins:[
-        formBoard,
-    ],
 }
 </script>
 <style scoped>
-.upper{
-    position: relative;
+.group{
+    display: flex;
+    align-items: flex-end;
+}
+.delimiter{
+    font-size: 20px;
+    padding: 0 5px;
 }
 </style>
