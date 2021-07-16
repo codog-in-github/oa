@@ -1,61 +1,77 @@
 <template>
     <div class="lower"
         v-loading="loading">
-        <div class="title">
-            船社情報
+        <div class="shipper">
+            <div class="title">
+                船社情报
+            </div>
+            <div class="group">
+                <title-group 
+                    title="carrier">
+                    <el-select
+                        v-model="carrier"
+                        size="mini">
+                    </el-select>
+                </title-group>
+                <span class="delimiter">&sol;</span>
+                <title-group 
+                    title="B/STAFF">
+                    <el-input
+                        size="mini"
+                        v-model="carrier"    
+                    ></el-input>
+                </title-group>
+            </div>
         </div>
-        <form-item-selector 
-            v-for="config in configs['shipper']"
-            :config="config"
-            :key="config.id"
-            :value="value[config.params_name]"
-            @change="changeHandler"
-        ></form-item-selector>
         <div class="port-message">
             <div class="loading">
                 <div class="title">
                     PORT OF LOADING<br/><br/>
                 </div>
-                <form-item-selector 
-                    v-for="config in configs['port_of_loading']"
-                    :config="config"
-                    :key="config.id"
-                    :value="value[config.params_name]"
-                    @change="changeHandler"
-                ></form-item-selector>
             </div>
             <div class="delivery">
                 <div class="title">
                     PORT OF DELIVERY<br/><br/>
                 </div>
                 
-                <form-item-selector 
-                    v-for="config in configs['port_of_delovery']"
-                    :config="config"
-                    :key="config.id"
-                    :value="value[config.params_name]"
-                    @change="changeHandler"
-                ></form-item-selector>
                 </div>
         </div>
     </div>
 </template>
 <script>
-// import TitleGroup from '../../../components/titleGroup.vue'
-import { formBoard } from '@/mixin/main.js'
+import TitleGroup from '@/components/titleGroup.vue';
 
 export default{ 
-    created(){
-        this.$shipperConfig(({data})=>{
-            this.configs = data.data;
-            this.loading = false
-        })
+    data(){
+        return {
+            carrier:null,
+            c_staff:null,
+            service:null,
+            vessel_name:null,
+            voyage:null,
+            port_of_loading:{
+                country:null,
+                port:null,
+                eta:null,
+                etd:null,
+                cy_open:null,
+                cy_cut:null,
+                doc_cut:null,
+            },
+            port_of_delivery:{
+                country:null,
+                port:null,
+                eta:null,
+                free_time_dem:null,
+                free_time_det:null,
+            },
+
+            loading:false,
+        }
     },
-    computed:{
+    components:{
+        TitleGroup,
     },
-    mixins:[
-        formBoard,
-    ],
 }
 </script>
 <style scoped>
@@ -84,12 +100,5 @@ export default{
 .port-message > div{
     width: 45%;
 
-}
-.service-18{
-    max-width: 30%;
-    margin-right: 10px;
-}
-.vessel_name-19{
-    max-width: 60%;
 }
 </style>
