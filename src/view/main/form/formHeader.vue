@@ -35,10 +35,11 @@
                     <el-select
                         v-model="bkg_staff"
                         size="mini"
-                        @focus="getOptions(1,'user')"
+                        :loading="options.user.loading"
+                        @focus="getOptionsAnsyc(1,options.user)"
                     >
                         <el-option
-                            v-for="{id, label} in options.user"
+                            v-for="{id, label} in options.user.item"
                             :key="id"
                             :value="id"
                             :label="label"
@@ -49,10 +50,11 @@
                     <el-select
                         v-model="in_sales"
                         size="mini"
-                        @focus="getOptions(1,'user')"
+                        :loading="options.user.loading"
+                        @focus="getOptionsAnsyc(1,options.user)"
                     >
                         <el-option
-                            v-for="{id, label} in options.user"
+                            v-for="{id, label} in options.user.item"
                             :key="id"
                             :value="id"
                             :label="label"
@@ -87,7 +89,8 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-import TitleGroup from '@/components/titleGroup.vue';
+import TitleGroup from '@/components/titleGroup';
+import { getOptionsAnsyc } from '@/mixin/main';
 export default{ 
     data(){
         return {
@@ -100,7 +103,7 @@ export default{
             dg:null,
 
             options:{
-                user:[],
+                user:{item:[],loading:false},
             },
             loading:false
         };
@@ -108,7 +111,7 @@ export default{
     created(){
         if(this.isNewOrder){
             this.bkg_staff = this.userId;
-            this.options.user.push({id:this.userId,label:this.name});
+            this.options.user.item.push({id:this.userId,label:this.name});
         }
     },
     computed:{
@@ -142,6 +145,9 @@ export default{
             });
         },
     },
+    mixins:[
+        getOptionsAnsyc,
+    ],
     components:{
         TitleGroup,
     },

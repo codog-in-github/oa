@@ -40,7 +40,7 @@ const needInterceptorsMethods = [
                 options.loading = true;
                 this.$api.queue = ()=>axios.get(`${OPTIONS_LIST}/sid/${selectId}/pid/${fatherOptionsId||''}`);
                 this.$api.queue = ({data})=>{
-                    options.item.shift(0, options.item.length);
+                    options.item.splice(0, options.item.length);
                     options.item.push(...data.data);
                     options.loading = false;
                 };

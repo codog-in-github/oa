@@ -66,7 +66,8 @@
                             <el-option
                                 v-for="{id, label, code} in searchedOptios('port_of_loading_country', 'country')"
                                 :key="id"
-                                :value="code"
+                                :label="code"
+                                :value="id"
                             >
                                 <div class="country-opt"><span>{{label}}</span><span>{{code}}</span></div>
                             </el-option>
@@ -77,6 +78,7 @@
                         title="Port">
                         <el-select
                             filterable
+                            :filter-method="val=>(keywords.port_of_loading_port=val)"
                             size="mini"
                             :loading="options.loadingPort.loading"
                             v-model="port_of_loading.port"
@@ -84,7 +86,8 @@
                             <el-option
                                 v-for="{id, label, code} in searchedOptios('port_of_loading_port', 'loadingPort')"
                                 :key="id"
-                                :value="code"
+                                :label="code"
+                                :value="id"
                             >
                                 <div class="country-opt"><span>{{label}}</span><span>{{code}}</span></div>
                             </el-option>
@@ -93,38 +96,38 @@
                 </div>
                 <title-group 
                     title="ETA">
-                    <el-input
+                    <el-date-picker
                         size="mini"
                         v-model="port_of_loading.eta"
-                    ></el-input>
+                    ></el-date-picker>
                 </title-group>
                 <title-group 
                     title="ETD">
-                    <el-input
+                    <el-date-picker
                         size="mini"
                         v-model="port_of_loading.etd"
-                    ></el-input>
+                    ></el-date-picker>
                 </title-group>
                 <title-group 
                     title="CY OPEN">
-                    <el-input
+                    <el-date-picker
                         size="mini"
                         v-model="port_of_loading.cy_open"
-                    ></el-input>
+                    ></el-date-picker>
                 </title-group>
                 <title-group 
                     title="CY CUT">
-                    <el-input
+                    <el-date-picker
                         size="mini"
                         v-model="port_of_loading.cy_cut"
-                    ></el-input>
+                    ></el-date-picker>
                 </title-group>
                 <title-group 
                     title="DOC CUT">
-                    <el-input
+                    <el-date-picker
                         size="mini"
                         v-model="port_of_loading.doc_cut"
-                    ></el-input>
+                    ></el-date-picker>
                 </title-group>
             </div>
             <div class="delivery">
@@ -144,7 +147,8 @@
                             <el-option
                                 v-for="{id, label, code} in searchedOptios('port_of_delivery_country', 'country')"
                                 :key="id"
-                                :value="code"
+                                :value="id"
+                                :label="code"
                             >
                                 <div class="country-opt"><span>{{label}}</span><span>{{code}}</span></div>
                             </el-option>
@@ -155,14 +159,16 @@
                         title="Port">
                         <el-select
                             filterable
+                            :filter-method="val=>(keywords.port_of_delivery_port=val)"
                             size="mini"
                             :loading="options.deliveryPort.loading"
                             v-model="port_of_delivery.port"
                         >
                             <el-option
-                                v-for="{id, label, code} in searchedOptios('port_of_delivery_port', 'loadingPort')"
+                                v-for="{id, label, code} in searchedOptios('port_of_delivery_port', 'deliveryPort')"
                                 :key="id"
-                                :value="code"
+                                :value="id"
+                                :label="code"
                             >
                                 <div class="country-opt"><span>{{label}}</span><span>{{code}}</span></div>
                             </el-option>
@@ -171,28 +177,23 @@
                 </div>
                 <title-group 
                     title="ETA">
-                    <el-input
+                    <el-date-picker
                         size="mini"
                         v-model="port_of_delivery.eta"
-                    ></el-input>
-                </title-group>
-                <title-group 
-                    title="ETD">
-                    <el-input
-                        size="mini"
-                        v-model="port_of_delivery.etd"
-                    ></el-input>
+                    ></el-date-picker>
                 </title-group>
                 <title-group 
                     title="FREE TIME DEM">
                     <el-input
                         size="mini"
+                        type="number"
                         v-model="port_of_delivery.free_time_dem"
                     ></el-input>
                 </title-group>
                 <title-group 
                     title="FREE TIME DET">
                     <el-input
+                        type="number"
                         size="mini"
                         v-model="port_of_delivery.free_time_det"
                     ></el-input>
@@ -259,7 +260,8 @@ export default{
         'port_of_loading.country'(newValue, oldValue){
             if(oldValue === newValue) return;
             this.port_of_loading.port = null;
-            this.loadingPort = {loading:false, item:[]};
+            this.options.loadingPort.item = [];
+            this.options.loadingPort.loaded = false;
             this.getOptionsAnsyc(
                 2,
                 this.options.loadingPort,
@@ -269,7 +271,8 @@ export default{
         'port_of_delivery.country'(newValue, oldValue){
             if(oldValue === newValue) return;
             this.port_of_delivery.port = null;
-            this.deliveryPort = {loading:false, item:[]};
+            this.options.deliveryPort.item = [];
+            this.options.deliveryPort.loaded = false;
             this.getOptionsAnsyc(
                 2,
                 this.options.deliveryPort,

@@ -1,31 +1,27 @@
 <template>
-    <div 
-        class="center"
-        v-loading="loading"
-        >
+    <div class="center">
         <div class="title">コンテナ情報</div>
-        <form-item-selector 
-            v-if="configs[0]"
-            :config="configs[0]"
-            :value="value[configs[0].params_name]"
-            @change="changeHandler"
+        <title-group
+            title="COMMON"
             class="single-line"
-        ></form-item-selector>
-        <form-item-selector 
-            v-if="configs[1]"
-            :config="configs[1]"
-            :value="value[configs[1].params_name]"
-            @change="changeHandler"
+        >
+            <el-input
+                size="mini"
+                v-model="common"
+            ></el-input>
+        </title-group>
+        <title-group
+            v-for="(val, i) in van_place"
+            :key="i"
+            title="VAN PLACE"
             class="single-line"
-        ></form-item-selector>
-        <form-item-selector 
-            v-for="extra in extraVanPlaceConfigs"
-            :config="extra"
-            :key="extra.flag"
-            @change="changeHandler"
-            class="single-line"
-        ></form-item-selector>
-        <div>
+        >
+            <el-input
+                size="mini"
+                v-model="van_place[i]"
+            ></el-input>
+        </title-group>
+        <div class="vaning-box">
             <el-button 
                 size="mini" 
                 type="primary"
@@ -39,16 +35,19 @@
                 <span>Conntainer type</span><span>QUANTITY</span>
             </div>
             <div class="container-input-group"
-                v-for="(id, index) in containerTypeIds"
-                :key="id"
+                v-for="(id, i) in container"
+                :key="i"
             >
-                <span>{{index+1}}</span>
-                <form-item-selector 
-                    v-for="containerType in containerTypeConfig"
-                    :config="containerType"
-                    :key="containerType.id+'_'+id"
-                    @change="changeHandler"
-                ></form-item-selector>
+                <span>{{i+1}}</span>
+                <el-select 
+                    size="mini"
+                    v-model="container[i].container_type">
+                </el-select>
+                <el-input 
+                    size="mini"
+                    type="number"
+                    v-model="container[i].quantity">
+                </el-input>
             </div>
             <div style="text-align:right">
                 <el-button
@@ -57,79 +56,73 @@
                     @click="containerTypeAddHandler"
                 >add</el-button>
             </div>
+            <title-group
+                title="REMARKS"
+            >
+                <el-input
+                    type="textarea"
+                    v-model="remarks"
+                ></el-input>
+            </title-group>
         </div>
-        <form-item-selector 
-            v-if="configs[2]"
-            :config="configs[2]"
-            :value="value[configs[2].params_name]"
-            @change="changeHandler"
-        ></form-item-selector>
     </div>
 </template>
 <script>
-import {formBoard} from '@/mixin/main.js'
 import { mapState } from 'vuex';
+import TitleGroup from '@/components/titleGroup';
+
 export default {
     data(){
         return{
+            common:null,
+            van_place:[''],
+            remarks:null,
+
             extraVanPlaceConfigs:[],
             containerTypeConfig:[],
             containerTypeConfigs:[],
         };
     },
     created(){
-        this.$store.commit('form/clearContainerTypeId');
-        this.loading=true;
-        this.$containerConfig(({data})=>{
-            this.configs = data.data['container'];
-            this.containerTypeConfig = data.data['containerType'];
-            this.loading = false
-        });
+        if(!this.bkgId){
+            this.$store.commit('form/containerClear');
+            this.$store.commit('form/containerAddNew');
+            
+        }
     },
     computed:{
         ...mapState('form',{
-            containerTypeIds:state=>state.containerTypeIds,
+            container:state=>state.container,
+            bkgId:state=>state.bkgId
         }),
-        changeHandlerExtra(flag){
-            return (data, name) => {
-                console.log(flag, data, name);
-                this.value[`${name}${flag}`] = data;
-            }
-        },
     },
     methods:{
         vannningPlaceAddHandler(){
-            const flag = this.extraVanPlaceConfigs.length;
-            const limit = 4;
-            if(flag>=limit){
+            if(this.van_place.length < 6){
+                this.van_place.push('');
+            }else{
                 this.$notify.error({
-                    title: 'error',
-                    message: `max ${limit+1}`,
-                });
-                return ;
-            }
-            const tmp = {
-                flag,
-                ...this.configs[1],
-            }
-            tmp.params_name += flag;
-            tmp.title += flag+1;
-            this.extraVanPlaceConfigs.push(tmp);
-        },
-        containerTypeAddHandler(){
-            if(this.containerTypeIds.length >=6){
-                 this.$notify.error({
                     title: 'error',
                     message: `max 6`,
                 });
+            }
+        },
+        containerTypeAddHandler(){
+            if(this.container.length < 6){
+                this.$store.commit('form/containerAddNew');
             }else{
-                this.$store.commit('form/addContainerTypeId',Math.random());
+                this.$notify.error({
+                    title: 'error',
+                    message: `max 6`,
+                });
             }
         }
     },
     mixins:[
-        formBoard,
-    ]
+    ],
+    components: { 
+        TitleGroup,
+     },
 }
 </script>
 <style scoped>
@@ -160,5 +153,8 @@ export default {
     color: white;
     text-align: center;
     
+}
+.vaning-box{
+    text-align: right;
 }
 </style>
