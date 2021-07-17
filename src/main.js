@@ -12,6 +12,7 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI,{locale});
 Vue.use(Api);
 
+Vue.prototype.$eventBus = new Vue();
 
 export default new Vue({
   el:'#app',

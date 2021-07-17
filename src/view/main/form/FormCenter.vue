@@ -35,18 +35,19 @@
                 <span>Conntainer type</span><span>QUANTITY</span>
             </div>
             <div class="container-input-group"
-                v-for="(id, i) in container"
-                :key="i"
+                v-for="(single, i) in container"
+                :key="single.id"
             >
                 <span>{{i+1}}</span>
                 <el-select 
                     size="mini"
-                    v-model="container[i].container_type">
+                    @change="$eventBus.$emit('containerTypeChange', single.id, containerTypeLabel(single.container_type))"
+                    v-model="single.container_type">
                 </el-select>
                 <el-input 
                     size="mini"
                     type="number"
-                    v-model="container[i].quantity">
+                    v-model="single.quantity">
                 </el-input>
             </div>
             <div style="text-align:right">
@@ -78,9 +79,12 @@ export default {
             van_place:[''],
             remarks:null,
 
-            extraVanPlaceConfigs:[],
-            containerTypeConfig:[],
-            containerTypeConfigs:[],
+            options:{
+                containerType:{
+                    item:[],
+                    loading:false,
+                }
+            }
         };
     },
     created(){
@@ -116,6 +120,9 @@ export default {
                     message: `max 6`,
                 });
             }
+        },
+        containerTypeLabel(id){
+            return this.options.containerType.item.filter(i=>i.id===id)[0].label;
         }
     },
     mixins:[

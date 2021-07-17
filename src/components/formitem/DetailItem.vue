@@ -1,14 +1,92 @@
 <template>
     <div class="detail">
-        <div class="flag">1</div>
+        <div class="flag">{{no}}</div>
         <div class="inputs">
-            <form-item-selector 
-                v-for="config in detailConfigs"
-                :config="config"
-                :key="config.id"
-                :value="value[config.params_name]"
-                @change="changeHandler"
-            ></form-item-selector>
+            <title-group
+            title="Container type">
+                <el-input
+                    readonly
+                    :value="detailData.containerType"
+                    size="mini"
+                ></el-input>
+            </title-group>
+            <title-group
+            title="COMMON">
+                <el-input
+                    v-model="detailData.common"
+                    size="mini"
+                ></el-input>
+            </title-group>
+            <title-group
+            title="OPTION">
+                <el-input
+                    v-model="detailData.option"
+                    size="mini"
+                ></el-input>
+            </title-group>
+            <title-group
+            title="台費なし/あり">
+                <el-input
+                    v-model="detailData.expenses"
+                    size="mini"
+                ></el-input>
+            </title-group>
+            <title-group
+            title="運送業">
+                <el-input
+                    v-model="detailData.expenses"
+                    size="mini"
+                ></el-input>
+            </title-group>
+            <title-group
+            title="担当者">
+                <el-input
+                    v-model="detailData.expenses"
+                    size="mini"
+                ></el-input>
+            </title-group>
+            <title-group
+            title="現場担当者">
+                <el-input
+                    v-model="detailData.expenses"
+                    size="mini"
+                ></el-input>
+            </title-group>
+            <title-group
+            title="現場担当連絡先">
+                <el-input
+                    v-model="detailData.expenses"
+                    size="mini"
+                ></el-input>
+            </title-group>
+            <title-group
+            title="シャーシ">
+                <el-input
+                    v-model="detailData.expenses"
+                    size="mini"
+                ></el-input>
+            </title-group>
+            <title-group
+            title="バンニング場所">
+                <el-input
+                    v-model="detailData.expenses"
+                    size="mini"
+                ></el-input>
+            </title-group>
+            <title-group
+            title="バンニング日">
+                <el-input
+                    v-model="detailData.expenses"
+                    size="mini"
+                ></el-input>
+            </title-group>
+            <title-group
+            title="開時/終時">
+                <el-time-picker
+                    v-model="detailData.expenses"
+                    size="mini"
+                ></el-time-picker>
+            </title-group>
         </div>
         <div class="buttons">
             <el-button
@@ -24,7 +102,7 @@
             <el-button 
                 type="primary" 
                 size="mini"
-                @click="$emit('copy',detailId)"
+                @click="$emit('copy')"
             >COPY</el-button>
             <el-button type="danger" size="mini">DEL</el-button>
         </div>
@@ -32,14 +110,35 @@
 </template>
 <script>
 import {formBoard} from '@/mixin/main';
+import TitleGroup from '../titleGroup.vue';
+
 export default {
-    props:[
-        'detailConfigs',
-        'detailId'
-    ],
+    props:{
+        detailData:{
+            default:()=>({
+                containerType:'',
+                common:'',
+                option:'',
+                expenses:'',
+                transprotation:'',
+                charge:'',
+                field:'',
+                chassis:'',
+                booker_place:'',
+                vanning_date:'',
+                vanning_during:'',
+            })
+        },
+        no:{
+            default:1
+        },
+    },
     mixins:[
         formBoard,
-    ]
+    ],
+    components:{
+        TitleGroup
+    }
 }
 </script>
 <style scoped>
@@ -64,7 +163,7 @@ export default {
     width: 10em;
     flex: 0 0 auto;
 }
-.vanning_during-48{
+.inputs>div:last-child{
     width: auto !important;
 }
 .buttons{

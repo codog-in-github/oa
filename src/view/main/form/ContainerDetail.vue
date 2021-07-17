@@ -1,77 +1,88 @@
 <template>
-    <div class="right"
-        v-loading="loading"
-    >
+    <div class="right">
         <div class="title">
             コンテナ＆ドレージ詳細情報
         </div>
         <div>
             <el-button 
-                v-for="(id, key) in containerTypeIds"
-                :key="key"
+                v-for="({id,}, i) in container"
+                :key="id"
                 type="primary" 
                 size="mini"
-                @click="displayDetail(id)"
-            >button{{key+1}}</el-button>
+                @click="containerButtonClickHandler(id)"
+            >Container {{i+1}}</el-button>
         </div>
         <br/>
         <hr/>
         <br/>
         <div class="detail-box">
             <detail-item
-                v-for="id in displayList"
-                :detail-id="id"
-                :key="id"
-                :detail-configs="configs"
+                v-for="detail in displayList"
+                :detailData="detail"
+                :key="detail.id"
                 @add="addHandler"
-                @copy="addHandler"
             ></detail-item>
         </div>
     </div>
 </template>
 <script>
 import { mapState } from 'vuex'
-import { formBoard } from '@/mixin/main'
 import DetailItem from '@/components/formitem/DetailItem.vue';
+import {getRandomID} from '@/assets/js/utils'
 export default {
-    created(){
-        this.loading = true;
-        this.$containerDetailConfig(({data})=>{
-            this.configs = data.data;
-            this.loading = false;
+    mounted(){
+        this.$eventBus.$on('containerTypeChange',(containerId, newDdata)=>{
+            console.log(containerId, newDdata);
         });
     },
     computed:{
         ...mapState('form',{
-            containerTypeIds:state=>state.containerTypeIds
+            container:state=>state.container
         }),
+        displayList(){
+            return this.containerDetailList.filter(i=>
+                i.container_id === this.displayContainerId
+                && i.state !== -1
+            );
+        }
     },
     data(){
         return {
-            displayList:[],
-            containerIdMap:{},
+            containerDetailList:[],
             displayContainerId:-1,
         }
     },
     methods:{
-        copyToDispaly(){
-            this.displayList = this.containerIdMap[this.displayContainerId];
-        },
-        displayDetail(id){
-            this.displayContainerId = id;
-            if(!this.containerIdMap[this.displayContainerId]?.length>0){
-                this.containerIdMap[this.displayContainerId] = [Math.random()];
+        containerButtonClickHandler(containerId){
+            this.displayContainerId = containerId;
+            if(this.displayList.length === 0){
+                this.containerDetailList.push(this.createEmptyContainerDetailData(containerId))
             }
-            this.copyToDispaly();
-            
+        },
+        createEmptyContainerDetailData(containerId){
+            const emptyData = {
+                containerType:'',
+                common:'',
+                option:'',
+                expenses:'',
+                transprotation:'',
+                charge:'',
+                field:'',
+                chassis:'',
+                booker_place:'',
+                vanning_date:'',
+                vanning_during:'',
+            };
+            emptyData.id = getRandomID();
+            emptyData.container_id = containerId;
+            emptyData.bkg_id = 1;
+            return emptyData;
         },
         addHandler(){
-            this.containerIdMap[this.displayContainerId].push(Math.random())
-            this.copyToDispaly();
-        }
+            this.containerDetailList.push(this.createEmptyContainerDetailData(this.displayContainerId))
+        },
     },
     mixins:[
-        formBoard
     ],
     components: { 
         DetailItem 
