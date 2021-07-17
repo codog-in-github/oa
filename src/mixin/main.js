@@ -56,6 +56,8 @@ export const doubleFormItem = {
         },
     },
 };
+
+
 import FormItemSelector from '@/components/FormItemSelector.vue';
  
 export const formBoard = {
@@ -80,5 +82,16 @@ export const formBoard = {
     },
     components:{
         FormItemSelector,
+    }
+}
+
+export const getOptionsAnsyc = {
+    methods:{
+        getOptionsAnsyc(selectId , options, pid){
+            if(options.loaded !== true){
+                options.loaded = true;
+                this.$getOptions(selectId, options, pid);
+            }
+        },
     }
 }

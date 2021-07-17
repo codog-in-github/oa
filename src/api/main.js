@@ -36,11 +36,13 @@ const needInterceptorsMethods = [
             $logout(){
                 axios.get(LOGOUT_PATH);
             },
-            $getOptions(selectId,optionsArray, fatherOptionsId){
+            $getOptions(selectId, options, fatherOptionsId){
+                options.loading = true;
                 this.$api.queue = ()=>axios.get(`${OPTIONS_LIST}/sid/${selectId}/pid/${fatherOptionsId||''}`);
                 this.$api.queue = ({data})=>{
-                    optionsArray.shift(0, optionsArray.length);
-                    optionsArray.push(...data.data);
+                    options.item.shift(0, options.item.length);
+                    options.item.push(...data.data);
+                    options.loading = false;
                 };
             },
             $initConfig(cb){

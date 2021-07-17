@@ -1,45 +1,209 @@
 <template>
-    <div class="lower"
-        v-loading="loading">
+    <div class="lower">
         <div class="shipper">
             <div class="title">
                 船社情报
             </div>
+                <div class="group">
+                    <title-group 
+                        title="CARRIER">
+                        <el-select
+                            v-model="carrier"
+                            size="mini">
+                        </el-select>
+                    </title-group>
+                    <span class="delimiter">&sol;</span>
+                    <title-group 
+                        title="C/STAFF">
+                        <el-input
+                            size="mini"
+                            v-model="c_staff"
+                        ></el-input>
+                    </title-group>
+            </div>
             <div class="group">
                 <title-group 
-                    title="carrier">
-                    <el-select
-                        v-model="carrier"
-                        size="mini">
-                    </el-select>
-                </title-group>
-                <span class="delimiter">&sol;</span>
-                <title-group 
-                    title="B/STAFF">
+                    title="SERVICE">
                     <el-input
                         size="mini"
-                        v-model="carrier"    
+                        v-model="service"
                     ></el-input>
                 </title-group>
+                <div class="group">
+                    <title-group 
+                        title="VESSEL NAME">
+                        <el-select
+                            v-model="vessel_name"
+                            size="mini">
+                        </el-select>
+                    </title-group>
+                    <span class="delimiter">&sol;</span>
+                    <title-group 
+                        title="VOYAGE">
+                        <el-input
+                            size="mini"
+                            v-model="voyage"
+                        ></el-input>
+                    </title-group>
+                </div>
             </div>
         </div>
         <div class="port-message">
             <div class="loading">
                 <div class="title">
-                    PORT OF LOADING<br/><br/>
+                    PORT OF LOADING
                 </div>
+                <div class="group">
+                    <title-group 
+                        title="Country">
+                        <el-select
+                            filterable
+                            :filter-method="val=>(keywords.port_of_loading_country=val)"
+                            v-model="port_of_loading.country"
+                            :loading="options.country.loading"
+                            @focus="getOptionsAnsyc(2, options.country)"
+                            size="mini">
+                            <el-option
+                                v-for="{id, label, code} in searchedOptios('port_of_loading_country', 'country')"
+                                :key="id"
+                                :value="code"
+                            >
+                                <div class="country-opt"><span>{{label}}</span><span>{{code}}</span></div>
+                            </el-option>
+                        </el-select>
+                    </title-group>
+                    <span class="delimiter">&sol;</span>
+                    <title-group 
+                        title="Port">
+                        <el-select
+                            filterable
+                            size="mini"
+                            :loading="options.loadingPort.loading"
+                            v-model="port_of_loading.port"
+                        >
+                            <el-option
+                                v-for="{id, label, code} in searchedOptios('port_of_loading_port', 'loadingPort')"
+                                :key="id"
+                                :value="code"
+                            >
+                                <div class="country-opt"><span>{{label}}</span><span>{{code}}</span></div>
+                            </el-option>
+                        </el-select>
+                    </title-group>
+                </div>
+                <title-group 
+                    title="ETA">
+                    <el-input
+                        size="mini"
+                        v-model="port_of_loading.eta"
+                    ></el-input>
+                </title-group>
+                <title-group 
+                    title="ETD">
+                    <el-input
+                        size="mini"
+                        v-model="port_of_loading.etd"
+                    ></el-input>
+                </title-group>
+                <title-group 
+                    title="CY OPEN">
+                    <el-input
+                        size="mini"
+                        v-model="port_of_loading.cy_open"
+                    ></el-input>
+                </title-group>
+                <title-group 
+                    title="CY CUT">
+                    <el-input
+                        size="mini"
+                        v-model="port_of_loading.cy_cut"
+                    ></el-input>
+                </title-group>
+                <title-group 
+                    title="DOC CUT">
+                    <el-input
+                        size="mini"
+                        v-model="port_of_loading.doc_cut"
+                    ></el-input>
+                </title-group>
             </div>
             <div class="delivery">
                 <div class="title">
-                    PORT OF DELIVERY<br/><br/>
+                    PORT OF DELIVERY
                 </div>
-                
+                <div class="group">
+                    <title-group 
+                        title="Country">
+                        <el-select
+                            filterable
+                            :filter-method="val=>(keywords.port_of_delivery_country=val)"
+                            v-model="port_of_delivery.country"
+                            :loading="options.country.loading"
+                            @focus="getOptionsAnsyc(2, options.country)"
+                            size="mini">
+                            <el-option
+                                v-for="{id, label, code} in searchedOptios('port_of_delivery_country', 'country')"
+                                :key="id"
+                                :value="code"
+                            >
+                                <div class="country-opt"><span>{{label}}</span><span>{{code}}</span></div>
+                            </el-option>
+                        </el-select>
+                    </title-group>
+                    <span class="delimiter">&sol;</span>
+                    <title-group 
+                        title="Port">
+                        <el-select
+                            filterable
+                            size="mini"
+                            :loading="options.deliveryPort.loading"
+                            v-model="port_of_delivery.port"
+                        >
+                            <el-option
+                                v-for="{id, label, code} in searchedOptios('port_of_delivery_port', 'loadingPort')"
+                                :key="id"
+                                :value="code"
+                            >
+                                <div class="country-opt"><span>{{label}}</span><span>{{code}}</span></div>
+                            </el-option>
+                        </el-select>
+                    </title-group>
                 </div>
+                <title-group 
+                    title="ETA">
+                    <el-input
+                        size="mini"
+                        v-model="port_of_delivery.eta"
+                    ></el-input>
+                </title-group>
+                <title-group 
+                    title="ETD">
+                    <el-input
+                        size="mini"
+                        v-model="port_of_delivery.etd"
+                    ></el-input>
+                </title-group>
+                <title-group 
+                    title="FREE TIME DEM">
+                    <el-input
+                        size="mini"
+                        v-model="port_of_delivery.free_time_dem"
+                    ></el-input>
+                </title-group>
+                <title-group 
+                    title="FREE TIME DET">
+                    <el-input
+                        size="mini"
+                        v-model="port_of_delivery.free_time_det"
+                    ></el-input>
+                </title-group>
+            </div>
         </div>
     </div>
 </template>
 <script>
 import TitleGroup from '@/components/titleGroup.vue';
+import {getOptionsAnsyc} from '@/mixin/main';
 
 export default{ 
     data(){
@@ -65,10 +229,59 @@ export default{
                 free_time_dem:null,
                 free_time_det:null,
             },
-
-            loading:false,
+            //下拉选项
+            options:{
+                country : {loading:false, item:[]},
+                loadingPort : {loading:false, item:[]},
+                deliveryPort : {loading:false, item:[]},
+            },
+            //用于搜索的关键字
+            keywords:{
+                port_of_loading_country:'',
+                port_of_delivery_country:'',
+                port_of_loading_port:'',
+                port_of_delivery_port:'',
+            },
         }
     },
+    computed:{
+        searchedOptios(){
+            return (keywordName, optionsName)=>{
+                return this.options[optionsName].item.filter(item=>
+                    item.label.toLowerCase().indexOf(this.keywords[keywordName].toLowerCase())!==-1
+                    ||
+                    item.code.toLowerCase().indexOf(this.keywords[keywordName].toLowerCase())!==-1
+                );
+            }
+        }
+    },
+    watch:{
+        'port_of_loading.country'(newValue, oldValue){
+            if(oldValue === newValue) return;
+            this.port_of_loading.port = null;
+            this.loadingPort = {loading:false, item:[]};
+            this.getOptionsAnsyc(
+                2,
+                this.options.loadingPort,
+                newValue
+            );
+        },
+        'port_of_delivery.country'(newValue, oldValue){
+            if(oldValue === newValue) return;
+            this.port_of_delivery.port = null;
+            this.deliveryPort = {loading:false, item:[]};
+            this.getOptionsAnsyc(
+                2,
+                this.options.deliveryPort,
+                newValue
+            );
+        }
+    },
+    methods:{
+    },
+    mixins:[
+        getOptionsAnsyc,
+    ],
     components:{
         TitleGroup,
     },
@@ -100,5 +313,9 @@ export default{
 .port-message > div{
     width: 45%;
 
+}
+.country-opt{
+    display: flex;
+    justify-content: space-between;
 }
 </style>

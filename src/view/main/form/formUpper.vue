@@ -95,12 +95,4 @@ export default{
 }
 </script>
 <style scoped>
-.group{
-    display: flex;
-    align-items: flex-end;
-}
-.delimiter{
-    font-size: 20px;
-    padding: 0 5px;
-}
 </style>

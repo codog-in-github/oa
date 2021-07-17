@@ -141,13 +141,6 @@ export default{
                 });          
             });
         },
-        getOptions(selectId , argName){
-            const  options = this.options[argName];
-            if(options.loaded === undefined){
-                options.loaded = true;
-                this.$getOptions(selectId,options);
-            }
-        },
     },
     components:{
         TitleGroup,
