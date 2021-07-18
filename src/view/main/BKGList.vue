@@ -1,52 +1,63 @@
 <template>
     <div class="bkg-list">
         <header>
-            <title-group
-                title="bkg-date"
+            <el-button
+                size="mini"
+                type="primary"
+                class="el-icon-plus"
+                @click="$router.push('/frame/form');"
             >
-                <el-date-picker
-                    v-model="condition.bkgDate"
-                    size="mini"
-                    style="width:auto"
-                ></el-date-picker>
-            </title-group>
-            <title-group
-                title="BKG NO"
-            >
-                <el-input
-                    v-model="condition.bkgNo"
-                    size="mini"
-                ></el-input>
-            </title-group>
-            <title-group
-                title="b/l no"
-            >
-                <el-input
-                    v-model="condition.blNo"
-                    size="mini"
-                ></el-input>
-            </title-group>
-            <title-group
-                title="bkg staff"
-            >
-                <el-input
-                    v-model="condition.bkgStaff"
-                    size="mini"
-                ></el-input>
-            </title-group>
-            <title-group
-                title="in sales"
-            >
-                <el-input
-                    v-model="condition.inSales"
-                    size="mini"
-                ></el-input>
-            </title-group>
+            NEW ORDER
+            </el-button>
+            <div class="input-box">
+                <title-group
+                    title="BKG DATE"
+                >
+                    <el-date-picker
+                        v-model="condition.bkgDate"
+                        size="mini"
+                        style="width:auto"
+                    ></el-date-picker>
+                </title-group>
+                <title-group
+                    title="BKG NO"
+                >
+                    <el-input
+                        v-model="condition.bkgNo"
+                        size="mini"
+                    ></el-input>
+                </title-group>
+                <title-group
+                    title="B/L NO"
+                >
+                    <el-input
+                        v-model="condition.blNo"
+                        size="mini"
+                    ></el-input>
+                </title-group>
+                <title-group
+                    title="BKG STAFF"
+                >
+                    <el-input
+                        v-model="condition.bkgStaff"
+                        size="mini"
+                    ></el-input>
+                </title-group>
+                <title-group
+                    title="IN SALES"
+                >
+                    <el-input
+                        v-model="condition.inSales"
+                        size="mini"
+                    ></el-input>
+                </title-group>
+            </div>
             <el-button
                 type="primary"
                 size="mini"
+                class="el-icon-search"
             >
-                search
+                SEARCH
             </el-button>
         </header>
         <main>
@@ -132,11 +143,14 @@ export default {
 }
 header{
     display:flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: flex-end;
     margin-bottom: 1em;
 }
-header>*:nth-child(n+2){
+.input-box{
+    display: flex;
+}
+.input-box>* + *{
     margin-left: 1em;
 }
 footer{

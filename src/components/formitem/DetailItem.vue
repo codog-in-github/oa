@@ -95,11 +95,6 @@
             </title-group>
         </div>
         <div class="buttons">
-            <el-button
-                v-if="isEdited"
-                type="success" 
-                size="mini"
-            >SAVE</el-button>
             <el-button 
                 type="primary" 
                 size="mini"

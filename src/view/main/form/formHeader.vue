@@ -19,17 +19,31 @@
                         size="mini"
                     ></el-input>
                 </title-group>
-                <title-group title="b/l NO.">
+                <title-group title="B/L NO.">
                     <el-input
                         v-model="bl_no"
                         size="mini"
                     ></el-input>
                 </title-group>
                 <title-group title="BKG type">
-                    <el-input
+                    <el-select
                         v-model="bkg_type"
                         size="mini"
-                    ></el-input>
+                    ></el-select>
+                </title-group>
+                <title-group title="INCOTERMS">
+                    <el-select
+                        v-model="incoterms"
+                        size="mini"
+                        @focus="getOptionsAnsyc(4, options.incoterms)"
+                    >
+                        <el-option
+                            v-for="{id, label} in options.incoterms.item"
+                            :key="id"
+                            :value="id"
+                            :label="label"
+                        ></el-option>
+                    </el-select>
                 </title-group>
                 <title-group title="BKG STAFF">
                     <el-select
@@ -98,12 +112,14 @@ export default{
             bkg_no:null,
             bl_no:null,
             bkg_type:null,
+            incoterms:null,
             bkg_staff:null,
             in_sales:null,
             dg:null,
 
             options:{
                 user:{item:[],loading:false},
+                incoterms:{item:[],loading:false},
             },
             loading:false
         };

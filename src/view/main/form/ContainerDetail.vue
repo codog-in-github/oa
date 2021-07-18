@@ -6,6 +6,7 @@
         <div>
             <el-button 
                 v-for="({id,}, i) in container"
+                ref="btn"
                 :key="id"
                 :type="displayContainerId === id?'primary':''" 
                 size="mini"
@@ -56,7 +57,10 @@ export default {
             }
         }
     },
-    mounted(){
+    created(){
+        this.$eventBus.$on('container1Click',()=>{
+            this.containerButtonClickHandler(this.container[0]);
+        });
     },
     beforeDestroy(){
     },

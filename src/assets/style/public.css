@@ -2,6 +2,9 @@
   margin: 0;
   padding: 0;
 }
+li{
+    list-style-type: none;
+}
 .root{
     font-family: Consolas,Monaco，Andale Mono,Ubuntu Mono,monospace,"Microsoft YaHei";
     color:#636D76;
@@ -17,4 +20,9 @@
 .group .delimiter{
     font-size: 20px;
     padding: 0 5px;
+}
+
+.lower>div>div + div,
+.upper>div>div + div{
+    margin-bottom: 5px;
 }

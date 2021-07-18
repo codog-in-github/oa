@@ -94,11 +94,13 @@ export default {
             }
         };
     },
-    created(){
+    mounted(){
         if(!this.bkgId){
             this.$store.commit('form/containerClear');
             this.$store.commit('form/containerAddNew');
-            
+            this.$nextTick(
+                ()=>this.$eventBus.$emit('container1Click')
+            );
         }
     },
     computed:{

@@ -29,6 +29,9 @@ let routes = [
             },{
                 path:'/frame/list',
                 component:()=>import('@/view/main/BKGList.vue'),
+            },{
+                path:'/frame/list/:state',
+                component:()=>import('@/view/main/BKGList.vue'),
             },
         ],
     },{

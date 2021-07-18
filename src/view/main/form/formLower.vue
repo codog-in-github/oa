@@ -9,7 +9,14 @@
                         title="CARRIER">
                         <el-select
                             v-model="carrier"
+                            @focus="getOptionsAnsyc(5, options.carrier)"
                             size="mini">
+                            <el-option
+                                v-for="{id, label} in options.carrier.item"
+                                :key="id"
+                                :value="id"
+                                :label="label"
+                            ></el-option>
                         </el-select>
                     </title-group>
                     <span class="delimiter">&sol;</span>
@@ -235,6 +242,7 @@ export default{
                 country : {loading:false, item:[]},
                 loadingPort : {loading:false, item:[]},
                 deliveryPort : {loading:false, item:[]},
+                carrier : {loading:false, item:[]},
             },
             //用于搜索的关键字
             keywords:{

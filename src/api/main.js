@@ -31,13 +31,22 @@ const needInterceptorsMethods = [
                 axios.get(LOGOUT_PATH);
             },
             $getOptions(selectId, options, fatherOptionsId){
-                options.loading = true;
-                this.$api.queue = ()=>axios.get(`${OPTIONS_LIST}/sid/${selectId}/pid/${fatherOptionsId||''}`);
-                this.$api.queue = ({data})=>{
+                const localOpt = localStorage.getItem(`options_${selectId}_${fatherOptionsId || ''}`);
+                if(localOpt){
+                    //检测是否本地缓存
                     options.item.splice(0, options.item.length);
-                    options.item.push(...data.data);
-                    options.loading = false;
-                };
+                    options.item.push(...JSON.parse(localOpt));
+                }else{
+                    options.loading = true;
+                    this.$api.queue = ()=>axios.get(`${OPTIONS_LIST}/sid/${selectId}/pid/${fatherOptionsId||''}`);
+                    this.$api.queue = ({data})=>{
+                        options.item.splice(0, options.item.length);
+                        options.item.push(...data.data);
+                        localStorage.setItem(`options_${selectId}_${fatherOptionsId || ''}`, JSON.stringify(data.data));
+                        localStorage.setItem('options', localStorage.getItem('options') + `|options_${selectId}_${fatherOptionsId || ''}`);
+                        options.loading = false;
+                    };
+                }
             },
             $getList(cb){
                 this.$api.queue = ()=>axios.get(GET_BKG_LIST);
