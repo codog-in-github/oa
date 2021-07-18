@@ -8,13 +8,7 @@ const BASE_PATH  = process.env.NODE_ENV === 'production' ? '/Oa':'http://127.0.0
 const LOGIN_PATH = BASE_PATH + '/Index/login';
 const LOGOUT_PATH = BASE_PATH + '/Index/logout';
 const LOGIN_STATUS = BASE_PATH + '/Index/';
-const INTI_CONF = BASE_PATH + '/Config/initConfig';
 const OPTIONS_LIST = BASE_PATH + '/Config/getOptions';
-const TRADER_CONF = BASE_PATH + '/Config/traderConfig';
-const SHIPPER_CONF = BASE_PATH + '/Config/shipperConfig';
-const CONTAINER_CONF = BASE_PATH + '/Config/containerConfig';
-const CONTAINER_DETAIL_CONF = BASE_PATH + '/Config/containerDetailConfig';
-const PORT_CONF = BASE_PATH + '/Config/getPortAsync';
 
 const GET_BKG_LIST = BASE_PATH + '/Bkg/getList';
 
@@ -44,32 +38,6 @@ const needInterceptorsMethods = [
                     options.item.push(...data.data);
                     options.loading = false;
                 };
-            },
-            $initConfig(cb){
-                this.$api.queue = ()=>axios.get(INTI_CONF);
-                this.$api.queue = cb;
-            },
-            $traderConfig(cb){
-                this.$api.queue = ()=>axios.get(TRADER_CONF);
-                this.$api.queue = cb;
-            },
-            $shipperConfig(cb){
-                this.$api.queue = ()=>axios.get(SHIPPER_CONF);
-                this.$api.queue = cb;
-            },
-            $getPort(pid, cb){
-
-                this.$api.queue = ()=>axios.get(`${PORT_CONF}/pid/${pid}`);
-                this.$api.queue = cb;
-            },
-            $containerConfig(cb){
-                this.$api.queue = ()=>axios.get(CONTAINER_CONF);
-                this.$api.queue = cb;
-            },
-            $containerDetailConfig(cb){
-                this.$api.queue = ()=>axios.get(CONTAINER_DETAIL_CONF);
-                this.$api.queue = cb;
-
             },
             $getList(cb){
                 this.$api.queue = ()=>axios.get(GET_BKG_LIST);
