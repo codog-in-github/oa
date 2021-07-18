@@ -24,11 +24,27 @@ export default {
     methods:{
         linkTo(to){
             if(this.$route.path !== to){
-                this.$router.push(to);
+                if(this.$route.path.indexOf('/frame/form') !== -1){
+                    this.$confirm('Do you want to leave this page', 'warning', {
+                        confirmButtonText: 'ok',
+                        cancelButtonText: 'cancel',
+                        type: 'warning'
+                    }).then(() => {
+                        this.$router.push(to);
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: 'cancel'
+                        });          
+                    });
+                }else{
+                    this.$router.push(to);
+                }
             }
         },
         isFocus(to){
-            return this.$route.path === to;
+            console.log(this.$route);
+            return this.$route.path.indexOf(to) != -1;
         }
     },
 }
