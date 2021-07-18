@@ -4,11 +4,17 @@
         <div class="inputs">
             <title-group
             title="Container type">
-                <el-input
-                    readonly
-                    :value="detailData.containerType"
+                <el-select
+                    v-model="detailData.container_type"
                     size="mini"
-                ></el-input>
+                >
+                    <el-option
+                        v-for="opt in options.containerType.item"
+                        :key="opt.id"
+                        :label="opt.label"
+                        :value="opt.id"
+                    ></el-option>
+                </el-select>
             </title-group>
             <title-group
             title="COMMON">
@@ -109,14 +115,13 @@
     </div>
 </template>
 <script>
-import {formBoard} from '@/mixin/main';
 import TitleGroup from '../titleGroup.vue';
 
 export default {
     props:{
         detailData:{
             default:()=>({
-                containerType:'',
+                container_type:'',
                 common:'',
                 option:'',
                 expenses:'',
@@ -129,13 +134,16 @@ export default {
                 vanning_during:'',
             })
         },
+        options:{
+            default:()=>({}),
+        },
         no:{
             default:1
         },
     },
-    mixins:[
-        formBoard,
-    ],
+    created(){
+        this.$emit('load-options', 3, this.options.containerType);
+    },
     components:{
         TitleGroup
     }

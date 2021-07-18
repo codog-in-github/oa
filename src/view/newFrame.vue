@@ -18,7 +18,10 @@
         <main
             class="shadow-card"
         >
-            <router-view class="view"></router-view>
+            <router-view 
+                class="view"
+                :key="$router.currentRoute.fullPath"
+            ></router-view>
         </main>
     </div>
 </template>

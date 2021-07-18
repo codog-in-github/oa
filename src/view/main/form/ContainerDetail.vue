@@ -7,9 +7,9 @@
             <el-button 
                 v-for="({id,}, i) in container"
                 :key="id"
-                type="primary" 
+                :type="displayContainerId === id?'primary':''" 
                 size="mini"
-                @click="containerButtonClickHandler(id)"
+                @click="containerButtonClickHandler(container[i])"
             >Container {{i+1}}</el-button>
         </div>
         <br/>
@@ -19,8 +19,10 @@
             <detail-item
                 v-for="detail in displayList"
                 :detailData="detail"
+                :options="options"
                 :key="detail.id"
                 @add="addHandler"
+                @load-options="getOptionsAnsyc"
             ></detail-item>
         </div>
     </div>
@@ -28,13 +30,9 @@
 <script>
 import { mapState } from 'vuex'
 import DetailItem from '@/components/formitem/DetailItem.vue';
-import {getRandomID} from '@/assets/js/utils'
+import { getRandomID, findInArray }  from '@/assets/js/utils'
+import { getOptionsAnsyc } from '@/mixin/main'
 export default {
-    mounted(){
-        this.$eventBus.$on('containerTypeChange',(containerId, newDdata)=>{
-            console.log(containerId, newDdata);
-        });
-    },
     computed:{
         ...mapState('form',{
             container:state=>state.container
@@ -50,18 +48,31 @@ export default {
         return {
             containerDetailList:[],
             displayContainerId:-1,
+            options:{
+                containerType:{
+                    item:[],
+                    loading:false,
+                }
+            }
         }
     },
+    mounted(){
+    },
+    beforeDestroy(){
+    },
     methods:{
-        containerButtonClickHandler(containerId){
-            this.displayContainerId = containerId;
+        containerButtonClickHandler(container){
+            this.displayContainerId = container.id;
             if(this.displayList.length === 0){
-                this.containerDetailList.push(this.createEmptyContainerDetailData(containerId))
+                this.containerDetailList.push(this.createEmptyContainerDetailData(container.id, container.container_type))
             }
         },
-        createEmptyContainerDetailData(containerId){
+        addHandler(){
+            this.containerDetailList.push(this.createEmptyContainerDetailData(this.displayContainerId, findInArray('container_type', this.displayContainerId, this.container)))
+        },
+        createEmptyContainerDetailData(containerId,container_type){
             const emptyData = {
-                containerType:'',
+                container_type,
                 common:'',
                 option:'',
                 expenses:'',
@@ -78,11 +89,9 @@ export default {
             emptyData.bkg_id = 1;
             return emptyData;
         },
-        addHandler(){
-            this.containerDetailList.push(this.createEmptyContainerDetailData(this.displayContainerId))
-        },
     },
     mixins:[
+        getOptionsAnsyc
     ],
     components: { 
         DetailItem 

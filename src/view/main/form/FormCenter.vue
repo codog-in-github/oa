@@ -41,8 +41,14 @@
                 <span>{{i+1}}</span>
                 <el-select 
                     size="mini"
-                    @change="$eventBus.$emit('containerTypeChange', single.id, containerTypeLabel(single.container_type))"
+                    @focus="getOptionsAnsyc(3, options.containerType)"
                     v-model="single.container_type">
+                    <el-option
+                        v-for="{id, label} in options.containerType.item"
+                        :key="id"
+                        :value="id"
+                        :label="label"
+                    ></el-option>
                 </el-select>
                 <el-input 
                     size="mini"
@@ -71,6 +77,7 @@
 <script>
 import { mapState } from 'vuex';
 import TitleGroup from '@/components/titleGroup';
+import { getOptionsAnsyc } from '@/mixin/main'
 
 export default {
     data(){
@@ -121,11 +128,9 @@ export default {
                 });
             }
         },
-        containerTypeLabel(id){
-            return this.options.containerType.item.filter(i=>i.id===id)[0].label;
-        }
     },
     mixins:[
+        getOptionsAnsyc,
     ],
     components: { 
         TitleGroup,

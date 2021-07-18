@@ -43,7 +43,6 @@ export default {
             }
         },
         isFocus(to){
-            console.log(this.$route);
             return this.$route.path.indexOf(to) != -1;
         }
     },

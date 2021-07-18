@@ -123,6 +123,7 @@ export default{
             bkgId:state=>state.bkgId,
         }),
         isNewOrder(){
+            console.log(this.$route);
             return !this.bkgId;
         },
     },

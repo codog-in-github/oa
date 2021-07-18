@@ -29,7 +29,6 @@ export default {
         }, 
         containerClear(state){
             state.container.splice(0,state.container.length);
-            console.log(state.container);
         },
     },
     actions:{
