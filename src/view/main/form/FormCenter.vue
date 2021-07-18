@@ -130,13 +130,22 @@ export default {
                 });
             }
         },
+        getData(){
+            return {
+                
+                common:this.common,
+                van_place:this.van_place.join('|'),
+                remarks:this.remarks,
+                container:this.container
+            }
+        }
     },
     mixins:[
         getOptionsAnsyc,
     ],
     components: { 
         TitleGroup,
-     },
+    },
 }
 </script>
 <style scoped>

@@ -48,14 +48,20 @@ export default {
                 'center',
                 'detail',
             ];
+            const saveData = {};
             for(const ref of needUpload){
-                this.uploadData = {
-                    ...this.uploadData,
-                    ...this.$refs[ref].getUploadData(),
+                if(this.$refs[ref].getData){
+                    saveData[ref] = this.$refs[ref].getData();
                 }
             }
-            console.log(this.uploadData);
+            this.$saveOrder(saveData,()=>{});
         },
+    },
+    beforeRouteEnter(to, from, next){
+        next(vm=>{
+            vm.$store.commit('form/setBkgId',vm.$route.params.bkg_id)
+            next(); 
+        })
     },
     components: { 
         FormHeader,

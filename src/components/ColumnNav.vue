@@ -97,6 +97,6 @@ li + li{
     max-height: 0;
     overflow:hidden;
     transition: max-height .5s;
-    padding-left: 1em;
+    padding: 0 .5em;
 }
 </style>

@@ -11,6 +11,7 @@ const LOGIN_STATUS = BASE_PATH + '/Index/';
 const OPTIONS_LIST = BASE_PATH + '/Config/getOptions';
 
 const GET_BKG_LIST = BASE_PATH + '/Bkg/getList';
+const SAVE_ORDER = BASE_PATH + '/Bkg/saveData';
 
 axios.defaults.withCredentials = true;
 
@@ -52,6 +53,13 @@ const needInterceptorsMethods = [
                 this.$api.queue = ()=>axios.get(GET_BKG_LIST);
                 this.$api.queue = cb;
             },
+            $saveOrder(data,cb){
+                this.$api.queue = ()=>axios.post(
+                    SAVE_ORDER,
+                    qs.stringify(data)
+                );
+                this.$api.queue = cb;
+            }
         },
         //拦截器
         interceptor:(vm,{data})=>{
@@ -65,6 +73,9 @@ const needInterceptorsMethods = [
                     return data;
                 }
             }
+        },
+        catch:(reasion)=>{
+            console.log(reasion)
         }
     }
 ]
@@ -110,10 +121,10 @@ export class Api{
                 Vue.prototype[methodName] = new Proxy(item.methods[methodName],{
                         apply(target, thisArg, argumentsList){
 
-                            const  interceptor = axios.interceptors.response.use((data)=>{
-                                return item.interceptor(thisArg, data);
-                            });
+                            const  interceptor = axios.interceptors.response.use((data)=>item.interceptor(thisArg, data));
                             const re = target.apply(thisArg, argumentsList);
+                            thisArg.$api.promise.catch(item.catch);
+                            thisArg.$api.promise = Promise.resolve();
                             axios.interceptors.response.eject(interceptor);
                             return re;
 

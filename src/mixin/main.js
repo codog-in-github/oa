@@ -1,3 +1,5 @@
+import { mapState } from "vuex";
+
 export const getOptionsAnsyc = {
     methods:{
         getOptionsAnsyc(selectId , options, pid){
@@ -7,4 +9,18 @@ export const getOptionsAnsyc = {
             }
         },
     }
+}
+export const common = {
+    computed:{
+        ...mapState({
+            name:state=>state.loginState.info.name,
+            userId:state=>state.loginState.info.id,
+        }),
+        ...mapState('form',{
+            bkgId:state=>state.bkgId,
+        }),
+        isNewOrder(){
+            return Boolean(this.$route.params.bkg_id);
+        },
+    },
 }

@@ -93,6 +93,9 @@ export default {
             emptyData.bkg_id = 1;
             return emptyData;
         },
+        getData(){
+            return this.containerDetailList;
+        }
     },
     mixins:[
         getOptionsAnsyc

@@ -289,6 +289,17 @@ export default{
         }
     },
     methods:{
+        getData(){
+            return{
+                carrier:this.carrier,
+                c_staff:this.c_staff,
+                service:this.service,
+                vessel_name:this.vessel_name,
+                voyage:this.voyage,
+                port_of_loading:this.port_of_loading,
+                port_of_delivery:this.port_of_delivery,
+            }
+        }
     },
     mixins:[
         getOptionsAnsyc,

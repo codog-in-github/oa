@@ -1,5 +1,5 @@
 <template>
-   <div class="upper" v-loading="loading"> 
+   <div class="upper"> 
        <div class="title">取引業者情報</div>
         <div class="header-input-box">
             <div class="group">
@@ -85,8 +85,20 @@ export default{
             consignee:null,
             drayage:null,
             d_staff:null,
-
-            loading:false,
+        }
+    },
+    methods:{
+        getData(){
+            return {
+                booker:this.booker,
+                b_staff:this.b_staff,
+                shipper:this.shipper,
+                forwarder:this.forwarder,
+                f_staff:this.f_staff,
+                consignee:this.consignee,
+                drayage:this.drayage,
+                d_staff:this.d_staff,
+            }
         }
     },
     components:{

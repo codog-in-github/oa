@@ -24,7 +24,7 @@ let routes = [
                 path:'/frame/form',
                 component:()=>import('@/view/main/form.vue'),
             },{
-                path:'/frame/form/:bkgid',
+                path:'/frame/form/:bkg_id',
                 component:()=>import('@/view/main/form.vue'),
             },{
                 path:'/frame/list',

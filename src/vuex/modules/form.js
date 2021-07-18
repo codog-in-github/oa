@@ -14,7 +14,7 @@ export default {
         container:[],
     },
     mutations:{
-        createRandomBkgId(state,id){
+        setBkgId(state, id){
             state.bkgId = id || getRandomID();
         },
         containerAddNew(state){
