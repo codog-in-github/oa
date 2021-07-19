@@ -77,7 +77,7 @@
 <script>
 import { mapState } from 'vuex';
 import TitleGroup from '@/components/titleGroup';
-import { getOptionsAnsyc } from '@/mixin/main'
+import { getOptionsAnsyc, common } from '@/mixin/main'
 
 export default {
     data(){
@@ -95,7 +95,7 @@ export default {
         };
     },
     mounted(){
-        if(!this.bkgId){
+        if(this.isNewOrder){
             this.$store.commit('form/containerClear');
             this.$store.commit('form/containerAddNew');
             this.$nextTick(
@@ -142,6 +142,7 @@ export default {
     },
     mixins:[
         getOptionsAnsyc,
+        common,
     ],
     components: { 
         TitleGroup,
