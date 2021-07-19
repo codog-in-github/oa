@@ -12,9 +12,9 @@
                             @focus="getOptionsAnsyc(5, options.carrier)"
                             size="mini">
                             <el-option
-                                v-for="{id, label} in options.carrier.item"
+                                v-for="{id, value, label} in options.carrier.item"
                                 :key="id"
-                                :value="id"
+                                :value="value"
                                 :label="label"
                             ></el-option>
                         </el-select>
@@ -71,10 +71,10 @@
                             @focus="getOptionsAnsyc(2, options.country)"
                             size="mini">
                             <el-option
-                                v-for="{id, label, code} in searchedOptios('port_of_loading_country', 'country')"
+                                v-for="{id, label, value, code} in searchedOptios('port_of_loading_country', 'country')"
                                 :key="id"
                                 :label="code"
-                                :value="id"
+                                :value="value"
                             >
                                 <div class="country-opt"><span>{{label}}</span><span>{{code}}</span></div>
                             </el-option>
@@ -91,10 +91,10 @@
                             v-model="port_of_loading.port"
                         >
                             <el-option
-                                v-for="{id, label, code} in searchedOptios('port_of_loading_port', 'loadingPort')"
+                                v-for="{id, value, label, code} in searchedOptios('port_of_loading_port', 'loadingPort')"
                                 :key="id"
                                 :label="code"
-                                :value="id"
+                                :value="value"
                             >
                                 <div class="country-opt"><span>{{label}}</span><span>{{code}}</span></div>
                             </el-option>
@@ -152,9 +152,9 @@
                             @focus="getOptionsAnsyc(2, options.country)"
                             size="mini">
                             <el-option
-                                v-for="{id, label, code} in searchedOptios('port_of_delivery_country', 'country')"
+                                v-for="{id, label, value, code} in searchedOptios('port_of_delivery_country', 'country')"
                                 :key="id"
-                                :value="id"
+                                :value="value"
                                 :label="code"
                             >
                                 <div class="country-opt"><span>{{label}}</span><span>{{code}}</span></div>
@@ -172,9 +172,9 @@
                             v-model="port_of_delivery.port"
                         >
                             <el-option
-                                v-for="{id, label, code} in searchedOptios('port_of_delivery_port', 'deliveryPort')"
+                                v-for="{id, label, value, code} in searchedOptios('port_of_delivery_port', 'deliveryPort')"
                                 :key="id"
-                                :value="id"
+                                :value="value"
                                 :label="code"
                             >
                                 <div class="country-opt"><span>{{label}}</span><span>{{code}}</span></div>

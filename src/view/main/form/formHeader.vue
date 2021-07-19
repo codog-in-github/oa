@@ -1,7 +1,5 @@
 <template>
-    <div class="header" 
-            v-loading="loading"
-        >
+    <div class="header">
         <div class="header-left">
             <div><b>管理情報</b></div>
             <div class="header-input-box">
@@ -38,9 +36,9 @@
                         @focus="getOptionsAnsyc(4, options.incoterms)"
                     >
                         <el-option
-                            v-for="{id, label} in options.incoterms.item"
+                            v-for="{id, value, label} in options.incoterms.item"
                             :key="id"
-                            :value="id"
+                            :value="value"
                             :label="label"
                         ></el-option>
                     </el-select>
@@ -53,9 +51,9 @@
                         @focus="getOptionsAnsyc(1,options.user)"
                     >
                         <el-option
-                            v-for="{id, label} in options.user.item"
+                            v-for="{id, value, label} in options.user.item"
                             :key="id"
-                            :value="id"
+                            :value="value"
                             :label="label"
                         ></el-option>
                     </el-select>
@@ -68,9 +66,9 @@
                         @focus="getOptionsAnsyc(1,options.user)"
                     >
                         <el-option
-                            v-for="{id, label} in options.user.item"
+                            v-for="{id, value, label} in options.user.item"
                             :key="id"
-                            :value="id"
+                            :value="value"
                             :label="label"
                         ></el-option>
                     </el-select>
@@ -120,13 +118,11 @@ export default{
                 user:{item:[],loading:false},
                 incoterms:{item:[],loading:false},
             },
-            loading:false
         };
     },
     created(){
         if(this.isNewOrder){
-            this.bkg_staff = this.userId;
-            this.options.user.item.push({id:this.userId,label:this.name});
+            this.bkg_staff = this.name;
         }
     },
     methods:{

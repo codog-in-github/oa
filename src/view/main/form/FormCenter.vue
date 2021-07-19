@@ -44,9 +44,9 @@
                     @focus="getOptionsAnsyc(3, options.containerType)"
                     v-model="single.container_type">
                     <el-option
-                        v-for="{id, label} in options.containerType.item"
+                        v-for="{id, value, label} in options.containerType.item"
                         :key="id"
-                        :value="id"
+                        :value="value"
                         :label="label"
                     ></el-option>
                 </el-select>

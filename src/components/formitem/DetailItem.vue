@@ -12,7 +12,7 @@
                         v-for="opt in options.containerType.item"
                         :key="opt.id"
                         :label="opt.label"
-                        :value="opt.id"
+                        :value="opt.value"
                     ></el-option>
                 </el-select>
             </title-group>

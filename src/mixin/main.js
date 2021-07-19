@@ -20,7 +20,7 @@ export const common = {
             bkgId:state=>state.bkgId,
         }),
         isNewOrder(){
-            return Boolean(this.$route.params.bkg_id);
+            return !this.$route.params.bkg_id;
         },
     },
 }
