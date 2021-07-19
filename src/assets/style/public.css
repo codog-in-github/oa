@@ -2,6 +2,20 @@
   margin: 0;
   padding: 0;
 }
+::-webkit-scrollbar {
+    width:8px;
+    height: 8px;
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+    border-radius:10px;
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    border-radius:10px;
+    background:rgba(0,0,0,0.1);
+    /* cursor: pointer; */
+}
 li{
     list-style-type: none;
 }

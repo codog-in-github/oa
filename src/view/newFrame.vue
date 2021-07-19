@@ -1,8 +1,19 @@
 <template>
     <div class="frame-container">
         <aside>
-            <header class="shadow-card"> 
-                <span>Hello!<br/>{{user.name}}</span>
+            <div class="logo">
+                <img src="~@/assets/img/logo.png" width="44px">
+                <span>春海組システム</span>
+            </div>
+            <column-nav
+                :urls="menu"
+            ></column-nav>
+        </aside>
+        <main
+            class="shadow-card"
+        >
+            <header> 
+                <span>Hello! {{user.name}}</span>
                 <el-button 
                     type="danger" 
                     class="el-icon-switch-button" 
@@ -11,17 +22,13 @@
                     @click.native="logout">
                 </el-button>
             </header>
-            <column-nav
-                :urls="menu"
-            ></column-nav>
-        </aside>
-        <main
-            class="shadow-card"
-        >
-            <router-view 
-                class="view"
-                :key="$router.currentRoute.fullPath"
-            ></router-view>
+            <div class="view-box">
+
+                <router-view 
+                    class="view shadow-card"
+                    :key="$router.currentRoute.fullPath"
+                ></router-view>
+            </div>
         </main>
     </div>
 </template>
@@ -45,7 +52,6 @@ export default {
                         {to:'/frame/list/delete', label:'DELETED', class:"el-icon-delete",},
                     ],
                 },
-                // {to:'/frame/form',label:'form'},
             ],
         };
     },
@@ -77,19 +83,25 @@ export default {
     flex-flow: nowrap row;
     overflow: hidden;
     align-items: flex-start;
-    padding: 10px;
     box-sizing: border-box;
 }
 aside{
     display: flex;
     flex-flow: column;
-    margin-right: 5px;
+    width: 220px;
+    height: 100%;
+    background: #434343;
 }
-aside > * + *{
-    margin-top: 10px;
-}
-header > *{
-    flex: 1 1 auto;
+.logo{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    line-height: 80px;
+    font-size: 20px;
+    font-family: MS Gothic;
+    font-weight: 400;
+    color: #FFFFFF;
 }
 main{
     flex: 1 1 auto;
@@ -99,19 +111,26 @@ main{
     display: flex;
     flex-flow: column;
     overflow: auto;
-    padding: 10px;
-    background: #fff;
+    background: #F0F0F0;
 }
 header{
+    height: 60px;
     display: flex;
-    flex-flow: column;
+    flex-flow: row;
     align-items: center;
     flex:0 0 auto;
-    z-index: 2;
     display: flex;
-    justify-content: space-between;
-    padding: 0 30px;
+    justify-content: flex-end;
     box-sizing: border-box;
     background: #fff;
+    padding-right: 50px;
+}
+header>*+*{
+    margin-left: 20px;
+}
+.view-box{
+    box-sizing: border-box;
+    padding: 10px;
+    flex:1 1 auto;
 }
 </style>
