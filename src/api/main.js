@@ -12,6 +12,7 @@ const OPTIONS_LIST = BASE_PATH + '/Config/getOptions';
 
 const GET_BKG_LIST = BASE_PATH + '/Bkg/getList';
 const SAVE_ORDER = BASE_PATH + '/Bkg/saveData';
+const GET_ORDER = BASE_PATH + '/Bkg/getBkgOrder';
 
 axios.defaults.withCredentials = true;
 
@@ -57,6 +58,13 @@ const needInterceptorsMethods = [
                 this.$api.queue = ()=>axios.post(
                     SAVE_ORDER,
                     qs.stringify(data)
+                );
+                this.$api.queue = cb;
+            },
+            
+            $getOrder(bkg_id,cb){
+                this.$api.queue = ()=>axios.get(
+                    GET_ORDER + `/bkg_id/${bkg_id}`,
                 );
                 this.$api.queue = cb;
             }

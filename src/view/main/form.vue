@@ -28,12 +28,18 @@ import FormHeader from './form/formHeader.vue'
 import FormLower from './form/formLower.vue'
 import FormUpper from './form/formUpper.vue'
 import ContainerDetail from './form/ContainerDetail.vue'
+import { common } from '@/mixin/main'
 
 export default {
     data(){
         return {
             loading:{},
             uploadData:{},
+        }
+    },
+    mounted(){
+        if(this.$route.params.bkg_id){
+            this.setDataHandler();
         }
     },
     methods:{
@@ -56,12 +62,33 @@ export default {
             }
             this.$saveOrder(saveData,()=>{});
         },
+        
+        setDataHandler(){
+            this.$getOrder(this.$route.params.bkg_id,({data})=>{
+                console.log(data.data);
+            });
+            // const needUpload = [
+            //     'header',
+            //     'upper',
+            //     'lower',
+            //     'center',
+            //     'detail',
+            // ];
+            // for(const ref of needUpload){
+            //     if(this.$refs[ref].getData){
+            //         this.$refs[ref].setData();
+            //     }
+            // }
+        },
     },
     beforeRouteEnter(to, from, next){
         next(vm=>{
             vm.$store.commit('form/setBkgId',vm.$route.params.bkg_id)
             next(); 
         })
+    },
+    mixins:{
+        common
     },
     components: { 
         FormHeader,
