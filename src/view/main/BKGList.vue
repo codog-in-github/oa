@@ -15,6 +15,11 @@
                 >
                     <el-date-picker
                         v-model="condition.bkg_date"
+                        range-separator="to"
+                        unlink-panels
+                        value-format="yyyy-MM-dd HH:mm:ss"
+                        :default-time="['00:00:00', '23:59:59']"
+                        type="daterange"
                         size="mini"
                         style="width:auto"
                     ></el-date-picker>
@@ -88,6 +93,7 @@
                     color:'#fff',
                     fontSize:'16px'
                 }"
+                style="height:100%"
             >
                 <el-table-column
                     prop="bkg_date"
@@ -134,12 +140,13 @@
                     label="OPERATION"
                     width="220px"
                 >
-                    <template>
+                    <template  slot-scope="scope">
                         <div style="text-align:center;">
                             <el-button
                                 type="primary"
                                 size="mini"
                                 class="el-icon-edit"
+                                @click="displayDetail(scope.row.id)"
                             >
                                 EDIT
                             </el-button>
@@ -147,6 +154,7 @@
                                 type="danger"
                                 size="mini"
                                 class="el-icon-delete"
+                                @click="deleteHandler(scope.row.id)"
                             >
                                 DELETE
                             </el-button>
@@ -219,6 +227,12 @@ export default {
         pageChangeHandler(current){
             this.page = current;
             this.reLoad();
+        },
+        displayDetail(id){
+            this.$router.push(`/frame/form/${id}`);
+        },
+        deleteHandler(id){
+            console.log(id);
         }
     },
     components: { TitleGroup },
@@ -231,6 +245,14 @@ export default {
     background: #fff;
     padding: 30px;
     box-sizing: border-box;
+    display: flex;
+    flex-flow: column;
+}
+.bkg-list > *{
+    flex: 0 0 auto;
+}
+.bkg-list main{
+    flex: 1 1 auto;
 }
 header{
     display:flex;
