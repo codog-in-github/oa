@@ -50,8 +50,11 @@ const needInterceptorsMethods = [
                     };
                 }
             },
-            $getList(cb){
-                this.$api.queue = ()=>axios.get(GET_BKG_LIST);
+            $getList(query, cb){
+                this.$api.queue = ()=>axios.post(
+                    GET_BKG_LIST,
+                    qs.stringify(query)
+                );
                 this.$api.queue = cb;
             },
             $saveOrder(data,cb){

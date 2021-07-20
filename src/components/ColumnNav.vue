@@ -6,11 +6,17 @@
                 :key="i"
                 :class="url.toggle?'grow':'shrink'"
             >
+                
                 <li
                     :class="(isFocus(url.to)?'focus':'normal') + ` ${url.class || ''}`"
                     @click="linkTo(url)"
                 >
-                    {{url.label}}
+                    <span>{{url.label}}</span>
+                    <div 
+                    v-if="url.child"
+                    class="arrow"
+                    :class="url.toggle?'el-icon-caret-bottom':'el-icon-caret-left'"
+                ></div>
                 </li>
                 <div v-if="url.child" class="child" >
                     <li v-for="(child, i) in url.child"
@@ -18,7 +24,7 @@
                         :class="(isFocus(child.to)?'focus':'normal') + ` ${child.class || ''}`"
                         @click.stop="linkTo(child)"
                     >
-                        {{child.label}}
+                        <span>{{child.label}}</span>
                     </li>
                 </div>
             </div>
@@ -112,8 +118,12 @@ li:hover{
 .normal{   
 
 }
+.arrow{
+    color: #fff;
+    margin-left: 30px;
+}
 .grow{
-    /* max-height: 200px; */
+
 }
 .shrink >li {
     background: #434343;

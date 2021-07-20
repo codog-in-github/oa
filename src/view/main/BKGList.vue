@@ -14,7 +14,7 @@
                     title="BKG DATE"
                 >
                     <el-date-picker
-                        v-model="condition.bkgDate"
+                        v-model="condition.bkg_date"
                         size="mini"
                         style="width:auto"
                     ></el-date-picker>
@@ -23,7 +23,7 @@
                     title="BKG NO"
                 >
                     <el-input
-                        v-model="condition.bkgNo"
+                        v-model="condition.bkg_no"
                         size="mini"
                     ></el-input>
                 </title-group>
@@ -31,7 +31,7 @@
                     title="B/L NO"
                 >
                     <el-input
-                        v-model="condition.blNo"
+                        v-model="condition.bl_no"
                         size="mini"
                     ></el-input>
                 </title-group>
@@ -39,7 +39,7 @@
                     title="BKG STAFF"
                 >
                     <el-input
-                        v-model="condition.bkgStaff"
+                        v-model="condition.bkg_staff"
                         size="mini"
                     ></el-input>
                 </title-group>
@@ -47,7 +47,7 @@
                     title="IN SALES"
                 >
                     <el-input
-                        v-model="condition.inSales"
+                        v-model="condition.in_sales"
                         size="mini"
                     ></el-input>
                 </title-group>
@@ -56,6 +56,7 @@
                 type="primary"
                 size="mini"
                 class="el-icon-search"
+                @click="reLoad"
             >
                 SEARCH
             </el-button>
@@ -63,49 +64,79 @@
         <main>
             <el-table
                 border
+                stripe
+                :data="list"
+                :header-cell-style="{
+                    background:'#8BABCD',
+                    color:'#fff',
+                    fontSize:'16px'
+                }"
             >
                 <el-table-column
-                    prop="bkgDate"
+                    prop="bkg_date"
                     label="BKG DATE"
                     sortable
+                    :formatter="dateFatter"
                 >
                 </el-table-column>
                 <el-table-column
-                    prop="bkgNo"
+                    prop="bkg_no"
                     label="BKG NO"
                 >
                 </el-table-column>
                 <el-table-column
-                    prop="blNo"
+                    prop="bl_no"
                     label="B/L NO"
                 >
                 </el-table-column>
                 <el-table-column
-                    prop="bkgType"
-                    label="BKG type"
+                    prop="bkg_type"
+                    label="BKG TYPE"
                 >
                 </el-table-column>
                 <el-table-column
                     prop="incoterms"
-                    label="incoterms"
+                    label="INCOTERMS"
                 >
                 </el-table-column>
                 <el-table-column
-                    prop="bkgStaff"
-                    label="BKG staff"
+                    prop="bkg_staff"
+                    label="BKG STAFF"
                 >
                 </el-table-column>
                 <el-table-column
-                    prop="IN SALES"
-                    label="inSales"
+                    prop="in_sales"
+                    label="IN SALES"
                 >
+                </el-table-column>
+                <el-table-column
+                    v-if="$route.params.state === 'normal'"
+                    prop="id"
+                    label="OPERATION"
+                >
+                    <template>
+                        <el-button
+                            type="primary"
+                            size="mini"
+                            class="el-icon-edit"
+                        >
+                            EDIT
+                        </el-button>
+                        <el-button
+                            type="danger"
+                            size="mini"
+                            class="el-icon-delete"
+                        >
+                            DELETE
+                        </el-button>
+                    </template>
                 </el-table-column>
             </el-table>
         </main>
         <footer>
             <el-pagination
                 :page-sizes="[10, 50, 100, 500]"
-                :page-size="100"
+                :page-size="page_size"
                 layout="sizes, prev, pager, next"
                 :total="total"
             >
@@ -119,18 +150,41 @@ export default {
     data(){
         return {
             condition:{
-                bkgDate:null,
-                bkgNo:null,
-                blNo:null,
-                bkgStaff:null,
-                inSales:null,
+                bkg_date:null,
+                bkg_no:null,
+                bl_no:null,
+                bkg_staff:null,
+                in_sales:null,
             },
-            result:[],
+            page_size:50,
+            page:1,
             total:0,
+            list:[],
         }
     },
+    mounted(){
+        this.reLoad();
+    },
     methods:{
-        handleSizeChange(){},
+        reLoad(){
+            this.$getList(
+                {
+                    condition:this.condition,
+                    page_size:this.page_size,
+                    page:(this.page || 1) -1,
+                    state:this.$route.params.state
+                },
+                ({data})=>{
+                    this.list.splice(0, this.list.length);
+                    this.list.push(...data.data.list);
+                    this.total = parseInt(data.data.total);
+                    this.page = data.data.page;
+                }
+            );
+        },
+        dateFatter(row, column, cellValue){
+            return cellValue.substr(0,10);
+        }
     },
     components: { TitleGroup },
 }
@@ -140,12 +194,17 @@ export default {
     width: 100%;
     height: 100%;
     background: #fff;
+    padding: 30px;
+    box-sizing: border-box;
 }
 header{
     display:flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: flex-end;
     margin-bottom: 1em;
+}
+.header-row{
+    background: gray;
 }
 .input-box{
     display: flex;
@@ -155,6 +214,6 @@ header{
 }
 footer{
     margin-top: 1em;
-    text-align: center;
+    text-align: right;
 }
 </style>

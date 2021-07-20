@@ -47,9 +47,10 @@ export default {
                 {   to:'-1',
                     label:'ORDER',
                     toggle:true,
+                    class:"el-icon-s-order",
                     child:[
-                        {to:'/frame/list/normal', label:'ORDER', class:"el-icon-s-order",},
-                        {to:'/frame/list/delete', label:'DELETED', class:"el-icon-delete",},
+                        {to:'/frame/list/normal', label:'ORDER', },
+                        {to:'/frame/list/delete', label:'DELETED',},
                     ],
                 },
             ],
