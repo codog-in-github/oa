@@ -36,6 +36,22 @@
                     ></el-input>
                 </title-group>
                 <title-group
+                    title="BKG TYPE"
+                >
+                    <el-input
+                        v-model="condition.bkg_type"
+                        size="mini"
+                    ></el-input>
+                </title-group>
+                <title-group
+                    title="INCOTERMS"
+                >
+                    <el-input
+                        v-model="condition.incoterms"
+                        size="mini"
+                    ></el-input>
+                </title-group>
+                <title-group
                     title="BKG STAFF"
                 >
                     <el-input
@@ -65,6 +81,7 @@
             <el-table
                 border
                 stripe
+                size="mini"
                 :data="list"
                 :header-cell-style="{
                     background:'#8BABCD',
@@ -77,6 +94,8 @@
                     label="BKG DATE"
                     sortable
                     :formatter="dateFatter"
+                    width="130px"
+                    align="center"
                 >
                 </el-table-column>
                 <el-table-column
@@ -113,32 +132,38 @@
                     v-if="$route.params.state === 'normal'"
                     prop="id"
                     label="OPERATION"
+                    width="220px"
                 >
                     <template>
-                        <el-button
-                            type="primary"
-                            size="mini"
-                            class="el-icon-edit"
-                        >
-                            EDIT
-                        </el-button>
-                        <el-button
-                            type="danger"
-                            size="mini"
-                            class="el-icon-delete"
-                        >
-                            DELETE
-                        </el-button>
+                        <div style="text-align:center;">
+                            <el-button
+                                type="primary"
+                                size="mini"
+                                class="el-icon-edit"
+                            >
+                                EDIT
+                            </el-button>
+                            <el-button
+                                type="danger"
+                                size="mini"
+                                class="el-icon-delete"
+                            >
+                                DELETE
+                            </el-button>
+                        </div>
                     </template>
                 </el-table-column>
             </el-table>
         </main>
         <footer>
             <el-pagination
+                background
                 :page-sizes="[10, 50, 100, 500]"
                 :page-size="page_size"
-                layout="sizes, prev, pager, next"
+                layout="sizes,total, prev, pager, next"
                 :total="total"
+                @size-change="sizeChangeHandler"
+                @current-change="pageChangeHandler"
             >
             </el-pagination>
         </footer>
@@ -153,6 +178,8 @@ export default {
                 bkg_date:null,
                 bkg_no:null,
                 bl_no:null,
+                bkg_type:null,
+                incoterms:null,
                 bkg_staff:null,
                 in_sales:null,
             },
@@ -184,6 +211,14 @@ export default {
         },
         dateFatter(row, column, cellValue){
             return cellValue.substr(0,10);
+        },
+        sizeChangeHandler(size){
+            this.page_size = size;
+            this.reLoad();
+        },
+        pageChangeHandler(current){
+            this.page = current;
+            this.reLoad();
         }
     },
     components: { TitleGroup },
@@ -208,6 +243,7 @@ header{
 }
 .input-box{
     display: flex;
+    margin: 0 10px;
 }
 .input-box>* + *{
     margin-left: 1em;
