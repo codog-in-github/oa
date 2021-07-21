@@ -135,7 +135,7 @@
                 >
                 </el-table-column>
                 <el-table-column
-                    v-if="$route.params.state === 'normal'"
+                    v-if="$route.params.state !== 'delete'"
                     prop="id"
                     label="OPERATION"
                     width="220px"
@@ -154,7 +154,7 @@
                                 type="danger"
                                 size="mini"
                                 class="el-icon-delete"
-                                @click="deleteHandler(scope.row.id)"
+                                @click="deleteHandler(scope.row.id,scope.$index)"
                             >
                                 DELETE
                             </el-button>
@@ -207,7 +207,7 @@ export default {
                     condition:this.condition,
                     page_size:this.page_size,
                     page:(this.page || 1) -1,
-                    state:this.$route.params.state
+                    state:this.$route.params.state || ''
                 },
                 ({data})=>{
                     this.list.splice(0, this.list.length);
@@ -231,8 +231,10 @@ export default {
         displayDetail(id){
             this.$router.push(`/frame/form/${id}`);
         },
-        deleteHandler(id){
-            console.log(id);
+        deleteHandler(id,index){
+            this.$deleteOrder(id,()=>{
+                this.list.splice(index,1);
+            });
         }
     },
     components: { TitleGroup },

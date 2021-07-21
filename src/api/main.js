@@ -13,6 +13,7 @@ const OPTIONS_LIST = BASE_PATH + '/Config/getOptions';
 const GET_BKG_LIST = BASE_PATH + '/Bkg/getList';
 const SAVE_ORDER = BASE_PATH + '/Bkg/saveData';
 const GET_ORDER = BASE_PATH + '/Bkg/getBkgOrder';
+const DELETE_ORDER = BASE_PATH + '/Bkg/deleteBkgOrder';
 
 axios.defaults.withCredentials = true;
 
@@ -70,7 +71,17 @@ const needInterceptorsMethods = [
                     GET_ORDER + `/bkg_id/${bkg_id}`,
                 );
                 this.$api.queue = cb;
-            }
+            },
+
+            $deleteOrder(id,cb){
+                this.$api.queue = ()=>axios.post(
+                    DELETE_ORDER,
+                    qs.stringify({
+                        id,
+                    })
+                );
+                this.$api.queue = cb;
+            },
         },
         //拦截器
         interceptor:(vm,{data})=>{
