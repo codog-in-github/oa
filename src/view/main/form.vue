@@ -64,8 +64,19 @@ export default {
         },
         
         setDataHandler(){
+            const needSet = [
+                'header',
+                'upper',
+                'lower',
+                'center',
+                'detail',
+            ];
             this.$getOrder(this.$route.params.bkg_id,({data})=>{
-                console.log(data.data);
+                for(const ref of needSet){
+                    if(this.$refs[ref].setData){
+                        this.$refs[ref].setData(data.data);
+                    }
+                }
             });
             // const needUpload = [
             //     'header',

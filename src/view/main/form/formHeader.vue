@@ -156,6 +156,17 @@ export default{
                 dg:this.dg,
             };
         },
+        setData({bkg}){
+            console.log(bkg);
+            this.bkg_date = Date(bkg.bkg_date);
+            this.bkg_no = bkg.bkg_no;
+            this.bl_no = bkg.bl_no;
+            this.bkg_type = bkg.bkg_type;
+            this.incoterms = bkg.incoterms;
+            this.bkg_staff = bkg.bkg_staff;
+            this.in_sales = bkg.in_sales;
+            this.dg = bkg.dg;
+        },
     },
     mixins:[
         getOptionsAnsyc,
