@@ -18,11 +18,11 @@
     <div class="login-card">
         <div class="login-title">LOGIN</div>
         <el-form :model='form' ref="form">
-          Username
+          USERNAME
           <el-form-item>
             <el-input placeholder="Enter your name" v-model='form.username'/>
           </el-form-item>
-          Password
+          PASSWORD
           <el-form-item>
             <el-input placeholder="Enter your password" type="password" v-model='form.password'/>
           </el-form-item>

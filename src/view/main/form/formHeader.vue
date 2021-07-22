@@ -23,11 +23,19 @@
                         size="mini"
                     ></el-input>
                 </title-group>
-                <title-group title="BKG type">
+                <title-group title="BKG TYPE">
                     <el-select
                         v-model="bkg_type"
                         size="mini"
-                    ></el-select>
+                        @focus="getOptionsAnsyc(6, options.bkg_type)"
+                    >
+                        <el-option
+                            v-for="{id, value, label} in options.bkg_type.item"
+                            :key="id"
+                            :value="value"
+                            :label="label"
+                        ></el-option>
+                    </el-select>
                 </title-group>
                 <title-group title="INCOTERMS">
                     <el-select
@@ -74,10 +82,10 @@
                     </el-select>
                 </title-group>
                 <title-group title="DG">
-                    <el-select
+                    <el-input
                         v-model="dg"
                         size="mini"
-                    ></el-select>
+                    ></el-input>
                 </title-group>
             </div>
         </div>
@@ -117,6 +125,7 @@ export default{
             options:{
                 user:{item:[],loading:false},
                 incoterms:{item:[],loading:false},
+                bkg_type:{item:[],loading:false},
             },
         };
     },
