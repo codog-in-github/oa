@@ -82,7 +82,7 @@ import { getOptionsAnsyc, common } from '@/mixin/main'
 export default {
     data(){
         return{
-            common:null,
+            common:'PLASTIC',
             van_place:[''],
             remarks:null,
 

@@ -91,6 +91,7 @@ export default {
   animation: 1.4s hidden,2s raceup 1.4s;
 }
 .login-card{
+  width: 300px;
   background: #fff;
   border-radius: .5rem;
   padding: 40px;
@@ -112,13 +113,14 @@ export default {
   position: relative;
   font-size: 60px;
   display: block;
+  margin-right: 80px;
 }
 .animation-logo{
   display: flex;
   color: #fff;
   margin-right: 40px;
   position: absolute;
-  top: 0;
+  top: -80px;
   animation: 1s rollin;
 }
 .animation-logo>div:nth-child(1){

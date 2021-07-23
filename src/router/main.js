@@ -15,7 +15,7 @@ let routes = [
         children:[
             {
                 path:'/frame',
-                redirect:'/frame/list',
+                redirect:'/frame/list/normal',
             },
             {
                 path:'/frame/index',

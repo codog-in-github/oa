@@ -60,47 +60,45 @@
                 <div class="title">
                     PORT OF LOADING
                 </div>
-                <div class="group">
-                    <title-group 
-                        title="Country">
-                        <el-select
-                            filterable
-                            :filter-method="val=>(keywords.port_of_loading_country=val)"
-                            v-model="port_of_loading.country"
-                            :loading="options.country.loading"
-                            @focus="getOptionsAnsyc(2, options.country)"
-                            size="mini">
-                            <el-option
-                                v-for="{id, label, value, code} in searchedOptios('port_of_loading_country', 'country')"
-                                :key="id"
-                                :label="code"
-                                :value="value"
-                            >
-                                <div class="country-opt"><span>{{label}}</span><span>{{code}}</span></div>
-                            </el-option>
-                        </el-select>
-                    </title-group>
-                    <span class="delimiter">&sol;</span>
-                    <title-group 
-                        title="Port">
-                        <el-select
-                            filterable
-                            :filter-method="val=>(keywords.port_of_loading_port=val)"
-                            size="mini"
-                            :loading="options.loadingPort.loading"
-                            v-model="port_of_loading.port"
+                <title-group 
+                    title="Country">
+                    <el-select
+                        filterable
+                        :filter-method="val=>(keywords.port_of_loading_country=val)"
+                        v-model="port_of_loading.country"
+                        :loading="options.country.loading"
+                        @focus="getOptionsAnsyc(2, options.country)"
+                        size="mini">
+                        <el-option
+                            v-for="{id, label, value, code} in searchedOptios('port_of_loading_country', 'country')"
+                            :key="id"
+                            :label="code"
+                            :value="value"
                         >
-                            <el-option
-                                v-for="{id, value, label, code} in searchedOptios('port_of_loading_port', 'loadingPort')"
-                                :key="id"
-                                :label="code"
-                                :value="value"
-                            >
-                                <div class="country-opt"><span>{{label}}</span><span>{{code}}</span></div>
-                            </el-option>
-                        </el-select>
-                    </title-group>
-                </div>
+                            <div class="country-opt"><span>{{label}}</span><span>({{code}})</span></div>
+                        </el-option>
+                    </el-select>
+                </title-group>
+                <title-group 
+                    title="Port">
+                    <el-select
+                        filterable
+                        :filter-method="val=>(keywords.port_of_loading_port=val)"
+                        size="mini"
+                        :loading="options.port_of_loading.loading"
+                        v-model="port_of_loading.port"
+                        @change="formatPort('port_of_loading')"
+                    >
+                        <el-option
+                            v-for="{id, value, label, code} in searchedOptios('port_of_loading_port', 'port_of_loading')"
+                            :key="id"
+                            :label="code"
+                            :value="value"
+                        >
+                            <div class="country-opt"><span>{{label}}</span><span>({{code}})</span></div>
+                        </el-option>
+                    </el-select>
+                </title-group>
                 <title-group 
                     title="ETA">
                     <el-date-picker
@@ -141,47 +139,45 @@
                 <div class="title">
                     PORT OF DELIVERY
                 </div>
-                <div class="group">
-                    <title-group 
-                        title="Country">
-                        <el-select
-                            filterable
-                            :filter-method="val=>(keywords.port_of_delivery_country=val)"
-                            v-model="port_of_delivery.country"
-                            :loading="options.country.loading"
-                            @focus="getOptionsAnsyc(2, options.country)"
-                            size="mini">
-                            <el-option
-                                v-for="{id, label, value, code} in searchedOptios('port_of_delivery_country', 'country')"
-                                :key="id"
-                                :value="value"
-                                :label="code"
-                            >
-                                <div class="country-opt"><span>{{label}}</span><span>{{code}}</span></div>
-                            </el-option>
-                        </el-select>
-                    </title-group>
-                    <span class="delimiter">&sol;</span>
-                    <title-group 
-                        title="Port">
-                        <el-select
-                            filterable
-                            :filter-method="val=>(keywords.port_of_delivery_port=val)"
-                            size="mini"
-                            :loading="options.deliveryPort.loading"
-                            v-model="port_of_delivery.port"
+                <title-group 
+                    title="Country">
+                    <el-select
+                        filterable
+                        :filter-method="val=>(keywords.port_of_delivery_country=val)"
+                        v-model="port_of_delivery.country"
+                        :loading="options.country.loading"
+                        @focus="getOptionsAnsyc(2, options.country)"
+                        size="mini">
+                        <el-option
+                            v-for="{id, label, value, code} in searchedOptios('port_of_delivery_country', 'country')"
+                            :key="id"
+                            :value="value"
+                            :label="code"
                         >
-                            <el-option
-                                v-for="{id, label, value, code} in searchedOptios('port_of_delivery_port', 'deliveryPort')"
-                                :key="id"
-                                :value="value"
-                                :label="code"
-                            >
-                                <div class="country-opt"><span>{{label}}</span><span>{{code}}</span></div>
-                            </el-option>
-                        </el-select>
-                    </title-group>
-                </div>
+                            <div class="country-opt"><span>{{label}}</span><span>({{code}})</span></div>
+                        </el-option>
+                    </el-select>
+                </title-group>
+                <title-group 
+                    title="Port">
+                    <el-select
+                        filterable
+                        :filter-method="val=>(keywords.port_of_delivery_port=val)"
+                        size="mini"
+                        :loading="options.port_of_delivery.loading"
+                        v-model="port_of_delivery.port"
+                        @change="formatPort('port_of_delivery')"
+                    >
+                        <el-option
+                            v-for="{id, label, value, code} in searchedOptios('port_of_delivery_port', 'port_of_delivery')"
+                            :key="id"
+                            :value="value"
+                            :label="code"
+                        >
+                            <div class="country-opt"><span>{{label}}</span><span>({{code}})</span></div>
+                        </el-option>
+                    </el-select>
+                </title-group>
                 <title-group 
                     title="ETA">
                     <el-date-picker
@@ -212,6 +208,7 @@
 <script>
 import TitleGroup from '@/components/titleGroup.vue';
 import {getOptionsAnsyc} from '@/mixin/main';
+import { findInArray } from '@/assets/js/utils';
 
 export default{ 
     data(){
@@ -240,8 +237,8 @@ export default{
             //下拉选项
             options:{
                 country : {loading:false, item:[]},
-                loadingPort : {loading:false, item:[]},
-                deliveryPort : {loading:false, item:[]},
+                port_of_loading : {loading:false, item:[]},
+                port_of_delivery : {loading:false, item:[]},
                 carrier : {loading:false, item:[]},
             },
             //用于搜索的关键字
@@ -268,23 +265,33 @@ export default{
         'port_of_loading.country'(newValue, oldValue){
             if(oldValue === newValue) return;
             this.port_of_loading.port = null;
-            this.options.loadingPort.item = [];
-            this.options.loadingPort.loaded = false;
+            this.options.port_of_loading.item = [];
+            this.options.port_of_loading.loaded = false;
             this.getOptionsAnsyc(
                 2,
-                this.options.loadingPort,
-                newValue
+                this.options.port_of_loading,
+                findInArray(
+                    'id',
+                    newValue,
+                    this.options.country.item,
+                    'code'
+                )
             );
         },
         'port_of_delivery.country'(newValue, oldValue){
             if(oldValue === newValue) return;
             this.port_of_delivery.port = null;
-            this.options.deliveryPort.item = [];
-            this.options.deliveryPort.loaded = false;
+            this.options.port_of_delivery.item = [];
+            this.options.port_of_delivery.loaded = false;
             this.getOptionsAnsyc(
                 2,
-                this.options.deliveryPort,
-                newValue
+                this.options.port_of_delivery,
+                findInArray(
+                    'id',
+                    newValue,
+                    this.options.country.item,
+                    'code'
+                )
             );
         }
     },
@@ -299,7 +306,15 @@ export default{
                 port_of_loading:this.port_of_loading,
                 port_of_delivery:this.port_of_delivery,
             }
-        }
+        },
+        formatPort(witch){
+            this[witch].port = `${this[witch].country}  ${findInArray(
+                'label',
+                this[witch].port,
+                this.options[witch].item,
+                'code'
+            )}(${this[witch].port})` ;
+        },
     },
     mixins:[
         getOptionsAnsyc,

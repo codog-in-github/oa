@@ -7,7 +7,16 @@
                     title="BOOKER">
                     <el-select
                         v-model="booker"
-                        size="mini">
+                        size="mini"
+                        @focus="getOptionsAnsyc(8, options.booker)"
+                        @change="setBStaffDefaultVal"
+                    >
+                        <el-option
+                            v-for="{id, booker} in options.booker.item"
+                            :key="id"
+                            :value="booker"
+                            :label="booker"
+                        ></el-option>
                     </el-select>
                 </title-group>
                 <span class="delimiter">&sol;</span>
@@ -28,10 +37,18 @@
             </title-group>
             <div class="group">
                 <title-group 
-                    title="FORWARDER">
+                    title="通関会社">
                     <el-select
                         v-model="forwarder"
+                        @focus="getOptionsAnsyc(7, options.forwarder)"
+                        @change="setFStaffDefaultVal"
                         size="mini">
+                        <el-option
+                            v-for="{id, value, label} in options.forwarder.item"
+                            :key="id"
+                            :value="value"
+                            :label="label"
+                        ></el-option>
                     </el-select>
                 </title-group>
                 <span class="delimiter">&sol;</span>
@@ -53,10 +70,10 @@
             <div class="group">
                 <title-group 
                     title="DATYAGE">
-                    <el-select
+                    <el-input
                         v-model="drayage"
                         size="mini">
-                    </el-select>
+                    </el-input>
                 </title-group>
                 <span class="delimiter">&sol;</span>
                 <title-group 
@@ -71,7 +88,8 @@
     </div>
 </template>
 <script>
-// import { formBoard } from '@/mixin/main.js';
+import { getOptionsAnsyc } from '@/mixin/main.js';
+import { findInArray } from '@/assets/js/utils';
 import TitleGroup from '@/components/titleGroup.vue';
 
 export default{ 
@@ -85,6 +103,11 @@ export default{
             consignee:null,
             drayage:null,
             d_staff:null,
+
+            options:{
+                booker:{item:[],loading:false,},
+                forwarder:{item:[],loading:false,}
+            }
         }
     },
     methods:{
@@ -99,8 +122,35 @@ export default{
                 drayage:this.drayage,
                 d_staff:this.d_staff,
             }
-        }
+        },
+        setData({trader}){
+            this.booker = trader.booker;
+            this.b_staff = trader.b_staff;
+            this.shipper = trader.shipper;
+            this.forwarder = trader.forwarder;
+            this.f_staff = trader.f_staff;
+            this.consignee = trader.consignee;
+            this.drayage = trader.drayage;
+            this.d_staff = trader.d_staff;
+        },
+        setBStaffDefaultVal(){
+            this.b_staff = findInArray('staff', 
+                this.booker, 
+                this.options.booker.item,
+                'booker'
+            );
+        },
+        setFStaffDefaultVal(){
+            this.f_staff = findInArray('extra', 
+                this.forwarder, 
+                this.options.forwarder.item,
+                'value'
+            );
+        },
     },
+    mixins:[
+        getOptionsAnsyc ,
+    ],
     components:{
         TitleGroup,
     },

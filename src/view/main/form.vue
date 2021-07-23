@@ -1,5 +1,7 @@
 <template>
-    <div class="form">
+    <div class="form"
+        v-loading="loading"
+    >
         <form-header
             ref="header"
             @save-data="saveDataHandler"
@@ -33,7 +35,7 @@ import { common } from '@/mixin/main'
 export default {
     data(){
         return {
-            loading:{},
+            loading:false,
             uploadData:{},
         }
     },
@@ -47,6 +49,7 @@ export default {
             this.loading[name] = state;
         },
         saveDataHandler(){
+            this.loading = true;
             const needUpload = [
                 'header',
                 'upper',
@@ -60,10 +63,20 @@ export default {
                     saveData[ref] = this.$refs[ref].getData();
                 }
             }
-            this.$saveOrder(saveData,()=>{});
+            this.$saveOrder(saveData,()=>{
+                this.loading = false;
+                this.$message({
+                    type: 'info',
+                    message: 'save successful!'
+                });
+                setTimeout(() => {
+                    this.$router.push('/frame/list/normal')
+                }, 500);
+            });
         },
         
         setDataHandler(){
+            this.loading = true;
             const needSet = [
                 'header',
                 'upper',
@@ -77,6 +90,7 @@ export default {
                         this.$refs[ref].setData(data.data);
                     }
                 }
+                this.loading = false;
             });
             // const needUpload = [
             //     'header',

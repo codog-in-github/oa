@@ -166,7 +166,7 @@ export default{
             };
         },
         setData({bkg}){
-            console.log(bkg);
+            // console.log(bkg);
             this.bkg_date = Date(bkg.bkg_date);
             this.bkg_no = bkg.bkg_no;
             this.bl_no = bkg.bl_no;
