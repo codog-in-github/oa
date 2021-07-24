@@ -103,6 +103,11 @@ export default {
             );
         }
     },
+    watch:{
+        common(val){
+            this.$store.state.form.common = val;
+        }
+    },
     computed:{
         ...mapState('form',{
             container:state=>state.container,
@@ -132,13 +137,23 @@ export default {
         },
         getData(){
             return {
-                
                 common:this.common,
                 van_place:this.van_place.join('|'),
                 remarks:this.remarks,
                 container:this.container
             }
-        }
+        },
+        setData({container,type}){
+            
+            this.common = container.common;
+            this.van_place = container.van_place?.split('|') || [''];
+            this.remarks = container.remarks;
+            this.$store.commit('form/containerClear');
+            this.$store.commit('form/containerPushArray',type);
+            this.$nextTick(
+                ()=>this.$eventBus.$emit('container1Click')
+            );
+        },
     },
     mixins:[
         getOptionsAnsyc,

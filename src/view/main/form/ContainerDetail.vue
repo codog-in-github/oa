@@ -23,6 +23,7 @@
                 :options="options"
                 :key="detail.id"
                 @add="addHandler"
+                @copy="copyHandler"
                 @load-options="getOptionsAnsyc"
             ></detail-item>
         </div>
@@ -36,12 +37,14 @@ import { getOptionsAnsyc } from '@/mixin/main'
 export default {
     computed:{
         ...mapState('form',{
-            container:state=>state.container
+            container:state=>state.container,
+            common:state=>state.common,
+            booker:state=>state.booker,
         }),
         displayList(){
             return this.containerDetailList.filter(i=>
                 i.container_id === this.displayContainerId
-                && i.state !== -1
+                && !i.delete_at
             );
         }
     },
@@ -74,6 +77,11 @@ export default {
         addHandler(){
             this.containerDetailList.push(this.createEmptyContainerDetailData(this.displayContainerId, findInArray('container_type', this.displayContainerId, this.container)))
         },
+        copyHandler(data){
+            const copy = {...data};
+            copy.id = getRandomID();
+            this.containerDetailList.push(copy);
+        },
         createEmptyContainerDetailData(containerId,container_type){
             const emptyData = {
                 container_type,
@@ -83,18 +91,29 @@ export default {
                 transprotation:'',
                 charge:'',
                 field:'',
+                field_tel:'',
                 chassis:'',
                 booker_place:'',
                 vanning_date:'',
                 vanning_during:'',
+                delete_at:'',
             };
             emptyData.id = getRandomID();
             emptyData.container_id = containerId;
-            emptyData.bkg_id = 1;
+            emptyData.common = this.common;
+            emptyData.transprotation = this.booker.booker;
+            emptyData.charge = this.booker.tel;
+            emptyData.field = this.booker.staff;
+            emptyData.field_tel = this.booker.staff_tel;
+            emptyData.booker_place = this.booker.place;
+
             return emptyData;
         },
         getData(){
             return this.containerDetailList;
+        },
+        setData({detail}){
+            this.containerDetailList = detail;
         }
     },
     mixins:[

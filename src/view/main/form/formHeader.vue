@@ -7,6 +7,7 @@
                     <el-date-picker
                         v-model="bkg_date"
                         size="mini"
+                        value-format="yyyy-MM-dd"
                         style="width:auto;"
                     ></el-date-picker>
                 </title-group>
@@ -141,9 +142,8 @@ export default{
                 cancelButtonText: 'cancel',
                 type: 'warning'
             }).then(() => {
-                this.$message({
-                    type: 'success',
-                    message: '删除成功!'
+                this.$deleteOrder(this.bkgId,()=>{
+                    this.$router.push('/frame/list/delete');
                 });
             }).catch(() => {
                 this.$message({

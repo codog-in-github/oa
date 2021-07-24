@@ -3,6 +3,7 @@ import { getRandomID } from "@/assets/js/utils";
 
 const emptyContainer = {
     id:0,
+    common:'',
     container_type:'',
     quantity:'',
 };
@@ -12,6 +13,8 @@ export default {
     state:{
         bkgId:null,
         container:[],
+        common:'',
+        booker:{},
     },
     mutations:{
         setBkgId(state, id){
@@ -29,6 +32,11 @@ export default {
         }, 
         containerClear(state){
             state.container.splice(0,state.container.length);
+        },
+        containerPushArray(state,arr){
+            const newContainer = {...emptyContainer};
+            newContainer.id = getRandomID();
+            state.container.push(...arr);
         },
     },
     actions:{

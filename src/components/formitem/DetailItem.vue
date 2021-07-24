@@ -40,56 +40,59 @@
             <title-group
             title="運送業">
                 <el-input
-                    v-model="detailData.expenses"
+                    v-model="detailData.transprotation"
                     size="mini"
                 ></el-input>
             </title-group>
             <title-group
             title="担当者">
                 <el-input
-                    v-model="detailData.expenses"
+                    v-model="detailData.charge"
                     size="mini"
                 ></el-input>
             </title-group>
             <title-group
             title="現場担当者">
                 <el-input
-                    v-model="detailData.expenses"
+                    v-model="detailData.field"
                     size="mini"
                 ></el-input>
             </title-group>
             <title-group
             title="現場担当連絡先">
                 <el-input
-                    v-model="detailData.expenses"
+                    v-model="detailData.field_tel"
                     size="mini"
                 ></el-input>
             </title-group>
             <title-group
             title="シャーシ">
                 <el-input
-                    v-model="detailData.expenses"
+                    v-model="detailData.chassis"
                     size="mini"
                 ></el-input>
             </title-group>
             <title-group
             title="バンニング場所">
                 <el-input
-                    v-model="detailData.expenses"
+                    v-model="detailData.booker_place"
                     size="mini"
                 ></el-input>
             </title-group>
             <title-group
             title="バンニング日">
-                <el-input
-                    v-model="detailData.expenses"
+                <el-date-picker
+                    v-model="detailData.vanning_date"
                     size="mini"
-                ></el-input>
+                    value-format="yyyy-MM-dd"
+                ></el-date-picker>
             </title-group>
             <title-group
             title="開時/終時">
                 <el-time-picker
-                    v-model="detailData.expenses"
+                    v-model="formatTime"
+                    is-range
+                    value-format="HH:mm"
                     size="mini"
                 ></el-time-picker>
             </title-group>
@@ -103,9 +106,15 @@
             <el-button 
                 type="primary" 
                 size="mini"
-                @click="$emit('copy')"
+                @click="$emit('copy',detailData)"
             >COPY</el-button>
-            <el-button type="danger" size="mini">DEL</el-button>
+            <el-button 
+                type="danger" 
+                size="mini"
+                @click="deleteSelf"
+            >
+                DEL
+            </el-button>
         </div>
     </div>
 </template>
@@ -123,10 +132,12 @@ export default {
                 transprotation:'',
                 charge:'',
                 field:'',
+                field_tel:'',
                 chassis:'',
                 booker_place:'',
                 vanning_date:'',
                 vanning_during:'',
+                delete_at:'',
             })
         },
         options:{
@@ -136,8 +147,24 @@ export default {
             default:1
         },
     },
+    computed:{
+        formatTime:{
+            get(){
+                const during = this.detailData.vanning_during;
+                return during?during.split('-') : '';
+            },
+            set(val){
+                this.detailData.vanning_during = val.join('-');
+            },
+        }
+    },
     created(){
         this.$emit('load-options', 3, this.options.containerType);
+    },
+    methods:{
+        deleteSelf(){
+            this.detailData.delete_at = '1';
+        }
     },
     components:{
         TitleGroup

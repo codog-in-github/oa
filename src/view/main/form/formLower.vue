@@ -39,10 +39,10 @@
                 <div class="group">
                     <title-group 
                         title="VESSEL NAME">
-                        <el-select
+                        <el-input
                             v-model="vessel_name"
                             size="mini">
-                        </el-select>
+                        </el-input>
                     </title-group>
                     <span class="delimiter">&sol;</span>
                     <title-group 
@@ -102,35 +102,45 @@
                 <title-group 
                     title="ETA">
                     <el-date-picker
+                        style="width:auto;"
                         size="mini"
+                        value-format="yyyy-MM-dd"
                         v-model="port_of_loading.eta"
                     ></el-date-picker>
                 </title-group>
                 <title-group 
                     title="ETD">
                     <el-date-picker
+                        style="width:auto;"
                         size="mini"
+                        value-format="yyyy-MM-dd"
                         v-model="port_of_loading.etd"
                     ></el-date-picker>
                 </title-group>
                 <title-group 
                     title="CY OPEN">
                     <el-date-picker
+                        style="width:auto;"
                         size="mini"
+                        value-format="yyyy-MM-dd"
                         v-model="port_of_loading.cy_open"
                     ></el-date-picker>
                 </title-group>
                 <title-group 
                     title="CY CUT">
                     <el-date-picker
+                        style="width:auto;"
                         size="mini"
+                        value-format="yyyy-MM-dd"
                         v-model="port_of_loading.cy_cut"
                     ></el-date-picker>
                 </title-group>
                 <title-group 
                     title="DOC CUT">
                     <el-date-picker
+                        style="width:auto;"
                         size="mini"
+                        value-format="yyyy-MM-dd"
                         v-model="port_of_loading.doc_cut"
                     ></el-date-picker>
                 </title-group>
@@ -181,7 +191,9 @@
                 <title-group 
                     title="ETA">
                     <el-date-picker
+                        style="width:auto;"
                         size="mini"
+                        value-format="yyyy-MM-dd"
                         v-model="port_of_delivery.eta"
                     ></el-date-picker>
                 </title-group>
@@ -306,6 +318,30 @@ export default{
                 port_of_loading:this.port_of_loading,
                 port_of_delivery:this.port_of_delivery,
             }
+        },
+        setData({shipper, loading, delivery}){
+                this.carrier = shipper.carrier;
+                this.c_staff = shipper.c_staff;
+                this.service = shipper.service;
+                this.vessel_name = shipper.vessel_name;
+                this.voyage = shipper.voyage;
+                
+                this.port_of_loading.country = loading.country;
+                this.port_of_loading.eta = loading.eta;
+                this.port_of_loading.etd = loading.etd;
+                this.port_of_loading.cy_open = loading.cy_open;
+                this.port_of_loading.cy_cut = loading.cy_cut;
+                this.port_of_loading.doc_cut = loading.doc_cut;
+
+                this.port_of_delivery.country = delivery.country;
+                this.port_of_delivery.eta = delivery.eta;
+                this.port_of_delivery.free_time_dem = delivery.free_time_dem;
+                this.port_of_delivery.free_time_det = delivery.free_time_det;
+                //country监听器导致 port被更新 port需要在nexttick中更新
+                this.$nextTick(()=>{
+                    this.port_of_loading.port = loading.port;
+                    this.port_of_delivery.port = delivery.port;
+                });
         },
         formatPort(witch){
             this[witch].port = `${this[witch].country}  ${findInArray(

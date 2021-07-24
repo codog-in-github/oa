@@ -12,6 +12,7 @@ export default {
 
   components: {},
   beforeCreate() {
+    this.$clearStrage();
     this.$checkLoginStatus();
   },
   methods: {

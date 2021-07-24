@@ -15,6 +15,8 @@ const SAVE_ORDER = BASE_PATH + '/Bkg/saveData';
 const GET_ORDER = BASE_PATH + '/Bkg/getBkgOrder';
 const DELETE_ORDER = BASE_PATH + '/Bkg/deleteBkgOrder';
 
+const LAST_UPDATE = BASE_PATH + '/Index/needClear';
+
 axios.defaults.withCredentials = true;
 
 
@@ -134,7 +136,16 @@ export class Api{
             this.$api.promise.catch(console.log);
         }
 
-
+        Vue.prototype.$clearStrage = function(){
+            this.$api.queue = ()=>axios.get(LAST_UPDATE);
+            this.$api.queue = ({data})=>{
+                let last = data.data;
+                if(last !== localStorage.getItem('last')){
+                    localStorage.clear();
+                    localStorage.setItem('last',last);
+                }
+            };
+        }
         
         //注册代理监听器
         for(const item of needInterceptorsMethods){

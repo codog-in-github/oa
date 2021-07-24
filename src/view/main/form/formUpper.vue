@@ -123,7 +123,7 @@ export default{
                 d_staff:this.d_staff,
             }
         },
-        setData({trader}){
+        setData({trader,booker}){
             this.booker = trader.booker;
             this.b_staff = trader.b_staff;
             this.shipper = trader.shipper;
@@ -132,13 +132,25 @@ export default{
             this.consignee = trader.consignee;
             this.drayage = trader.drayage;
             this.d_staff = trader.d_staff;
+            if(booker){
+                this.$store.state.form.booker = booker;
+            }
         },
         setBStaffDefaultVal(){
-            this.b_staff = findInArray('staff', 
-                this.booker, 
-                this.options.booker.item,
-                'booker'
-            );
+            let bookerInfo = false;
+            for(const item of this.options.booker.item){
+                if(item['booker'] === this.booker){
+                    bookerInfo = item;
+                    break;
+                }
+            }
+            console.log(bookerInfo);
+            if(bookerInfo){
+                this.b_staff = bookerInfo.staff;
+                this.$store.state.form.booker = bookerInfo;
+            }else{
+                this.$store.state.form.booker = {};
+            }
         },
         setFStaffDefaultVal(){
             this.f_staff = findInArray('extra', 
