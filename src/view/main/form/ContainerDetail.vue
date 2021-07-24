@@ -106,7 +106,6 @@ export default {
             emptyData.field = this.booker.staff;
             emptyData.field_tel = this.booker.staff_tel;
             emptyData.booker_place = this.booker.place;
-
             return emptyData;
         },
         getData(){

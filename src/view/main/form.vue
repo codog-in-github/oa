@@ -42,6 +42,8 @@ export default {
     mounted(){
         if(this.$route.params.bkg_id){
             this.setDataHandler();
+        }else{
+            this.$store.state.form.booker = {}
         }
     },
     methods:{
@@ -92,18 +94,6 @@ export default {
                 }
                 this.loading = false;
             });
-            // const needUpload = [
-            //     'header',
-            //     'upper',
-            //     'lower',
-            //     'center',
-            //     'detail',
-            // ];
-            // for(const ref of needUpload){
-            //     if(this.$refs[ref].getData){
-            //         this.$refs[ref].setData();
-            //     }
-            // }
         },
     },
     beforeRouteEnter(to, from, next){

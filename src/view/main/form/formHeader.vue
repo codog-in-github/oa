@@ -114,7 +114,7 @@ import { getOptionsAnsyc, common } from '@/mixin/main';
 export default{ 
     data(){
         return {
-            bkg_date:new Date(),
+            bkg_date:'',
             bkg_no:null,
             bl_no:null,
             bkg_type:null,
@@ -153,6 +153,7 @@ export default{
             });
         },
         getData(){
+            console.log(this.bkg_date);
             return {
                 id:this.bkgId,
                 bkg_date:this.bkg_date,
@@ -167,7 +168,7 @@ export default{
         },
         setData({bkg}){
             // console.log(bkg);
-            this.bkg_date = Date(bkg.bkg_date);
+            this.bkg_date = bkg.bkg_date;
             this.bkg_no = bkg.bkg_no;
             this.bl_no = bkg.bl_no;
             this.bkg_type = bkg.bkg_type;
