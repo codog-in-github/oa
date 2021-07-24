@@ -97,14 +97,10 @@
             <el-button size="mini" type="primary"
                 @click="deleteButtonHandler"
             >BKG削除</el-button>
-            <el-button size="mini" type="primary">BKG編集</el-button>
-            <el-button size="mini" type="primary">各種申請〇〇登録</el-button>
             <br>
             <br>
             <el-button size="mini" type="primary">各種書類作成</el-button>
-            <el-button size="mini" type="primary">メール作成</el-button>
             <el-button size="mini" type="primary">コスト確認</el-button>
-            <el-button size="mini" type="primary">&nbsp;</el-button>
         </div>
     </div>
 </template>
