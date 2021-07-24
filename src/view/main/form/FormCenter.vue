@@ -8,6 +8,7 @@
             <el-input
                 size="mini"
                 v-model="common"
+                @change="commonChange"
             ></el-input>
         </title-group>
         <title-group
@@ -42,6 +43,7 @@
                 <el-select 
                     size="mini"
                     @focus="getOptionsAnsyc(3, options.containerType)"
+                    @change="$eventBus.$emit('containerTypeChange',single.id,single.container_type)"
                     v-model="single.container_type">
                     <el-option
                         v-for="{id, value, label} in options.containerType.item"
@@ -115,6 +117,9 @@ export default {
         }),
     },
     methods:{
+        commonChange(common){
+            this.$eventBus.$emit('commonChange',common);
+        },
         vannningPlaceAddHandler(){
             if(this.van_place.length < 6){
                 this.van_place.push('');

@@ -1,6 +1,6 @@
 <template>
     <div class="detail">
-        <div class="flag">{{no}}</div>
+        <div class="flag">{{no+1}}</div>
         <div class="inputs">
             <title-group
             title="Container type">
@@ -109,6 +109,7 @@
                 @click="$emit('copy',detailData)"
             >COPY</el-button>
             <el-button 
+                v-if="no>0"
                 type="danger" 
                 size="mini"
                 @click="deleteSelf"
@@ -201,7 +202,7 @@ export default {
     flex-flow: column;
     flex: 0 0  4em;
     align-items:inherit;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 .buttons>*{
     margin-left: 0;

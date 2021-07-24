@@ -18,7 +18,8 @@
         <br/>
         <div class="detail-box">
             <detail-item
-                v-for="detail in displayList"
+                v-for="(detail, i) in displayList"
+                :no="i"
                 :detailData="detail"
                 :options="options"
                 :key="detail.id"
@@ -64,14 +65,45 @@ export default {
         this.$eventBus.$on('container1Click',()=>{
             this.containerButtonClickHandler(this.container[0]);
         });
-    },
-    beforeDestroy(){
+        this.$eventBus.$on('bookerChange',(booker)=>{
+            let changedIds = new Set();
+            for(let detail of this.containerDetailList){
+                if(!changedIds.has(detail.container_id)){
+                    detail.transprotation = booker.booker;
+                    detail.charge = booker.tel;
+                    detail.field = booker.staff;
+                    detail.field_tel = booker.staff_tel;
+                    detail.booker_place = booker.place;
+                    changedIds.add(detail.container_id);
+                }
+            }
+            
+        });
+        this.$eventBus.$on('commonChange',(common)=>{
+            let changedIds = new Set();
+            for(let detail of this.containerDetailList){
+                if(!changedIds.has(detail.container_id)){
+                    detail.common = common;
+                    changedIds.add(detail.container_id);
+                }
+            }
+            
+        });
+        this.$eventBus.$on('containerTypeChange',(container_id,container_type)=>{
+            for(let detail of this.containerDetailList){
+                if(detail.container_id == container_id){
+                    detail.container_type = container_type;
+                    break ;
+                }
+            }
+            
+        });
     },
     methods:{
         containerButtonClickHandler(container){
             this.displayContainerId = container.id;
             if(this.displayList.length === 0){
-                this.containerDetailList.push(this.createEmptyContainerDetailData(container.id, container.container_type))
+                this.containerDetailList.push(this.createFirstEmptyContainerDetailData(container.id, container.container_type))
             }
         },
         addHandler(){
@@ -82,7 +114,28 @@ export default {
             copy.id = getRandomID();
             this.containerDetailList.push(copy);
         },
+        
         createEmptyContainerDetailData(containerId,container_type){
+            const emptyData = {
+                container_type,
+                common:'',
+                option:'',
+                expenses:'',
+                transprotation:'',
+                charge:'',
+                field:'',
+                field_tel:'',
+                chassis:'',
+                booker_place:'',
+                vanning_date:'',
+                vanning_during:'',
+                delete_at:'',
+            };
+            emptyData.id = getRandomID();
+            emptyData.container_id = containerId;
+            return emptyData;
+        },
+        createFirstEmptyContainerDetailData(containerId,container_type){
             const emptyData = {
                 container_type,
                 common:'',

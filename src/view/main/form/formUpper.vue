@@ -144,10 +144,10 @@ export default{
                     break;
                 }
             }
-            console.log(bookerInfo);
             if(bookerInfo){
                 this.b_staff = bookerInfo.staff;
                 this.$store.state.form.booker = bookerInfo;
+                this.$eventBus.$emit('bookerChange',bookerInfo);
             }else{
                 this.$store.state.form.booker = {};
             }
