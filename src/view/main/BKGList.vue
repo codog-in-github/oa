@@ -240,6 +240,7 @@ export default {
             for(const k in this.condition){
                 this.condition[k] = '';
             }
+            this.reLoad();
         }
     },
     components: { TitleGroup },
