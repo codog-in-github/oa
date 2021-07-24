@@ -33,14 +33,6 @@
                     ></el-input>
                 </title-group>
                 <title-group
-                    title="B/L NO"
-                >
-                    <el-input
-                        v-model="condition.bl_no"
-                        size="mini"
-                    ></el-input>
-                </title-group>
-                <title-group
                     title="BKG TYPE"
                 >
                     <el-input
@@ -72,6 +64,14 @@
                         size="mini"
                     ></el-input>
                 </title-group>
+                <el-button
+                    size="mini"
+                    @click="clearCondition"
+                    type="primary"
+                    class="el-icon-delete"
+                >
+                    CLEAR
+                </el-button>
             </div>
             <el-button
                 type="primary"
@@ -235,6 +235,11 @@ export default {
             this.$deleteOrder(id,()=>{
                 this.list.splice(index,1);
             });
+        },
+        clearCondition(){
+            for(const k in this.condition){
+                this.condition[k] = '';
+            }
         }
     },
     components: { TitleGroup },
@@ -268,6 +273,7 @@ header{
 .input-box{
     display: flex;
     margin: 0 10px;
+    align-items: flex-end;
 }
 .input-box>* + *{
     margin-left: 1em;
