@@ -97,7 +97,7 @@ export default{
         return{
             booker:null,
             b_staff:null,
-            shipper:null,
+            shipper:'荷主名がBOOKERと異なる場合のみ、記入してください。',
             forwarder:null,
             f_staff:null,
             consignee:null,
