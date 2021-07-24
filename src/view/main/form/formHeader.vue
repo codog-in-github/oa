@@ -114,7 +114,7 @@ import { getOptionsAnsyc, common } from '@/mixin/main';
 export default{ 
     data(){
         return {
-            bkg_date:'',
+            bkg_date:new Date(),
             bkg_no:null,
             bl_no:null,
             bkg_type:null,
