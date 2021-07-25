@@ -1,6 +1,7 @@
 *{
   margin: 0;
   padding: 0;
+  -webkit-print-color-adjust: exact;
 }
 ::-webkit-scrollbar {
     width:8px;

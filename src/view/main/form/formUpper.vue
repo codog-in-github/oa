@@ -17,12 +17,6 @@
                     <template slot-scope="{ item }">
                         {{ item.booker }}
                     </template>
-                        <!-- <el-option
-                            v-for="{id, booker} in options.booker.item"
-                            :key="id"
-                            :value="booker"
-                            :label="booker"
-                        ></el-option> -->
                     </el-autocomplete>
                 </title-group>
                 <span class="delimiter">&sol;</span>
@@ -118,7 +112,7 @@ export default{
     },
     methods:{
         querySearch(str,cb){
-            cb(this.options.booker.item.filter(item=>item.booker.indexOf(str)!==-1));
+            cb(this.options.booker.item.filter(item=>item.booker.indexOf(str||'')!==-1));
         },
         getData(){
             return {
