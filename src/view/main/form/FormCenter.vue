@@ -66,12 +66,31 @@
                 >add</el-button>
             </div>
             <title-group
+                title="STATE"
+            >
+                <el-select
+                    type="textarea"
+                    v-model="state"
+                    style="width:100%"
+                    multiple
+                    @focus="getOptionsAnsyc(10, options.state)"
+                >
+                    <el-option
+                        v-for="{id, value, label} in options.state.item"
+                        :key="id"
+                        :value="value"
+                        :label="label"
+                    ></el-option>
+                </el-select>
+            </title-group>
+            <title-group
                 title="REMARKS"
             >
                 <el-input
                     type="textarea"
                     v-model="remarks"
-                ></el-input>
+                >
+                </el-input>
             </title-group>
         </div>
     </div>
@@ -87,12 +106,11 @@ export default {
             common:'PLASTIC',
             van_place:[''],
             remarks:null,
+            state:[],
 
             options:{
-                containerType:{
-                    item:[],
-                    loading:false,
-                }
+                containerType:{item:[],loading:false,},
+                state:{item:[],loading:false,},
             }
         };
     },
@@ -145,13 +163,15 @@ export default {
                 common:this.common,
                 van_place:this.van_place.join('|'),
                 remarks:this.remarks,
-                container:this.container
+                container:this.container,
+                state:this.state.join('|'),
             }
         },
         setData({container,type}){
             
             this.common = container.common;
             this.van_place = container.van_place?.split('|') || [''];
+            this.state = container.state?.split('|') || [''];
             this.remarks = container.remarks;
             this.$store.commit('form/containerClear');
             this.$store.commit('form/containerPushArray',type);

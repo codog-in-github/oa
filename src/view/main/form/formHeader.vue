@@ -82,8 +82,9 @@
                         ></el-option>
                     </el-select>
                 </title-group>
-                <title-group title="DG">
+                <title-group title="社内管理番号">
                     <el-input
+                        readonly
                         v-model="dg"
                         size="mini"
                     ></el-input>
@@ -159,7 +160,7 @@ export default{
                 incoterms:this.incoterms,
                 bkg_staff:this.bkg_staff,
                 in_sales:this.in_sales,
-                dg:this.dg,
+                // dg:this.dg,
             };
         },
         setData({bkg}){

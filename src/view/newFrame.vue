@@ -134,4 +134,24 @@ header>*+*{
     padding: 10px;
     flex:1 1 auto;
 }
+@media print {
+    header,
+    aside{
+        display: none;
+    }
+    main{
+        padding: 0;
+        flex: 0 0 auto;
+        width: 142%;
+        height: 142%;
+        position: relative;
+        left: -22%;
+        top: -22%;
+        transform:  scale(.7) ;
+    }
+    .shadow-card{
+        border: none !important;
+        box-shadow: none !important;
+    }
+}
 </style>

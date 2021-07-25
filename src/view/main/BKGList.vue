@@ -93,7 +93,7 @@
                     color:'#fff',
                     fontSize:'16px'
                 }"
-                style="height:100%"
+                height="100%"
             >
                 <el-table-column
                     prop="bkg_date"
@@ -261,6 +261,8 @@ export default {
 }
 .bkg-list main{
     flex: 1 1 auto;
+    height: 1px;
+    overflow: auto !important;
 }
 header{
     display:flex;
