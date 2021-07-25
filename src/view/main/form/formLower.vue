@@ -307,6 +307,12 @@ export default{
             );
         }
     },
+    mounted(){
+        if(!this.$route.params.bkg_id){
+            this.port_of_loading.country = 'JP';
+            this.port_of_delivery.country = 'CN';
+        }
+    },
     methods:{
         getData(){
             return{

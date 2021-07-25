@@ -8,4 +8,5 @@ export const findInArray = (returnKey, search, array, searchKey = 'id') => {
             return item[returnKey];
         }
     }
+    return {};
 }

@@ -50,6 +50,9 @@ export default {
                     class:"el-icon-s-order",
                     child:[
                         {to:'/frame/list/normal', label:'ORDER', },
+                        {to:'/frame/list/draft', label:'DRAFT 準備',},
+                        {to:'/frame/list/ready', label:' サレンダー 準備',},
+                        {to:'/frame/list/complete', label:'案件終了',},
                         {to:'/frame/list/delete', label:'DELETED',},
                     ],
                 },

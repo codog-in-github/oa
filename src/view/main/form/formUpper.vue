@@ -5,19 +5,25 @@
             <div class="group">
                 <title-group 
                     title="BOOKER">
-                    <el-select
+                    <el-autocomplete
                         v-model="booker"
                         size="mini"
                         @focus="getOptionsAnsyc(8, options.booker)"
                         @change="setBStaffDefaultVal"
+                        @select="val=>{booker=val.booker;setBStaffDefaultVal()}"
+                        :fetch-suggestions="querySearch"
+
                     >
-                        <el-option
+                    <template slot-scope="{ item }">
+                        {{ item.booker }}
+                    </template>
+                        <!-- <el-option
                             v-for="{id, booker} in options.booker.item"
                             :key="id"
                             :value="booker"
                             :label="booker"
-                        ></el-option>
-                    </el-select>
+                        ></el-option> -->
+                    </el-autocomplete>
                 </title-group>
                 <span class="delimiter">&sol;</span>
                 <title-group 
@@ -111,6 +117,9 @@ export default{
         }
     },
     methods:{
+        querySearch(str,cb){
+            cb(this.options.booker.item.filter(item=>item.booker.indexOf(str)!==-1));
+        },
         getData(){
             return {
                 booker:this.booker,
