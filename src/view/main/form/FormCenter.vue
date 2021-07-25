@@ -66,7 +66,7 @@
                 >add</el-button>
             </div>
             <title-group
-                title="STATE"
+                title="状態"
             >
                 <el-select
                     type="textarea"
