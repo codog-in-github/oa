@@ -11,10 +11,10 @@
             </el-button>
             <div class="input-box">
                 <title-group
-                    title="BKG DATE"
+                    title="CUT DATE"
                 >
                     <el-date-picker
-                        v-model="condition.bkg_date"
+                        v-model="condition.cy_cut"
                         range-separator="to"
                         unlink-panels
                         value-format="yyyy-MM-dd HH:mm:ss"
@@ -25,10 +25,10 @@
                     ></el-date-picker>
                 </title-group>
                 <title-group
-                    title="BKG NO"
+                    title="BOOKER"
                 >
                     <el-input
-                        v-model="condition.bkg_no"
+                        v-model="condition.booker"
                         size="mini"
                     ></el-input>
                 </title-group>
@@ -96,6 +96,15 @@
                 height="100%"
             >
                 <el-table-column
+                    prop="cy_cut"
+                    label="CUT DATE"
+                    sortable
+                    :formatter="dateFatter"
+                    width="130px"
+                    align="center"
+                >
+                </el-table-column>
+                <el-table-column
                     prop="bkg_date"
                     label="BKG DATE"
                     sortable
@@ -105,35 +114,40 @@
                 >
                 </el-table-column>
                 <el-table-column
+                    prop="booker"
+                    label="BOOKER"
+                >
+                </el-table-column>
+                <el-table-column
+                    prop="ld"
+                    label="POL/POD"
+                >
+                </el-table-column>
+                <el-table-column
                     prop="bkg_no"
                     label="BKG NO"
                 >
                 </el-table-column>
                 <el-table-column
-                    prop="bl_no"
-                    label="B/L NO"
+                    prop="quantity"
+                    label="QUANTITY"
                 >
                 </el-table-column>
                 <el-table-column
-                    prop="bkg_type"
-                    label="BKG TYPE"
+                    prop="container_type"
+                    label="CONTAINER TYPE"
                 >
                 </el-table-column>
                 <el-table-column
-                    prop="incoterms"
-                    label="INCOTERMS"
+                    prop="state"
+                    label="状態"
                 >
                 </el-table-column>
-                <el-table-column
-                    prop="bkg_staff"
-                    label="BKG STAFF"
-                >
-                </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                     prop="in_sales"
                     label="IN SALES"
                 >
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
                     v-if="$route.params.state !== 'delete'"
                     prop="id"
@@ -183,7 +197,7 @@ export default {
     data(){
         return {
             condition:{
-                bkg_date:null,
+                cy_cut:null,
                 bkg_no:null,
                 bl_no:null,
                 bkg_type:null,

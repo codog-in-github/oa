@@ -282,12 +282,7 @@ export default{
             this.getOptionsAnsyc(
                 2,
                 this.options.port_of_loading,
-                findInArray(
-                    'id',
-                    newValue,
-                    this.options.country.item,
-                    'code'
-                )
+                newValue
             );
         },
         'port_of_delivery.country'(newValue, oldValue){
@@ -298,12 +293,7 @@ export default{
             this.getOptionsAnsyc(
                 2,
                 this.options.port_of_delivery,
-                findInArray(
-                    'id',
-                    newValue,
-                    this.options.country.item,
-                    'code'
-                )
+                newValue
             );
         }
     },
