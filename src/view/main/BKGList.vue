@@ -10,7 +10,7 @@
             NEW ORDER
             </el-button>
             <div class="input-box">
-                <title-group
+                <!-- <title-group
                     title="CUT DATE"
                 >
                     <el-date-picker
@@ -23,6 +23,38 @@
                         size="mini"
                         style="width:auto"
                     ></el-date-picker>
+                </title-group> -->
+                <title-group
+                    title="BKG NO"
+                >
+                    <el-input
+                        v-model="condition.bkg_no"
+                        size="mini"
+                    ></el-input>
+                </title-group>
+                <title-group
+                    title="B/L NO"
+                >
+                    <el-input
+                        v-model="condition.bl_no"
+                        size="mini"
+                    ></el-input>
+                </title-group>
+                <title-group
+                    title="POL"
+                >
+                    <el-input
+                        v-model="condition.pol"
+                        size="mini"
+                    ></el-input>
+                </title-group>
+                <title-group
+                    title="POD"
+                >
+                    <el-input
+                        v-model="condition.pod"
+                        size="mini"
+                    ></el-input>
                 </title-group>
                 <title-group
                     title="BOOKER"
@@ -33,34 +65,10 @@
                     ></el-input>
                 </title-group>
                 <title-group
-                    title="BKG TYPE"
+                    title="社内管理番号"
                 >
                     <el-input
-                        v-model="condition.bkg_type"
-                        size="mini"
-                    ></el-input>
-                </title-group>
-                <title-group
-                    title="INCOTERMS"
-                >
-                    <el-input
-                        v-model="condition.incoterms"
-                        size="mini"
-                    ></el-input>
-                </title-group>
-                <title-group
-                    title="BKG STAFF"
-                >
-                    <el-input
-                        v-model="condition.bkg_staff"
-                        size="mini"
-                    ></el-input>
-                </title-group>
-                <title-group
-                    title="IN SALES"
-                >
-                    <el-input
-                        v-model="condition.in_sales"
+                        v-model="condition.dg"
                         size="mini"
                     ></el-input>
                 </title-group>
@@ -139,9 +147,25 @@
                 >
                 </el-table-column>
                 <el-table-column
-                    prop="state"
                     label="状態"
                 >
+                    <template slot-scope="scope">
+                        <el-select
+                            
+                            v-model="scope.row.state"
+                            size="mini"
+                            multiple
+                            @change="changeState(scope.row.id, scope.row.state)"
+                            @focus="getOptionsAnsyc(10, options.state)"
+                        >
+                            <el-option
+                                v-for="{id, value, label} in options.state.item"
+                                :key="id"
+                                :value="value"
+                                :label="label"
+                            ></el-option>
+                        </el-select>
+                    </template>
                 </el-table-column>
                 <!-- <el-table-column
                     prop="in_sales"
@@ -193,23 +217,31 @@
 </template>
 <script>
 import TitleGroup from '../../components/titleGroup.vue'
+import { getOptionsAnsyc } from '@/mixin/main'
 export default {
     data(){
         return {
             condition:{
-                cy_cut:null,
-                bkg_no:null,
-                bl_no:null,
-                bkg_type:null,
-                incoterms:null,
-                bkg_staff:null,
-                in_sales:null,
+                // cy_cut:null,
+                bkg_no:'',
+                bl_no:'',
+                pod:'',
+                pol:'',
+                booker:'',
+                dg:'',
             },
             page_size:50,
             page:1,
             total:0,
             list:[],
+            options:{
+                state:{item:[],loading:false,},
+            },
+            stateChangeTimer:-1,
         }
+    },
+    computed:{
+
     },
     mounted(){
         this.reLoad();
@@ -225,7 +257,10 @@ export default {
                 },
                 ({data})=>{
                     this.list.splice(0, this.list.length);
-                    this.list.push(...data.data.list);
+                    this.list.push(...data.data.list.map(i=>{
+                        i.state = i.state?.split('|') || [];
+                        return i;
+                    }));
                     this.total = parseInt(data.data.total);
                     this.page = data.data.page;
                 }
@@ -255,8 +290,24 @@ export default {
                 this.condition[k] = '';
             }
             this.reLoad();
+        },
+        changeState(id ,val){
+            console.log(id ,val);
+            clearTimeout(this.stateChangeTimer);
+            this.stateChangeTimer = setTimeout(()=>{
+                this.$changeOrderState(id, val.join('|'), ()=>{
+                    this.$notify({
+                        title: 'SUCCESS',
+                        message: 'CHANGE SUCCESS',
+                        type: 'success'
+                    });
+                });
+            },1000);
         }
     },
+    mixins:[
+        getOptionsAnsyc
+    ],
     components: { TitleGroup },
 }
 </script>

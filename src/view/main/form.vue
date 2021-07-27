@@ -67,13 +67,14 @@ export default {
             }
             this.$saveOrder(saveData,()=>{
                 this.loading = false;
-                this.$message({
-                    type: 'info',
-                    message: 'save successful!'
-                });
+                this.$notify({
+                        title: 'SUCCESS',
+                        message: 'SAVE SUCCESSFUL!',
+                        type: 'success'
+                    });
                 setTimeout(() => {
                     this.$router.push('/frame/list/normal')
-                }, 500);
+                }, 1000);
             });
         },
         

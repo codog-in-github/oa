@@ -14,6 +14,7 @@ const GET_BKG_LIST = BASE_PATH + '/Bkg/getList';
 const SAVE_ORDER = BASE_PATH + '/Bkg/saveData';
 const GET_ORDER = BASE_PATH + '/Bkg/getBkgOrder';
 const DELETE_ORDER = BASE_PATH + '/Bkg/deleteBkgOrder';
+const CHANGE_ORDER_STATE = BASE_PATH + '/Bkg/changeOrderState';
 
 const LAST_UPDATE = BASE_PATH + '/Index/needClear';
 
@@ -80,6 +81,17 @@ const needInterceptorsMethods = [
                     DELETE_ORDER,
                     qs.stringify({
                         id,
+                    })
+                );
+                this.$api.queue = cb;
+            },
+            
+            $changeOrderState(id, state, cb){
+                this.$api.queue = ()=>axios.post(
+                    CHANGE_ORDER_STATE,
+                    qs.stringify({
+                        id,
+                        state,
                     })
                 );
                 this.$api.queue = cb;

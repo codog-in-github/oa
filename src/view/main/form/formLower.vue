@@ -340,7 +340,7 @@ export default{
                 });
         },
         formatPort(witch){
-            this[witch].port = `${this[witch].country}  ${findInArray(
+            this[witch].port = `${this[witch].country} ${findInArray(
                 'label',
                 this[witch].port,
                 this.options[witch].item,
