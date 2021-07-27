@@ -258,7 +258,11 @@ export default {
                 ({data})=>{
                     this.list.splice(0, this.list.length);
                     this.list.push(...data.data.list.map(i=>{
-                        i.state = i.state?.split('|') || [];
+                        if(!i.state){
+                            i.state = [];
+                        }else{
+                            i.state = i.state.split('|');
+                        }
                         return i;
                     }));
                     this.total = parseInt(data.data.total);

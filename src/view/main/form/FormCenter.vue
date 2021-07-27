@@ -171,7 +171,11 @@ export default {
             
             this.common = container.common;
             this.van_place = container.van_place?.split('|') || [''];
-            this.state = container.state?.split('|') || [];
+            if(!container.state){
+                this.state = [];
+            }else{
+                this.state = container.state?.split('|');
+            }
             this.remarks = container.remarks;
             this.$store.commit('form/containerClear');
             this.$store.commit('form/containerPushArray',type);
