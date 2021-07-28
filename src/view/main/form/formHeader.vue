@@ -93,9 +93,11 @@
         </div>
         <div class="header-right">
             <el-button size="mini" type="primary"
+                :disabled="$route.params.mode ==='view'"
                 @click="$emit('save-data')"
             >BKG登録</el-button>
             <el-button size="mini" type="primary"
+                :disabled="$route.params.mode ==='view'"
                 @click="deleteButtonHandler"
             >BKG削除</el-button>
             <br>

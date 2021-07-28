@@ -305,6 +305,14 @@ export default{
     },
     methods:{
         getData(){
+            if(!this.port_of_loading.cy_cut){
+                this.$notify({
+                    title: 'NOTICE',
+                    message: 'PLEASE ENTER THE "CY CUT"!',
+                    type: 'error'
+                });
+                return false;
+            }
             return{
                 carrier:this.carrier,
                 c_staff:this.c_staff,

@@ -63,6 +63,10 @@ export default {
             for(const ref of needUpload){
                 if(this.$refs[ref].getData){
                     saveData[ref] = this.$refs[ref].getData();
+                    if(saveData[ref] === false){
+                        this.loading = false;
+                        return ;
+                    }
                 }
             }
             this.$saveOrder(saveData,()=>{

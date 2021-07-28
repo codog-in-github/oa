@@ -2,10 +2,17 @@
     <div class="bkg-list">
         <header>
             <el-button
+                v-if="showNewOrder"
                 size="mini"
                 type="primary"
                 class="el-icon-plus"
                 @click="$router.push('/frame/form');"
+            >
+            NEW ORDER
+            </el-button>
+            <el-button
+                v-if="!showNewOrder"
+                style="visibility:hidden;"
             >
             NEW ORDER
             </el-button>
@@ -76,7 +83,7 @@
                     size="mini"
                     @click="clearCondition"
                     type="primary"
-                    class="el-icon-delete"
+                    class="el-icon-refresh-right"
                 >
                     CLEAR
                 </el-button>
@@ -181,18 +188,47 @@
                     <template  slot-scope="scope">
                         <div style="text-align:center;">
                             <el-button
+                                v-if="showEdit"
                                 type="primary"
                                 size="mini"
                                 class="el-icon-edit"
-                                @click="displayDetail(scope.row.id)"
+                                @click="doEdit(scope.row.id)"
                             >
                                 EDIT
                             </el-button>
                             <el-button
+                                v-if="showDetail"
+                                type="primary"
+                                size="mini"
+                                class="el-icon-view"
+                                @click="displayDetail(scope.row.id)"
+                            >
+                                DETAIL
+                            </el-button>
+                             <el-button
+                                v-if="showPrevious"
+                                type="primary"
+                                size="mini"
+                                class="el-icon-d-arrow-left"
+                                @click="changeStep(scope.row.id, scope.$index, false)"
+                            >
+                                PREV
+                            </el-button>
+                             <el-button
+                                v-if="showNext"
+                                type="primary"
+                                size="mini"
+                                class="el-icon-d-arrow-right"
+                                @click="changeStep(scope.row.id, scope.$index)"
+                            >
+                                NEXT
+                            </el-button>
+                            <el-button
+                                v-if="showDelete"
                                 type="danger"
                                 size="mini"
                                 class="el-icon-delete"
-                                @click="deleteHandler(scope.row.id,scope.$index)"
+                                @click="deleteHandler(scope.row.id, scope.$index)"
                             >
                                 DELETE
                             </el-button>
@@ -241,7 +277,27 @@ export default {
         }
     },
     computed:{
-
+        showNewOrder(){
+            return this.$route.params.state != 'delete';
+        },
+        showNext(){
+            return this.$route.params.state == 'normal'
+                || this.$route.params.state == 'draft'
+                || this.$route.params.state == 'ready';
+        },
+        showPrevious(){
+            return this.$route.params.state == 'draft'
+                || this.$route.params.state == 'complete';
+        },
+        showDetail(){
+            return this.$route.params.state != 'normal';
+        },
+        showEdit(){
+            return this.$route.params.state == 'normal';
+        },
+        showDelete(){
+            return this.$route.params.state == 'normal';
+        },
     },
     mounted(){
         this.reLoad();
@@ -281,8 +337,11 @@ export default {
             this.page = current;
             this.reLoad();
         },
+        doEdit(id){
+            this.$router.push(`/frame/form/${id}/edit`);
+        },
         displayDetail(id){
-            this.$router.push(`/frame/form/${id}`);
+            this.$router.push(`/frame/form/${id}/view`);
         },
         deleteHandler(id,index){
             this.$deleteOrder(id,()=>{
@@ -294,6 +353,20 @@ export default {
                 this.condition[k] = '';
             }
             this.reLoad();
+        },
+        changeStep(id, index, isNext = true){
+            const step = [
+                'draft',
+                'ready',
+                'complete',
+            ];
+            this.$changeOrderStep(
+                id,
+                step[step.indexOf(this.$route.params.state) + (isNext?1:-1)],
+                ()=>{
+                    this.list.splice(index,1);
+                }
+            );
         },
         changeState(id ,val){
             console.log(id ,val);
