@@ -114,7 +114,7 @@
                     prop="cy_cut"
                     label="CUT DATE"
                     sortable
-                    :formatter="dateFatter"
+                    :formatter="dateFormat"
                     width="130px"
                     align="center"
                 >
@@ -123,7 +123,7 @@
                     prop="bkg_date"
                     label="BKG DATE"
                     sortable
-                    :formatter="dateFatter"
+                    :formatter="dateFormat"
                     width="130px"
                     align="center"
                 >
@@ -158,7 +158,7 @@
                 >
                     <template slot-scope="scope">
                         <el-select
-                            
+                            v-if="!showRestore"
                             v-model="scope.row.state"
                             size="mini"
                             multiple
@@ -172,6 +172,9 @@
                                 :label="label"
                             ></el-option>
                         </el-select>
+                        <div
+                            v-else
+                        >{{scope.row.state.join('|')}}</div>
                     </template>
                 </el-table-column>
                 <!-- <el-table-column
@@ -180,10 +183,9 @@
                 >
                 </el-table-column> -->
                 <el-table-column
-                    v-if="$route.params.state !== 'delete'"
                     prop="id"
                     label="OPERATION"
-                    width="220px"
+                    width="320px"
                 >
                     <template  slot-scope="scope">
                         <div style="text-align:center;">
@@ -231,6 +233,15 @@
                                 @click="deleteHandler(scope.row.id, scope.$index)"
                             >
                                 DELETE
+                            </el-button>
+                            <el-button
+                                v-if="showRestore"
+                                type="success"
+                                size="mini"
+                                class="el-icon-circle-check"
+                                @click="deleteHandler(scope.row.id, scope.$index, false)"
+                            >
+                                RESTORE
                             </el-button>
                         </div>
                     </template>
@@ -287,6 +298,7 @@ export default {
         },
         showPrevious(){
             return this.$route.params.state == 'draft'
+                || this.$route.params.state == 'ready'
                 || this.$route.params.state == 'complete';
         },
         showDetail(){
@@ -297,6 +309,9 @@ export default {
         },
         showDelete(){
             return this.$route.params.state == 'normal';
+        },
+        showRestore(){
+            return this.$route.params.state == 'delete';
         },
     },
     mounted(){
@@ -326,7 +341,7 @@ export default {
                 }
             );
         },
-        dateFatter(row, column, cellValue){
+        dateFormat(row, column, cellValue){
             return cellValue.substr(0,10);
         },
         sizeChangeHandler(size){
@@ -343,8 +358,8 @@ export default {
         displayDetail(id){
             this.$router.push(`/frame/form/${id}/view`);
         },
-        deleteHandler(id,index){
-            this.$deleteOrder(id,()=>{
+        deleteHandler(id,index, isDelete=true){
+            this.$deleteOrder(id, isDelete, ()=>{
                 this.list.splice(index,1);
             });
         },
@@ -356,6 +371,7 @@ export default {
         },
         changeStep(id, index, isNext = true){
             const step = [
+                'normal',
                 'draft',
                 'ready',
                 'complete',

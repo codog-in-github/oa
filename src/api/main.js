@@ -77,11 +77,12 @@ const needInterceptorsMethods = [
                 this.$api.queue = cb;
             },
 
-            $deleteOrder(id,cb){
+            $deleteOrder(id, is_delete, cb){
                 this.$api.queue = ()=>axios.post(
                     DELETE_ORDER,
                     qs.stringify({
                         id,
+                        is_delete
                     })
                 );
                 this.$api.queue = cb;
