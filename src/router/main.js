@@ -32,7 +32,11 @@ let routes = [
             },{
                 path:'/frame/list/:state',
                 component:()=>import('@/view/main/BKGList.vue'),
+            },{
+                path:'/frame/container-list',
+                component:()=>import('@/view/main/ContainerList.vue'),
             },
+            
         ],
     },{
         path:'/login',

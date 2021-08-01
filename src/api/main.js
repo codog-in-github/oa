@@ -11,6 +11,7 @@ const LOGIN_STATUS = BASE_PATH + '/Index/';
 const OPTIONS_LIST = BASE_PATH + '/Config/getOptions';
 
 const GET_BKG_LIST = BASE_PATH + '/Bkg/getList';
+const GET_CONTAINER_LIST = BASE_PATH + '/Container/getList';
 const SAVE_ORDER = BASE_PATH + '/Bkg/saveData';
 const GET_ORDER = BASE_PATH + '/Bkg/getBkgOrder';
 const DELETE_ORDER = BASE_PATH + '/Bkg/deleteBkgOrder';
@@ -58,6 +59,13 @@ const needInterceptorsMethods = [
             $getList(query, cb){
                 this.$api.queue = ()=>axios.post(
                     GET_BKG_LIST,
+                    qs.stringify(query)
+                );
+                this.$api.queue = cb;
+            },
+            $getContainerList(query, cb){
+                this.$api.queue = ()=>axios.post(
+                    GET_CONTAINER_LIST,
                     qs.stringify(query)
                 );
                 this.$api.queue = cb;

@@ -56,6 +56,15 @@ export default {
                         {to:'/frame/list/delete', label:'DELETED',},
                     ],
                 },
+                {
+                    to:'-1',
+                    label:'ドライバー情報',
+                    toggle:true,
+                    class:"el-icon-tickets",
+                    child:[
+                        {to:'/frame/container-list', label:'ドライバー情報', },
+                    ],
+                }
             ],
         };
     },
@@ -136,6 +145,10 @@ header>*+*{
     box-sizing: border-box;
     padding: 10px;
     flex:1 1 auto;
+}
+.view{
+    height: 100%;
+    background-color: #fff;
 }
 @media print {
     header,
