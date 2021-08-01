@@ -257,6 +257,11 @@ export default {
         confirm(row){
             this.$confirmDetail(row.id,()=>{
                 row.is_confirm = 1;
+                this.$notify({
+                        title: 'SUCCESS',
+                        message: 'CONFIRM SUCCESS',
+                        type: 'success'
+                    });
             })
         },
         showConfirm(vd){
