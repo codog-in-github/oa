@@ -12,6 +12,7 @@ const OPTIONS_LIST = BASE_PATH + '/Config/getOptions';
 
 const GET_BKG_LIST = BASE_PATH + '/Bkg/getList';
 const GET_CONTAINER_LIST = BASE_PATH + '/Container/getList';
+const CONFIRM_DETAIL = BASE_PATH + '/Container/confirm';
 const SAVE_ORDER = BASE_PATH + '/Bkg/saveData';
 const GET_ORDER = BASE_PATH + '/Bkg/getBkgOrder';
 const DELETE_ORDER = BASE_PATH + '/Bkg/deleteBkgOrder';
@@ -102,6 +103,16 @@ const needInterceptorsMethods = [
                     qs.stringify({
                         id,
                         state,
+                    })
+                );
+                this.$api.queue = cb;
+            },
+
+            $confirmDetail(id, cb){
+                this.$api.queue = ()=>axios.post(
+                    CONFIRM_DETAIL,
+                    qs.stringify({
+                        id,
                     })
                 );
                 this.$api.queue = cb;

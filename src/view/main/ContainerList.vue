@@ -88,7 +88,7 @@
         <main>
             <el-table
                 border
-                stripe
+                row-key="id"
                 size="mini"
                 :data="list"
                 :header-cell-style="{
@@ -97,6 +97,7 @@
                     fontSize:'16px'
                 }"
                 height="100%"
+                :row-class-name="tableRowClassName"
             >
                 <el-table-column
                     prop="vanning_date"
@@ -167,9 +168,11 @@
                                 DETAIL
                             </el-button>
                             <el-button
+                                v-if="showConfirm(scope.row.vanning_date)"
                                 class="el-icon-finished"
                                 type="success"
                                 size="mini"
+                                @click="confirm(scope.row)"
                             >
                                 confirm
                             </el-button>
@@ -195,6 +198,7 @@
 <script>
 import TitleGroup from '../../components/titleGroup.vue'
 import { getOptionsAnsyc } from '@/mixin/main'
+import { timeCompare } from '@/assets/js/utils.js'
 export default {
     data(){
         return {
@@ -245,6 +249,19 @@ export default {
         dateFormat(row, column, cellValue){
             return cellValue.substr(0,10);
         },
+        tableRowClassName({row}){
+            return timeCompare(row.vanning_date)?
+                'old':
+                row.is_confirm == 1?'confirm':'normal';
+        },
+        confirm(row){
+            this.$confirmDetail(row.id,()=>{
+                row.is_confirm = 1;
+            })
+        },
+        showConfirm(vd){
+            return !timeCompare(vd);
+        },
         sizeChangeHandler(size){
             this.page_size = size;
             this.reLoad();
@@ -259,45 +276,12 @@ export default {
         displayDetail(id){
             this.$router.push(`/frame/form/${id}/view`);
         },
-        deleteHandler(id,index, isDelete=true){
-            this.$deleteOrder(id, isDelete, ()=>{
-                this.list.splice(index,1);
-            });
-        },
         clearCondition(){
             for(const k in this.condition){
                 this.condition[k] = '';
             }
             this.reLoad();
         },
-        changeStep(id, index, isNext = true){
-            const step = [
-                'normal',
-                'draft',
-                'ready',
-                'complete',
-            ];
-            this.$changeOrderStep(
-                id,
-                step[step.indexOf(this.$route.params.state) + (isNext?1:-1)],
-                ()=>{
-                    this.list.splice(index,1);
-                }
-            );
-        },
-        changeState(id ,val){
-            console.log(id ,val);
-            clearTimeout(this.stateChangeTimer);
-            this.stateChangeTimer = setTimeout(()=>{
-                this.$changeOrderState(id, val.join('|'), ()=>{
-                    this.$notify({
-                        title: 'SUCCESS',
-                        message: 'CHANGE SUCCESS',
-                        type: 'success'
-                    });
-                });
-            },1000);
-        }
     },
     mixins:[
         getOptionsAnsyc
