@@ -1,7 +1,18 @@
+/**
+ * 创建随机id
+ * @returns {String} 随机id
+ */
 export const getRandomID = () => {
     return (new Date()).getTime() + Math.floor(Math.random()*9000 + 1000).toString();
 }
-
+/**
+ * 在数组中搜索
+ * @param {String} returnKey 查找元素属性
+ * @param {Sting} search 查找值
+ * @param {Array} array 目标数组
+ * @param {Sting} searchKey 查找键 默认id    
+ * @returns {mix} 查找结果 未找到 就空对象
+ */
 export const findInArray = (returnKey, search, array, searchKey = 'id') => {
     for(const item of array){
         if(item[searchKey] === search){
@@ -10,7 +21,13 @@ export const findInArray = (returnKey, search, array, searchKey = 'id') => {
     }
     return {};
 }
-
+/**
+ * 时间大小比较   
+ * @param {String} time1 时间字符串 固定格式 eg:2021-01-01 12:00:00
+ * @param {Boolean} small 判断大小 小于true 大于 false
+ * @param {String} time2 时间字符串
+ * @returns Boolean 
+ */
 export const timeCompare = (time1, small=true, time2 = 'today')=>{
     const toArray = (timeStr) => [
         parseInt(timeStr.substr(0,4)),
