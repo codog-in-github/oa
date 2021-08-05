@@ -4,12 +4,10 @@ import * as statecode from './statecode';
 
 
 const BASE_PATH  = process.env.NODE_ENV === 'production' ? '/Oa':'http://127.0.0.1:81/Oa';
-
 const LOGIN_PATH = BASE_PATH + '/Index/login';
 const LOGOUT_PATH = BASE_PATH + '/Index/logout';
 const LOGIN_STATUS = BASE_PATH + '/Index/';
 const OPTIONS_LIST = BASE_PATH + '/Config/getOptions';
-
 const GET_BKG_LIST = BASE_PATH + '/Bkg/getList';
 const GET_CONTAINER_LIST = BASE_PATH + '/Container/getList';
 const CONFIRM_DETAIL = BASE_PATH + '/Container/confirm';
@@ -18,12 +16,28 @@ const GET_ORDER = BASE_PATH + '/Bkg/getBkgOrder';
 const DELETE_ORDER = BASE_PATH + '/Bkg/deleteBkgOrder';
 const CHANGE_ORDER_STATE = BASE_PATH + '/Bkg/changeOrderState';
 const CHANGE_ORDER_STEP = BASE_PATH + '/Bkg/changeOrderStep';
-
+const BOOK_DIR = BASE_PATH + '/Export';
+const BOOKING_NOTICE = BOOK_DIR + '/bookingNotice';
 const LAST_UPDATE = BASE_PATH + '/Index/needClear';
 
 axios.defaults.withCredentials = true;
 
-
+export const URL = {
+    LOGIN_PATH,
+    LOGOUT_PATH,
+    LOGIN_STATUS,
+    OPTIONS_LIST,
+    GET_BKG_LIST,
+    GET_CONTAINER_LIST,
+    CONFIRM_DETAIL,
+    SAVE_ORDER,
+    GET_ORDER,
+    DELETE_ORDER,
+    CHANGE_ORDER_STATE,
+    CHANGE_ORDER_STEP,
+    BOOKING_NOTICE,
+    LAST_UPDATE,
+} 
 //需要添加建提起的方法 
 
 const needInterceptorsMethods = [

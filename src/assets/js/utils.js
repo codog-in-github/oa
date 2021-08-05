@@ -59,3 +59,30 @@ export const timeCompare = (time1, small=true, time2 = 'today')=>{
     }
     return false;
 }
+
+export const postNewWindow = (url, params = {})=>{
+    let form = document.createElement('form');
+    form.name = '__new__';
+    form.action = url;
+    form.style.display = 'none';
+    form.target = '_blank';
+    form.method = 'post';
+    document.body.appendChild(form);
+    for(let name in params){
+        if(params[name] instanceof  Array){
+            for(let v of params[name]){
+                let ip = document.createElement("input");
+                ip.name = `${name}[]`;
+                ip.value = v;
+                form.appendChild(ip);
+            }
+        }else{
+            let ip = document.createElement("input");
+            ip.name = name;
+            ip.value = params[name];
+            form.appendChild(ip);
+        }
+    }
+    form.submit();
+    document.body.removeChild(form);
+}

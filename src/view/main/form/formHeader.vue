@@ -98,41 +98,36 @@
             >BKG登録</el-button>
             <el-button size="mini" type="primary"
                 :disabled="$route.params.mode ==='view'"
-                @click="deleteButtonHandler"
+                @click="hiddenBookForm"
             >BKG削除</el-button>
             <br>
             <br>
-            <el-button size="mini" type="primary">各種書類作成</el-button>
-            <el-button size="mini" type="primary"
-                @click="displayRequestBookForm"
+            <el-select
+                v-model="book"
+                size="mini"
+            >
+                <el-option value="" label=""></el-option>
+                <el-option value="BOOKING NOTICE" label="BOOKING NOTICE"></el-option>
+            </el-select>
+            <el-button 
+                size="mini" 
+                type="primary"
+                @click="displayBookForm"
+            >各種書類作成</el-button>
+            <el-button 
+                size="mini" 
+                type="primary"
             >コスト確認</el-button>
         </div>
         <el-dialog
-            :visible="dialog.visible"
-            title="コスト確認"
+            :visible="dialog"
+            :title="book"
             :show-close="false"
         >
-            <el-skeleton 
-                v-if="dialog.loading"
-                :rows="12" 
-                animated
-            />
-            <el-form v-else class="request-form" label-width="120px">
-                <el-form-item label="SHIPPER:"><el-input v-model="dialog.data.shipper"></el-input></el-form-item>
-                <el-form-item label="BOOKING NO:"><el-input v-model="dialog.data.booking_no"></el-input></el-form-item>
-                <el-form-item label="VESSEL:"><el-input v-model="dialog.data.vessel"></el-input></el-form-item>
-                <el-form-item label="VOY:"><el-input v-model="dialog.data.voy"></el-input></el-form-item>
-                <el-form-item label="VESSEL CANNER:"><el-input v-model="dialog.data.vessel_carrier"></el-input></el-form-item>
-                <el-form-item label="POL:"><el-input v-model="dialog.data.pol"></el-input></el-form-item>
-                <el-form-item label="POD:"><el-input v-model="dialog.data.pod"></el-input></el-form-item>
-                <el-form-item label="ETD:"><el-input v-model="dialog.data.etd"></el-input></el-form-item>
-                <el-form-item label="ETA:"><el-input v-model="dialog.data.eta"></el-input></el-form-item>
-                <el-form-item label="CY CUT:"><el-input v-model="dialog.data.cy_cut"></el-input></el-form-item>
-                <el-form-item label="DOC CUT:"><el-input v-model="dialog.data.doc_cut"></el-input></el-form-item>
-                <!--formel-fo label="SHIPPER:"rm-iteml-row><el-input v-model="dialog.data.container"></el-input></el-row>    -->
-                <el-form-item label="COMMON:"><el-input v-model="dialog.data.common"></el-input></el-form-item>   
-                <el-form-item label="REMARK:"><el-input v-model="dialog.data.remark" type="textarea"></el-input></el-form-item>   
-            </el-form>
+            <component
+                :is="bookComponent"
+                ref="book"
+            ></component>
             <template
                 slot="footer"
             >
@@ -141,8 +136,8 @@
                     type="primary"
                 >EXPORT</el-button>
                 <el-button
-                    @click="beCancel"
-                >CANCEL</el-button>
+                    @click="beClose"
+                >CLOSE</el-button>
             </template>
         </el-dialog>
     </div>
@@ -161,33 +156,24 @@ export default{
             bkg_staff:null,
             in_sales:null,
             dg:null,
-
-            dialog:{
-                loading:false,
-                visible:false,
-                data:{
-                    shipper:'',
-                    booking_no:'',
-                    vessel:'',
-                    voy:'',
-                    vessel_carrier:'',
-                    pol:'',
-                    pod:'',
-                    etd:'',
-                    eta:'',
-                    cy_cut:'',
-                    doc_cut:'',
-                    container:[],
-                    common:'',
-                    remark:'',
-                },
-            },
+            book:'',
+            dialog:false,
             options:{
                 user:{item:[],loading:false},
                 incoterms:{item:[],loading:false},
                 bkg_type:{item:[],loading:false},
             },
         };
+    },
+    computed:{
+        bookComponent(){
+            switch(this.book){
+                case 'BOOKING NOTICE':
+                    return ()=>import('../book/BookingNotice');
+                default:
+                    return ()=>{};
+            }
+        }
     },
     created(){
         if(this.isNewOrder){
@@ -207,39 +193,35 @@ export default{
             }).catch(() => {
                 this.$message({
                     type: 'info',
-                    message: 'error'
+                    message: 'BE CANCELED'
                 });          
             });
         },
-        displayRequestBookForm(){
-            this.dialog.visible = true;
-            this.dialog.loading = true;
-            this.$getOrder(this.$route.params.bkg_id,({data})=>{
-                console.log(data.data);
-                let fd = data.data;
-                this.dialog.data.shipper = fd.trader.shipper;
-                this.dialog.data.booking_no = fd.bkg.bkg_no;
-                this.dialog.data.vessel = fd.shipper.vessel_name;
-                this.dialog.data.voy = fd.shipper.voyage;
-                this.dialog.data.vessel_carrier = fd.shipper.carrier;
-                this.dialog.data.pol = fd.loading.port;
-                this.dialog.data.pod = fd.delivery.port;
-                this.dialog.data.etd = fd.loading.etd;
-                this.dialog.data.eta = fd.loading.eta;
-                this.dialog.data.cy_cut = fd.loading.cy_cut;
-                this.dialog.data.doc_cut = fd.loading.doc_cut;
-                // this.dialog.data.container = '';
-                this.dialog.data.common = fd.container.common;
-                this.dialog.data.remark = fd.container.remark;
-                this.dialog.loading = false;
+        displayBookForm(){
+            if(this.book === ''){
+                this.$message({
+                    type: 'info',
+                    message: 'Please select a book'
+                });
+                return void 0;
+            }
+            this.dialog= true;
+            this.$nextTick(()=>{
+                this.$refs.book.loadData();
             });
         },
-        hiddenRequestBookForm(){
-            this.dialog.visible = false;
+        hiddenBookForm(){
+            this.dialog = false;
         },
-        beDownload(){},
-        beCancel(){
-            this.hiddenRequestBookForm();
+        beDownload(){
+            if(this.$refs.book.beDownload){
+                this.$refs.book.beDownload();
+            }else{
+                console.error(`Can not found method 'beDownload' in ${this.book} componse`);
+            }
+        },
+        beClose(){
+            this.hiddenBookForm();
         },
         getData(){
             return {
