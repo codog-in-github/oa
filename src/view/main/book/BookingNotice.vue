@@ -4,7 +4,7 @@
         <el-form-item label="BOOKING NO:"><el-input v-model="booking_no"></el-input></el-form-item>
         <el-form-item label="VESSEL:"><el-input v-model="vessel"></el-input></el-form-item>
         <el-form-item label="VOY:"><el-input v-model="voy"></el-input></el-form-item>
-        <el-form-item label="VESSEL CANNER:"><el-input v-model="vessel_carrier"></el-input></el-form-item>
+        <el-form-item label="CANNER:"><el-input v-model="vessel_carrier"></el-input></el-form-item>
         <el-form-item label="POL:"><el-input v-model="pol"></el-input></el-form-item>
         <el-form-item label="POD:"><el-input v-model="pod"></el-input></el-form-item>
         <el-form-item label="ETD:"><el-input v-model="etd"></el-input></el-form-item>
@@ -16,7 +16,7 @@
         <el-form-item v-for="(c,i) in container" :key="i" :label="`container${i+1}`"><el-input v-model="container[i]"></el-input></el-form-item>
 
         <el-form-item label="COMMON:"><el-input v-model="common"></el-input></el-form-item>   
-        <el-form-item label="REMARK:"><el-input v-model="remark" type="textarea"></el-input></el-form-item>   
+        <el-form-item label="REMARK:"><el-input v-model="remarks" type="textarea"></el-input></el-form-item>   
     </el-form>
 </template>
 <script>
@@ -45,7 +45,7 @@ export default {
             doc_cut:'',
             container:[],
             common:'',
-            remark:'',
+            remarks:'',
         };
     },
     methods:{
