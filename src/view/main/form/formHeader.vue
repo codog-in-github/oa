@@ -102,23 +102,26 @@
             >BKG削除</el-button>
             <br>
             <br>
-            <el-select
-                v-model="book"
-                size="mini"
-            >
-                <el-option value="" label=""></el-option>
-                <el-option value="BOOKING NOTICE" label="BOOKING NOTICE"></el-option>
-            </el-select>
             <el-button 
                 size="mini" 
                 type="primary"
-                @click="displayBookForm"
+                @click="bookSelecter = true"
             >各種書類作成</el-button>
             <el-button 
                 size="mini" 
                 type="primary"
             >コスト確認</el-button>
         </div>
+        <el-dialog
+            :visible="bookSelecter"
+            title="Please select a type"
+        >
+            <el-radio v-model="book" label="BOOKING NOTICE" border></el-radio>
+            <template slot="footer">
+                <el-button type="primary" @click="displayBookForm">OK</el-button>
+                <el-button @click="bookSelecter=false">CANCEL</el-button>
+            </template>
+        </el-dialog>
         <el-dialog
             :visible="dialog"
             :title="book"
@@ -158,6 +161,7 @@ export default{
             dg:null,
             book:'',
             dialog:false,
+            bookSelecter:false,
             options:{
                 user:{item:[],loading:false},
                 incoterms:{item:[],loading:false},
@@ -206,6 +210,7 @@ export default{
                 return void 0;
             }
             this.dialog= true;
+            this.bookSelecter = false;
             this.$nextTick(()=>{
                 this.$refs.book.loadData();
             });
