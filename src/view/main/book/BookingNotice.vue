@@ -4,7 +4,7 @@
         <el-form-item label="BOOKING NO:"><el-input v-model="booking_no"></el-input></el-form-item>
         <el-form-item label="VESSEL:"><el-input v-model="vessel"></el-input></el-form-item>
         <el-form-item label="VOY:"><el-input v-model="voy"></el-input></el-form-item>
-        <el-form-item label="CANNER:"><el-input v-model="vessel_carrier"></el-input></el-form-item>
+        <el-form-item label="CARRIER:"><el-input v-model="vessel_carrier"></el-input></el-form-item>
         <el-form-item label="POL:"><el-input v-model="pol"></el-input></el-form-item>
         <el-form-item label="POD:"><el-input v-model="pod"></el-input></el-form-item>
         <el-form-item label="ETD:"><el-input v-model="etd"></el-input></el-form-item>
@@ -13,7 +13,7 @@
         <el-form-item label="DOC CUT:"><el-input v-model="doc_cut"></el-input></el-form-item>
         <el-form-item label="DOC CUT:"><el-input v-model="doc_cut"></el-input></el-form-item>
 
-        <el-form-item v-for="(c,i) in container" :key="i" :label="`container${i+1}`"><el-input v-model="container[i]"></el-input></el-form-item>
+        <el-form-item v-for="(c,i) in container" :key="i" :label="`container${i+1}:`"><el-input v-model="container[i]"></el-input></el-form-item>
 
         <el-form-item label="COMMON:"><el-input v-model="common"></el-input></el-form-item>   
         <el-form-item label="REMARK:"><el-input v-model="remarks" type="textarea"></el-input></el-form-item>   
@@ -52,7 +52,6 @@ export default {
         loadData(){
             this.loading = true;
             this.$getOrder(this.$route.params.bkg_id,({data})=>{
-                console.log(data.data);
                 let fd = data.data;
                 this.shipper = fd.trader.shipper;
                 this.booking_no = fd.bkg.bkg_no;
@@ -74,7 +73,6 @@ export default {
             });
         },
         beDownload(){
-            console.log(this.$refs.form);
             postNewWindow(URL.BOOKING_NOTICE,{
                 shipper:this.shipper,
                 booking_no:this.booking_no,
