@@ -18,25 +18,14 @@ const CHANGE_ORDER_STATE = BASE_PATH + '/Bkg/changeOrderState';
 const CHANGE_ORDER_STEP = BASE_PATH + '/Bkg/changeOrderStep';
 const BOOK_DIR = BASE_PATH + '/Export';
 const BOOKING_NOTICE = BOOK_DIR + '/bookingNotice';
+const GET_HANDING_DATA = BOOK_DIR + '/getHandlngData';
+const HANDING = BOOK_DIR + '/handling';
 const LAST_UPDATE = BASE_PATH + '/Index/needClear';
-
 axios.defaults.withCredentials = true;
 
 export const URL = {
-    LOGIN_PATH,
-    LOGOUT_PATH,
-    LOGIN_STATUS,
-    OPTIONS_LIST,
-    GET_BKG_LIST,
-    GET_CONTAINER_LIST,
-    CONFIRM_DETAIL,
-    SAVE_ORDER,
-    GET_ORDER,
-    DELETE_ORDER,
-    CHANGE_ORDER_STATE,
-    CHANGE_ORDER_STEP,
     BOOKING_NOTICE,
-    LAST_UPDATE,
+    HANDING,
 } 
 //需要添加建提起的方法 
 
@@ -142,6 +131,12 @@ const needInterceptorsMethods = [
                 );
                 this.$api.queue = cb;
             },
+            $getHandingData(bkg_id,cb){
+                this.$api.queue = ()=>axios.get(
+                    `${GET_HANDING_DATA}/bkg_id/${bkg_id||''}`,
+                );
+                this.$api.queue = cb;
+            }
         },
         //拦截器
         interceptor:(vm,{data})=>{

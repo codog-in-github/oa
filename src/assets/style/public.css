@@ -59,3 +59,7 @@ li{
 .el-table .normal{
     background: #fff;
 }
+.form-body{
+    height: 70vh;
+    overflow: auto;
+}

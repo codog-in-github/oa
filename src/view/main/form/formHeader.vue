@@ -115,8 +115,10 @@
         <el-dialog
             :visible="bookSelecter"
             title="Please select a type"
+            @close="bookSelecter=false"
         >
             <el-radio v-model="book" label="BOOKING NOTICE" border></el-radio>
+            <el-radio v-model="book" label="荷捌表" border></el-radio>
             <template slot="footer">
                 <el-button type="primary" @click="displayBookForm">OK</el-button>
                 <el-button @click="bookSelecter=false">CANCEL</el-button>
@@ -125,7 +127,7 @@
         <el-dialog
             :visible="dialog"
             :title="book"
-            :show-close="false"
+            @close="beClose"
         >
             <component
                 :is="bookComponent"
@@ -174,6 +176,8 @@ export default{
             switch(this.book){
                 case 'BOOKING NOTICE':
                     return ()=>import('../book/BookingNotice');
+                case '荷捌表':
+                    return ()=>import('../book/HandlingTable');
                 default:
                     return ()=>{};
             }

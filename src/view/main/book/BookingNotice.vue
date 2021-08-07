@@ -1,5 +1,5 @@
 <template>
-    <el-form class="request-form" label-width="120px" ref="form" >
+    <el-form class="form-body" label-width="120px" ref="form" >
         <el-form-item label="SHIPPER:"><el-input v-model="shipper" :value="shipper"></el-input></el-form-item>
         <el-form-item label="BOOKING NO:"><el-input v-model="booking_no"></el-input></el-form-item>
         <el-form-item label="VESSEL:"><el-input v-model="vessel"></el-input></el-form-item>
