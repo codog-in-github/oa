@@ -18,13 +18,15 @@
     <div class="login-card">
         <div class="login-title">LOGIN</div>
         <el-form :model='form' ref="form" label-position="top">
-          <el-form-item label="USERNAME">
+          USERNAME
+          <el-form-item>
             <el-input placeholder="Enter your name" v-model='form.username'/>
           </el-form-item>
-          <el-form-item label="PASSWORD">
+          PASSWORD
+          <el-form-item>
             <el-input placeholder="Enter your password" type="password" v-model='form.password'/>
           </el-form-item>
-              <el-form-item label="VERIFY">
+          VERIFY
           <el-row>
             <el-col :span="12">
                 <el-input placeholder="Enter your Verify code" v-model='form.verify'/>
@@ -33,7 +35,6 @@
               <img :src="verifyUrl" title="CHANGE IT" @click="changeVerify" :style="{cursor:'pointer',width:'100%'}">
             </el-col>
           </el-row>
-              </el-form-item>
         <el-form-item style="margin-top:30px;">
           <el-button 
             type="primary" 
