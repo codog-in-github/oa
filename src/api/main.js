@@ -6,6 +6,7 @@ import * as statecode from './statecode';
 const BASE_PATH  = process.env.NODE_ENV === 'production' ? '/Oa':'http://127.0.0.1:81/Oa';
 const LOGIN_PATH = BASE_PATH + '/Index/login';
 const LOGOUT_PATH = BASE_PATH + '/Index/logout';
+const LOGOUT_VERIFY_PATH = BASE_PATH + '/Index/verify';
 const LOGIN_STATUS = BASE_PATH + '/Index/';
 const OPTIONS_LIST = BASE_PATH + '/Config/getOptions';
 const GET_BKG_LIST = BASE_PATH + '/Bkg/getList';
@@ -26,6 +27,7 @@ axios.defaults.withCredentials = true;
 export const URL = {
     BOOKING_NOTICE,
     HANDING,
+    LOGOUT_VERIFY_PATH,
 } 
 //需要添加建提起的方法 
 
@@ -163,27 +165,33 @@ export class Api{
     static install = function (Vue, options) {
         Vue.prototype.$api = new Api(options);
         //登录
-        Vue.prototype.$doLogin = function(username, password,callback) {
+        Vue.prototype.$doLogin = function(username, password, verify, callback) {
             
             this.$api.queue = ()=>axios.post(
                 LOGIN_PATH,
                 qs.stringify({
                     username,
                     password,
+                    verify,
                 })
             )
 
             this.$api.queue = ({data})=>{
                 switch (data.error){
-                    case statecode.PASSWORD_ERROR:
+                    case statecode.PASSWORD_ERROR:{
                         callback();
-                        console.log('password error');
+                        this.$notify.error({
+                            title: 'error',
+                            message: data.message,
+                        });
                         break;
-                    case statecode.SUCCESS:
+                    }
+                    case statecode.SUCCESS:{
                         callback();
                         this.$store.commit('doLogin',data.data);
                         this.$router.push('/frame');  
                         break;
+                    }
                 }
             }
             this.$api.promise.catch(console.log);

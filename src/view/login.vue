@@ -18,13 +18,17 @@
     <div class="login-card">
         <div class="login-title">LOGIN</div>
         <el-form :model='form' ref="form">
-          USERNAME
-          <el-form-item>
+          <el-form-item label="USERNAME">
             <el-input placeholder="Enter your name" v-model='form.username'/>
           </el-form-item>
-          PASSWORD
-          <el-form-item>
+          <el-form-item label="PASSWORD">
             <el-input placeholder="Enter your password" type="password" v-model='form.password'/>
+          </el-form-item>
+          <el-form-item label="VERIFY">
+            <el-input placeholder="Enter your Verify code" v-model='form.verify'/>
+          </el-form-item>
+          <el-form-item>
+            <img :src="verifyUrl" title="CHANGE IT" @click="changeVerify" :style="{cursor:'pointer'}">
           </el-form-item>
         <el-form-item style="margin-top:30px;">
           <el-button 
@@ -40,37 +44,68 @@
 </template>
 <script>
 // import '@/assets/img/32.png';
+import { URL } from '@/api/main';
 export default {
   data(){
     return {
       form:{
         username:'',
         password:'',
+        verify:'',
       },
       loading:false,
+      rand: parseInt(Math.random()*10000),
     }
+  },
+  computed:{
+    verifyUrl(){
+      return `${URL.LOGOUT_VERIFY_PATH}?rand=${this.rand}`; 
+    },
   },
   methods:{
     check(){
       this.loading = true;
       if(this.form.username == ''){
         //no user name
+        this.$notify.error({
+            title: 'error',
+            message: `please enter username`,
+        });
         this.loading = false;
-        return 
+        return void 0; 
       }
       if(this.form.password == ''){
         //no user password
+        this.$notify.error({
+            title: 'error',
+            message: `please enter password`,
+        });
         this.loading = false;
-        return ;
+        return void 0;
+      }
+      if(this.form.verify == ''){
+        //no user verify
+        this.$notify.error({
+            title: 'error',
+            message: `please enter verify`,
+        });
+        this.loading = false;
+        return void 0;
       }
       this.$doLogin(
         this.form.username, 
         this.form.password,
+        this.form.verfy,
         ()=>{
+          this.changeVerify();
           this.loading = false;
         }
       );
     },
+    changeVerify(){
+      alert(1);
+      this.rand = parseInt(Math.random()*10000);
+    }
   }
 }
 </script>
