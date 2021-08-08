@@ -380,6 +380,7 @@ export default {
     },
     methods:{
         loadData(){
+            this.clear();
             this.$getHandingData(this.$route.params.bkg_id,({data})=>{
                 data = data.data;
                 for(let k in data){
@@ -395,6 +396,17 @@ export default {
                     }
                 }
             });
+        },
+        clear(){
+            for(let k in this.form){
+                if(this.form[k] instanceof Array){
+                    for(let j in this.form[k]){
+                        this.form[k][j] = '';
+                    }
+                }else{
+                    this.form[k] = ''
+                }
+            }
         },
         beDownload(){
             let data = {...this.form};
