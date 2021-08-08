@@ -135,6 +135,11 @@ export default {
   border-radius: .5rem;
   padding: 40px;
 }
+.login-card > *{
+  margin: 0 !important;
+}.login-card > *:nth-child(2){
+  margin-top: 20px !important;
+}
 .login-title{
   margin:  0 0 50px 0;
   line-height: 1em;
