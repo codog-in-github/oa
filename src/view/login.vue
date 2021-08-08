@@ -17,19 +17,23 @@
     </div>
     <div class="login-card">
         <div class="login-title">LOGIN</div>
-        <el-form :model='form' ref="form">
+        <el-form :model='form' ref="form" label-position="top">
           <el-form-item label="USERNAME">
             <el-input placeholder="Enter your name" v-model='form.username'/>
           </el-form-item>
           <el-form-item label="PASSWORD">
             <el-input placeholder="Enter your password" type="password" v-model='form.password'/>
           </el-form-item>
-          <el-form-item label="VERIFY">
-            <el-input placeholder="Enter your Verify code" v-model='form.verify'/>
-          </el-form-item>
-          <el-form-item>
-            <img :src="verifyUrl" title="CHANGE IT" @click="changeVerify" :style="{cursor:'pointer'}">
-          </el-form-item>
+              <el-form-item label="VERIFY">
+          <el-row>
+            <el-col :span="12">
+                <el-input placeholder="Enter your Verify code" v-model='form.verify'/>
+            </el-col>
+            <el-col :span="12">
+              <img :src="verifyUrl" title="CHANGE IT" @click="changeVerify" :style="{cursor:'pointer',width:'100%'}">
+            </el-col>
+          </el-row>
+              </el-form-item>
         <el-form-item style="margin-top:30px;">
           <el-button 
             type="primary" 
@@ -95,7 +99,7 @@ export default {
       this.$doLogin(
         this.form.username, 
         this.form.password,
-        this.form.verfy,
+        this.form.verify,
         ()=>{
           this.changeVerify();
           this.loading = false;
@@ -103,7 +107,6 @@ export default {
       );
     },
     changeVerify(){
-      alert(1);
       this.rand = parseInt(Math.random()*10000);
     }
   }
