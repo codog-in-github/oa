@@ -123,15 +123,18 @@
             <el-input v-model="form.free_day" type="textarea"></el-input>
         </el-form-item>
         <el-row>
-            <el-col :span="12">
+            <el-col :span="8">
                 <el-form-item label="ピックオーダー依頼" label-width=" 160px">
                     <el-input v-model="form.pick_order_request"></el-input>
                 </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="8">
                 <el-form-item label="ピックオーダー送付" label-width="160px">
                     <el-input v-model="form.send_pick_order"></el-input>
                 </el-form-item>
+            </el-col>
+            <el-col :span="8">
+                <el-input v-model="form.send_pick_order1"></el-input>
             </el-col>
         </el-row>
         <el-form-item label="バン詰め日程">
@@ -274,16 +277,23 @@
         <!-- 進捗状況 end -->
         <el-divider />
         <el-row>
-            <el-col :span="20">
-                <el-form-item label="お客様書類送付">
-                    <div v-for="(v, i) in form.c_book" :key="i" style="display:flex">
-                        <el-input v-model="form.c_book[i]"></el-input>
-                        <el-button @click="cbookDelete(i)">del</el-button>
-                    </div>
-                </el-form-item>
+            <el-col :span="3" >
+                お客様書類送付
             </el-col>
             <el-col :span="3" :offset="1">
-                <el-button @click="cbookAdd">add</el-button>
+                 <el-input v-model="form.c_book[0]"></el-input>
+            </el-col>
+            <el-col :span="3" :offset="1">
+                 <el-input v-model="form.c_book[1]"></el-input>
+            </el-col>
+            <el-col :span="3" :offset="1">
+                 <el-input v-model="form.c_book[2]"></el-input>
+            </el-col>
+            <el-col :span="3" :offset="1">
+                 <el-input v-model="form.c_book[3]"></el-input>
+            </el-col>
+            <el-col :span="3" :offset="1">
+                 <el-input v-model="form.c_book[4]"></el-input>
             </el-col>
         </el-row>
     </el-form>
@@ -333,6 +343,7 @@ export default {
                 free_day:'',
                 pick_order_request:'',
                 send_pick_order:'',
+                send_pick_order1:'',
                 van_day:'',
                 van_place:'',
                 pick_place:'',
@@ -357,7 +368,13 @@ export default {
                 extra_money:'',
                 bl_no:'',
                 request_book:'',
-                c_book:[''],
+                c_book:[
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                ],
             }
         };
     },
@@ -367,13 +384,11 @@ export default {
                 data = data.data;
                 for(let k in data){
                     if(this.form[k] !== undefined){
-                        if(k === 'item_type'){
+                        if(k === 'item_type' || k === 'c_book'){
                             let sp = data[k].split('|');
                             for(let i in sp){
                                  this.form[k][i] = sp[i];
                             }
-                        }else if(k === 'c_book'){
-                            this.form[k].splice(0,this.form[k].length,...data[k].split('|'))
                         }else{
                             this.form[k] = data[k];
                         }

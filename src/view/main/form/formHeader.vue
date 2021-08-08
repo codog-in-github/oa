@@ -202,14 +202,14 @@ export default{
                 this.$message({
                     type: 'info',
                     message: 'BE CANCELED'
-                });          
+                });
             });
         },
         displayBookForm(){
             if(this.book === ''){
                 this.$message({
                     type: 'info',
-                    message: 'Please select a book'
+                    message: 'PLEASE SELECT A BOOK'
                 });
                 return void 0;
             }
@@ -223,6 +223,13 @@ export default{
             this.dialog = false;
         },
         beDownload(){
+            if(this.$route.params.bkg_id === undefined){
+                this.$message({
+                    type: 'info',
+                    message: 'YOU MUST SAVE BEFORE'
+                });
+                return void 0;
+            }
             if(this.$refs.book.beDownload){
                 this.$refs.book.beDownload();
             }else{
