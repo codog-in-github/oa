@@ -29,7 +29,7 @@
           VERIFY
           <el-row>
             <el-col :span="12">
-                <el-input placeholder="Enter your Verify code" v-model='form.verify'/>
+                <el-input placeholder="Enter your verify" v-model='form.verify'/>
             </el-col>
             <el-col :span="12">
               <img :src="verifyUrl" title="CHANGE IT" @click="changeVerify" :style="{cursor:'pointer',width:'100%'}">
