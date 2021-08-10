@@ -97,8 +97,8 @@
                 @click="$emit('save-data')"
             >BKG登録</el-button>
             <el-button size="mini" type="primary"
-                :disabled="$route.params.mode ==='view'"
-                @click="hiddenBookForm"
+                :disabled="$route.params.mode ==='view' || !$route.params.mode"
+                @click="deleteButtonHandler"
             >BKG削除</el-button>
             <br>
             <br>
@@ -195,8 +195,8 @@ export default{
                 cancelButtonText: 'cancel',
                 type: 'warning'
             }).then(() => {
-                this.$deleteOrder(this.bkgId,()=>{
-                    this.$router.push('/frame/list/delete');
+                this.$deleteOrder(this.$route.params.bkg_id,'true',()=>{
+                    this.$router.push('/frame/list/normal');
                 });
             }).catch(() => {
                 this.$message({

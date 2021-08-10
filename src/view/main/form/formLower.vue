@@ -7,17 +7,13 @@
                 <div class="group">
                     <title-group 
                         title="CARRIER">
-                        <el-select
+                        <el-autocomplete
                             v-model="carrier"
                             @focus="getOptionsAnsyc(5, options.carrier)"
+                            @select="setCStaff"
+                            :fetch-suggestions="querySearch"
                             size="mini">
-                            <el-option
-                                v-for="{id, value, label} in options.carrier.item"
-                                :key="id"
-                                :value="value"
-                                :label="label"
-                            ></el-option>
-                        </el-select>
+                        </el-autocomplete>
                     </title-group>
                     <span class="delimiter">&sol;</span>
                     <title-group 
@@ -304,6 +300,17 @@ export default{
         }
     },
     methods:{
+        querySearch(str,cb){
+            cb(this.options.carrier.item.filter(item=>item.label.indexOf(str||'')!==-1));
+        },
+        setCStaff(){
+            this.c_staff = findInArray(
+                'extra',
+                this.carrier,
+                this.options.carrier.item,
+                'label',
+            );
+        },
         getData(){
             if(!this.port_of_loading.cy_cut){
                 this.$notify({
