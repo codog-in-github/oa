@@ -10,7 +10,7 @@
                         size="mini"
                         @focus="getOptionsAnsyc(8, options.booker)"
                         @change="setBStaffDefaultVal"
-                        @select="val=>{booker=val.booker;setBStaffDefaultVal()}"
+                        @select="val=>{booker=val.booker;shipper=val.booker;setBStaffDefaultVal()}"
                         :fetch-suggestions="querySearch"
 
                     >

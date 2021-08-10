@@ -155,6 +155,7 @@
                 </el-table-column>
                 <el-table-column
                     label="状態"
+                    width="250px"
                 >
                     <template slot-scope="scope">
                         <el-select
