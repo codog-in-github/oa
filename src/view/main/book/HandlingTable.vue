@@ -41,21 +41,18 @@
                 </el-form-item>
             </el-col>
         </el-row>
-        <el-form-item label="ETD">
-            <el-input v-model="form.etd"></el-input>
-        </el-form-item>
-        <!-- <el-row>
+        <el-row>
             <el-col :span="12">
                 <el-form-item label="ETD">
                     <el-input v-model="form.etd"></el-input>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="CARRIER">
-                    <el-input v-model="form.carrier"></el-input>
+                <el-form-item label="BOOKING">
+                    <el-input v-model="form.booking"></el-input>
                 </el-form-item>
             </el-col>
-        </el-row> -->
+        </el-row>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="ETA">
@@ -325,7 +322,7 @@ export default {
                 etd:'',
                 carrier:'',
                 eta:'',
-                carrier_comp:'',
+                booking:'',
                 cy_open:'',
                 forwarder:'',
                 sum_queantity:'',

@@ -125,6 +125,7 @@
             </template>
         </el-dialog>
         <el-dialog
+            :close-on-click-modal="false"
             :visible="dialog"
             :title="book"
             @close="beClose"

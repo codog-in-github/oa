@@ -69,11 +69,18 @@
             </title-group>
             <div class="group">
                 <title-group 
-                    title="DATYAGE">
-                    <el-input
+                    title="BOOKING">
+                    <!-- <el-input
                         v-model="drayage"
                         size="mini">
-                    </el-input>
+                    </el-input> -->
+                        <el-autocomplete
+                            v-model="drayage"
+                            @focus="getOptionsAnsyc(5, options.drayage)"
+                            @select="setDStaff"
+                            :fetch-suggestions="queryDrayageSearch"
+                            size="mini">
+                        </el-autocomplete>
                 </title-group>
                 <span class="delimiter">&sol;</span>
                 <title-group 
@@ -106,13 +113,25 @@ export default{
 
             options:{
                 booker:{item:[],loading:false,},
-                forwarder:{item:[],loading:false,}
+                forwarder:{item:[],loading:false,},
+                drayage:{item:[],loading:false,},
             }
         }
     },
     methods:{
         querySearch(str,cb){
             cb(this.options.booker.item.filter(item=>item.booker.indexOf(str||'')!==-1));
+        },
+        queryDrayageSearch(str,cb){
+            cb(this.options.drayage.item.filter(item=>item.label.indexOf(str||'')!==-1));
+        },
+        setDStaff(){
+            this.d_staff = findInArray(
+                'extra',
+                this.drayage,
+                this.options.drayage.item,
+                'label',
+            );
         },
         getData(){
             return {
