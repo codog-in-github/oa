@@ -61,7 +61,7 @@ export default {
                 this.pol = fd.loading.port;
                 this.pod = fd.delivery.port;
                 this.etd = fd.loading.etd;
-                this.eta = fd.loading.eta;
+                this.eta = fd.delivery.eta;
                 this.cy_cut = fd.loading.cy_cut;
                 this.doc_cut = fd.loading.doc_cut;
                 this.container.splice(0, this.container.length);
