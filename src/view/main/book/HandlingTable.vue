@@ -41,7 +41,10 @@
                 </el-form-item>
             </el-col>
         </el-row>
-        <el-row>
+        <el-form-item label="ETD">
+            <el-input v-model="form.etd"></el-input>
+        </el-form-item>
+        <!-- <el-row>
             <el-col :span="12">
                 <el-form-item label="ETD">
                     <el-input v-model="form.etd"></el-input>
@@ -52,7 +55,7 @@
                     <el-input v-model="form.carrier"></el-input>
                 </el-form-item>
             </el-col>
-        </el-row>
+        </el-row> -->
         <el-row>
             <el-col :span="12">
                 <el-form-item label="ETA">
