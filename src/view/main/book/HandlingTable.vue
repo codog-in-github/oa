@@ -80,7 +80,8 @@
         <el-row>
             <el-col :span="12">
                 <el-form-item label="コンテナ">
-                    <el-input v-model="form.sum_queantity" style="width:60%;" ></el-input>
+                    <el-input v-model="form.container_type" style="width:40%;" ></el-input>
+                    <el-input v-model="form.sum_queantity" style="width:20%;" ></el-input>
                     <el-input v-model="form.unity" style="width:40%;"></el-input>
                 </el-form-item>
             </el-col>
@@ -325,6 +326,7 @@ export default {
                 booking:'',
                 cy_open:'',
                 forwarder:'',
+                container_type:'',
                 sum_queantity:'',
                 unity:'',
                 transprotation:'',
