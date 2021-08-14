@@ -69,7 +69,7 @@
             </title-group>
             <div class="group">
                 <title-group 
-                    title="BOOKING">
+                    title="BOOKING先">
                     <!-- <el-input
                         v-model="drayage"
                         size="mini">
