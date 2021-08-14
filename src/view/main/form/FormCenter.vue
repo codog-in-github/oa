@@ -92,6 +92,38 @@
                 >
                 </el-input>
             </title-group>
+            <title-group
+                title="サレンダー手配"
+            >
+                <el-radio
+                    label="有"
+                    v-model="surrender_arrangement"
+                >
+                </el-radio>
+                <el-radio
+                    label="無"
+                    v-model="surrender_arrangement"
+                >
+                </el-radio>
+            </title-group>
+            <title-group
+                title="ピックオーダー依頼"
+            >
+                <el-date-picker
+                    v-model="pick_order_request"
+                    value-format="yyyy-MM-dd"
+                >
+                </el-date-picker>
+            </title-group>
+            <title-group
+                title="ピックオーダー送付"
+            >
+                <el-date-picker
+                    v-model="send_pick_order"
+                    value-format="yyyy-MM-dd"
+                >
+                </el-date-picker>
+            </title-group>
         </div>
     </div>
 </template>
@@ -107,6 +139,9 @@ export default {
             van_place:[''],
             remarks:null,
             state:[],
+            surrender_arrangement:'',
+            pick_order_request:'',
+            send_pick_order:'',
 
             options:{
                 containerType:{item:[],loading:false,},
@@ -165,6 +200,9 @@ export default {
                 remarks:this.remarks,
                 container:this.container,
                 state:this.state.join('|'),
+                surrender_arrangement:this.surrender_arrangement,
+                pick_order_request:this.pick_order_request,
+                send_pick_order:this.send_pick_order,
             }
         },
         setData({container,type}){
@@ -177,6 +215,9 @@ export default {
                 this.state = container.state?.split('|');
             }
             this.remarks = container.remarks;
+            this.surrender_arrangement = container.surrender_arrangement;
+            this.pick_order_request = container.pick_order_request;
+            this.send_pick_order = container.send_pick_order;
             this.$store.commit('form/containerClear');
             this.$store.commit('form/containerPushArray',type);
             this.$nextTick(
