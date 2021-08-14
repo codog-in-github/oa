@@ -88,6 +88,15 @@
                 ></el-date-picker>
             </title-group>
             <title-group
+            title="空PICK日">
+                <el-date-picker
+                    style="width:auto;"
+                    v-model="detailData.free_pick_day"
+                    value-format="yyyy-MM-dd"
+                    size="mini"
+                ></el-date-picker>
+            </title-group>
+            <title-group
             title="開時/終時">
                 <el-time-picker
                     v-model="formatTime"

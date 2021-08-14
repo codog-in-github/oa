@@ -129,6 +129,7 @@ export default {
                 booker_place:'',
                 vanning_date:'',
                 vanning_during:'',
+                free_pick_day:'',
                 delete_at:'',
             };
             emptyData.id = getRandomID();
