@@ -127,7 +127,7 @@
                     align="center"
                 >
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                     prop="bkg_date"
                     label="BKG DATE"
                     sortable
@@ -135,7 +135,7 @@
                     width="130px"
                     align="center"
                 >
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
                     prop="booker"
                     label="BOOKER"
@@ -152,9 +152,24 @@
                 >
                 </el-table-column>
                 <el-table-column
+                    prop="free_pick_day"
+                    label="空PICK日"
+                >
+                </el-table-column>
+                <el-table-column
+                    prop="pick_order_request"
+                    label="ピックオーダー依頼"
+                >
+                </el-table-column>
+                <el-table-column
+                    prop="send_pick_order"
+                    label="ピックオーダー送付"
+                >
+                </el-table-column>
+                <el-table-column
                     prop="id"
                     label="OPERATION"
-                    width="220px"
+                    width="120px"
                 >
                     <template  slot-scope="scope">
                         <div style="text-align:center;">
@@ -167,7 +182,7 @@
                             >
                                 DETAIL
                             </el-button>
-                            <el-button
+                            <!-- <el-button
                                 v-if="showConfirm(scope.row.vanning_date)"
                                 class="el-icon-finished"
                                 type="success"
@@ -175,7 +190,7 @@
                                 @click="confirm(scope.row)"
                             >
                                 confirm
-                            </el-button>
+                            </el-button> -->
                         </div>
                     </template>
                 </el-table-column>
