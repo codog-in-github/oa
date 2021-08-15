@@ -126,15 +126,19 @@
         <el-row>
             <el-col :span="8">
                 <el-form-item label="ピックオーダー依頼" label-width=" 160px">
-                    <el-input v-model="form.pick_order_request"></el-input>
+                    <el-radio v-model="form.pick_order" label="有"></el-radio>
+                    <el-radio v-model="form.pick_order" label="無"></el-radio>
                 </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="4">
+                <el-input v-model="form.pick_order_request"></el-input>
+            </el-col>
+            <el-col :span="6">
                 <el-form-item label="ピックオーダー送付" label-width="160px">
                     <el-input v-model="form.send_pick_order"></el-input>
                 </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="6">
                 <el-input v-model="form.send_pick_order1"></el-input>
             </el-col>
         </el-row>
@@ -343,6 +347,7 @@ export default {
                 consignee:'',
                 hs_code:'',
                 free_day:'',
+                pick_order:'',
                 pick_order_request:'',
                 send_pick_order:'',
                 send_pick_order1:'',
