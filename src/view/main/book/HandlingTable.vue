@@ -48,7 +48,7 @@
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="BOOKING">
+                <el-form-item label="BOOKING先">
                     <el-input v-model="form.booking"></el-input>
                 </el-form-item>
             </el-col>
@@ -133,12 +133,12 @@
             <el-col :span="4">
                 <el-input v-model="form.pick_order_request"></el-input>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="8">
                 <el-form-item label="ピックオーダー送付" label-width="160px">
                     <el-input v-model="form.send_pick_order"></el-input>
                 </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="4">
                 <el-input v-model="form.send_pick_order1"></el-input>
             </el-col>
         </el-row>
