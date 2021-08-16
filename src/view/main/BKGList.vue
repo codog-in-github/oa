@@ -111,7 +111,7 @@
                 height="100%"
             >
                 <el-table-column
-                    prop="cy_cut"
+                    prop="show_cy_cut"
                     label="CUT DATE"
                     sortable
                     :formatter="dateFormat"
