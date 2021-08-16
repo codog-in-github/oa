@@ -76,9 +76,9 @@ export default {
                         message: 'SAVE SUCCESSFUL!',
                         type: 'success'
                     });
-                // setTimeout(() => {
-                //     this.$router.push('/frame/list/normal')
-                // }, 1000);
+                setTimeout(() => {
+                    this.$router.push(`/frame/form/${saveData.header.id}/edit`)
+                }, 1000);
             });
         },
         
