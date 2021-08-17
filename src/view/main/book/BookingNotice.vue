@@ -67,8 +67,12 @@ export default {
                 this.container.splice(0, this.container.length);
                 this.container.push(...fd.type.map(item=>`${item.container_type}*${item.quantity}`));
                 // this.container = '';
+                let remarks = '';
+                for(let item of fd.detail){
+                    remarks += `${item.vanning_date.slice(0,10)} ${item.vanning_during} ${item.transprotation} ${item.expenses} ${item.booker_place} \n`;
+                }
                 this.common = fd.container.common;
-                this.remarks = fd.container.remarks;
+                this.remarks = remarks + fd.container.remarks;
                 this.dialog.loading = false;
             });
         },

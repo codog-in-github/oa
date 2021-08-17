@@ -71,15 +71,15 @@ export const postNewWindow = (url, params = {})=>{
     for(let name in params){
         if(params[name] instanceof  Array){
             for(let v of params[name]){
-                let ip = document.createElement("input");
+                let ip = document.createElement("textarea");
                 ip.name = `${name}[]`;
-                ip.value = v;
+                ip.innerHTML = v;
                 form.appendChild(ip);
             }
         }else{
-            let ip = document.createElement("input");
+            let ip = document.createElement("textarea");
             ip.name = name;
-            ip.value = params[name];
+            ip.innerHTML = params[name];
             form.appendChild(ip);
         }
     }
