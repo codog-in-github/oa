@@ -102,6 +102,7 @@
                     v-model="formatTime"
                     is-range
                     value-format="HH:mm"
+                    format="HH:mm"
                     size="mini"
                 ></el-time-picker>
             </title-group>
@@ -164,7 +165,11 @@ export default {
                 return during?during.split('-') : '';
             },
             set(val){
-                this.detailData.vanning_during = val.join('-');
+                if(val){
+                    this.detailData.vanning_during = val.join('-');
+                } else {
+                    this.detailData.vanning_during = '';
+                }
             },
         }
     },
