@@ -185,7 +185,7 @@
             </el-col>
         </el-row>
         <el-form-item label="内容">
-            <el-input v-model="form.content"></el-input>
+            <el-input v-model="form.content" type="textarea"></el-input>
         </el-form-item>
         <el-divider content-position="left">進捗状況</el-divider>
         <!-- 進捗状況 start -->
