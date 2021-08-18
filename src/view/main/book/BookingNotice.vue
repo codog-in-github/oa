@@ -1,5 +1,9 @@
 <template>
     <el-form class="form-body" label-width="120px" ref="form" >
+        <el-form-item label="ADDRESS:">
+            <el-radio v-model="address" label="本社" ></el-radio>
+            <el-radio v-model="address" label="九州営業所"></el-radio>
+        </el-form-item>
         <el-form-item label="SHIPPER:"><el-input v-model="shipper" :value="shipper"></el-input></el-form-item>
         <el-form-item label="BOOKING NO:"><el-input v-model="booking_no"></el-input></el-form-item>
         <el-form-item label="VESSEL:"><el-input v-model="vessel"></el-input></el-form-item>
@@ -32,6 +36,7 @@ export default {
         return {
             loading:false,
             action :URL.BOOKING_NOTICE,
+            address:'本社',
             shipper:'',
             booking_no:'',
             vessel:'',
@@ -78,6 +83,7 @@ export default {
         },
         beDownload(){
             postNewWindow(URL.BOOKING_NOTICE,{
+                address:this.address,
                 shipper:this.shipper,
                 booking_no:this.booking_no,
                 vessel:this.vessel,
