@@ -22,5 +22,8 @@ export const common = {
         isNewOrder(){
             return !this.$route.params.bkg_id;
         },
+        isCopy(){
+            return this.$route.params.mode === 'copy';
+        }
     },
 }

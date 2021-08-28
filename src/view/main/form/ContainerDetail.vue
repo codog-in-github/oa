@@ -38,7 +38,7 @@ import { getOptionsAnsyc } from '@/mixin/main'
 export default {
     computed:{
         ...mapState('form',{
-            container:state=>state.container,
+            container:state=>state.container.filter(i=>!i.delete_at),
             common:state=>state.common,
             booker:state=>state.booker,
         }),
@@ -98,6 +98,11 @@ export default {
             }
             
         });
+        this.$eventBus.$on('deleteType', id =>{
+            if(id === this.displayContainerId){
+                this.displayContainerId = this.container[0].id;
+            }
+        })
     },
     methods:{
         containerButtonClickHandler(container){
@@ -166,6 +171,9 @@ export default {
             return this.containerDetailList;
         },
         setData({detail}){
+            if(this.isCopy){
+                this.detail.map(item => item.id = getRandomID());
+            }
             this.containerDetailList = detail;
         }
     },

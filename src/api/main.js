@@ -14,6 +14,7 @@ const GET_CONTAINER_LIST = BASE_PATH + '/Container/getList';
 const CONFIRM_DETAIL = BASE_PATH + '/Container/confirm';
 const SAVE_ORDER = BASE_PATH + '/Bkg/saveData';
 const GET_ORDER = BASE_PATH + '/Bkg/getBkgOrder';
+const GET_ORDER_ID = BASE_PATH + '/Bkg/getBkgOrderID';
 const DELETE_ORDER = BASE_PATH + '/Bkg/deleteBkgOrder';
 const CHANGE_ORDER_STATE = BASE_PATH + '/Bkg/changeOrderState';
 const CHANGE_ORDER_STEP = BASE_PATH + '/Bkg/changeOrderStep';
@@ -87,6 +88,13 @@ const needInterceptorsMethods = [
             $getOrder(bkg_id,cb){
                 this.$api.queue = ()=>axios.get(
                     GET_ORDER + `/bkg_id/${bkg_id}`,
+                );
+                this.$api.queue = cb;
+            },
+
+            $getOrderID(bkg_no,cb){
+                this.$api.queue = ()=>axios.get(
+                    GET_ORDER_ID + `/bkg_no/${bkg_no}`,
                 );
                 this.$api.queue = cb;
             },

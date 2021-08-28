@@ -6,6 +6,7 @@ const emptyContainer = {
     common:'',
     container_type:'',
     quantity:'',
+    delete_at:''
 };
 
 export default {
@@ -27,7 +28,7 @@ export default {
         },
         containerRemoveByIndex(state, index){
             if(index>=0 && index < state.container.length){
-                state.container.splice(index,1);
+                state.container[index].delete_at = 'del'
             }
         }, 
         containerClear(state){

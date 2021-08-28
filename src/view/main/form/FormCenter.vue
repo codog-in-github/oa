@@ -20,7 +20,9 @@
             <el-input
                 size="mini"
                 v-model="van_place[i]"
-            ></el-input>
+            >
+                <template #append v-if="van_place.length > 1"><el-button @click="vanDel(i)" class="el-icon-remove" style="color:red"></el-button></template>
+            </el-input>
         </title-group>
         <div class="vaning-box">
             <el-button 
@@ -36,7 +38,7 @@
                 <span>Conntainer type</span><span>QUANTITY</span>
             </div>
             <div class="container-input-group"
-                v-for="(single, i) in container"
+                v-for="(single, i) in container.filter(i=>!i.delete_at)"
                 :key="single.id"
             >
                 <span>{{i+1}}</span>
@@ -56,6 +58,9 @@
                     size="mini"
                     type="number"
                     v-model="single.quantity">
+                    <template #append v-if="container.filter(i=>!i.delete_at).length > 1">
+                        <el-button @click="deleteType(i, single.id)" class="el-icon-remove" style="color:red"></el-button>
+                    </template>
                 </el-input>
             </div>
             <div style="text-align:right">
@@ -119,6 +124,15 @@
             </el-date-picker>
         </title-group>
         <title-group
+            title="CONSIGINEE"
+        >
+            <el-input
+                type="textarea"
+                v-model="consiginee"
+            >
+            </el-input>
+        </title-group>
+        <title-group
             title="REMARKS"
         >
             <el-input
@@ -130,16 +144,18 @@
     </div>
 </template>
 <script>
-import { mapState } from 'vuex';
-import TitleGroup from '@/components/titleGroup';
+import { mapState } from 'vuex'
+import TitleGroup from '@/components/titleGroup'
 import { getOptionsAnsyc, common } from '@/mixin/main'
+import { getRandomID } from '@/assets/js/utils'
 
 export default {
     data(){
         return{
             common:'PLASTIC',
             van_place:[''],
-            remarks:null,
+            consiginee:'',
+            remarks:'',
             state:[],
             pick_order:'',
             pick_order_request:'',
@@ -199,6 +215,7 @@ export default {
             return {
                 common:this.common,
                 van_place:this.van_place.join('|'),
+                consiginee:this.consiginee,
                 remarks:this.remarks,
                 container:this.container,
                 state:this.state.join('|'),
@@ -207,8 +224,10 @@ export default {
                 send_pick_order:this.send_pick_order,
             }
         },
-        setData({container,type}){
-            
+        setData({container, type}){
+            if(this.isCopy){
+                type.map(x=>{x.id = getRandomID()});
+            }
             this.common = container.common;
             this.van_place = container.van_place?.split('|') || [''];
             if(!container.state){
@@ -216,6 +235,7 @@ export default {
             }else{
                 this.state = container.state?.split('|');
             }
+            this.consiginee = container.consiginee;
             this.remarks = container.remarks;
             this.pick_order = container.pick_order;
             this.pick_order_request = container.pick_order_request;
@@ -226,6 +246,19 @@ export default {
                 ()=>this.$eventBus.$emit('container1Click')
             );
         },
+        deleteType(i, id){
+            if(this.container.length === 1){
+                return false;
+            }
+            this.$store.commit('form/containerRemoveByIndex',i);
+            this.$eventBus.$emit('deleteType', id);
+        },
+        vanDel(i){
+            if(this.van_place.length === 1){
+                return;
+            }
+            this.van_place.splice(i,1)
+        }
     },
     mixins:[
         getOptionsAnsyc,

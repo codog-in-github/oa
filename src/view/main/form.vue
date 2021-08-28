@@ -103,7 +103,7 @@ export default {
     },
     beforeRouteEnter(to, from, next){
         next(vm=>{
-            vm.$store.commit('form/setBkgId',vm.$route.params.bkg_id)
+            vm.$store.commit('form/setBkgId',vm.$route.params.mode === 'copy' ? undefined: vm.$route.params.bkg_id)
             next(); 
         })
     },

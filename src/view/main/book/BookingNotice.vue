@@ -13,6 +13,7 @@
         <el-form-item label="POD:"><el-input v-model="pod"></el-input></el-form-item>
         <el-form-item label="ETD:"><el-input v-model="etd"></el-input></el-form-item>
         <el-form-item label="ETA:"><el-input v-model="eta"></el-input></el-form-item>
+        <el-form-item label="CY OPEN:"><el-input v-model="cy_open"></el-input></el-form-item>
         <el-form-item label="CY CUT:"><el-input v-model="cy_cut"></el-input></el-form-item>
         <el-form-item label="DOC CUT:"><el-input v-model="doc_cut"></el-input></el-form-item>
         <el-form-item label="DOC CUT:"><el-input v-model="doc_cut"></el-input></el-form-item>
@@ -20,6 +21,7 @@
         <el-form-item v-for="(c,i) in container" :key="i" :label="`container${i+1}:`"><el-input v-model="container[i]"></el-input></el-form-item>
 
         <el-form-item label="COMMON:"><el-input v-model="common"></el-input></el-form-item>   
+        <el-form-item label="CONSIGINEE:"><el-input v-model="consiginee" type="textarea"></el-input></el-form-item>   
         <el-form-item label="REMARK:"><el-input v-model="remarks" type="textarea"></el-input></el-form-item>   
     </el-form>
 </template>
@@ -46,10 +48,12 @@ export default {
             pod:'',
             etd:'',
             eta:'',
+            cy_open:'',
             cy_cut:'',
             doc_cut:'',
             container:[],
             common:'',
+            consiginee:'',
             remarks:'',
         };
     },
@@ -67,14 +71,16 @@ export default {
                 this.pod = fd.delivery.port;
                 this.etd = fd.loading.etd;
                 this.eta = fd.delivery.eta;
+                this.cy_open = fd.loading.cy_open;
                 this.cy_cut = fd.loading.cy_cut;
                 this.doc_cut = fd.loading.doc_cut;
                 this.container.splice(0, this.container.length);
                 this.container.push(...fd.type.map(item=>`${item.container_type}*${item.quantity}`));
+                this.consiginee = fd.container.consiginee;
                 // this.container = '';
                 let remarks = '';
                 for(let item of fd.detail){
-                    remarks += `${item.vanning_date.slice(0,10)} ${item.vanning_during} ${item.transprotation} ${item.expenses} ${item.booker_place} \n`;
+                    remarks += `${item.vanning_date.slice(0,10) || ''} ${item.vanning_during?.splice('-')[0] || ''} ${item.vanning_date || ''} ${item.transprotation || ''} ${item.expenses || ''} ${item.booker_place|| ''} \n`;
                 }
                 this.common = fd.container.common;
                 this.remarks = remarks + fd.container.remarks;
@@ -93,10 +99,12 @@ export default {
                 pod:this.pod,
                 etd:this.etd,
                 eta:this.eta,
+                cy_open:this.cy_open,
                 cy_cut:this.cy_cut,
                 doc_cut:this.doc_cut,
                 container:this.container,
                 common:this.common,
+                consiginee:this.consiginee,
                 remarks:this.remarks,
             });
         }

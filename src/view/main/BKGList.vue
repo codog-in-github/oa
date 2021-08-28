@@ -6,7 +6,7 @@
                 size="mini"
                 type="primary"
                 class="el-icon-plus"
-                @click="$router.push('/frame/form');"
+                @click="addNewOrder"
             >
             NEW ORDER
             </el-button>
@@ -146,6 +146,7 @@
                 <el-table-column
                     prop="quantity"
                     label="QUANTITY"
+                    width="100"
                 >
                 </el-table-column>
                 <el-table-column
@@ -155,16 +156,16 @@
                 </el-table-column>
                 <el-table-column
                     label="状態"
-                    width="250px"
+                    width="350px"
                 >
                     <template slot-scope="scope">
                         <el-select
                             v-if="!showRestore"
                             v-model="scope.row.state"
-                            size="mini"
                             multiple
                             @change="changeState(scope.row.id, scope.row.state)"
                             @focus="getOptionsAnsyc(10, options.state)"
+                            class="state"
                         >
                             <el-option
                                 v-for="{id, value, label} in options.state.item"
@@ -261,6 +262,13 @@
             >
             </el-pagination>
         </footer>
+        <el-dialog :visible="newOrder" @close="newOrder = false" @open="copy_no = ''" title="NEW ORDER">
+            BKG NO:<el-input v-model="copy_no"></el-input>
+            <template #footer>
+                <el-button @click="getOrderID" type="primary">{{copy_no === ''? 'ADD' : 'COPY'}}</el-button>
+                <el-button @click="newOrder = false">CANCLE</el-button>
+            </template>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -286,6 +294,8 @@ export default {
                 state:{item:[],loading:false,},
             },
             stateChangeTimer:-1,
+            newOrder: false,
+            copy_no:'',
         }
     },
     computed:{
@@ -303,10 +313,12 @@ export default {
                 || this.$route.params.state == 'complete';
         },
         showDetail(){
-            return this.$route.params.state != 'normal';
+            return this.$route.params.state != 'normal'
+                && this.$route.params.state != 'draft';
         },
         showEdit(){
-            return this.$route.params.state == 'normal';
+            return this.$route.params.state == 'normal'
+                || this.$route.params.state == 'draft';
         },
         showDelete(){
             return this.$route.params.state == 'normal';
@@ -397,6 +409,28 @@ export default {
                     });
                 });
             },1000);
+        },
+        addNewOrder(){
+            this.newOrder = true;
+            // this.$router.push('/frame/form');
+        },
+        getOrderID(){
+            if(this.copy_no === ''){
+                this.$router.push('/frame/form');
+            }else{
+                this.$getOrderID(this.copy_no,({data})=>{
+                    let id = data.data;
+                    if(id){
+                        this.$router.push(`/frame/form/${id}/copy`);
+                    }else{
+                        this.$notify({
+                            title: 'ERROR',
+                            message: 'CAN NOT FOUND THIS ORDER',
+                            type: 'error'
+                        });
+                    }
+                })
+            }
         }
     },
     mixins:[
@@ -405,7 +439,7 @@ export default {
     components: { TitleGroup },
 }
 </script>
-<style scoped>
+<style lang="less" scoped>
 .bkg-list{
     width: 100%;
     height: 100%;
@@ -414,14 +448,16 @@ export default {
     box-sizing: border-box;
     display: flex;
     flex-flow: column;
-}
-.bkg-list > *{
-    flex: 0 0 auto;
-}
-.bkg-list main{
-    flex: 1 1 auto;
-    height: 1px;
-    overflow: auto !important;
+
+    * {
+        flex: 0 0 auto;
+    }
+
+    main{
+        flex: 1 1 auto;
+        height: 1px;
+        overflow: auto !important;
+    }
 }
 header{
     display:flex;
@@ -436,12 +472,22 @@ header{
     display: flex;
     margin: 0 10px;
     align-items: flex-end;
+
+    & > * + *{
+        margin-left: 1em;
+    }
 }
-.input-box>* + *{
-    margin-left: 1em;
-}
+
 footer{
     margin-top: 1em;
     text-align: right;
+}
+.state{
+    width: 100% ;
+
+    /deep/ .el-tag {
+        font-size: 20px;
+        color: #000;
+    }
 }
 </style>
