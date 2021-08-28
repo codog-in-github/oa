@@ -215,7 +215,7 @@
 </template>
 <script>
 import TitleGroup from '@/components/titleGroup.vue';
-import {getOptionsAnsyc} from '@/mixin/main';
+import {common, getOptionsAnsyc} from '@/mixin/main';
 import { findInArray } from '@/assets/js/utils';
 
 export default{ 
@@ -331,28 +331,41 @@ export default{
             }
         },
         setData({shipper, loading, delivery}){
-                this.carrier = shipper.carrier;
-                this.c_staff = shipper.c_staff;
-                this.service = shipper.service;
-                this.vessel_name = shipper.vessel_name;
-                this.voyage = shipper.voyage;
-                
-                this.port_of_loading.country = loading.country;
-                this.port_of_loading.eta = loading.eta;
-                this.port_of_loading.etd = loading.etd;
-                this.port_of_loading.cy_open = loading.cy_open;
-                this.port_of_loading.cy_cut = loading.cy_cut;
-                this.port_of_loading.doc_cut = loading.doc_cut;
+            if(this.isCopy){
+                shipper.service = '';
+                shipper.vessel_name = '';
+                shipper.voyage = '';
 
-                this.port_of_delivery.country = delivery.country;
-                this.port_of_delivery.eta = delivery.eta;
-                this.port_of_delivery.free_time_dem = delivery.free_time_dem;
-                this.port_of_delivery.free_time_det = delivery.free_time_det;
-                //country监听器导致 port被更新 port需要在nexttick中更新
-                this.$nextTick(()=>{
-                    this.port_of_loading.port = loading.port;
-                    this.port_of_delivery.port = delivery.port;
-                });
+                loading.eta = '';
+                loading.etd = '';
+                loading.cy_open = '';
+                loading.cy_cut = '';
+                loading.doc_cut = '';
+
+                delivery.eta = ''
+            }
+            this.carrier = shipper.carrier;
+            this.c_staff = shipper.c_staff;
+            this.service = shipper.service;
+            this.vessel_name = shipper.vessel_name;
+            this.voyage = shipper.voyage;
+            
+            this.port_of_loading.country = loading.country;
+            this.port_of_loading.eta = loading.eta;
+            this.port_of_loading.etd = loading.etd;
+            this.port_of_loading.cy_open = loading.cy_open;
+            this.port_of_loading.cy_cut = loading.cy_cut;
+            this.port_of_loading.doc_cut = loading.doc_cut;
+
+            this.port_of_delivery.country = delivery.country;
+            this.port_of_delivery.eta = delivery.eta;
+            this.port_of_delivery.free_time_dem = delivery.free_time_dem;
+            this.port_of_delivery.free_time_det = delivery.free_time_det;
+            //country监听器导致 port被更新 port需要在nexttick中更新
+            this.$nextTick(()=>{
+                this.port_of_loading.port = loading.port;
+                this.port_of_delivery.port = delivery.port;
+            });
         },
         formatPort(witch){
             this[witch].port = `${this[witch].country} ${findInArray(
@@ -365,6 +378,7 @@ export default{
     },
     mixins:[
         getOptionsAnsyc,
+        common,
     ],
     components:{
         TitleGroup,

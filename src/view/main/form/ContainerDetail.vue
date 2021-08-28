@@ -34,7 +34,7 @@
 import { mapState } from 'vuex'
 import DetailItem from '@/components/formitem/DetailItem.vue';
 import { getRandomID, findInArray }  from '@/assets/js/utils'
-import { getOptionsAnsyc } from '@/mixin/main'
+import { common, getOptionsAnsyc } from '@/mixin/main'
 export default {
     computed:{
         ...mapState('form',{
@@ -58,7 +58,8 @@ export default {
                     item:[],
                     loading:false,
                 }
-            }
+            },
+            idMap:[],
         }
     },
     created(){
@@ -103,6 +104,11 @@ export default {
                 this.displayContainerId = this.container[0].id;
             }
         })
+        if(this.isCopy){
+            this.$eventBus.$on('changeId',map=>{
+                this.idMap = map;
+            })
+        }
     },
     methods:{
         containerButtonClickHandler(container){
@@ -172,13 +178,25 @@ export default {
         },
         setData({detail}){
             if(this.isCopy){
-                this.detail.map(item => item.id = getRandomID());
+                const clearCols = [
+                    'vanning_date',
+                    'free_pick_day',
+                    'vanning_during',
+                ];
+                for(const d of detail){
+                    d.container_id = this.idMap[d.container_id];
+                    for(const col of clearCols){
+                        d[col] = '';
+                    }
+                }
             }
             this.containerDetailList = detail;
+            
         }
     },
     mixins:[
-        getOptionsAnsyc
+        getOptionsAnsyc,
+        common
     ],
     components: { 
         DetailItem 

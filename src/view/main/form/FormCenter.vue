@@ -57,6 +57,7 @@
                 <el-input 
                     size="mini"
                     type="number"
+                    style="width:200px"
                     v-model="single.quantity">
                     <template #append v-if="container.filter(i=>!i.delete_at).length > 1">
                         <el-button @click="deleteType(single.id)" class="el-icon-remove" style="color:red"></el-button>
@@ -226,7 +227,19 @@ export default {
         },
         setData({container, type}){
             if(this.isCopy){
-                type.map(x=>{x.id = getRandomID()});
+                const idMap = {};
+                for(let t of type){
+                    const newId = getRandomID();
+                    idMap[t.id] = newId;
+                    t.id = newId;
+                }
+                this.$eventBus.$emit('changeId',idMap);
+                for(const t of type){
+                    t.quantity = '';
+                }
+                container.state = '';
+                container.pick_order_request = '';
+                container.send_pick_order = '';
             }
             this.common = container.common;
             this.van_place = container.van_place?.split('|') || [''];
