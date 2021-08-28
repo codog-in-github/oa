@@ -395,7 +395,7 @@ export default {
                         if(k === 'item_type' || k === 'c_book'){
                             let sp = data[k].split('|');
                             for(let i in sp){
-                                 this.form[k][i] = sp[i];
+                                this.form[k][i] = sp[i];
                             }
                         }else{
                             this.form[k] = data[k];

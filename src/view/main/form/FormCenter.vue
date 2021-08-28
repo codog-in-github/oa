@@ -59,7 +59,7 @@
                     type="number"
                     v-model="single.quantity">
                     <template #append v-if="container.filter(i=>!i.delete_at).length > 1">
-                        <el-button @click="deleteType(i, single.id)" class="el-icon-remove" style="color:red"></el-button>
+                        <el-button @click="deleteType(single.id)" class="el-icon-remove" style="color:red"></el-button>
                     </template>
                 </el-input>
             </div>
@@ -202,7 +202,7 @@ export default {
             }
         },
         containerTypeAddHandler(){
-            if(this.container.length < 6){
+            if(this.container.filter(i=>!i.delete_at).length < 6){
                 this.$store.commit('form/containerAddNew');
             }else{
                 this.$notify.error({
@@ -246,11 +246,11 @@ export default {
                 ()=>this.$eventBus.$emit('container1Click')
             );
         },
-        deleteType(i, id){
+        deleteType(id){
             if(this.container.length === 1){
                 return false;
             }
-            this.$store.commit('form/containerRemoveByIndex',i);
+            this.$store.commit('form/containerRemoveById',id);
             this.$eventBus.$emit('deleteType', id);
         },
         vanDel(i){

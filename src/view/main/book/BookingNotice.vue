@@ -75,13 +75,14 @@ export default {
                 this.cy_cut = fd.loading.cy_cut;
                 this.doc_cut = fd.loading.doc_cut;
                 this.container.splice(0, this.container.length);
-                this.container.push(...fd.type.map(item=>`${item.container_type}*${item.quantity}`));
+                this.container.push(...fd.type.map(item=>`${item.container_type} * ${item.quantity}`));
                 this.consiginee = fd.container.consiginee;
                 // this.container = '';
                 let remarks = '';
                 for(let item of fd.detail){
-                    remarks += `${item.vanning_date.slice(0,10) || ''} ${item.vanning_during?.splice('-')[0] || ''} ${item.vanning_date || ''} ${item.transprotation || ''} ${item.expenses || ''} ${item.booker_place|| ''} \n`;
+                    remarks += `${item.vanning_date.slice(0,10) || ''} ${item.vanning_during?.split('-')[0] || ''} ${item.vanning_date || ''} ${item.transprotation || ''} ${item.expenses || ''} ${item.booker_place|| ''} \n`;
                 }
+                console.log(remarks);
                 this.common = fd.container.common;
                 this.remarks = remarks + fd.container.remarks;
                 this.dialog.loading = false;
