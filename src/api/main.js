@@ -18,6 +18,7 @@ const GET_ORDER_ID = BASE_PATH + '/Bkg/getBkgOrderID';
 const DELETE_ORDER = BASE_PATH + '/Bkg/deleteBkgOrder';
 const CHANGE_ORDER_STATE = BASE_PATH + '/Bkg/changeOrderState';
 const CHANGE_ORDER_STEP = BASE_PATH + '/Bkg/changeOrderStep';
+const GET_REQUESTBOOK = BASE_PATH + '/Requestbook/getBook';
 const BOOK_DIR = BASE_PATH + '/Export';
 const BOOKING_NOTICE = BOOK_DIR + '/bookingNotice';
 const GET_HANDING_DATA = BOOK_DIR + '/getHandlngData';
@@ -141,9 +142,17 @@ const needInterceptorsMethods = [
                 );
                 this.$api.queue = cb;
             },
+
             $getHandingData(bkg_id,cb){
                 this.$api.queue = ()=>axios.get(
                     `${GET_HANDING_DATA}/bkg_id/${bkg_id||''}`,
+                );
+                this.$api.queue = cb;
+            },
+            
+            $getBook(bkg_id,cb){
+                this.$api.queue = ()=>axios.get(
+                    `${GET_REQUESTBOOK}/bkg_id/${bkg_id||''}`,
                 );
                 this.$api.queue = cb;
             }

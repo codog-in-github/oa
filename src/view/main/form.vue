@@ -119,7 +119,14 @@ export default {
     },   
 }
 </script>
-<style scoped>
+<style lang="less" scoped>
+.common{
+    padding: 10px;
+    box-sizing: border-box;
+    background: #fff;
+    flex-shrink: 0;
+}
+
 .form{
     background: #545C64;
     width: 100%;
@@ -129,16 +136,6 @@ export default {
     justify-content: flex-start;
     font-size: 13px;
     overflow: auto;
-}
-.header,
-.upper,
-.lower,
-.center,
-.right{
-    padding: 10px;
-    box-sizing: border-box;
-    background: #fff;
-    flex-shrink: 0;
 }
 .title{
     font-weight: bold;
@@ -151,6 +148,20 @@ export default {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 3px;
+    overflow:auto;
+    .common();
+
+    &-right{
+        flex-shrink: 0;
+    }
+
+    &-input-box > div{
+        margin: 0 5px;
+    }
+
+    &-left > div:nth-child(2){
+        display: flex;
+    }
 }
 .body{
     flex-grow: 1;
@@ -172,46 +183,25 @@ export default {
 .center{
     flex-flow: 0;
     margin-right: 3px;
+    .common();
 }
 .right{
     flex-grow: 1;
+    .common();
 }
 .upper{
     margin-bottom: 3px;
     flex-grow: 0;
-}
-.upper >.title{
-    display: block;
+    .common();
+
+    & > .title {
+        display: block;
+    }
 }
 .lower{
     flex-grow: 1;
     height: 1px;
     overflow: auto;
-}
-.header-left>div:nth-child(2){
-    display: flex;
-}
-.header{
-    overflow:auto;
-}
-.header-right,
-.header-right{
-    flex-shrink: 0;
-}
-.header-input-box > div{
-    margin: 0 5px;
-}
-.container-input-title{
-    display: flex;
-    justify-content: space-around;
-    margin-top: 10px;
-}
-.container-input-group{
-    display: flex;
-    margin:  20px 0;
-    align-items: center;
-}
-.container-input-group > *{
-    margin: 0 3px;
+    .common();
 }
 </style>

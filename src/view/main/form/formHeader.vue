@@ -110,6 +110,7 @@
             <el-button 
                 size="mini" 
                 type="primary"
+                @click="showReqBook"
             >コスト確認</el-button>
         </div>
         <el-dialog
@@ -146,30 +147,33 @@
                 >CLOSE</el-button>
             </template>
         </el-dialog>
+        <request-book :show="requestBookShow" @close="requestBookShow = false" :bkg-id="bkgId" ref="rbook"/>
     </div>
 </template>
 <script>
 import TitleGroup from '@/components/titleGroup';
-import { getOptionsAnsyc, common } from '@/mixin/main';
+import { getOptionsAnsyc, common } from '@/mixin/main'
+import RequestBook from '../book/RequestBook'
 export default{ 
     data(){
         return {
-            bkg_date:new Date(),
-            bkg_no:null,
-            bl_no:null,
-            bkg_type:null,
-            incoterms:null,
-            bkg_staff:null,
-            in_sales:null,
-            dg:null,
-            book:'',
-            dialog:false,
-            bookSelecter:false,
-            options:{
-                user:{item:[],loading:false},
-                incoterms:{item:[],loading:false},
-                bkg_type:{item:[],loading:false},
+            bkg_date: new Date(),
+            bkg_no: null,
+            bl_no: null,
+            bkg_type: null,
+            incoterms: null,
+            bkg_staff: null,
+            in_sales: null,
+            dg: null,
+            book: '',
+            dialog: false,
+            bookSelecter: false,
+            options: {
+                user: {item: [], loading: false},
+                incoterms: {item: [], loading: false},
+                bkg_type: {item: [], loading: false},
             },
+            requestBookShow: false,
         };
     },
     computed:{
@@ -264,6 +268,11 @@ export default{
             this.in_sales = bkg.in_sales;
             this.dg = bkg.dg;
         },
+        showReqBook(){
+            this.requestBookShow = true;
+            this.$refs.rbook.loadData();
+
+        },
     },
     mixins:[
         getOptionsAnsyc,
@@ -271,6 +280,7 @@ export default{
     ],
     components:{
         TitleGroup,
+        RequestBook,
     },
 }
 </script>
