@@ -31,6 +31,7 @@ import FormLower from './form/formLower.vue'
 import FormUpper from './form/formUpper.vue'
 import ContainerDetail from './form/ContainerDetail.vue'
 import { common } from '@/mixin/main'
+import { getRandomID } from '@/assets/js/utils'
 
 export default {
     data(){
@@ -106,7 +107,7 @@ export default {
     },
     beforeRouteEnter(to, from, next){
         next(vm=>{
-            vm.$store.commit('form/setBkgId',vm.$route.params.mode === 'copy' ? undefined: vm.$route.params.bkg_id)
+            vm.$store.commit('form/setBkgId',vm.$route.params.mode === 'copy' ? getRandomID() : vm.$route.params.bkg_id)
             next(); 
         })
     },
