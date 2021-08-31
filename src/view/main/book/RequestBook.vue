@@ -167,10 +167,13 @@ export default {
             this.$emit('close');
         },
         loadData(reLoad = false){
-            if(this.isLoaded && reLoad){
+            if(this.isLoaded && !reLoad){
                 return ;
             }
-
+            if(this.reLoad){
+                this.orderExtra.splice(0, this.orderExtra.length);
+            }
+            this.isLoaded = true;
             this.$getBook(this.bkgId, ({data:{data:data}})=>{
                 this.tel = data.tel || '';
                 this.no = data.no || '';
@@ -183,7 +186,7 @@ export default {
                 for(let i = 0; i<len; i+=2){
                     let row = [];
                     for(let j=0; j<2; j++){
-                        if(data.extra[`label_${i+j}`]!== undefined){
+                        if(data.extra[`label_${i+j}`] !== undefined){
                             row.push({
                                 label:data.extra[`label_${i+j}`],
                                 value:data.extra[`value_${i+j}`],
