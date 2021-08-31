@@ -16,9 +16,9 @@
         <el-form-item label="CY OPEN:"><el-input v-model="cy_open"></el-input></el-form-item>
         <el-form-item label="CY CUT:"><el-input v-model="cy_cut"></el-input></el-form-item>
         <el-form-item label="DOC CUT:"><el-input v-model="doc_cut"></el-input></el-form-item>
-        <el-form-item label="DOC CUT:"><el-input v-model="doc_cut"></el-input></el-form-item>
+        <!-- <el-form-item label="DOC CUT:"><el-input v-model="doc_cut"></el-input></el-form-item> -->
 
-        <el-form-item v-for="(c,i) in container" :key="i" :label="`container${i+1}:`"><el-input v-model="container[i]"></el-input></el-form-item>
+        <el-form-item v-for="(c,i) in container" :key="i" :label="`CONTAINER${i+1}:`"><el-input v-model="container[i]"></el-input></el-form-item>
 
         <el-form-item label="COMMON:"><el-input v-model="common"></el-input></el-form-item>   
         <el-form-item label="CONSIGINEE:"><el-input v-model="consiginee" type="textarea"></el-input></el-form-item>   

@@ -56,12 +56,15 @@
                 </el-table-column>
                 <el-table-column label="消费税">
                     <template slot-scope="scope">
-                        <el-input v-model="scope.row.tax"></el-input>
+                        <el-select v-model="scope.row.tax">
+                            <el-option label="免" value="免"></el-option>
+                            <el-option label="課" value="課"></el-option>
+                        </el-select>
                     </template>
                 </el-table-column>
                 <el-table-column label="金額">
                     <template slot-scope="scope">
-                        <el-input v-model="scope.row.total"></el-input>
+                        <el-input v-model="scope.row.total" readonly :value="(scope.row.price || 0) * (scope.row.num || 0)"></el-input>
                     </template>
                 </el-table-column>
                 <el-table-column>
@@ -209,7 +212,15 @@ export default {
             row.splice(index, 1);
         },
         detailAdd(){
-            this.detail.push({})
+            this.detail.push({
+                item_name: '',
+                detail: '',
+                price: '',
+                num: '',
+                unit: '',
+                tax: '',
+                total: '',
+            })
         },
         detailDel(i){
             this.detail.splice(i,1);

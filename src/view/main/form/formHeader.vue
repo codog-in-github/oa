@@ -259,7 +259,11 @@ export default{
         },
         setData({bkg}){
             // console.log(bkg);
-            this.bkg_date = bkg.bkg_date;
+            if(this.isCopy){
+                this.bkg_date = new Date();
+            }else{
+                this.bkg_date = bkg.bkg_date;
+            }
             this.bkg_no = this.isCopy?'' : bkg.bkg_no;
             this.bl_no = this.isCopy?'' : bkg.bl_no;
             this.bkg_type = bkg.bkg_type;

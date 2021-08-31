@@ -69,16 +69,19 @@ export default {
                     }
                 }
             }
+            if(this.isCopy){
+                saveData.copy_id = this.$route.params.bkg_id;
+            }
             this.$saveOrder(saveData,()=>{
                 this.loading = false;
                 this.$notify({
-                        title: 'SUCCESS',
-                        message: 'SAVE SUCCESSFUL!',
-                        type: 'success'
-                    });
+                    title: 'SUCCESS',
+                    message: 'SAVE SUCCESSFUL!',
+                    type: 'success'
+                });
                 setTimeout(() => {
                     this.$router.push(`/frame/form/${saveData.header.id}/edit`)
-                }, 1000);
+                }, 500);
             });
         },
         
@@ -107,9 +110,9 @@ export default {
             next(); 
         })
     },
-    mixins:{
-        common
-    },
+    mixins:[
+        common,
+    ],
     components: { 
         FormHeader,
         FormUpper,
