@@ -80,7 +80,7 @@ export default {
                 // this.container = '';
                 let remarks = '';
                 for(let item of fd.detail){
-                    remarks += `${item.vanning_date.slice(0,10) || ''} ${item.vanning_during?.split('-')[0] || ''} ${item.chassis || ''}  ${item.expenses || ''}\n${item.booker_place|| ''} \n`;
+                    remarks += `${item.vanning_date?'＊バン詰め： ':''}${item.vanning_date.slice(0,10) || ''} ${item.vanning_during?.split('-')[0] || ''} ${item.chassis || ''}  ${item.expenses || ''}\n${item.booker_place|| ''} \n`;
                 }
                 console.log(remarks);
                 this.common = fd.container.common;
