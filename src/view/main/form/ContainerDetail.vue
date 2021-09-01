@@ -184,6 +184,8 @@ export default {
                     'vanning_during',
                 ];
                 for(const d of detail){
+                    d.id = getRandomID()
+                    d.bkg_id = this.bkgId;
                     d.container_id = this.idMap[d.container_id];
                     for(const col of clearCols){
                         d[col] = '';
