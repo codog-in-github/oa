@@ -97,7 +97,7 @@
                 @click="$emit('save-data')"
             >BKG登録</el-button>
             <el-button size="mini" type="primary"
-                :disabled="$route.params.mode ==='view' || !$route.params.mode"
+                :disabled="$route.params.mode ==='view' || !$route.params.mode || isCopy"
                 @click="deleteButtonHandler"
             >BKG削除</el-button>
             <br>
@@ -105,10 +105,12 @@
             <el-button 
                 size="mini" 
                 type="primary"
+                :disabled="isCopy"
                 @click="bookSelecter = true"
             >各種書類作成</el-button>
             <el-button 
                 size="mini" 
+                :disabled="isCopy"
                 type="primary"
                 @click="showReqBook"
             >コスト確認</el-button>
