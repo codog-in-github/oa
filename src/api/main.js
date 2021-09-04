@@ -23,6 +23,7 @@ const BOOK_DIR = BASE_PATH + '/Export';
 const BOOKING_NOTICE = BOOK_DIR + '/bookingNotice';
 const GET_HANDING_DATA = BOOK_DIR + '/getHandlngData';
 const HANDING = BOOK_DIR + '/handling';
+const REQUESTBOOK = BOOK_DIR + '/requestbook';
 const LAST_UPDATE = BASE_PATH + '/Index/needClear';
 axios.defaults.withCredentials = true;
 
@@ -30,6 +31,7 @@ export const URL = {
     BOOKING_NOTICE,
     HANDING,
     LOGOUT_VERIFY_PATH,
+    REQUESTBOOK
 } 
 //需要添加建提起的方法 
 

@@ -16,9 +16,9 @@
                 <el-col :span="12"><el-form-item label="会社名"><el-input v-model="booker_name"></el-input></el-form-item></el-col>
             </el-row>
             <el-divider />
-            <el-row v-for="(item, i) in orderExtra" :key="i"  :gutter="20">
+            <el-row v-for="(item, i) in extra" :key="i"  :gutter="20">
                 <el-col :span="item.length===2?12:22" v-for="(col, j) in item" :key="j">
-                    <mulit-select :data="col" @deleteCol="deleteCol(item, j)" @setDefault="setDefault" ></mulit-select>
+                    <mulit-select :data="col" @deleteCol="deleteCol(item, j)" ></mulit-select>
                 </el-col>
                 <el-col v-if="item.length===1" :span="2"><el-button type="primary" @click="addCol(item)">ADD</el-button></el-col>
             </el-row>
@@ -36,12 +36,21 @@
                 </el-table-column>
                 <el-table-column label="詳細">
                     <template slot-scope="scope">
-                        <el-input v-model="scope.row.detail"></el-input>
+                        <el-input-number v-if='scope.row.currency' v-model="scope.row.detail" controls-position="right"></el-input-number>
+                        <el-input v-else v-model="scope.row.detail" ></el-input>
+                    </template>
+                </el-table-column>
+                <el-table-column width="100px">
+                    <template slot-scope="scope">
+                        <el-select v-model="scope.row.currency" placeholder="">
+                            <el-option label="" value=""></el-option>
+                            <el-option label="$" value="USD"></el-option>
+                        </el-select>
                     </template>
                 </el-table-column>
                 <el-table-column label="単価">
                     <template slot-scope="scope">
-                        <el-input v-model="scope.row.price"></el-input>
+                        <el-input-number v-model="scope.row.price" controls-position="right"></el-input-number>
                     </template>
                 </el-table-column>
                 <el-table-column label="数量">
@@ -64,7 +73,7 @@
                 </el-table-column>
                 <el-table-column label="金額">
                     <template slot-scope="scope">
-                        <el-input v-model="scope.row.total" readonly :value="(scope.row.price || 0) * (scope.row.num || 0)"></el-input>
+                        <el-input :value="scope.row.total.toFixed(2)" readonly></el-input>
                     </template>
                 </el-table-column>
                 <el-table-column>
@@ -79,20 +88,20 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="24" class="value" >&#91;&#42; 消費税対象金額 金额 &#93;</el-col>
+                <el-col :span="24" class="value" >&#91;&#42;消費税対象金額  {{inTak.toFixed(2)}} &#93;</el-col>
             </el-row>
             <el-divider />
             <el-row>
                 <el-col :span="12" class="label">小計</el-col>
-                <el-col :span="12"  class="value">&#91;&#42; 消費税対象金額 金额 &#93;</el-col>
+                <el-col :span="12"  class="value">&#91;&#42; {{subtotal.toFixed(2)}} &#93;</el-col>
             </el-row>
             <el-row>
                 <el-col :span="12" class="label">消費税</el-col>
-                <el-col :span="12" class="value" >&#91;&#42; 消費税対象金額 金额 &#93;</el-col>
+                <el-col :span="12" class="value" >&#91;&#42; {{takTotal.toFixed(2)}} &#93;</el-col>
             </el-row>
             <el-row class="sum">
                 <el-col :span="12" class="label">御請求金額</el-col>
-                <el-col :span="12" class="value">&#91;&#42; 消費税対象金額 金额 &#93;</el-col>
+                <el-col :span="12" class="value">&#91;&#42; {{sum.toFixed(2)}} &#93;</el-col>
             </el-row>
             <el-divider />
             <el-row>
@@ -118,15 +127,19 @@
             </el-row>
         </el-form>
         <template #footer>
-            <el-button type="primary">EXPORT</el-button>
+            <el-button type="primary" @click="beDownload">EXPORT</el-button>
             <el-button @click="close">CANCLE</el-button>
         </template>
     </el-dialog>
 </template>
 <script>
-import MulitSelect from '@/components/MulitSelect.vue';
+import MulitSelect from '@/components/MulitSelect';
 import { getOptionsAnsyc } from '@/mixin/main';
-import { findInArray } from '@/assets/js/utils';
+import { findInArray, getRandomID, postNewWindow } from '@/assets/js/utils';
+import { URL } from '@/api/main'
+
+const RATE = 'EXCH：';
+
 export default {
     components: { MulitSelect },
     props: {
@@ -142,14 +155,14 @@ export default {
     data(){
         return {
             isLoaded: false,
-            rate: 'JPY|USD|110.12',
 
+            id:'',
             tel: '',
             no: '',
             booker_place: '',
             date: '',
             booker_name: '',
-            orderExtra: [],
+            extra: [],
             detail: [],
             bank: '',
             address: '',
@@ -161,6 +174,31 @@ export default {
         }
     },
     computed: {
+        rate(){
+            for(const row of this.extra){
+                for(const col of row){
+                    if(col.label === RATE){
+                        return col.value;
+                    }
+                }
+            }
+            return false;
+        },
+        inTak(){
+            return this.detail
+                .filter(current=>current.tax === '課')
+                .reduce((prev,current)=>prev+current.total, 0)
+        },
+        subtotal(){
+            return this.detail
+                .reduce((prev,current)=>prev+current.total, 0)
+        },
+        takTotal(){
+            return this.inTak * 0.1;
+        },
+        sum(){
+            return this.subtotal + this.takTotal;
+        }
     },
     methods: {
         close() {
@@ -170,11 +208,13 @@ export default {
             if(this.isLoaded && !reLoad){
                 return ;
             }
-            if(this.reLoad){
-                this.orderExtra.splice(0, this.orderExtra.length);
-            }
             this.isLoaded = true;
+            if(this.reLoad){
+                this.extra.splice(0, this.extra.length);
+                this.detail.splice(0, this.detail.length);
+            }
             this.$getBook(this.bkgId, ({data:{data:data}})=>{
+                this.id = data.id || getRandomID();
                 this.tel = data.tel || '';
                 this.no = data.no || '';
                 this.date = data.date || '';
@@ -186,7 +226,8 @@ export default {
                 for(let i = 0; i<len; i+=2){
                     let row = [];
                     for(let j=0; j<2; j++){
-                        if(data.extra[`label_${i+j}`] !== undefined){
+                        if(data.extra[`label_${i+j}`] !== undefined
+                        && !(!data.extra[`label_${i+j}`] && !data.extra[`value_${i+j}`])){
                             row.push({
                                 label:data.extra[`label_${i+j}`],
                                 value:data.extra[`value_${i+j}`],
@@ -194,9 +235,11 @@ export default {
                         }
                     }
                     if(row.length>0){
-                        this.orderExtra.push(row);
+                        this.extra.push(row);
                     }
                 }
+                console.log('data.detail',data.detail)
+                this.detail.push(...data.detail);
             });
         },
         addCol(row){
@@ -206,7 +249,7 @@ export default {
             })
         },
         addRow(){
-            this.orderExtra.push([{
+            this.extra.push([{
                 label: '',
                 value: '',
             }]);
@@ -218,11 +261,12 @@ export default {
             this.detail.push({
                 item_name: '',
                 detail: '',
+                currency: '',
                 price: '',
                 num: '',
                 unit: '',
-                tax: '',
-                total: '',
+                tax: '免',
+                total: 0,
             })
         },
         detailDel(i){
@@ -237,9 +281,44 @@ export default {
         unitSearch(str, cb){
             cb(this.options.unit.item)
         },
-        setDefault(col){
-            //todo
-            return col + '1';
+        beDownload(){
+            postNewWindow(URL.REQUESTBOOK,{
+                id: this.id,
+                bkg_id: this.bkgId,
+                tel: this.tel,
+                no: this.no,
+                booker_place: this.booker_place,
+                date: this.date,
+                booker_name: this.booker_name,
+                extra: JSON.stringify(this.extra),
+                detail: JSON.stringify(this.detail),
+                bank: this.bank,
+                address: this.address,
+                
+                in_tak:this.inTak,
+                subtotal:this.subtotal,
+                tak_total:this.takTotal,
+                total:this.sum,
+            });
+        }
+    },
+    watch:{
+        detail:{
+            deep:true,
+            handler(value){
+                for(const row of value){
+                    if(this.rate && row.detail && row.currency){
+                        const price = row.detail * this.rate.split('|')[1]
+                        if(row.price !== price){
+                            row.price = price;
+                        }
+                    }
+                    const sum = (row.price || 0 ) * (row.num || 0 )
+                    if(row.total !== sum){
+                        row.total = sum
+                    }
+                }
+            }
         }
     },
     mixins:[
