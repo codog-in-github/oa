@@ -19,12 +19,14 @@ const DELETE_ORDER = BASE_PATH + '/Bkg/deleteBkgOrder';
 const CHANGE_ORDER_STATE = BASE_PATH + '/Bkg/changeOrderState';
 const CHANGE_ORDER_STEP = BASE_PATH + '/Bkg/changeOrderStep';
 const GET_REQUESTBOOK = BASE_PATH + '/Requestbook/getBook';
+const GET_BOOKING_NOTICE = BASE_PATH + '/BookingNotice/getBookingNotice';
 const BOOK_DIR = BASE_PATH + '/Export';
 const BOOKING_NOTICE = BOOK_DIR + '/bookingNotice';
 const GET_HANDING_DATA = BOOK_DIR + '/getHandlngData';
 const HANDING = BOOK_DIR + '/handling';
 const REQUESTBOOK = BOOK_DIR + '/requestbook';
 const LAST_UPDATE = BASE_PATH + '/Index/needClear';
+
 axios.defaults.withCredentials = true;
 
 export const URL = {
@@ -91,6 +93,13 @@ const needInterceptorsMethods = [
             $getOrder(bkg_id,cb){
                 this.$api.queue = ()=>axios.get(
                     GET_ORDER + `/bkg_id/${bkg_id}`,
+                );
+                this.$api.queue = cb;
+            },
+
+            $getBookingNotice(bkg_id,cb){
+                this.$api.queue = ()=>axios.get(
+                    GET_BOOKING_NOTICE + `/bkg_id/${bkg_id}`,
                 );
                 this.$api.queue = cb;
             },

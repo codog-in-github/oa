@@ -28,7 +28,11 @@
 <script>
 import { URL } from '@/api/main'
 import { postNewWindow } from '@/assets/js/utils'
+import { common } from '@/mixin/main';
 export default {
+    mixins:[
+        common
+    ],
     props:{
         data:{
             default:()=>({})
@@ -60,7 +64,7 @@ export default {
     methods:{
         loadData(){
             this.loading = true;
-            this.$getOrder(this.$route.params.bkg_id,({data})=>{
+            this.$getBookingNotice(this.$route.params.bkg_id,({data})=>{
                 let fd = data.data;
                 this.shipper = fd.trader.shipper;
                 this.booking_no = fd.bkg.bkg_no;
@@ -79,8 +83,12 @@ export default {
                 this.consiginee = fd.container.consiginee;
                 // this.container = '';
                 let remarks = '';
-                for(let item of fd.detail){
-                    remarks += `${item.vanning_date?'＊バン詰め： ':''}${item.vanning_date.slice(0,10) || ''} ${item.vanning_during?.split('-')[0] || ''} ${item.chassis || ''}  ${item.expenses || ''}\n${item.booker_place|| ''} \n`;
+                if(fd.remarks){
+                    remarks = fd.remarks;
+                }else{
+                    for(let item of fd.detail){
+                        remarks += `${item.vanning_date?'＊バン詰め： ':''}${item.vanning_date.slice(0,10) || ''} ${item.vanning_during?.split('-')[0] || ''} ${item.chassis || ''}  ${item.expenses || ''}\n${item.booker_place|| ''} \n`;
+                    }
                 }
                 console.log(remarks);
                 this.common = fd.container.common;
@@ -90,6 +98,7 @@ export default {
         },
         beDownload(){
             postNewWindow(URL.BOOKING_NOTICE,{
+                id:this.bkgId,
                 address:this.address,
                 shipper:this.shipper,
                 booking_no:this.booking_no,
