@@ -35,6 +35,9 @@ let routes = [
             },{
                 path:'/frame/container-list',
                 component:()=>import('@/view/main/ContainerList.vue'),
+            },{
+                path:'/frame/req/:state',
+                component:()=>import('@/view/main/ReqList.vue'),
             },
             
         ],

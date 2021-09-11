@@ -64,7 +64,27 @@ export default {
                     child:[
                         {to:'/frame/container-list', label:'ドライバー情報', },
                     ],
-                }
+                },
+                {   to:'-1',
+                    label:'請求書',
+                    toggle:true,
+                    class:"el-icon-s-order",
+                    child:[
+                        {to:'/frame/req/0', label:'請求書未発行', },
+                        {to:'/frame/req/1', label:'請求書発行済',},
+                        {to:'/frame/req/2', label:'入金済',},
+                    ],
+                },
+                {   to:'-1',
+                    label:'仕入',
+                    toggle:true,
+                    class:"el-icon-s-order",
+                    child:[
+                        // {to:'/frame/req/4', label:'仕入未入力', },
+                        // {to:'/frame/req/5', label:'仕入入力済',},
+                        // {to:'/frame/req/6', label:'支払済',},
+                    ],
+                },
             ],
         };
     },

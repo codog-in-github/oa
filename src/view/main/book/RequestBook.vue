@@ -127,7 +127,7 @@
             </el-row>
         </el-form>
         <template #footer>
-            <el-button type="primary" @click="beDownload">EXPORT</el-button>
+            <el-button type="primary" @click="beDownload" v-if="!readonly">EXPORT</el-button>
             <el-button @click="close">CANCLE</el-button>
         </template>
     </el-dialog>
@@ -150,6 +150,10 @@ export default {
         bkgId: {
             type: String,
             default: '',
+        },
+        readonly:{
+            type:Boolean,
+            default:true
         }
     },
     data(){
@@ -170,7 +174,9 @@ export default {
             options: {
                 item: {item: [], loading: false},
                 unit: {item: [], loading: false},
-            }
+            },
+            
+            fromList: undefined,
         }
     },
     computed: {
@@ -205,13 +211,17 @@ export default {
             this.$emit('close');
         },
         loadData(bkgId,reLoad = false){
+            if(bkgId){
+                this.fromList = bkgId
+            }
             if(this.isLoaded && !reLoad){
                 return ;
             }
             this.isLoaded = true;
-            if(this.reLoad){
-                this.extra.splice(0, this.extra.length);
-                this.detail.splice(0, this.detail.length);
+            if(reLoad){
+                console.log('reload')
+                this.extra = [];
+                this.detail = [];
             }
             this.$getBook(bkgId || this.bkgId, ({data:{data:data}})=>{
                 this.id = data.id || getRandomID();
@@ -284,7 +294,7 @@ export default {
         beDownload(){
             postNewWindow(URL.REQUESTBOOK,{
                 id: this.id,
-                bkg_id: this.bkgId,
+                bkg_id: this.fromList || this.bkgId,
                 tel: this.tel,
                 no: this.no,
                 booker_place: this.booker_place,
