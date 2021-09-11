@@ -18,7 +18,7 @@
             <el-divider />
             <el-row v-for="(item, i) in extra" :key="i"  :gutter="20">
                 <el-col :span="item.length===2?12:22" v-for="(col, j) in item" :key="j">
-                    <mulit-select :data="col" @deleteCol="deleteCol(item, j)" ></mulit-select>
+                    <mulit-select :data="col" @deleteCol="deleteCol(item, j)" @select="value=>setDefaultExtra(value,col)" ></mulit-select>
                 </el-col>
                 <el-col v-if="item.length===1" :span="2"><el-button type="primary" @click="addCol(item)">ADD</el-button></el-col>
             </el-row>
@@ -138,8 +138,8 @@ import { getOptionsAnsyc } from '@/mixin/main';
 import { findInArray, getRandomID, postNewWindow } from '@/assets/js/utils';
 import { URL } from '@/api/main'
 
-const RATE = 'EXCH：';
-
+const RATE = 'EXCH';
+let extraDefault = {};
 export default {
     components: { MulitSelect },
     props: {
@@ -204,7 +204,7 @@ export default {
         close() {
             this.$emit('close');
         },
-        loadData(reLoad = false){
+        loadData(bkgId,reLoad = false){
             if(this.isLoaded && !reLoad){
                 return ;
             }
@@ -213,7 +213,7 @@ export default {
                 this.extra.splice(0, this.extra.length);
                 this.detail.splice(0, this.detail.length);
             }
-            this.$getBook(this.bkgId, ({data:{data:data}})=>{
+            this.$getBook(bkgId || this.bkgId, ({data:{data:data}})=>{
                 this.id = data.id || getRandomID();
                 this.tel = data.tel || '';
                 this.no = data.no || '';
@@ -227,7 +227,7 @@ export default {
                     let row = [];
                     for(let j=0; j<2; j++){
                         if(data.extra[`label_${i+j}`] !== undefined
-                        && !(!data.extra[`label_${i+j}`] && !data.extra[`value_${i+j}`])){
+                        && !(i !== 0 && !data.extra[`label_${i+j}`] && !data.extra[`value_${i+j}`])){
                             row.push({
                                 label:data.extra[`label_${i+j}`],
                                 value:data.extra[`value_${i+j}`],
@@ -238,8 +238,8 @@ export default {
                         this.extra.push(row);
                     }
                 }
-                console.log('data.detail',data.detail)
                 this.detail.push(...data.detail);
+                extraDefault = data.extraDefault;
             });
         },
         addCol(row){
@@ -300,6 +300,9 @@ export default {
                 tak_total:this.takTotal,
                 total:this.sum,
             });
+        },
+        setDefaultExtra(value, col){
+            col.value = extraDefault[value] || '';
         }
     },
     watch:{
@@ -310,7 +313,7 @@ export default {
                     if(this.rate && row.detail && row.currency){
                         const price = row.detail * this.rate.split('|')[1]
                         if(row.price !== price){
-                            row.price = price;
+                            row.price = parseInt(price);
                         }
                     }
                     const sum = (row.price || 0 ) * (row.num || 0 )

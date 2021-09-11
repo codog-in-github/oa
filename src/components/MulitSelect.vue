@@ -1,7 +1,7 @@
 <template>
     <el-form-item label-width="250px">
         <template #label>
-            <el-autocomplete v-model.lazy="data.label" @focus="getOptionsAnsyc(11, options.label)" :fetch-suggestions="querySearch" @select="setDefault">
+            <el-autocomplete v-model.lazy="data.label" @focus="getOptionsAnsyc(11, options.label)" :fetch-suggestions="querySearch" @select="({value})=>$emit('select',value)">
                 <template #prepend><el-button class="el-icon-remove" style="color:red" @click="$emit('deleteCol')"></el-button></template>
             </el-autocomplete>
         </template>
@@ -19,7 +19,7 @@
 <script>
 import { getOptionsAnsyc } from '@/mixin/main'
 
-const RATE = 'EXCH：';
+const RATE = 'EXCH';
 
 export default {
     props: {
@@ -74,9 +74,6 @@ export default {
     methods: {
         querySearch(search, cb) {
             cb(this.options.label.item);
-        },
-        setDefault(){
-            this.$emit('setDefault',this.data);
         }
     },
     mixins:[
