@@ -177,6 +177,7 @@ export default {
             },
             
             fromList: undefined,
+            fromListCopy: undefined,
         }
     },
     computed: {
@@ -210,9 +211,12 @@ export default {
         close() {
             this.$emit('close');
         },
-        loadData(bkgId,reLoad = false){
+        loadData(bkgId,copyBkgId,reLoad = false){
             if(bkgId){
                 this.fromList = bkgId
+            }
+            if(copyBkgId){
+                this.fromListCopy = copyBkgId
             }
             if(this.isLoaded && !reLoad){
                 return ;
@@ -223,7 +227,10 @@ export default {
                 this.extra = [];
                 this.detail = [];
             }
-            this.$getBook(bkgId || this.bkgId, ({data:{data:data}})=>{
+            this.$getBook({
+                    bkg_id:bkgId || this.bkgId,
+                    copy_bkg_id:copyBkgId || ''
+                }, ({data:{data:data}})=>{
                 this.id = data.id || getRandomID();
                 this.tel = data.tel || '';
                 this.no = data.no || '';

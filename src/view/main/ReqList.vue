@@ -194,7 +194,7 @@
                                 type="primary"
                                 size="mini"
                                 class="el-icon-view"
-                                @click="displayRequestbook(scope.row.id)"
+                                @click="detailClickHandler(scope.row.id)"
                             >
                                 DETAIL
                             </el-button>
@@ -286,6 +286,8 @@ export default {
             },
             stateChangeTimer:-1,
             newOrder: false,
+
+            selectId:'',
             copy_no:'',
 
             rbShow:false,
@@ -303,17 +305,17 @@ export default {
             return this.$route.params.state == '1'
                 || this.$route.params.state == '2'
         },
-        showDetail(){
-            return this.$route.params.state != 'normal'
-                && this.$route.params.state != 'draft';
-        },
-        showEdit(){
-            return this.$route.params.state == 'normal'
-                || this.$route.params.state == 'draft';
-        },
-        showDelete(){
-            return this.$route.params.state == 'normal';
-        },
+        // showDetail(){
+        //     return this.$route.params.state != 'normal'
+        //         && this.$route.params.state != 'draft';
+        // },
+        // showEdit(){
+        //     return this.$route.params.state == 'normal'
+        //         || this.$route.params.state == 'draft';
+        // },
+        // showDelete(){
+        //     return this.$route.params.state == 'normal';
+        // },
         showRestore(){
             return this.$route.params.state == 'delete';
         },
@@ -404,14 +406,25 @@ export default {
             this.newOrder = true;
             // this.$router.push('/frame/form');
         },
+        detailClickHandler(rowId){
+            this.$hasBook(rowId,({data:{data}})=>{
+                if(!data){
+                    this.selectId = rowId
+                    this.newOrder = true
+                }else{
+                    this.displayRequestbook(rowId)
+                }
+            })
+        },
         getOrderID(){
+            const rowBkgId = this.selectId
             if(this.copy_no === ''){
-                this.$router.push('/frame/form');
+                this.displayRequestbook(rowBkgId)
             }else{
                 this.$getOrderID(this.copy_no,({data})=>{
                     let id = data.data;
                     if(id){
-                        this.$router.push(`/frame/form/${id}/copy`);
+                        this.displayRequestbook(rowBkgId, id)
                     }else{
                         this.$notify({
                             title: 'ERROR',
@@ -422,9 +435,9 @@ export default {
                 })
             }
         },
-        displayRequestbook(bkgId){
+        displayRequestbook(bkgId, copyId){
             this.rbShow = true;
-            this.$refs.rb.loadData(bkgId,true)
+            this.$refs.rb.loadData(bkgId, copyId, true)
         }
     },
     mixins:[
