@@ -73,16 +73,25 @@ export default {
             if(this.isCopy){
                 saveData.copy_id = this.$route.params.bkg_id;
             }
-            this.$saveOrder(saveData,()=>{
+            this.$saveOrder(saveData,req => {
                 this.loading = false;
-                this.$notify({
-                    title: 'SUCCESS',
-                    message: 'SAVE SUCCESSFUL!',
-                    type: 'success'
-                });
-                setTimeout(() => {
-                    this.$router.push(`/frame/form/${saveData.header.id}/edit`)
-                }, 500);
+                const {error, message} = req.data;
+                if(error != 0){
+                    this.$notify({
+                        title: 'error',
+                        message,
+                        type: 'error'
+                    });
+                }else{
+                    this.$notify({
+                        title: 'SUCCESS',
+                        message: 'SAVE SUCCESSFUL!',
+                        type: 'success'
+                    });
+                    setTimeout(() => {
+                        this.$router.push(`/frame/form/${saveData.header.id}/edit`)
+                    }, 500);
+                }
             });
         },
         
