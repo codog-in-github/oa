@@ -39,6 +39,13 @@ let routes = [
                 path:'/frame/req/:state',
                 component:()=>import('@/view/main/ReqList.vue'),
             },
+            // 系统管理 start
+            // 权限管理
+            {
+                path:'/auth',
+                component:()=>import('@/view/system/Auth.vue'),
+            },
+            // 系统管理 end
             
         ],
     },{

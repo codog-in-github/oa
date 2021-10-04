@@ -102,13 +102,13 @@ export default {
                 for(const id in menuGroups){
                     const tmpGroup = {
                         to:'-1',
-                        label:menuGroups[id][0].c_extra.split('|')[0],
+                        label:menuGroups[id][0].extra.split('|')[0],
                         toggle:true,
-                        class:menuGroups[id][0].c_extra.split('|')[1],
+                        class:menuGroups[id][0].extra.split('|')[1],
                         child:[],
                     }
                     for (const sigleMenu of menuGroups[id]){
-                        tmpGroup.child.push({to:sigleMenu.c_target, label:sigleMenu.c_extra.split('|')[0],})
+                        tmpGroup.child.push({to:sigleMenu.c_target, label:sigleMenu.c_extra,})
                     }
                     menu.push(tmpGroup)
                 }

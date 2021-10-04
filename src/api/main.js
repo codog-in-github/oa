@@ -30,6 +30,10 @@ const HANDING = BOOK_DIR + '/handling';
 const REQUESTBOOK = BOOK_DIR + '/requestbook';
 const LAST_UPDATE = BASE_PATH + '/Index/needClear';
 
+const SYSTEM_PATH = BASE_PATH + '/System';
+const GET_ROLE_LIST = SYSTEM_PATH + '/getRoleList';
+const GET_AUTH_LIST = SYSTEM_PATH + '/getAuthList';
+
 axios.defaults.withCredentials = true;
 
 export const URL = {
@@ -191,6 +195,16 @@ const needInterceptorsMethods = [
                 this.$api.queue = ()=>axios.get(
                     `${HAS_REQUESTBOOK}/bkg_id/${bkg_id||'0'}`,
                 );
+                this.$api.queue = cb;
+            },
+
+            $getRoleList(cb){
+                this.$api.queue = () => axios.get(GET_ROLE_LIST);
+                this.$api.queue = cb;
+            },
+            
+            $getAuthList(cb){
+                this.$api.queue = () => axios.get(GET_AUTH_LIST);
                 this.$api.queue = cb;
             }
         },

@@ -1,0 +1,40 @@
+@import 'colors.less';
+
+.bg{
+    background:  @background !important;
+}
+
+.container{
+    width: 100%;
+    padding: 2em 10%;
+    box-sizing: border-box;
+    letter-spacing: .2em;
+
+    main > *+*{
+        margin-top: 1em;
+    }
+
+    h1,h2{
+        width: 100%;
+        padding: .2em;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    h2{
+        .label{
+            display: flex;
+            align-items: center;
+            &::before{
+                content: '✌';
+                border-radius: 3px;
+                color: #fff;
+                padding: .5em;
+                font-size: 25px;
+                display: inline-block;
+                margin-right: .5em;
+            }
+        }
+    }
+}

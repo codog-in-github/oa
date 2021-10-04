@@ -86,3 +86,23 @@ export const postNewWindow = (url, params = {})=>{
     form.submit();
     document.body.removeChild(form);
 }
+/**
+ * 对象转数组
+ * @param {Object} obj 对象
+ * @param {Boolean} deep 是否递归转换
+ * @returns {Any}
+ */
+export const objectToArray = (obj, deep = false) => {
+    if(!(obj instanceof Object)) return obj
+    const arr = [];
+    for(const key in obj){
+        if(deep
+        && obj[key] instanceof Object
+        && !(obj[key] instanceof Array) ){
+            arr.push(objectToArray(obj[key], deep))
+        }else{
+            arr.push(obj[key])
+        }
+    }
+    return arr;
+}
