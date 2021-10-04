@@ -5,6 +5,7 @@ import * as statecode from './statecode';
 
 const BASE_PATH  = process.env.NODE_ENV === 'production' ? '/Oa':'http://127.0.0.1:81/Oa';
 const LOGIN_PATH = BASE_PATH + '/Index/login';
+const MENU_PATH = BASE_PATH + '/Index/getMenu';
 const LOGOUT_PATH = BASE_PATH + '/Index/logout';
 const LOGOUT_VERIFY_PATH = BASE_PATH + '/Index/verify';
 const LOGIN_STATUS = BASE_PATH + '/Index/';
@@ -51,6 +52,10 @@ const needInterceptorsMethods = [
             },
             $logout(){
                 axios.get(LOGOUT_PATH);
+            },
+            $getMenu(cb){
+                this.$api.queue = ()=>axios.get(MENU_PATH);
+                this.$api.queue = cb;
             },
             $getOptions(selectId, options, fatherOptionsId){
                 const localOpt = localStorage.getItem(`options_${selectId}_${fatherOptionsId || ''}`);

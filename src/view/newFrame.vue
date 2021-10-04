@@ -71,7 +71,7 @@ export default {
                     class:"el-icon-s-order",
                     child:[
                         {to:'/frame/req/0', label:'請求書未発行', },
-                        {to:'/frame/req/1', label:'請求書発行済',},
+                        {to:'/frame/req/1', label:'請求 書発行済',},
                         {to:'/frame/req/2', label:'入金済',},
                     ],
                 },
@@ -88,10 +88,33 @@ export default {
             ],
         };
     },
+    mounted(){
+        this.getMenu()
+    },
     methods: {
         logout(){
             this.$logout();
         },
+        getMenu(){
+            this.$getMenu((menuGroups)=>{
+                menuGroups = menuGroups.data.data
+                const menu = []
+                for(const id in menuGroups){
+                    const tmpGroup = {
+                        to:'-1',
+                        label:menuGroups[id][0].c_extra.split('|')[0],
+                        toggle:true,
+                        class:menuGroups[id][0].c_extra.split('|')[1],
+                        child:[],
+                    }
+                    for (const sigleMenu of menuGroups[id]){
+                        tmpGroup.child.push({to:sigleMenu.c_target, label:sigleMenu.c_extra.split('|')[0],})
+                    }
+                    menu.push(tmpGroup)
+                }
+                this.menu = menu
+            })
+        }
     },
     beforeRouteEnter(to, from, next){
         next(vm=>{
