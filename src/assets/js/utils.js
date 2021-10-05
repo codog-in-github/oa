@@ -106,3 +106,46 @@ export const objectToArray = (obj, deep = false) => {
     }
     return arr;
 }
+
+/**
+ * 包装防抖函数
+ * @param { Function } fn 需要被包装的函数
+ * @param { Object } thisArg this
+ * @param { Number } delay 延时
+ * @returns { Function } 防抖函数
+ */
+export const debounce = (fn, thisArg, delay = 300)=>{
+    let timmer;
+    return args => {
+        clearTimeout(timmer)
+        timmer = setTimeout(fn.bind(thisArg), delay, args);
+    }
+
+}
+/**
+ * 包装节流函数
+ * @param { Function } fn 需要被包装的函数
+ * @param { Object } thisArg this
+ * @param { Boolean } isAsync 是否未异步函数
+ * @returns Function
+ */
+export const throttling = (fn, thisArg, isAsync = false)=>{
+    let locked = false
+    if(isAsync){
+        return async args => {
+            if(!locked){
+                locked = true
+                await fn.apply(thisArg, args)
+                locked = false
+            }
+        }
+    } else {
+        return args => {
+            if(!locked){
+                locked = true
+                fn.apply(thisArg, args)
+                locked = false
+            }
+        }
+    }
+}

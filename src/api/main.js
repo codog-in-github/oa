@@ -33,6 +33,7 @@ const LAST_UPDATE = BASE_PATH + '/Index/needClear';
 const SYSTEM_PATH = BASE_PATH + '/System';
 const GET_ROLE_LIST = SYSTEM_PATH + '/getRoleList';
 const GET_AUTH_LIST = SYSTEM_PATH + '/getAuthList';
+const GET_ROLE_AUTH_LIST = SYSTEM_PATH + '/getRoleAuthList';
 
 axios.defaults.withCredentials = true;
 
@@ -205,6 +206,11 @@ const needInterceptorsMethods = [
             
             $getAuthList(cb){
                 this.$api.queue = () => axios.get(GET_AUTH_LIST);
+                this.$api.queue = cb;
+            },
+
+            $getRoleAuth(roleid, cb){
+                this.$api.queue = () => axios.get(GET_ROLE_AUTH_LIST + '/role_id/' +roleid);
                 this.$api.queue = cb;
             }
         },
