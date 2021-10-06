@@ -34,8 +34,7 @@ const SYSTEM_PATH = BASE_PATH + '/System';
 const GET_ROLE_LIST = SYSTEM_PATH + '/getRoleList';
 const GET_AUTH_LIST = SYSTEM_PATH + '/getAuthList';
 const GET_ROLE_AUTH_LIST = SYSTEM_PATH + '/getRoleAuthList';
-const GET_CONTROLLER = SYSTEM_PATH + '/getParentMenu';
-const GET_PARENT_MENU = SYSTEM_PATH + '/getController';
+const GET_PARENT_AUTH = SYSTEM_PATH + '/getParentAuth';
 
 axios.defaults.withCredentials = true;
 
@@ -216,15 +215,11 @@ const needInterceptorsMethods = [
                 this.$api.queue = cb;
             },
 
-            $getParentMenu(cb){
-                this.$api.queue = () => axios.get(GET_PARENT_MENU);
+            $getParentAuth(type, cb){
+                this.$api.queue = () => axios.get(GET_PARENT_AUTH + '/type/' + type);
                 this.$api.queue = cb;
             },
 
-            $getController(cb){
-                this.$api.queue = () => axios.get(GET_CONTROLLER);
-                this.$api.queue = cb;
-            },
         },
         //拦截器
         interceptor:(vm,{data})=>{
