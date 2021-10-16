@@ -30,11 +30,14 @@ const HANDING = BOOK_DIR + '/handling';
 const REQUESTBOOK = BOOK_DIR + '/requestbook';
 const LAST_UPDATE = BASE_PATH + '/Index/needClear';
 
+
+//  
 const SYSTEM_PATH = BASE_PATH + '/System';
 const GET_ROLE_LIST = SYSTEM_PATH + '/getRoleList';
 const GET_AUTH_LIST = SYSTEM_PATH + '/getAuthList';
 const GET_ROLE_AUTH_LIST = SYSTEM_PATH + '/getRoleAuthList';
 const GET_PARENT_AUTH = SYSTEM_PATH + '/getParentAuth';
+const ADD_MENU = SYSTEM_PATH + '/addMenu';
 
 axios.defaults.withCredentials = true;
 
@@ -44,8 +47,8 @@ export const URL = {
     LOGOUT_VERIFY_PATH,
     REQUESTBOOK
 } 
-//需要添加建提起的方法 
 
+//需要添加建提起的方法 
 const needInterceptorsMethods = [
     {
         //需要被拦截器的方法
@@ -220,6 +223,13 @@ const needInterceptorsMethods = [
                 this.$api.queue = cb;
             },
 
+            $addMenu(params,cb){
+                this.$api.queue = () => axios.post(
+                    ADD_MENU,
+                    qs.stringify(params)
+                )
+                this.$api.queue = cb
+            }
         },
         //拦截器
         interceptor:(vm,{data})=>{

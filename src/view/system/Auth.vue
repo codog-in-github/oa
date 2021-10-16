@@ -43,26 +43,30 @@
         <el-dialog :visible="addDialog.visible" @close="addDialog.visible = false" :title="'新增' + addTypeName">
             <el-form label-width="12em">
                 <el-form-item :label="'创建新的父级'+addTypeName">
-                    <el-switch v-model="addDialog.addParent" />
+                    <el-switch v-model="addDialog.addParent" @change="clearParent" />
                 </el-form-item>
                 <el-form-item v-if="addDialog.addParent" :label="'父' + addTypeName + '显示名称'">
-                    <el-input v-model="addDialog.data.parentExtra"></el-input>
+                    <el-input v-model="addDialog.data.parent.extra"></el-input>
                 </el-form-item>
                 <el-form-item v-if="addDialog.addParent" :label="'父' + addTypeName + '地址'">
-                    <el-input v-model="addDialog.data.parentTarge"></el-input>
+                    <el-input v-model="addDialog.data.parent.target"></el-input>
                 </el-form-item>
                 <el-form-item v-else :label="'请选择父级'+addTypeName">
-                    <el-select v-model="addDialog.data.parentId">
+                    <el-select v-model="addDialog.data.parent.id">
                         <el-option v-for="opt in addDialog.options" :key="opt.id" :value="opt.id" :label="opt.extra"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item :label="'子' + addTypeName + '显示名称'">
-                    <el-input v-model="addDialog.data.childExtra"></el-input>
+                    <el-input v-model="addDialog.data.child.extra"></el-input>
                 </el-form-item>
                 <el-form-item :label="'子' + addTypeName + '地址'">
-                    <el-input v-model="addDialog.data.childTarge"></el-input>
+                    <el-input v-model="addDialog.data.child.target"></el-input>
                 </el-form-item>
             </el-form>
+            <template #footer>
+                <el-button @click="addMenu" type="primary">添加</el-button>
+                <el-button @click="addDialog.visible = false">取消</el-button>
+            </template>
         </el-dialog>
         <!-- 新增权限对话框 end -->
     </div>
@@ -84,21 +88,27 @@ export default {
                 addParent:false,
                 options:[],
                 data:{
-                    parentId:'',
-                    parentTarge:'',
-                    parentExtra:'',
-                    childTarge:'',
-                    childExtra:'',
+                    parent:{
+                        id:'',
+                        target:'',
+                        extra:'',
+                    },
+                    child: {
+                        target:'',
+                        extra:'',
+                    }
                 }
             },
 
         }
     },
+
     computed:{
         addTypeName(){
             return ['菜单', '模块/方法'][this.addDialog.type]
         }
     },
+
     mounted(){
         this.$getRoleList( roleList => {
             this.roleList = roleList.data.data
@@ -143,6 +153,7 @@ export default {
                 }
             })
         },
+
         openDialog(type){
             this.addDialog.type = type
             this.addDialog.visible = true
@@ -151,7 +162,48 @@ export default {
                 this.addDialog.loading = false
                 this.addDialog.options = authList.data.data
             });
-        }
+        },
+
+        clearParent(){
+            this.addDialog.data.parent.target = ''
+            this.addDialog.data.parent.id = ''
+            this.addDialog.data.parent.extra = ''
+        },
+
+        addMenu(){
+            this.addDialog.visible = false
+            const type = this.addDialog.type
+            const parent = this.addDialog.data.parent
+            const child = this.addDialog.data.child
+            const varName = ['menuList','methodList'][type]
+            this.$addMenu({
+                type,
+                parent,
+                child,
+            },({data})=>{
+                const [pid, id] = data.data;
+                const p = this[varName].filter(item=>item[0].id === pid)
+                if(p.length > 0){
+                    p[0].push({
+                        ...p[0][0],
+                        c_id:id,
+                        c_target:child.target,
+                        c_extra:child.extra,
+                        c_checked:false
+                    })
+                }else{
+                    this[varName].push([{
+                        ...parent,
+                        id,
+                        checked:false,
+                        c_id:id,
+                        c_target:child.target,
+                        c_extra:child.extra,
+                        c_checked:false
+                    }])
+                }
+            })
+        },
     }
     
 }
