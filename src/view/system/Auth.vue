@@ -46,7 +46,7 @@
             </main>
         </div>
         <!-- 新增权限对话框 start -->
-        <el-dialog :visible="addDialog.visible" @close="addDialog.visible = false" :title="'新增' + addTypeName">
+        <el-dialog :visible="addDialog.visible" @close="addDialog.visible = false" :title="'新增' + addTypeName" :close-on-click-modal="false">
             <el-form label-width="12em">
                 <el-form-item :label="'创建新的父级'+addTypeName">
                     <el-switch v-model="addDialog.addParent" @change="clearParent" />

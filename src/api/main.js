@@ -2,42 +2,52 @@ import axios from 'axios'
 import qs from 'qs' 
 import * as statecode from './statecode';
 
-
 const BASE_PATH  = process.env.NODE_ENV === 'production' ? '/Oa':'http://127.0.0.1:81/Oa';
-const LOGIN_PATH = BASE_PATH + '/Index/login';
-const MENU_PATH = BASE_PATH + '/Index/getMenu';
-const LOGOUT_PATH = BASE_PATH + '/Index/logout';
-const LOGOUT_VERIFY_PATH = BASE_PATH + '/Index/verify';
-const LOGIN_STATUS = BASE_PATH + '/Index/';
-const OPTIONS_LIST = BASE_PATH + '/Config/getOptions';
-const GET_BKG_LIST = BASE_PATH + '/Bkg/getList';
-const GET_CONTAINER_LIST = BASE_PATH + '/Container/getList';
-const CONFIRM_DETAIL = BASE_PATH + '/Container/confirm';
-const SAVE_ORDER = BASE_PATH + '/Bkg/saveData';
-const GET_ORDER = BASE_PATH + '/Bkg/getBkgOrder';
-const GET_ORDER_ID = BASE_PATH + '/Bkg/getBkgOrderID';
-const DELETE_ORDER = BASE_PATH + '/Bkg/deleteBkgOrder';
-const CHANGE_ORDER_STATE = BASE_PATH + '/Bkg/changeOrderState';
-const CHANGE_ORDER_STEP = BASE_PATH + '/Bkg/changeOrderStep';
-const CHANGE_ORDER_REQUEST_STEP = BASE_PATH + '/Bkg/changeOrderRequestStep';
-const GET_REQUESTBOOK = BASE_PATH + '/Requestbook/getBook';
-const HAS_REQUESTBOOK = BASE_PATH + '/Requestbook/hasBook';
-const GET_BOOKING_NOTICE = BASE_PATH + '/BookingNotice/getBookingNotice';
-const BOOK_DIR = BASE_PATH + '/Export';
-const BOOKING_NOTICE = BOOK_DIR + '/bookingNotice';
-const GET_HANDING_DATA = BOOK_DIR + '/getHandlngData';
-const HANDING = BOOK_DIR + '/handling';
-const REQUESTBOOK = BOOK_DIR + '/requestbook';
-const LAST_UPDATE = BASE_PATH + '/Index/needClear';
 
-//  
-const SYSTEM_PATH = BASE_PATH + '/System';
-const GET_ROLE_LIST = SYSTEM_PATH + '/getRoleList';
-const GET_AUTH_LIST = SYSTEM_PATH + '/getAuthList';
-const GET_ROLE_AUTH_LIST = SYSTEM_PATH + '/getRoleAuthList';
-const GET_PARENT_AUTH = SYSTEM_PATH + '/getParentAuth';
-const ADD_MENU = SYSTEM_PATH + '/addMenu';
-const CHANGE_ROLE_AUTH = SYSTEM_PATH + '/changeRoleAuth';
+const INDEX_PATH         = BASE_PATH  + '/Index'
+const LOGIN_PATH         = INDEX_PATH + '/login'
+const MENU_PATH          = INDEX_PATH + '/getMenu'
+const LOGOUT_PATH        = INDEX_PATH + '/logout'
+const LOGOUT_VERIFY_PATH = INDEX_PATH + '/verify'
+const LOGIN_STATUS       = INDEX_PATH + '/index'
+const LAST_UPDATE        = INDEX_PATH + '/needClear'
+
+const CONFIG_PATH  = BASE_PATH   + '/Config'
+const OPTIONS_LIST = CONFIG_PATH + '/getOptions'
+
+const BKG_PATH                  = BASE_PATH + '/Bkg'
+const GET_BKG_LIST              = BKG_PATH  + '/getList'
+const SAVE_ORDER                = BKG_PATH  + '/saveData'
+const GET_ORDER                 = BKG_PATH  + '/getBkgOrder'
+const GET_ORDER_ID              = BKG_PATH  + '/getBkgOrderID'
+const DELETE_ORDER              = BKG_PATH  + '/deleteBkgOrder'
+const CHANGE_ORDER_STATE        = BKG_PATH  + '/changeOrderState'
+const CHANGE_ORDER_STEP         = BKG_PATH  + '/changeOrderStep'
+const CHANGE_ORDER_REQUEST_STEP = BKG_PATH  + '/changeOrderRequestStep'
+
+const CONTAINER_PATH     = BASE_PATH      + '/Container'
+const GET_CONTAINER_LIST = CONTAINER_PATH + '/getList'
+const CONFIRM_DETAIL     = CONTAINER_PATH + '/confirm'
+
+const REQUESTBOOK_PATH = BASE_PATH        + '/Requestbook'
+const GET_REQUESTBOOK  = REQUESTBOOK_PATH + '/getBook'
+const HAS_REQUESTBOOK  = REQUESTBOOK_PATH + '/hasBook'
+
+const BOOKING_NOTICE     = BOOK_DIR       + '/bookingNotice'
+const GET_BOOKING_NOTICE = BOOKING_NOTICE + '/getBookingNotice'
+
+const BOOK_DIR         = BASE_PATH + '/Export'
+const GET_HANDING_DATA = BOOK_DIR  + '/getHandlngData'
+const HANDING          = BOOK_DIR  + '/handling'
+const REQUESTBOOK      = BOOK_DIR  + '/requestbook'
+
+const SYSTEM_PATH        = BASE_PATH   + '/System'
+const GET_ROLE_LIST      = SYSTEM_PATH + '/getRoleList'
+const GET_AUTH_LIST      = SYSTEM_PATH + '/getAuthList'
+const GET_ROLE_AUTH_LIST = SYSTEM_PATH + '/getRoleAuthList'
+const GET_PARENT_AUTH    = SYSTEM_PATH + '/getParentAuth'
+const ADD_MENU           = SYSTEM_PATH + '/addMenu'
+const CHANGE_ROLE_AUTH   = SYSTEM_PATH + '/changeRoleAuth'
 
 axios.defaults.withCredentials = true;
 
