@@ -92,7 +92,6 @@ export default {
                 }
                 console.log(remarks);
                 this.common = fd.container.common;
-                this.remarks = remarks + fd.container.remarks;
                 this.dialog.loading = false;
             });
         },
