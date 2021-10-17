@@ -116,9 +116,9 @@ export const objectToArray = (obj, deep = false) => {
  */
 export const debounce = (fn, thisArg, delay = 300)=>{
     let timmer;
-    return args => {
+    return (...args) => {
         clearTimeout(timmer)
-        timmer = setTimeout(fn.bind(thisArg), delay, args);
+        timmer = setTimeout(fn.bind(thisArg), delay, ...args);
     }
 
 }

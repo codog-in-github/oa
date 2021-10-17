@@ -38,6 +38,7 @@ const GET_AUTH_LIST = SYSTEM_PATH + '/getAuthList';
 const GET_ROLE_AUTH_LIST = SYSTEM_PATH + '/getRoleAuthList';
 const GET_PARENT_AUTH = SYSTEM_PATH + '/getParentAuth';
 const ADD_MENU = SYSTEM_PATH + '/addMenu';
+const CHANGE_ROLE_AUTH = SYSTEM_PATH + '/changeRoleAuth';
 
 axios.defaults.withCredentials = true;
 
@@ -229,7 +230,16 @@ const needInterceptorsMethods = [
                     qs.stringify(params)
                 )
                 this.$api.queue = cb
-            }
+            },
+
+            $changeRoleAuth(params,cb){
+                this.$api.queue = () => axios.post(
+                    CHANGE_ROLE_AUTH,
+                    qs.stringify(params)
+                )
+                this.$api.queue = cb
+            },
+
         },
         //拦截器
         interceptor:(vm,{data})=>{
@@ -329,5 +339,18 @@ export class Api{
         this.promise = this.promise.then(
             data=>successCall(data)
         )
+    }
+
+    errorMessage(response = {}, showSuccessMessage = false, successMessage){
+        const message = {}
+        if(response.error){
+            message.title = 'ERROR'
+            message.message = response.message
+        }else if(showSuccessMessage){
+            message.title = 'SUCCESS'
+            message.message = successMessage || response.message
+        }
+        this.$notify(message)
+        return response.data
     }
 }

@@ -8,11 +8,14 @@
                     <el-select v-model="currentRole" @change="currentRoleChange">
                         <el-option v-for="(role, i) in roleList" :key="i" :value="role.id" :label="role.name"></el-option>
                     </el-select>
+                    <el-button v-show="currentRole" type="primary" class="el-icon-ice-tea" @click="changeRoleAuth">保存</el-button>
                 </span>
             </h1>
             <main>
                 <!-- 菜单权限列表 start -->
-                <h2><div class="label">菜单</div><el-button type="primary" @click="openDialog('0')">新增</el-button></h2>
+                <h2>
+                    <div class="label">菜单</div><el-button type="success" class="el-icon-food" @click="openDialog('0')">新增</el-button>
+                </h2>
                 <el-card v-for="menus in menuList" :key="menus[0].id">
                     <template #header>
                         <div>
@@ -25,7 +28,10 @@
                 </el-card>
                 <!-- 菜单权限列表 end -->
                 <!-- 模块权限列表 start -->
-                <h2><div class="label">模块</div><el-button type="primary" @click="openDialog('1')">新增</el-button></h2>
+                <h2>
+                    <div class="label">接口</div>
+                    <el-button type="success" class="el-icon-grape" @click="openDialog('1')">新增</el-button>
+                </h2>
                 <el-card v-for="methods in methodList" :key="methods[0].id">
                     <template #header>
                         <div>
@@ -105,7 +111,7 @@ export default {
 
     computed:{
         addTypeName(){
-            return ['菜单', '模块/方法'][this.addDialog.type]
+            return ['菜单', '接口'][this.addDialog.type]
         }
     },
 
@@ -137,8 +143,8 @@ export default {
         this.currentRoleChange = debounce(this.currentRoleChange, this) 
     },
     methods:{
-        currentRoleChange(roleId){
-            this.$getRoleAuth(roleId, authList => {
+        currentRoleChange(currentRole){
+            this.$getRoleAuth(currentRole, authList => {
                 for(const group of this.methodList){
                     for(const i of group){
                         i.checked =  authList.data.data.indexOf(i.id) !== -1
@@ -204,6 +210,29 @@ export default {
                 }
             })
         },
+
+        changeRoleAuth(){
+
+            const ids = []
+            for(const group of this.menuList){
+                group[0].checked && ids.push(group[0].id)
+                for(const child of group){
+                    child.c_checked && ids.push(child.c_id)
+                }
+            }
+            for(const group of this.methodList){
+                group[0].checked && ids.push(group[0].id)
+                for(const child of group){
+                    child.c_checked && ids.push(child.c_id)
+                }
+            }
+            this.$changeRoleAuth({
+                role_id: this.currentRole,
+                ids: ids.join(',')
+            },({data})=>{
+                this.$api.errorMessage.bind(this)(data, true, '修改成功')
+            })
+        }
     }
     
 }
@@ -220,7 +249,12 @@ export default {
         padding: 0.5em;
     }
 }
+
 .el-input{
     width: auto;
+}
+
+.el-button[class*="el-icon"] span{
+    margin-left: .3em;
 }
 </style>
