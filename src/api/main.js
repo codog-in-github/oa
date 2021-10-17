@@ -30,7 +30,6 @@ const HANDING = BOOK_DIR + '/handling';
 const REQUESTBOOK = BOOK_DIR + '/requestbook';
 const LAST_UPDATE = BASE_PATH + '/Index/needClear';
 
-
 //  
 const SYSTEM_PATH = BASE_PATH + '/System';
 const GET_ROLE_LIST = SYSTEM_PATH + '/getRoleList';
@@ -249,6 +248,10 @@ const needInterceptorsMethods = [
                     vm.$store.dispatch('logoutEnforce',vm);
                     return Promise.reject('WITHOUT_LOGIN');
                 }
+                // case statecode.ILLEGAL_PARAMS:{
+                //     vm.$store.dispatch('logoutEnforce',vm);
+                //     return Promise.reject('ILLEGAL_PARAMS');
+                // }
                 case statecode.SUCCESS:{
                     return data;
                 }
