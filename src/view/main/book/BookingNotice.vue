@@ -90,9 +90,8 @@ export default {
                         remarks += `${item.vanning_date?'＊バン詰め： ':''}${item.vanning_date.slice(0,10) || ''} ${item.vanning_during?.split('-')[0] || ''} ${item.chassis || ''}  ${item.expenses || ''}\n${item.booker_place|| ''} \n`;
                     }
                 }
-                console.log(remarks);
                 this.common = fd.container.common;
-                this.remarks = fd.container.remarks;
+                this.remarks = remarks;
                 this.dialog.loading = false;
             });
         },
