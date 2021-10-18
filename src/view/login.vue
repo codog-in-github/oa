@@ -26,15 +26,15 @@
           <el-form-item>
             <el-input placeholder="Enter your password" type="password" v-model='form.password'/>
           </el-form-item>
-          VERIFY
-          <el-row>
+          <!-- VERIFY -->
+          <!-- <el-row>
             <el-col :span="12">
                 <el-input placeholder="Enter your verify" v-model='form.verify'/>
             </el-col>
             <el-col :span="12">
               <img :src="verifyUrl" title="CHANGE IT" @click="changeVerify" :style="{cursor:'pointer',width:'100%'}">
             </el-col>
-          </el-row>
+          </el-row> -->
         <el-form-item style="margin-top:30px;">
           <el-button 
             type="primary" 
@@ -88,21 +88,21 @@ export default {
         this.loading = false;
         return void 0;
       }
-      if(this.form.verify == ''){
-        //no user verify
-        this.$notify.error({
-            title: 'error',
-            message: `please enter verify`,
-        });
-        this.loading = false;
-        return void 0;
-      }
+      // if(this.form.verify == ''){
+      //   //no user verify
+      //   this.$notify.error({
+      //       title: 'error',
+      //       message: `please enter verify`,
+      //   });
+      //   this.loading = false;
+      //   return void 0;
+      // }
       this.$doLogin(
         this.form.username, 
         this.form.password,
-        this.form.verify,
+        null,
         ()=>{
-          this.changeVerify();
+          // this.changeVerify();
           this.loading = false;
         }
       );
