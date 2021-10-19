@@ -87,7 +87,7 @@ export default {
                     remarks = fd.remarks;
                 }else{
                     for(let item of fd.detail){
-                        remarks += `VAN日程： ${item.vanning_date?'＊バン詰め： ':''}${item.vanning_date.slice(0,10) || ''} ${item.vanning_during?.split('-')[0] || ''} ${item.chassis || ''}  ${item.expenses || ''}\nVAN場所：${item.booker_place|| ''} \n`;
+                        remarks += `${item.vanning_date?'＊バン詰め： ':''}${item.vanning_date.slice(0,10) || ''} ${item.vanning_during?.split('-')[0] || ''} ${item.chassis || ''}  ${item.expenses || ''}\nVAN場所：${item.booker_place|| ''} \n`;
                     }
                     remarks += fd.container.remarks
                 }
