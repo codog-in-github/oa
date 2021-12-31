@@ -83,7 +83,7 @@ export default {
                 this.consiginee = fd.container.consiginee;
                 // this.container = '';
                 let remarks = '';
-                if(fd.remarks){
+                if(fd.remarks && !/^\s+$/.test(fd.remarks)){
                     remarks = fd.remarks;
                 }else{
                     for(let item of fd.detail){
