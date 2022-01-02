@@ -149,7 +149,7 @@
                 >CLOSE</el-button>
             </template>
         </el-dialog>
-        <request-book :show="requestBookShow" @close="requestBookShow = false" :bkg-id="bkgId" ref="rbook"/>
+        <request-book :show="requestBookShow" @close="requestBookShow = false" :bkg-id="bkgId" :readonly="false" ref="rbook"/>
     </div>
 </template>
 <script>

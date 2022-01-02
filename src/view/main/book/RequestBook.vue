@@ -9,8 +9,12 @@
                 <el-col :span="12"><el-form-item label="請求番号："><el-input v-model="no"></el-input></el-form-item></el-col>
             </el-row>
             <el-row>
-                <el-col :span="12"><el-form-item label="バンニング場所"><el-input v-model="booker_place"></el-input></el-form-item></el-col>
-                <el-col :span="12"><el-form-item label="請求日："><el-input v-model="date"></el-input></el-form-item></el-col>
+                <el-col :span="12"><el-form-item label="非バンニング場所"><el-input v-model="booker_place"></el-input></el-form-item></el-col>
+                <el-col :span="12">
+                    <el-form-item label="請求日：">
+                        <el-date-picker style="width:100%" v-model="date" value-format="yyyy-MM-dd"></el-date-picker>
+                    </el-form-item>
+                </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12"><el-form-item label="会社名"><el-input v-model="booker_name"></el-input></el-form-item></el-col>
@@ -140,6 +144,7 @@ import { URL } from '@/api/main'
 
 const RATE = 'EXCH';
 let extraDefault = {};
+
 export default {
     components: { MulitSelect },
     props: {
@@ -280,7 +285,7 @@ export default {
                 detail: '',
                 currency: '',
                 price: '',
-                num: '',
+                num: 1,
                 unit: '',
                 tax: '免',
                 total: 0,
