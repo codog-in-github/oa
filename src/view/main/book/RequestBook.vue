@@ -9,7 +9,7 @@
                 <el-col :span="12"><el-form-item label="請求番号："><el-input v-model="no"></el-input></el-form-item></el-col>
             </el-row>
             <el-row>
-                <el-col :span="12"><el-form-item label="客人地址"><el-input v-model="booker_place"></el-input></el-form-item></el-col>
+                <el-col :span="12"><el-form-item label="住所"><el-input v-model="booker_place"></el-input></el-form-item></el-col>
                 <el-col :span="12">
                     <el-form-item label="請求日：">
                         <el-date-picker style="width:100%" v-model="date" value-format="yyyy-MM-dd"></el-date-picker>
@@ -131,26 +131,26 @@
             </el-row>
             <el-row>
                 <el-col :span="24">
-                    <el-form-item label="印影">
+                    <el-form-item label="社印">
                         <el-switch v-model="sign" />
                     </el-form-item>
                 </el-col>
             </el-row>
         </el-form>
         <template #footer>
-            <el-button type="primary" @click="copyDialog = true" v-if="!readonly">COPY</el-button>
-            <el-button type="primary" @click="beDownload" v-if="!readonly">EXPORT</el-button>
-            <el-button @click="close">CANCLE</el-button>
+            <el-button type="primary" @click="copyDialog = true" v-if="!readonly">参照入力</el-button>
+            <el-button type="primary" @click="beDownload" v-if="!readonly">出力</el-button>
+            <el-button @click="close">戻る</el-button>
         </template>
-        <el-dialog :visible="copyDialog" @close="copyClose" :modal="false" title="COPY">
+        <el-dialog :visible="copyDialog" @close="copyClose" :modal="false" title="参照入力">
             <el-select v-model="copy_field">
                 <el-option label="社内管理番号" :value="0" />
                 <el-option label="BKG NO." :value="1" />
             </el-select>
             <el-input style="width:40%; margin-left:10px;" v-model="company_no" />
             <template #footer>
-                <el-button type="primary" @click="doCopy">COPY</el-button>
-                <el-button @click="copyClose">CANCLE</el-button>
+                <el-button type="primary" @click="doCopy">参照入力</el-button>
+                <el-button @click="copyClose">戻る</el-button>
             </template>
         </el-dialog>
     </el-dialog>
