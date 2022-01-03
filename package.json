@@ -17,6 +17,7 @@
     "fancygrid": "^1.7.150",
     "handsontable": "^9.0.0",
     "less-loader": "^5.0.0",
+    "moment": "^2.29.1",
     "qs": "^6.10.1",
     "vue": "^2.6.12",
     "vue-router": "^3.5.1",

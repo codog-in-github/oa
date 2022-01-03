@@ -20,6 +20,7 @@ const CHANGE_ORDER_STATE = BASE_PATH + '/Bkg/changeOrderState';
 const CHANGE_ORDER_STEP = BASE_PATH + '/Bkg/changeOrderStep';
 const CHANGE_ORDER_REQUEST_STEP = BASE_PATH + '/Bkg/changeOrderRequestStep';
 const GET_REQUESTBOOK = BASE_PATH + '/Requestbook/getBook';
+const HAS_BOOK_BY_COMPANY_NO = BASE_PATH + '/Requestbook/hasBookByCompanyNo';
 const HAS_REQUESTBOOK = BASE_PATH + '/Requestbook/hasBook';
 const GET_BOOKING_NOTICE = BASE_PATH + '/BookingNotice/getBookingNotice';
 const BOOK_DIR = BASE_PATH + '/Export';
@@ -168,16 +169,23 @@ const needInterceptorsMethods = [
             },
 
 
-            $getHandingData(bkg_id,cb){
+            $getHandingData(bkg_id, cb){
                 this.$api.queue = ()=>axios.get(
                     `${GET_HANDING_DATA}/bkg_id/${bkg_id||''}`,
                 );
                 this.$api.queue = cb;
             },
             
-            $getBook({bkg_id,copy_bkg_id},cb){
+            $getBook({bkg_id, copy_bkg_id}, cb){
                 this.$api.queue = ()=>axios.get(
                     `${GET_REQUESTBOOK}/bkg_id/${bkg_id||'0'}/copy_bkg_id/${copy_bkg_id}`,
+                );
+                this.$api.queue = cb;
+            },
+
+            $hasBookByCompanyNo({ company_no }, cb){
+                this.$api.queue = ()=>axios.get(
+                    `${HAS_BOOK_BY_COMPANY_NO}/company_no/${company_no}`,
                 );
                 this.$api.queue = cb;
             },
@@ -194,7 +202,7 @@ const needInterceptorsMethods = [
 
             switch(data.error){
                 case statecode.WITHOUT_LOGIN:{
-                    vm.$store.dispatch('logoutEnforce',vm);
+                    vm.$store.dispatch('logoutEnforce', vm);
                     return Promise.reject('WITHOUT_LOGIN');
                 }
                 case statecode.SUCCESS:{

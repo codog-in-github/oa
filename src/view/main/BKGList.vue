@@ -13,8 +13,8 @@
             <el-button
                 v-if="!showNewOrder"
                 style="visibility:hidden;"
-            >
-            NEW ORDER
+                >
+                NEW ORDER
             </el-button>
             <div class="input-box">
                 <title-group
@@ -171,11 +171,6 @@
                         >{{scope.row.state.join('|')}}</div>
                     </template>
                 </el-table-column>
-                <!-- <el-table-column
-                    prop="in_sales"
-                    label="IN SALES"
-                >
-                </el-table-column> -->
                 <el-table-column
                     prop="id"
                     label="OPERATION"

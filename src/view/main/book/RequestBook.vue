@@ -138,19 +138,28 @@
             </el-row>
         </el-form>
         <template #footer>
+            <el-button type="primary" @click="copyDialog = true" v-if="!readonly">COPY</el-button>
             <el-button type="primary" @click="beDownload" v-if="!readonly">EXPORT</el-button>
             <el-button @click="close">CANCLE</el-button>
         </template>
+        <el-dialog :visible="copyDialog" @close="copyClose" :modal="false">
+            <el-input v-model="company_no" />
+            <template #footer>
+                <el-button type="primary" @click="doCopy">COPY</el-button>
+                <el-button @click="copyClose">CANCLE</el-button>
+            </template>
+        </el-dialog>
     </el-dialog>
 </template>
 <script>
-import MulitSelect from '@/components/MulitSelect';
-import { getOptionsAnsyc } from '@/mixin/main';
-import { findInArray, getRandomID, postNewWindow } from '@/assets/js/utils';
+import MulitSelect from '@/components/MulitSelect'
+import { getOptionsAnsyc } from '@/mixin/main'
+import { findInArray, getRandomID, postNewWindow } from '@/assets/js/utils'
 import { URL } from '@/api/main'
+import moment from 'moment'
 
-const RATE = 'RATE';
-let extraDefault = {};
+const RATE = 'RATE'
+let extraDefault = {}
 
 export default {
     components: { MulitSelect },
@@ -191,6 +200,9 @@ export default {
             
             fromList: undefined,
             fromListCopy: undefined,
+
+            copyDialog: false,
+            company_no: ''
         }
     },
     computed: {
@@ -224,30 +236,38 @@ export default {
         close() {
             this.$emit('close');
         },
-        loadData(bkgId,copyBkgId,reLoad = false){
+
+        loadData(bkgId, copyBkgId, reLoad = false){
             if(bkgId){
                 this.fromList = bkgId
             }
+
             if(copyBkgId){
                 this.fromListCopy = copyBkgId
             }
+
             if(this.isLoaded && !reLoad){
                 return ;
             }
+
             this.isLoaded = true;
+
             if(reLoad){
                 console.log('reload')
                 this.extra = [];
                 this.detail = [];
             }
-            this.$getBook({
-                    bkg_id:bkgId || this.bkgId,
-                    copy_bkg_id:copyBkgId || ''
-                }, ({data:{data:data}})=>{
+
+            const params = {
+                bkg_id:bkgId || this.bkgId,
+                copy_bkg_id:copyBkgId || ''
+            }
+
+            this.$getBook(params, ({ data: { data } })=>{
                 this.id = data.id || getRandomID();
                 this.tel = data.tel || '';
                 this.no = data.no || '';
-                this.date = data.date || '';
+                this.date = data.date || moment().format('YYYY-MM-DD');
                 this.booker_place = data.booker_place || '';
                 this.booker_name = data.booker_name || '';
                 this.bank = data.bank || '';
@@ -272,12 +292,14 @@ export default {
                 extraDefault = data.extraDefault;
             });
         },
+        
         addCol(row){
             row.push({
                 label: '',
                 value: '',
             })
         },
+
         addRow(){
             this.extra.push([{
                 label: '',
@@ -334,6 +356,62 @@ export default {
         },
         setDefaultExtra(value, col){
             col.value = extraDefault[value] || '';
+        },
+        copyClose(){
+            this.copyDialog = false
+            this.company_no = ''
+        },
+        doCopy(){
+            const company_no = this.company_no
+            this.$hasBookByCompanyNo({ company_no },({ data }) =>{
+                if(data.error === 0){
+                    const params = {
+                        bkg_id:data.data,
+                        copy_bkg_id: 0
+                    }
+
+                    this.$getBook(params, ({ data: { data } })=>{
+                        console.log('data :', data)
+                        this.tel = data.tel || '';
+                        this.no = data.no || '';
+                        this.date = data.date || moment().format('YYYY-MM-DD');
+                        this.booker_place = data.booker_place || '';
+                        this.booker_name = data.booker_name || '';
+                        this.bank = data.bank || '';
+                        this.address = data.address || '';
+
+                        this.extra = []
+                        this.detail = []
+
+                        const len = 10 ;
+                        for(let i = 0; i<len; i+=2){
+                            let row = [];
+                            for(let j=0; j<2; j++){
+                                if(data.extra[`label_${i+j}`] !== undefined
+                                && !(i !== 0 && !data.extra[`label_${i+j}`] && !data.extra[`value_${i+j}`])){
+                                    row.push({
+                                        label:data.extra[`label_${i+j}`],
+                                        value: '' ,
+                                    });
+                                }
+                            }
+                            if(row.length>0){
+                                this.extra.push(row);
+                            }
+                        }
+                        this.detail.push(...data.detail.map(
+                            detail => ({
+                                ...detail,
+                                num: 0,
+                                total:0,
+                            })
+                        ));
+                        extraDefault = data.extraDefault;
+                    });
+                } else {
+                    this.$message.warning(data.message)
+                }
+            })
         }
     },
     watch:{
