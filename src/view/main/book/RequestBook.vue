@@ -142,8 +142,12 @@
             <el-button type="primary" @click="beDownload" v-if="!readonly">EXPORT</el-button>
             <el-button @click="close">CANCLE</el-button>
         </template>
-        <el-dialog :visible="copyDialog" @close="copyClose" :modal="false">
-            <el-input v-model="company_no" />
+        <el-dialog :visible="copyDialog" @close="copyClose" :modal="false" title="COPY">
+            <el-select v-model="copy_field">
+                <el-option label="社内管理番号" :value="0" />
+                <el-option label="BKG NO." :value="1" />
+            </el-select>
+            <el-input style="width:40%; margin-left:10px;" v-model="company_no" />
             <template #footer>
                 <el-button type="primary" @click="doCopy">COPY</el-button>
                 <el-button @click="copyClose">CANCLE</el-button>
@@ -202,6 +206,7 @@ export default {
             fromListCopy: undefined,
 
             copyDialog: false,
+            copy_field: 0,
             company_no: ''
         }
     },
@@ -362,8 +367,8 @@ export default {
             this.company_no = ''
         },
         doCopy(){
-            const company_no = this.company_no
-            this.$hasBookByCompanyNo({ company_no },({ data }) =>{
+            const {company_no, copy_field} = this
+            this.$hasBookByCompanyNo({ company_no, copy_field },({ data }) =>{
                 if(data.error === 0){
                     const params = {
                         bkg_id:data.data,

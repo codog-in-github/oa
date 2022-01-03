@@ -183,9 +183,9 @@ const needInterceptorsMethods = [
                 this.$api.queue = cb;
             },
 
-            $hasBookByCompanyNo({ company_no }, cb){
+            $hasBookByCompanyNo({ company_no, copy_field }, cb){
                 this.$api.queue = ()=>axios.get(
-                    `${HAS_BOOK_BY_COMPANY_NO}/company_no/${company_no}`,
+                    `${HAS_BOOK_BY_COMPANY_NO}/company_no/${company_no || '0'}/copy_field/${copy_field}`,
                 );
                 this.$api.queue = cb;
             },
