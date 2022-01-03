@@ -371,10 +371,8 @@ export default {
                     }
 
                     this.$getBook(params, ({ data: { data } })=>{
-                        console.log('data :', data)
                         this.tel = data.tel || '';
-                        this.no = data.no || '';
-                        this.date = data.date || moment().format('YYYY-MM-DD');
+                        this.date = moment().format('YYYY-MM-DD');
                         this.booker_place = data.booker_place || '';
                         this.booker_name = data.booker_name || '';
                         this.bank = data.bank || '';
@@ -389,9 +387,10 @@ export default {
                             for(let j=0; j<2; j++){
                                 if(data.extra[`label_${i+j}`] !== undefined
                                 && !(i !== 0 && !data.extra[`label_${i+j}`] && !data.extra[`value_${i+j}`])){
+                                    const label = data.extra[`label_${i+j}`]
                                     row.push({
-                                        label:data.extra[`label_${i+j}`],
-                                        value: '' ,
+                                        label,
+                                        value: extraDefault[label] ?? '',
                                     });
                                 }
                             }
@@ -399,14 +398,15 @@ export default {
                                 this.extra.push(row);
                             }
                         }
-                        this.detail.push(...data.detail.map(
+                        this.detail = data.detail.map(
                             detail => ({
                                 ...detail,
                                 num: 0,
                                 total:0,
                             })
-                        ));
-                        extraDefault = data.extraDefault;
+                        )
+                        extraDefault = data.extraDefault
+                        this.copyClose()
                     });
                 } else {
                     this.$message.warning(data.message)
