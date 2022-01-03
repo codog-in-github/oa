@@ -17,20 +17,6 @@
             NEW ORDER
             </el-button>
             <div class="input-box">
-                <!-- <title-group
-                    title="CUT DATE"
-                >
-                    <el-date-picker
-                        v-model="condition.cy_cut"
-                        range-separator="to"
-                        unlink-panels
-                        value-format="yyyy-MM-dd HH:mm:ss"
-                        :default-time="['00:00:00', '23:59:59']"
-                        type="daterange"
-                        size="mini"
-                        style="width:auto"
-                    ></el-date-picker>
-                </title-group> -->
                 <title-group
                     title="BKG NO"
                 >
@@ -110,6 +96,12 @@
                 }"
                 height="100%"
             >
+                <el-table-column
+                    prop="company_no"
+                    label="社内管理番号"
+                    width="130px"
+                    align="center"
+                />
                 <el-table-column
                     prop="show_cy_cut"
                     label="CUT DATE"
