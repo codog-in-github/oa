@@ -19,7 +19,7 @@
 <script>
 import { getOptionsAnsyc } from '@/mixin/main'
 
-const RATE = 'EXCH';
+const RATE = 'RATE';
 
 export default {
     props: {

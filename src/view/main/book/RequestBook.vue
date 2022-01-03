@@ -149,7 +149,7 @@ import { getOptionsAnsyc } from '@/mixin/main';
 import { findInArray, getRandomID, postNewWindow } from '@/assets/js/utils';
 import { URL } from '@/api/main'
 
-const RATE = 'EXCH';
+const RATE = 'RATE';
 let extraDefault = {};
 
 export default {
