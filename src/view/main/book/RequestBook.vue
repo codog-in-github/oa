@@ -129,6 +129,13 @@
                     </el-form-item>
                 </el-col>
             </el-row>
+            <el-row>
+                <el-col :span="24">
+                    <el-form-item label="印影">
+                        <el-switch v-model="sign" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
         </el-form>
         <template #footer>
             <el-button type="primary" @click="beDownload" v-if="!readonly">EXPORT</el-button>
@@ -175,6 +182,7 @@ export default {
             detail: [],
             bank: '',
             address: '',
+            sign:true,
 
             options: {
                 item: {item: [], loading: false},
@@ -321,6 +329,7 @@ export default {
                 subtotal:this.subtotal,
                 tak_total:this.takTotal,
                 total:this.sum,
+                sign: this.sign
             });
         },
         setDefaultExtra(value, col){
