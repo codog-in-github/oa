@@ -101,10 +101,10 @@
                 <el-table-column prop="bkg_date" label="BKG" sortable :formatter="dateFormat" width="100px" align="center"/>
                 <el-table-column prop="booker" label="BOOKER" width="180px" />
                 <el-table-column prop="ld" label="POL/POD" width="180px" />
-                <el-table-column prop="bkg_no" label="BKG NO" width="180px" />
-                <el-table-column prop="quantity" label="QTY" width="100" />
-                <el-table-column prop="container_type" label="CT TYPE" />
-                <el-table-column label="状態" width="350px">
+                <el-table-column prop="bkg_no" label="BKG NO" width="150px" />
+                <el-table-column prop="quantity" label="QTY" width="100px" />
+                <el-table-column prop="container_type" label="CT TYPE" width="100px" />
+                <el-table-column label="状態" width="300px">
                     <template slot-scope="scope">
                         <el-select
                             v-if="!showRestore"
