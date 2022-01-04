@@ -96,60 +96,15 @@
                 }"
                 height="100%"
             >
-                <el-table-column
-                    prop="company_no"
-                    label="社内管理番号"
-                    width="130px"
-                    align="center"
-                />
-                <el-table-column
-                    prop="show_cy_cut"
-                    label="CUT DATE"
-                    sortable
-                    :formatter="dateFormat"
-                    width="130px"
-                    align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                    prop="bkg_date"
-                    label="BKG DATE"
-                    sortable
-                    :formatter="dateFormat"
-                    width="130px"
-                    align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                    prop="booker"
-                    label="BOOKER"
-                >
-                </el-table-column>
-                <el-table-column
-                    prop="ld"
-                    label="POL/POD"
-                >
-                </el-table-column>
-                <el-table-column
-                    prop="bkg_no"
-                    label="BKG NO"
-                >
-                </el-table-column>
-                <el-table-column
-                    prop="quantity"
-                    label="QUANTITY"
-                    width="100"
-                >
-                </el-table-column>
-                <el-table-column
-                    prop="container_type"
-                    label="CONTAINER TYPE"
-                >
-                </el-table-column>
-                <el-table-column
-                    label="状態"
-                    width="350px"
-                >
+                <el-table-column prop="company_no" label="管理番号" width="100px" align="center"/>
+                <el-table-column prop="show_cy_cut" label="CUT" sortable :formatter="dateFormat" width="100px" align="center"/>
+                <el-table-column prop="bkg_date" label="BKG" sortable :formatter="dateFormat" width="100px" align="center"/>
+                <el-table-column prop="booker" label="BOOKER" width="180px" />
+                <el-table-column prop="ld" label="POL/POD" width="180px" />
+                <el-table-column prop="bkg_no" label="BKG NO" width="180px" />
+                <el-table-column prop="quantity" label="QTY" width="100" />
+                <el-table-column prop="container_type" label="CT TYPE" />
+                <el-table-column label="状態" width="350px">
                     <template slot-scope="scope">
                         <el-select
                             v-if="!showRestore"
@@ -171,10 +126,7 @@
                         >{{scope.row.state.join('|')}}</div>
                     </template>
                 </el-table-column>
-                <el-table-column
-                    prop="id"
-                    label="OPERATION"
-                    width="320px"
+                <el-table-column prop="id" label="OPERATION" width="320px"
                 >
                     <template  slot-scope="scope">
                         <div style="text-align:center;">

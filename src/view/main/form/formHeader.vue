@@ -113,7 +113,7 @@
                 :disabled="isCopy"
                 type="primary"
                 @click="showReqBook"
-            >コスト確認</el-button>
+            >請求書</el-button>
         </div>
         <el-dialog
             :visible="bookSelecter"
@@ -156,6 +156,7 @@
 import TitleGroup from '@/components/titleGroup';
 import { getOptionsAnsyc, common } from '@/mixin/main'
 import RequestBook from '../book/RequestBook'
+
 export default{ 
     data(){
         return {
@@ -289,6 +290,7 @@ export default{
         RequestBook,
     },
 }
+
 </script>
 <style scoped>
 .header{
