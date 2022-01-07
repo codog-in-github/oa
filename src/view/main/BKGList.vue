@@ -253,10 +253,12 @@ export default {
         },
         showDetail(){
             return this.$route.params.state != 'normal'
+                && this.$route.params.state != 'ready'
                 && this.$route.params.state != 'draft';
         },
         showEdit(){
             return this.$route.params.state == 'normal'
+                || this.$route.params.state == 'ready'
                 || this.$route.params.state == 'draft';
         },
         showDelete(){

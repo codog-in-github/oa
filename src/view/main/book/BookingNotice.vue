@@ -21,7 +21,7 @@
         <el-form-item v-for="(c,i) in container" :key="i" :label="`CONTAINER${i+1}:`"><el-input v-model="container[i]"></el-input></el-form-item>
 
         <el-form-item label="COMMON:"><el-input v-model="common"></el-input></el-form-item>   
-        <el-form-item label="CONSIGINEE:"><el-input v-model="consiginee" type="textarea"></el-input></el-form-item>   
+        <el-form-item label="CONSIGNEE:"><el-input v-model="consiginee" type="textarea"></el-input></el-form-item>   
         <el-form-item label="REMARK:"><el-input v-model="remarks" type="textarea"></el-input></el-form-item>   
     </el-form>
 </template>
