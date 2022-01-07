@@ -125,7 +125,7 @@
             </el-date-picker>
         </title-group>
         <title-group
-            title="CONSIGINEE"
+            title="CONSIGNEE"
         >
             <el-input
                 type="textarea"
