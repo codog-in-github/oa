@@ -176,9 +176,13 @@ export default {
             type: String,
             default: '',
         },
-        readonly:{
-            type:Boolean,
-            default:true
+        requestId: {
+            type: String,
+            default: ''
+        },
+        readonly: {
+            type: Boolean,
+            default: true
         }
     },
     data(){
@@ -366,8 +370,9 @@ export default {
             this.copyDialog = false
             this.company_no = ''
         },
+
         doCopy(){
-            const {company_no, copy_field} = this
+            const { company_no, copy_field } = this
             this.$hasBookByCompanyNo({ company_no, copy_field },({ data }) =>{
                 if(data.error === 0){
                     const params = {

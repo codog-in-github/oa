@@ -92,28 +92,12 @@
             </div>
         </div>
         <div class="header-right">
-            <el-button size="mini" type="primary"
-                :disabled="$route.params.mode ==='view'"
-                @click="$emit('save-data')"
-            >BKG登録</el-button>
-            <el-button size="mini" type="primary"
-                :disabled="$route.params.mode ==='view' || !$route.params.mode || isCopy"
-                @click="deleteButtonHandler"
-            >BKG削除</el-button>
+            <el-button size="mini" type="primary" :disabled="$route.params.mode ==='view'" @click="$emit('save-data')">BKG登録</el-button>
+            <el-button size="mini" type="primary" :disabled="$route.params.mode ==='view' || !$route.params.mode || isCopy" @click="deleteButtonHandler">BKG削除</el-button>
             <br>
             <br>
-            <el-button 
-                size="mini" 
-                type="primary"
-                :disabled="isCopy"
-                @click="bookSelecter = true"
-            >各種書類作成</el-button>
-            <el-button 
-                size="mini" 
-                :disabled="isCopy"
-                type="primary"
-                @click="showReqBook"
-            >請求書</el-button>
+            <el-button  size="mini"  type="primary" :disabled="isCopy" @click="bookSelecter = true">各種書類作成</el-button>
+            <el-button  size="mini"  :disabled="isCopy" type="primary" @click="showReqBook">請求書</el-button>
         </div>
         <el-dialog
             :visible="bookSelecter"
@@ -127,26 +111,11 @@
                 <el-button @click="bookSelecter=false">CANCEL</el-button>
             </template>
         </el-dialog>
-        <el-dialog
-            :close-on-click-modal="false"
-            :visible="dialog"
-            :title="book"
-            @close="beClose"
-        >
-            <component
-                :is="bookComponent"
-                ref="book"
-            ></component>
-            <template
-                slot="footer"
-            >
-                <el-button
-                    @click="beDownload"
-                    type="primary"
-                >EXPORT</el-button>
-                <el-button
-                    @click="beClose"
-                >CLOSE</el-button>
+        <el-dialog :close-on-click-modal="false" :visible="dialog" :title="book" @close="beClose">
+            <component :is="bookComponent" ref="book" />
+            <template slot="footer">
+                <el-button @click="beDownload" type="primary">EXPORT</el-button>
+                <el-button @click="beClose">CLOSE</el-button>
             </template>
         </el-dialog>
         <request-book :show="requestBookShow" @close="requestBookShow = false" :bkg-id="bkgId" :readonly="false" ref="rbook"/>
@@ -278,7 +247,6 @@ export default{
         showReqBook(){
             this.requestBookShow = true;
             this.$refs.rbook.loadData();
-
         },
     },
     mixins:[

@@ -1,101 +1,37 @@
 <template>
     <div class="bkg-list">
         <header>
-            <el-button
-                v-if="showNewOrder"
-                size="mini"
-                type="primary"
-                class="el-icon-plus"
-                @click="addNewOrder"
-            >
-            NEW ORDER
-            </el-button>
-            <el-button
-                v-if="!showNewOrder"
-                style="visibility:hidden;"
-                >
-                NEW ORDER
-            </el-button>
+            <el-button v-if="showNewOrder" size="mini" type="primary" class="el-icon-plus" @click="addNewOrder">NEW ORDER</el-button>
+            <el-button v-if="!showNewOrder" style="visibility:hidden;" > NEW ORDER</el-button>
             <div class="input-box">
-                <title-group
-                    title="BKG NO"
-                >
-                    <el-input
-                        v-model="condition.bkg_no"
-                        size="mini"
-                    ></el-input>
+                <title-group title="BKG NO" >
+                    <el-input v-model="condition.bkg_no" size="mini" />
                 </title-group>
-                <title-group
-                    title="B/L NO"
-                >
-                    <el-input
-                        v-model="condition.bl_no"
-                        size="mini"
-                    ></el-input>
+                <title-group title="B/L NO" >
+                    <el-input v-model="condition.bl_no" size="mini"></el-input>
                 </title-group>
-                <title-group
-                    title="POL"
-                >
-                    <el-input
-                        v-model="condition.pol"
-                        size="mini"
-                    ></el-input>
+                <title-group title="POL" >
+                    <el-input v-model="condition.pol" size="mini" ></el-input>
                 </title-group>
-                <title-group
-                    title="POD"
-                >
-                    <el-input
-                        v-model="condition.pod"
-                        size="mini"
-                    ></el-input>
+                <title-group title="POD">
+                    <el-input v-model="condition.pod" size="mini"/>
                 </title-group>
-                <title-group
-                    title="BOOKER"
-                >
-                    <el-input
-                        v-model="condition.booker"
-                        size="mini"
-                    ></el-input>
+                <title-group title="BOOKER">
+                    <el-input v-model="condition.booker" size="mini"/>
                 </title-group>
-                <title-group
-                    title="社内管理番号"
-                >
-                    <el-input
-                        v-model="condition.dg"
-                        size="mini"
-                    ></el-input>
+                <title-group title="社内管理番号">
+                    <el-input v-model="condition.dg" size="mini" />
                 </title-group>
-                <el-button
-                    size="mini"
-                    @click="clearCondition"
-                    type="primary"
-                    class="el-icon-refresh-right"
-                >
-                    CLEAR
-                </el-button>
+                <el-button size="mini" @click="clearCondition" type="primary" class="el-icon-refresh-right">CLEAR</el-button>
             </div>
-            <el-button
-                type="primary"
-                size="mini"
-                class="el-icon-search"
-                @click="reLoad"
-            >
-                SEARCH
-            </el-button>
+            <el-button type="primary" size="mini" class="el-icon-search" @click="reLoad">SEARCH</el-button>
         </header>
         <main>
-            <el-table
-                border
-                stripe
-                size="mini"
-                :data="list"
-                :header-cell-style="{
-                    background:'#8BABCD',
-                    color:'#fff',
-                    fontSize:'16px'
-                }"
-                height="100%"
-            >
+            <el-table border stripe size="mini" :data="list" height="100%" :header-cell-style="{
+                background:'#8BABCD',
+                color:'#fff',
+                fontSize:'16px'
+            }">
                 <el-table-column prop="company_no" label="管理番号" width="100px" align="center"/>
                 <el-table-column prop="show_cy_cut" label="CUT" sortable :formatter="dateFormat" width="100px" align="center"/>
                 <el-table-column prop="bkg_date" label="BKG" sortable :formatter="dateFormat" width="100px" align="center"/>
@@ -106,100 +42,29 @@
                 <el-table-column prop="container_type" label="CT TYPE" width="100px" />
                 <el-table-column label="状態" width="300px">
                     <template slot-scope="scope">
-                        <el-select
-                            v-if="!showRestore"
-                            v-model="scope.row.state"
-                            multiple
-                            @change="changeState(scope.row.id, scope.row.state)"
-                            @focus="getOptionsAnsyc(10, options.state)"
-                            class="state"
-                        >
-                            <el-option
-                                v-for="{id, value, label} in options.state.item"
-                                :key="id"
-                                :value="value"
-                                :label="label"
-                            ></el-option>
+                        <el-select v-if="!showRestore" v-model="scope.row.state" multiple @change="changeState(scope.row.id, scope.row.state)" @focus="getOptionsAnsyc(10, options.state)" class="state">
+                            <el-option v-for="{id, value, label} in options.state.item" :key="id" :value="value" :label="label" />
                         </el-select>
-                        <div
-                            v-else
-                        >{{scope.row.state.join('|')}}</div>
+                        <div v-else>{{scope.row.state.join('|')}}</div>
                     </template>
                 </el-table-column>
                 <el-table-column prop="id" label="OPERATION" width="320px"
                 >
                     <template  slot-scope="scope">
                         <div style="text-align:center;">
-                            <el-button
-                                v-if="showEdit"
-                                type="primary"
-                                size="mini"
-                                class="el-icon-edit"
-                                @click="doEdit(scope.row.id)"
-                            >
-                                EDIT
-                            </el-button>
-                            <el-button
-                                v-if="showDetail"
-                                type="primary"
-                                size="mini"
-                                class="el-icon-view"
-                                @click="displayDetail(scope.row.id)"
-                            >
-                                DETAIL
-                            </el-button>
-                             <el-button
-                                v-if="showPrevious"
-                                type="primary"
-                                size="mini"
-                                class="el-icon-d-arrow-left"
-                                @click="changeStep(scope.row.id, scope.$index, false)"
-                            >
-                                PREV
-                            </el-button>
-                             <el-button
-                                v-if="showNext"
-                                type="primary"
-                                size="mini"
-                                class="el-icon-d-arrow-right"
-                                @click="changeStep(scope.row.id, scope.$index)"
-                            >
-                                NEXT
-                            </el-button>
-                            <el-button
-                                v-if="showDelete"
-                                type="danger"
-                                size="mini"
-                                class="el-icon-delete"
-                                @click="deleteHandler(scope.row.id, scope.$index)"
-                            >
-                                DELETE
-                            </el-button>
-                            <el-button
-                                v-if="showRestore"
-                                type="success"
-                                size="mini"
-                                class="el-icon-circle-check"
-                                @click="deleteHandler(scope.row.id, scope.$index, false)"
-                            >
-                                RESTORE
-                            </el-button>
+                            <el-button v-if="showEdit" type="primary" size="mini" class="el-icon-edit" @click="doEdit(scope.row.id)">EDIT</el-button>
+                            <el-button v-if="showDetail" type="primary" size="mini" class="el-icon-view" @click="displayDetail(scope.row.id)">DETAIL</el-button>
+                            <el-button v-if="showPrevious" type="primary" size="mini" class="el-icon-d-arrow-left" @click="changeStep(scope.row.id, scope.$index, false)">PREV</el-button>
+                            <el-button v-if="showNext" type="primary" size="mini" class="el-icon-d-arrow-right" @click="changeStep(scope.row.id, scope.$index)">NEXT</el-button>
+                            <el-button v-if="showDelete" type="danger" size="mini" class="el-icon-delete" @click="deleteHandler(scope.row.id, scope.$index)">DELETE</el-button>
+                            <el-button v-if="showRestore" type="success" size="mini" class="el-icon-circle-check" @click="deleteHandler(scope.row.id, scope.$index, false)">RESTORE</el-button>
                         </div>
                     </template>
                 </el-table-column>
             </el-table>
         </main>
         <footer>
-            <el-pagination
-                background
-                :page-sizes="[10, 50, 100, 500]"
-                :page-size="page_size"
-                layout="sizes,total, prev, pager, next"
-                :total="total"
-                @size-change="sizeChangeHandler"
-                @current-change="pageChangeHandler"
-            >
-            </el-pagination>
+            <el-pagination background :page-sizes="[10, 50, 100, 500]" :page-size="page_size" layout="sizes,total, prev, pager, next" :total="total" @size-change="sizeChangeHandler" @current-change="pageChangeHandler"/>
         </footer>
         <el-dialog :visible="newOrder" @close="newOrder = false" @open="copy_no = ''" title="NEW ORDER">
             BKG NO:<el-input v-model="copy_no"></el-input>
