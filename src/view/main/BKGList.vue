@@ -78,6 +78,7 @@
 <script>
 import TitleGroup from '../../components/titleGroup.vue'
 import { getOptionsAnsyc } from '@/mixin/main'
+
 export default {
     data(){
         return {

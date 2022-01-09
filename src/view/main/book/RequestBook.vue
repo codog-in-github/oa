@@ -158,7 +158,7 @@
         </el-dialog>
         <el-dialog :visible="list" @close="closeList">
             <div>
-                <el-button v-for="{id ,date} in requestList" :key="id" @click="reqbookSelect(id)">{{date}}</el-button>
+                <el-button v-for="{id ,date, create_time} in requestList" :key="id" @click="reqbookSelect(id)">{{create_time || date}}</el-button>
             </div>
             <el-button slot="footer" @click="closeList">戻る</el-button>
         </el-dialog>
@@ -273,7 +273,7 @@ export default {
             this.$getBookList(isCopy ? copyBkgId : (bkgId || this.bkgId), async (data) => {
                 const requestList  = data.data.data
                 if(requestList.length  < 2){
-                    this.id = isCopy ? getRandomID() : requestList[0]?.id || getRandomID()
+                    this.id = (isCopy ? this.id : requestList[0]?.id) || getRandomID()
                     const params = {
                         bkg_id: bkgId || this.bkgId,
                         [isCopy ? 'copy_id' : 'id']:this.id,
@@ -286,13 +286,13 @@ export default {
                     try{
                         console.log('requestList :', requestList)
                         const id =  await this.showList(requestList)
-                        this.id = isCopy ? getRandomID() : id
+                        this.id = (isCopy ? this.id : id) || getRandomID()
                         const params = {
-                            bkg_id:bkgId || this.bkgId,
-                            [isCopy ? 'copy_id' : 'id']:this.id,
+                            bkg_id: bkgId || this.bkgId,
+                            [isCopy ? 'copy_id' : 'id']:isCopy ? id : this.id,
                         }
                         this.$getBook(params, ({ data: { data } })=>{
-                            this.formatter(data)
+                            this.formatter(data, isCopy)
                             this.form = true
                         });
                     }catch(e){
@@ -310,6 +310,7 @@ export default {
             }
             this.$getBook(params, ({ data: { data } })=>{
                 this.formatter(data)
+                this.$message.success('追加請求書成功')
                 this.form = true
             });
         },
@@ -388,6 +389,7 @@ export default {
                 this.id = data.id || getRandomID();
             }
             this.tel = data.tel || '';
+            this.no = data.no || '';
             this.date = isCopy ? moment().format('YYYY-MM-DD') : (data.date || moment().format('YYYY-MM-DD'));
             this.booker_place = data.booker_place || '';
             this.booker_name = data.booker_name || '';
@@ -451,12 +453,8 @@ export default {
             const { company_no, copy_field } = this
             this.$hasBookByCompanyNo({ company_no, copy_field },async ({ data }) =>{
                 if(data.error === 0){
-                    this.loadData( this.fromList || this.bkgId, data.data)
+                    this.loadData( this.fromList || this.bkgId, data.data, true)
 
-                    // this.$getBook(params, ({ data: { data } })=>{
-                    //     this.formatter(data, true)
-                    //     this.copyClose()
-                    // });
                 } else {
                     this.$message.warning(data.message)
                 }
