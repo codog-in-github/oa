@@ -3,7 +3,7 @@
         <ul>
             <div v-for="(url, i) in urls" :key="i" :class="url.toggle?'grow':'shrink'">
                 <li :class="(isFocus(url.to)?'focus':'normal')" class="parent-li" @click="linkTo(url)">
-                    <span :class="url.class || ''">{{url.label}}</span>
+                    <span><span class="icon" :class="url.class || ''"></span>{{url.label}}</span>
                     <div v-if="url.child" class="arrow" :class="url.toggle?'el-icon-caret-bottom':'el-icon-caret-left'"></div>
                 </li>
                 <div v-if="url.child" class="child" >
@@ -45,10 +45,10 @@ export default {
                     }).then(() => {
                         this.$router.push(to);
                     }).catch(() => {
-                        this.$message({
-                            type: 'info',
-                            message: 'cancel'
-                        });          
+                        // this.$message({
+                        //     type: 'info',
+                        //     message: 'cancel'
+                        // });          
                     });
                 }else{
                     this.$router.push(to);
@@ -71,7 +71,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-right: 2em;
 
     font-size: 14px;
     height: @label-height;
@@ -94,10 +93,14 @@ export default {
 }
 
 .parent-li{
-    padding-left: 2em;
+    padding-left: 1em;
+    padding-right: 2em;
+    .icon{
+        margin-right: .5em;
+    }
 }
 .child-li{
-    padding-left: 3em;
+    padding-left: 4em;
 }
 ul>div +div{
         border-top: #343434 1px solid;

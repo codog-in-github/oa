@@ -8,10 +8,10 @@
                 <el-input v-model="condition.pod" placeholder="POD" size="mini"/>
                 <el-input v-model="condition.booker" placeholder="BOOKER" size="mini"/>
                 <el-input v-model="condition.dg" placeholder="社内管理番号" size="mini" />
-                <el-button size="mini" @click="clearCondition" type="primary" class="el-icon-refresh-right">CLEAR</el-button>
-                <el-button type="primary" size="mini" class="el-icon-search" @click="reLoad">SEARCH</el-button>
+                <el-button type="primary" size="mini" @click="reLoad">SEARCH</el-button>
+                <el-button size="mini" @click="clearCondition">CLEAR</el-button>
             </div>
-            <el-button v-if="showNewOrder" size="mini" type="primary" class="el-icon-plus" @click="addNewOrder">新規作成</el-button>
+            <el-button class="add" v-if="showNewOrder" size="mini" type="primary" @click="addNewOrder"><span class="el-icon-plus" /> 新規作成</el-button>
         </header>
         <main>
             <el-table border stripe size="mini" :data="list" height="100%" :header-cell-style="{
@@ -25,9 +25,9 @@
                 <el-table-column prop="booker" label="BOOKER" width="180px" />
                 <el-table-column prop="ld" label="POL/POD" width="180px" />
                 <el-table-column prop="bkg_no" label="BKG NO" width="150px" />
-                <el-table-column prop="quantity" label="QTY" width="100px" />
+                <el-table-column prop="quantity" label="QTY" width="50px" />
                 <el-table-column prop="container_type" label="CT TYPE" width="100px" />
-                <el-table-column label="状態" width="300px">
+                <el-table-column label="状態" width="350px">
                     <template slot-scope="scope">
                         <el-select v-if="!showRestore" v-model="scope.row.state" multiple @change="changeState(scope.row.id, scope.row.state)" @focus="getOptionsAnsyc(10, options.state)" class="state">
                             <el-option v-for="{id, value, label} in options.state.item" :key="id" :value="value" :label="label" />
@@ -280,5 +280,8 @@ footer{
 }
 /deep/.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell{
     background: #f2f2f4;
+}
+.add{
+    margin: 1em 0;
 }
 </style>
