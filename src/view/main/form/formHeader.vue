@@ -245,7 +245,6 @@ export default{
             this.dg = bkg.dg;
         },
         showReqBook(){
-            this.requestBookShow = true;
             this.$refs.rbook.loadData();
         },
     },

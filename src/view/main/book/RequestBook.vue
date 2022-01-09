@@ -1,159 +1,168 @@
 <template>
-    <el-dialog :visible="show" @close="close" :close-on-click-modal="false" :fullscreen="true">
-        <template #title>
-            <div class="title">请求书</div>
-        </template>
-        <el-form label-width="130px">
-            <el-row>
-                <el-col :span="12"><el-form-item label="〒"><el-input v-model="tel"></el-input></el-form-item></el-col>
-                <el-col :span="12"><el-form-item label="請求番号："><el-input v-model="no"></el-input></el-form-item></el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12"><el-form-item label="住所"><el-input v-model="booker_place"></el-input></el-form-item></el-col>
-                <el-col :span="12">
-                    <el-form-item label="請求日：">
-                        <el-date-picker style="width:100%" v-model="date" value-format="yyyy-MM-dd"></el-date-picker>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12"><el-form-item label="会社名"><el-input v-model="booker_name"></el-input></el-form-item></el-col>
-            </el-row>
-            <el-divider />
-            <el-row v-for="(item, i) in extra" :key="i"  :gutter="20">
-                <el-col :span="item.length===2?12:22" v-for="(col, j) in item" :key="j">
-                    <mulit-select :data="col" @deleteCol="deleteCol(item, j)" @select="value=>setDefaultExtra(value,col)" ></mulit-select>
-                </el-col>
-                <el-col v-if="item.length===1" :span="2"><el-button type="primary" @click="addCol(item)">ADD</el-button></el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="24">
-                    <el-button class="" style="width:100%" type="primary" @click="addRow">ADD</el-button>
-                </el-col>
-            </el-row>
-            <el-divider />
-            <el-table :data="detail">
-                <el-table-column label="明細項目">
-                    <template slot-scope="scope">
-                        <el-autocomplete v-model="scope.row.item_name" @focus="getOptionsAnsyc(12, options.item)" :fetch-suggestions="itemSearch" @select="item=>setDefaultUnit(item, scope.row)"></el-autocomplete>
-                    </template>
-                </el-table-column>
-                <el-table-column label="詳細">
-                    <template slot-scope="scope">
-                        <el-input-number v-if='scope.row.currency' v-model="scope.row.detail" controls-position="right"></el-input-number>
-                        <el-input v-else v-model="scope.row.detail" ></el-input>
-                    </template>
-                </el-table-column>
-                <el-table-column width="100px">
-                    <template slot-scope="scope">
-                        <el-select v-model="scope.row.currency" placeholder="">
-                            <el-option label="" value=""></el-option>
-                            <el-option label="$" value="USD"></el-option>
-                        </el-select>
-                    </template>
-                </el-table-column>
-                <el-table-column label="単価">
-                    <template slot-scope="scope">
-                        <el-input-number v-model="scope.row.price" controls-position="right"></el-input-number>
-                    </template>
-                </el-table-column>
-                <el-table-column label="数量">
-                    <template slot-scope="scope">
-                        <el-input-number v-model="scope.row.num" controls-position="right"></el-input-number>
-                    </template>
-                </el-table-column>
-                <el-table-column label="単位">
-                    <template slot-scope="scope">
-                        <el-autocomplete v-model="scope.row.unit" @focus="getOptionsAnsyc(13, options.unit)" :fetch-suggestions="unitSearch" ></el-autocomplete>
-                    </template>
-                </el-table-column>
-                <el-table-column label="消费税">
-                    <template slot-scope="scope">
-                        <el-select v-model="scope.row.tax">
-                            <el-option label="免" value="免"></el-option>
-                            <el-option label="課" value="課"></el-option>
-                        </el-select>
-                    </template>
-                </el-table-column>
-                <el-table-column label="金額">
-                    <template slot-scope="scope">
-                        <el-input :value="scope.row.total.toFixed(2)" readonly></el-input>
-                    </template>
-                </el-table-column>
-                <el-table-column>
-                    <template slot-scope="scope">
-                        <el-button class="el-icon-remove" type="danger" circle size="mini" @click="detailDel(scope.$index)"></el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <el-row>
-                <el-col :span="24">
-                    <el-button class="" style="width:100%" type="primary" @click="detailAdd">ADD</el-button>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="24" class="value" >&#91;&#42;消費税対象金額  {{inTak.toFixed(2)}} &#93;</el-col>
-            </el-row>
-            <el-divider />
-            <el-row>
-                <el-col :span="12" class="label">小計</el-col>
-                <el-col :span="12"  class="value">&#91;&#42; {{subtotal.toFixed(2)}} &#93;</el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12" class="label">消費税</el-col>
-                <el-col :span="12" class="value" >&#91;&#42; {{takTotal.toFixed(2)}} &#93;</el-col>
-            </el-row>
-            <el-row class="sum">
-                <el-col :span="12" class="label">御請求金額</el-col>
-                <el-col :span="12" class="value">&#91;&#42; {{sum.toFixed(2)}} &#93;</el-col>
-            </el-row>
-            <el-divider />
-            <el-row>
-                <el-col :span="24">
-                    <el-form-item label="銀行">
-                        <el-radio-group v-model="bank">
-                            <el-radio label="三井住友銀行"></el-radio>
-                            <el-radio label="姫路信用金庫"></el-radio>
-                            <el-radio label="住信SBIネット銀行"></el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="24">
-                    <el-form-item label="地址">
-                        <el-radio-group v-model="address">
-                            <el-radio label="本社"></el-radio>
-                            <el-radio label="九州営業所"></el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="24">
-                    <el-form-item label="社印">
-                        <el-switch v-model="sign" />
-                    </el-form-item>
-                </el-col>
-            </el-row>
-        </el-form>
-        <template #footer>
-            <el-button type="primary" @click="copyDialog = true" v-if="!readonly">参照入力</el-button>
-            <el-button type="primary" @click="beDownload" v-if="!readonly">出力</el-button>
-            <el-button @click="close">戻る</el-button>
-        </template>
-        <el-dialog :visible="copyDialog" @close="copyClose" :modal="false" title="参照入力">
-            <el-select v-model="copy_field">
-                <el-option label="社内管理番号" :value="0" />
-                <el-option label="BKG NO." :value="1" />
-            </el-select>
-            <el-input style="width:40%; margin-left:10px;" v-model="company_no" />
-            <template #footer>
-                <el-button type="primary" @click="doCopy">参照入力</el-button>
-                <el-button @click="copyClose">戻る</el-button>
+    <div>
+        <el-dialog :visible="form" @close="close" :close-on-click-modal="false" :fullscreen="true">
+            <template #title>
+                <div class="title">請求書</div>
             </template>
+            <el-form label-width="130px">
+                <el-row>
+                    <el-col :span="12"><el-form-item label="〒"><el-input v-model="tel"></el-input></el-form-item></el-col>
+                    <el-col :span="12"><el-form-item label="請求番号："><el-input v-model="no"></el-input></el-form-item></el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12"><el-form-item label="住所"><el-input v-model="booker_place"></el-input></el-form-item></el-col>
+                    <el-col :span="12">
+                        <el-form-item label="請求日：">
+                            <el-date-picker style="width:100%" v-model="date" value-format="yyyy-MM-dd"></el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12"><el-form-item label="会社名"><el-input v-model="booker_name"></el-input></el-form-item></el-col>
+                </el-row>
+                <el-divider />
+                <el-row v-for="(item, i) in extra" :key="i"  :gutter="20">
+                    <el-col :span="item.length===2?12:22" v-for="(col, j) in item" :key="j">
+                        <mulit-select :data="col" @deleteCol="deleteCol(item, j)" @select="value=>setDefaultExtra(value,col)" ></mulit-select>
+                    </el-col>
+                    <el-col v-if="item.length===1" :span="2"><el-button type="primary" @click="addCol(item)">ADD</el-button></el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="24">
+                        <el-button class="" style="width:100%" type="primary" @click="addRow">ADD</el-button>
+                    </el-col>
+                </el-row>
+                <el-divider />
+                <el-table :data="detail">
+                    <el-table-column label="明細項目">
+                        <template slot-scope="scope">
+                            <el-autocomplete v-model="scope.row.item_name" @focus="getOptionsAnsyc(12, options.item)" :fetch-suggestions="itemSearch" @select="item=>setDefaultUnit(item, scope.row)"></el-autocomplete>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="詳細">
+                        <template slot-scope="scope">
+                            <el-input-number v-if='scope.row.currency' v-model="scope.row.detail" controls-position="right"></el-input-number>
+                            <el-input v-else v-model="scope.row.detail" ></el-input>
+                        </template>
+                    </el-table-column>
+                    <el-table-column width="100px">
+                        <template slot-scope="scope">
+                            <el-select v-model="scope.row.currency" placeholder="">
+                                <el-option label="" value=""></el-option>
+                                <el-option label="$" value="USD"></el-option>
+                            </el-select>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="単価">
+                        <template slot-scope="scope">
+                            <el-input-number v-model="scope.row.price" controls-position="right"></el-input-number>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="数量">
+                        <template slot-scope="scope">
+                            <el-input-number v-model="scope.row.num" controls-position="right"></el-input-number>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="単位">
+                        <template slot-scope="scope">
+                            <el-autocomplete v-model="scope.row.unit" @focus="getOptionsAnsyc(13, options.unit)" :fetch-suggestions="unitSearch" ></el-autocomplete>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="消费税">
+                        <template slot-scope="scope">
+                            <el-select v-model="scope.row.tax">
+                                <el-option label="免" value="免"></el-option>
+                                <el-option label="課" value="課"></el-option>
+                            </el-select>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="金額">
+                        <template slot-scope="scope">
+                            <el-input :value="scope.row.total.toFixed(2)" readonly></el-input>
+                        </template>
+                    </el-table-column>
+                    <el-table-column>
+                        <template slot-scope="scope">
+                            <el-button class="el-icon-remove" type="danger" circle size="mini" @click="detailDel(scope.$index)"></el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <el-row>
+                    <el-col :span="24">
+                        <el-button class="" style="width:100%" type="primary" @click="detailAdd">ADD</el-button>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="24" class="value" >&#91;&#42;消費税対象金額  {{inTak.toFixed(2)}} &#93;</el-col>
+                </el-row>
+                <el-divider />
+                <el-row>
+                    <el-col :span="12" class="label">小計</el-col>
+                    <el-col :span="12"  class="value">&#91;&#42; {{subtotal.toFixed(2)}} &#93;</el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12" class="label">消費税</el-col>
+                    <el-col :span="12" class="value" >&#91;&#42; {{takTotal.toFixed(2)}} &#93;</el-col>
+                </el-row>
+                <el-row class="sum">
+                    <el-col :span="12" class="label">御請求金額</el-col>
+                    <el-col :span="12" class="value">&#91;&#42; {{sum.toFixed(2)}} &#93;</el-col>
+                </el-row>
+                <el-divider />
+                <el-row>
+                    <el-col :span="24">
+                        <el-form-item label="銀行">
+                            <el-radio-group v-model="bank">
+                                <el-radio label="三井住友銀行"></el-radio>
+                                <el-radio label="姫路信用金庫"></el-radio>
+                                <el-radio label="住信SBIネット銀行"></el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="24">
+                        <el-form-item label="地址">
+                            <el-radio-group v-model="address">
+                                <el-radio label="本社"></el-radio>
+                                <el-radio label="九州営業所"></el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="24">
+                        <el-form-item label="社印">
+                            <el-switch v-model="sign" />
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+            <template #footer>
+                <el-button type="primary" @click="addReq">追加請求書</el-button>
+                <el-button type="primary" @click="copyDialog = true" v-if="!readonly">参照入力</el-button>
+                <el-button type="primary" @click="beDownload" v-if="!readonly">出力</el-button>
+                <el-button @click="close">戻る</el-button>
+            </template>
+            <el-dialog :visible="copyDialog" @close="copyClose" :modal="false" title="参照入力">
+                <el-select v-model="copy_field">
+                    <el-option label="社内管理番号" :value="0" />
+                    <el-option label="BKG NO." :value="1" />
+                </el-select>
+                <el-input style="width:40%; margin-left:10px;" v-model="company_no" />
+                <template #footer>
+                    <el-button type="primary" @click="doCopy">参照入力</el-button>
+                    <el-button @click="copyClose">戻る</el-button>
+                </template>
+            </el-dialog>
         </el-dialog>
-    </el-dialog>
+        <el-dialog :visible="list" @close="closeList">
+            <div>
+                <el-button v-for="{id ,date} in requestList" :key="id" @click="reqbookSelect(id)">{{date}}</el-button>
+            </div>
+            <el-button slot="footer" @click="closeList">戻る</el-button>
+        </el-dialog>
+    </div>
 </template>
 <script>
 import MulitSelect from '@/components/MulitSelect'
@@ -164,14 +173,12 @@ import moment from 'moment'
 
 const RATE = 'RATE'
 let extraDefault = {}
+let resolveRequestbookSelected = () => {}
+let rejectRequestbookSelected = () => {}
 
 export default {
     components: { MulitSelect },
     props: {
-        show: {
-            type: Boolean,
-            default: false,
-        },
         bkgId: {
             type: String,
             default: '',
@@ -207,11 +214,15 @@ export default {
             },
             
             fromList: undefined,
-            fromListCopy: undefined,
 
             copyDialog: false,
             copy_field: 0,
-            company_no: ''
+            company_no: '',
+
+            requestList:[],
+            form:false,
+            list:false,
+            
         }
     },
     computed: {
@@ -243,62 +254,63 @@ export default {
     },
     methods: {
         close() {
-            this.$emit('close');
+            this.form = false
         },
 
         loadData(bkgId, copyBkgId, reLoad = false){
+            this.copyDialog = false
+            const isCopy = Boolean(copyBkgId)
             if(bkgId){
                 this.fromList = bkgId
             }
-
-            if(copyBkgId){
-                this.fromListCopy = copyBkgId
-            }
-
-            if(this.isLoaded && !reLoad){
-                return ;
-            }
-
             this.isLoaded = true;
 
             if(reLoad){
-                console.log('reload')
                 this.extra = [];
                 this.detail = [];
             }
 
-            const params = {
-                bkg_id:bkgId || this.bkgId,
-                copy_bkg_id:copyBkgId || ''
-            }
-
-            this.$getBook(params, ({ data: { data } })=>{
-                this.id = data.id || getRandomID();
-                this.tel = data.tel || '';
-                this.no = data.no || '';
-                this.date = data.date || moment().format('YYYY-MM-DD');
-                this.booker_place = data.booker_place || '';
-                this.booker_name = data.booker_name || '';
-                this.bank = data.bank || '';
-                this.address = data.address || '';
-                const len = 10 ;
-                for(let i = 0; i<len; i+=2){
-                    let row = [];
-                    for(let j=0; j<2; j++){
-                        if(data.extra[`label_${i+j}`] !== undefined
-                        && !(i !== 0 && !data.extra[`label_${i+j}`] && !data.extra[`value_${i+j}`])){
-                            row.push({
-                                label:data.extra[`label_${i+j}`],
-                                value:data.extra[`value_${i+j}`],
-                            });
+            this.$getBookList(isCopy ? copyBkgId : (bkgId || this.bkgId), async (data) => {
+                const requestList  = data.data.data
+                if(requestList.length  < 2){
+                    this.id = isCopy ? getRandomID() : requestList[0]?.id || getRandomID()
+                    const params = {
+                        bkg_id: bkgId || this.bkgId,
+                        [isCopy ? 'copy_id' : 'id']:this.id,
+                    } 
+                    this.$getBook(params, ({ data: { data } })=>{
+                        this.formatter(data)
+                        this.form = true
+                    });
+                }else{
+                    try{
+                        console.log('requestList :', requestList)
+                        const id =  await this.showList(requestList)
+                        this.id = isCopy ? getRandomID() : id
+                        const params = {
+                            bkg_id:bkgId || this.bkgId,
+                            [isCopy ? 'copy_id' : 'id']:this.id,
                         }
-                    }
-                    if(row.length>0){
-                        this.extra.push(row);
+                        this.$getBook(params, ({ data: { data } })=>{
+                            this.formatter(data)
+                            this.form = true
+                        });
+                    }catch(e){
+                        console.log(e)
                     }
                 }
-                this.detail.push(...data.detail);
-                extraDefault = data.extraDefault;
+            })
+        },
+
+        addReq(){
+            this.id = getRandomID()
+            const params = {
+                bkg_id: this.fromList || this.bkgId,
+                'id':this.id,
+            }
+            this.$getBook(params, ({ data: { data } })=>{
+                this.formatter(data)
+                this.form = true
             });
         },
         
@@ -371,53 +383,80 @@ export default {
             this.company_no = ''
         },
 
+        formatter(data, isCopy = false){
+            if(!isCopy){
+                this.id = data.id || getRandomID();
+            }
+            this.tel = data.tel || '';
+            this.date = isCopy ? moment().format('YYYY-MM-DD') : (data.date || moment().format('YYYY-MM-DD'));
+            this.booker_place = data.booker_place || '';
+            this.booker_name = data.booker_name || '';
+            this.bank = data.bank || '';
+            this.address = data.address || '';
+
+            this.extra = []
+            this.detail = []
+
+            const len = 10 ;
+            for(let i = 0; i<len; i+=2){
+                let row = [];
+                for(let j=0; j<2; j++){
+                    if(data.extra[`label_${i+j}`] !== undefined
+                    && !(i !== 0 && !data.extra[`label_${i+j}`] && !data.extra[`value_${i+j}`])){
+                        const label = data.extra[`label_${i+j}`]
+
+                        row.push(isCopy ? {
+                            label,
+                            value: extraDefault[label] ?? '',
+                        }:{
+                            label:data.extra[`label_${i+j}`],
+                            value:data.extra[`value_${i+j}`],
+                        });
+                    }
+                }
+                if(row.length>0){
+                    this.extra.push(row);
+                }
+            }
+            this.detail = isCopy ? data.detail.map(
+                detail => ({
+                    ...detail,
+                    num: 0,
+                    total:0,
+                })
+            ):data.detail
+            extraDefault = data.extraDefault
+        },
+
+        reqbookSelect(reqId){
+            resolveRequestbookSelected(reqId)
+            this.list = false
+        },
+
+        closeList(){
+            rejectRequestbookSelected('cancel')
+            this.list = false
+        },
+
+        showList(requestList){
+            this.list = true
+            this.requestList = requestList
+            return new Promise((resolve,reject) =>{
+                resolveRequestbookSelected = resolve
+                rejectRequestbookSelected = reject
+            })
+        },
+
         doCopy(){
             const { company_no, copy_field } = this
-            this.$hasBookByCompanyNo({ company_no, copy_field },({ data }) =>{
+            this.$hasBookByCompanyNo({ company_no, copy_field },async ({ data }) =>{
                 if(data.error === 0){
-                    const params = {
-                        bkg_id:data.data,
-                        copy_bkg_id: 0
-                    }
+                    this.loadData( this.fromList || this.bkgId, data.data)
 
-                    this.$getBook(params, ({ data: { data } })=>{
-                        this.tel = data.tel || '';
-                        this.date = moment().format('YYYY-MM-DD');
-                        this.booker_place = data.booker_place || '';
-                        this.booker_name = data.booker_name || '';
-                        this.bank = data.bank || '';
-                        this.address = data.address || '';
-
-                        this.extra = []
-                        this.detail = []
-
-                        const len = 10 ;
-                        for(let i = 0; i<len; i+=2){
-                            let row = [];
-                            for(let j=0; j<2; j++){
-                                if(data.extra[`label_${i+j}`] !== undefined
-                                && !(i !== 0 && !data.extra[`label_${i+j}`] && !data.extra[`value_${i+j}`])){
-                                    const label = data.extra[`label_${i+j}`]
-                                    row.push({
-                                        label,
-                                        value: extraDefault[label] ?? '',
-                                    });
-                                }
-                            }
-                            if(row.length>0){
-                                this.extra.push(row);
-                            }
-                        }
-                        this.detail = data.detail.map(
-                            detail => ({
-                                ...detail,
-                                num: 0,
-                                total:0,
-                            })
-                        )
-                        extraDefault = data.extraDefault
-                        this.copyClose()
-                    });
+                    // this.$getBook(params, ({ data: { data } })=>{
+                    //     this.formatter(data, true)
+                    //     this.copyClose()
+                    // });
                 } else {
                     this.$message.warning(data.message)
                 }

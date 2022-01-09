@@ -181,15 +181,6 @@
                 >
                     <template  slot-scope="scope">
                         <div style="text-align:center;">
-                            <!-- <el-button
-                                v-if="showEdit"
-                                type="primary"
-                                size="mini"
-                                class="el-icon-edit"
-                                @click="doEdit(scope.row.id)"
-                            >
-                                EDIT
-                            </el-button> -->
                             <el-button
                                 type="primary"
                                 size="mini"
@@ -216,24 +207,6 @@
                             >
                                 NEXT
                             </el-button>
-                            <!-- <el-button
-                                v-if="showDelete"
-                                type="danger"
-                                size="mini"
-                                class="el-icon-delete"
-                                @click="deleteHandler(scope.row.id, scope.$index)"
-                            >
-                                DELETE
-                            </el-button>
-                            <el-button
-                                v-if="showRestore"
-                                type="success"
-                                size="mini"
-                                class="el-icon-circle-check"
-                                @click="deleteHandler(scope.row.id, scope.$index, false)"
-                            >
-                                RESTORE
-                            </el-button> -->
                         </div>
                     </template>
                 </el-table-column>
@@ -305,17 +278,6 @@ export default {
             return this.$route.params.state == '1'
                 || this.$route.params.state == '2'
         },
-        // showDetail(){
-        //     return this.$route.params.state != 'normal'
-        //         && this.$route.params.state != 'draft';
-        // },
-        // showEdit(){
-        //     return this.$route.params.state == 'normal'
-        //         || this.$route.params.state == 'draft';
-        // },
-        // showDelete(){
-        //     return this.$route.params.state == 'normal';
-        // },
         showRestore(){
             return this.$route.params.state == 'delete';
         },
