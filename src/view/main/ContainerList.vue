@@ -1,89 +1,36 @@
 <template>
     <div class="bkg-list">
         <header>
-            <el-button
-                style="visibility:hidden;"
-            >
-            占位
-            </el-button>
             <div class="input-box">
-                <title-group
-                    title="バンニング日"
-                >
-                    <el-date-picker
-                        v-model="condition.vanning_date"
-                        range-separator="to"
-                        unlink-panels
-                        value-format="yyyy-MM-dd HH:mm:ss"
-                        :default-time="['00:00:00', '23:59:59']"
-                        type="daterange"
-                        size="mini"
-                        style="width:auto"
-                    ></el-date-picker>
-                </title-group>
-                <title-group
-                    title="バンニング場所"
-                >
-                    <el-input
-                        v-model="condition.booker_place"
-                        size="mini"
-                    ></el-input>
-                </title-group>
-                <title-group
-                    title="運送業"
-                >
-                    <el-input
-                        v-model="condition.transprotation"
-                        size="mini"
-                    ></el-input>
-                </title-group>
-                <title-group
-                    title="CUT DATE"
-                >
-                    <el-date-picker
-                        v-model="condition.cy_cut"
-                        range-separator="to"
-                        unlink-panels
-                        value-format="yyyy-MM-dd HH:mm:ss"
-                        :default-time="['00:00:00', '23:59:59']"
-                        type="daterange"
-                        size="mini"
-                        style="width:auto"
-                    ></el-date-picker>
-                </title-group>
-                <title-group
-                    title="BOOKER"
-                >
-                    <el-input
-                        v-model="condition.booker"
-                        size="mini"
-                    ></el-input>
-                </title-group>
-                <title-group
-                    title="BKG NO"
-                >
-                    <el-input
-                        v-model="condition.bkg_no"
-                        size="mini"
-                    ></el-input>
-                </title-group>
-                <el-button
+                <el-date-picker
+                    v-model="condition.vanning_date"
+                    range-separator="to"
+                    unlink-panels
+                    value-format="yyyy-MM-dd HH:mm:ss"
+                    :default-time="['00:00:00', '23:59:59']"
+                    type="daterange"
                     size="mini"
-                    @click="clearCondition"
-                    type="primary"
-                    class="el-icon-refresh-right"
-                >
-                    CLEAR
-                </el-button>
+                    placeholder="バンニング日"
+                    style="width:auto"
+                />
+                <el-input v-model="condition.booker_place" placeholder="バンニング場所" size="mini"/>
+                <el-input v-model="condition.transprotation" placeholder="運送業" size="mini"/>
+                <el-date-picker
+                    v-model="condition.cy_cut"
+                    range-separator="to"
+                    unlink-panels
+                    value-format="yyyy-MM-dd HH:mm:ss"
+                    :default-time="['00:00:00', '23:59:59']"
+                    type="daterange"
+                    size="mini"
+                    style="width:auto"
+                    placeholder="CUT DATE"
+                />
+                <el-input v-model="condition.booker" placeholder="BOOKER" size="mini"/>
+                <el-input v-model="condition.bkg_no" placeholder="BKG NO" size="mini"/>
+                <el-button size="mini" @click="clearCondition" type="primary" class="el-icon-refresh-right">CLEAR</el-button>
+                <el-button type="primary" size="mini" class="el-icon-search" @click="reLoad">SEARCH</el-button>
             </div>
-            <el-button
-                type="primary"
-                size="mini"
-                class="el-icon-search"
-                @click="reLoad"
-            >
-                SEARCH
-            </el-button>
         </header>
         <main>
             <el-table
@@ -92,7 +39,7 @@
                 size="mini"
                 :data="list"
                 :header-cell-style="{
-                    background:'#8BABCD',
+                    background:'#409eff',
                     color:'#fff',
                     fontSize:'16px'
                 }"
@@ -127,15 +74,6 @@
                     align="center"
                 >
                 </el-table-column>
-                <!-- <el-table-column
-                    prop="bkg_date"
-                    label="BKG DATE"
-                    sortable
-                    :formatter="dateFormat"
-                    width="130px"
-                    align="center"
-                >
-                </el-table-column> -->
                 <el-table-column
                     prop="booker"
                     label="BOOKER"
@@ -182,15 +120,6 @@
                             >
                                 DETAIL
                             </el-button>
-                            <!-- <el-button
-                                v-if="showConfirm(scope.row.vanning_date)"
-                                class="el-icon-finished"
-                                type="success"
-                                size="mini"
-                                @click="confirm(scope.row)"
-                            >
-                                confirm
-                            </el-button> -->
                         </div>
                     </template>
                 </el-table-column>
@@ -199,7 +128,7 @@
         <footer>
             <el-pagination
                 background
-                :page-sizes="[10, 50, 100, 500]"
+                :page-sizes="[10, 50, 100]"
                 :page-size="page_size"
                 layout="sizes,total, prev, pager, next"
                 :total="total"
@@ -211,10 +140,12 @@
     </div>
 </template>
 <script>
-import TitleGroup from '../../components/titleGroup.vue'
 import { getOptionsAnsyc } from '@/mixin/main'
 import { timeCompare } from '@/assets/js/utils.js'
 export default {
+    mixins:[
+        getOptionsAnsyc
+    ],
     data(){
         return {
             condition:{
@@ -303,13 +234,9 @@ export default {
             this.reLoad();
         },
     },
-    mixins:[
-        getOptionsAnsyc
-    ],
-    components: { TitleGroup },
 }
 </script>
-<style scoped>
+<style lang="less" scoped>
 .bkg-list{
     width: 100%;
     height: 100%;
@@ -318,34 +245,42 @@ export default {
     box-sizing: border-box;
     display: flex;
     flex-flow: column;
-}
-.bkg-list > *{
-    flex: 0 0 auto;
-}
-.bkg-list main{
-    flex: 1 1 auto;
-    height: 1px;
-    overflow: auto !important;
+
+    * {
+        flex: 0 0 auto;
+    }
+
+    main{
+        flex: 1 1 auto;
+        height: 1px;
+        overflow: auto !important;
+    }
 }
 header{
-    display:flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 1em;
+    line-height: 2rem;
+
+    .el-input{
+        width: 10%;
+    }
 }
 .header-row{
     background: gray;
 }
-.input-box{
-    display: flex;
-    margin: 0 10px;
-    align-items: flex-end;
-}
-.input-box>* + *{
+.input-box> *:nth-child(n+2){
     margin-left: 1em;
 }
+
+
 footer{
     margin-top: 1em;
     text-align: right;
+}
+.state{
+    width: 100% ;
+
+    /deep/ .el-tag {
+        font-size: 20px;
+        color: #000;
+    }
 }
 </style>

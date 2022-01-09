@@ -1,26 +1,15 @@
 <template>
     <nav class="column-nav">
         <ul>
-            <div
-                v-for="(url, i) in urls"
-                :key="i"
-                :class="url.toggle?'grow':'shrink'"
-            >
-                
-                <li
-                    :class="(isFocus(url.to)?'focus':'normal') + ` ${url.class || ''}`"
-                    @click="linkTo(url)"
-                >
-                    <span>{{url.label}}</span>
-                    <div 
-                    v-if="url.child"
-                    class="arrow"
-                    :class="url.toggle?'el-icon-caret-bottom':'el-icon-caret-left'"
-                ></div>
+            <div v-for="(url, i) in urls" :key="i" :class="url.toggle?'grow':'shrink'">
+                <li :class="(isFocus(url.to)?'focus':'normal')" class="parent-li" @click="linkTo(url)">
+                    <span :class="url.class || ''">{{url.label}}</span>
+                    <div v-if="url.child" class="arrow" :class="url.toggle?'el-icon-caret-bottom':'el-icon-caret-left'"></div>
                 </li>
                 <div v-if="url.child" class="child" >
                     <li v-for="(child, i) in url.child"
                         :key="i"
+                        class="child-li"
                         :class="(isFocus(child.to)?'focus':'normal') + ` ${child.class || ''}`"
                         @click.stop="linkTo(child)"
                     >
@@ -72,58 +61,66 @@ export default {
     },
 }
 </script>
-<style scoped>
+<style lang="less" scoped>
+@deep-background: #1B1B1B;
+@color-white: #fff;
+@light-background: #313131;
+@label-height: 50px;
+
 .column-nav li{
-    display: block;
-}
-li{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 2em;
+
     font-size: 14px;
-    width: 100%;
-    height: 50px;
-    color: #FFFFFF;
-    background: #313131;
+    height: @label-height;
+    color: @color-white;
+    background: @light-background;
     cursor: pointer;
-    line-height: 50px;
-    padding-left: 57px;
+    line-height: @label-height;
     box-sizing: border-box;
     position: relative;
+
+
+    &:hover{
+        background: @deep-background !important;
+        color: @color-white !important;
+    }
+
+    &:nth-child(n+2){
+        border-top: #343434 1px solid;
+    }
 }
-ul>div +div,
-li+li{
-    border-top: #343434 1px solid;
+
+.parent-li{
+    padding-left: 2em;
 }
-li[class*="el-icon"]{
-    padding-left: 40px;
+.child-li{
+    padding-left: 3em;
 }
-.shrink >li:hover,
-li:hover{
-    background: #1B1B1B;
-    color: #fff;
+ul>div +div{
+        border-top: #343434 1px solid;
 }
+
 .focus{
     position: relative;
-    background: #1B1B1B;
-}
-.focus::after{
-    content: "";
-    display: block;
-    position:absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 4px;
-    background: #2390FF;
-    
-}
-.normal{   
+    background: @deep-background;
 
+    &::after{
+        content: "";
+        display: block;
+        position:absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 4px;
+        background: #2390FF;
+    }
 }
 .arrow{
-    color: #fff;
+    color: @color-white;
     margin-left: 30px;
-}
-.grow{
-
 }
 .shrink >li {
     background: #434343;

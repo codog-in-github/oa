@@ -1,34 +1,21 @@
 <template>
     <div class="bkg-list">
         <header>
-            <el-button v-if="showNewOrder" size="mini" type="primary" class="el-icon-plus" @click="addNewOrder">NEW ORDER</el-button>
-            <el-button v-if="!showNewOrder" style="visibility:hidden;" > NEW ORDER</el-button>
             <div class="input-box">
-                <title-group title="BKG NO" >
-                    <el-input v-model="condition.bkg_no" size="mini" />
-                </title-group>
-                <title-group title="B/L NO" >
-                    <el-input v-model="condition.bl_no" size="mini"></el-input>
-                </title-group>
-                <title-group title="POL" >
-                    <el-input v-model="condition.pol" size="mini" ></el-input>
-                </title-group>
-                <title-group title="POD">
-                    <el-input v-model="condition.pod" size="mini"/>
-                </title-group>
-                <title-group title="BOOKER">
-                    <el-input v-model="condition.booker" size="mini"/>
-                </title-group>
-                <title-group title="社内管理番号">
-                    <el-input v-model="condition.dg" size="mini" />
-                </title-group>
+                <el-input v-model="condition.bkg_no" placeholder="BKG NO" size="mini" />
+                <el-input v-model="condition.bl_no" placeholder="B/L NO" size="mini"/>
+                <el-input v-model="condition.pol" placeholder="POL" size="mini" />
+                <el-input v-model="condition.pod" placeholder="POD" size="mini"/>
+                <el-input v-model="condition.booker" placeholder="BOOKER" size="mini"/>
+                <el-input v-model="condition.dg" placeholder="社内管理番号" size="mini" />
                 <el-button size="mini" @click="clearCondition" type="primary" class="el-icon-refresh-right">CLEAR</el-button>
+                <el-button type="primary" size="mini" class="el-icon-search" @click="reLoad">SEARCH</el-button>
             </div>
-            <el-button type="primary" size="mini" class="el-icon-search" @click="reLoad">SEARCH</el-button>
+            <el-button v-if="showNewOrder" size="mini" type="primary" class="el-icon-plus" @click="addNewOrder">新規作成</el-button>
         </header>
         <main>
             <el-table border stripe size="mini" :data="list" height="100%" :header-cell-style="{
-                background:'#8BABCD',
+                background:'#409eff',
                 color:'#fff',
                 fontSize:'16px'
             }">
@@ -64,7 +51,7 @@
             </el-table>
         </main>
         <footer>
-            <el-pagination background :page-sizes="[10, 50, 100, 500]" :page-size="page_size" layout="sizes,total, prev, pager, next" :total="total" @size-change="sizeChangeHandler" @current-change="pageChangeHandler"/>
+            <el-pagination background :page-sizes="[10, 50, 100]" :page-size="page_size" layout="sizes,total, prev, pager, next" :total="total" @size-change="sizeChangeHandler" @current-change="pageChangeHandler"/>
         </footer>
         <el-dialog :visible="newOrder" @close="newOrder = false" @open="copy_no = ''" title="NEW ORDER">
             BKG NO:<el-input v-model="copy_no"></el-input>
@@ -76,10 +63,12 @@
     </div>
 </template>
 <script>
-import TitleGroup from '../../components/titleGroup.vue'
 import { getOptionsAnsyc } from '@/mixin/main'
 
 export default {
+    mixins:[
+        getOptionsAnsyc
+    ],
     data(){
         return {
             condition:{
@@ -240,10 +229,6 @@ export default {
             }
         }
     },
-    mixins:[
-        getOptionsAnsyc
-    ],
-    components: { TitleGroup },
 }
 </script>
 <style lang="less" scoped>
@@ -267,23 +252,19 @@ export default {
     }
 }
 header{
-    display:flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 1em;
+    line-height: 2rem;
+
+    .el-input{
+        width: 10%;
+    }
 }
 .header-row{
     background: gray;
 }
-.input-box{
-    display: flex;
-    margin: 0 10px;
-    align-items: flex-end;
-
-    & > * + *{
-        margin-left: 1em;
-    }
+.input-box> *:nth-child(n+2){
+    margin-left: 1em;
 }
+
 
 footer{
     margin-top: 1em;
@@ -296,5 +277,8 @@ footer{
         font-size: 20px;
         color: #000;
     }
+}
+/deep/.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell{
+    background: #f2f2f4;
 }
 </style>

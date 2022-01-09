@@ -1,91 +1,16 @@
 <template>
     <div class="bkg-list">
         <header>
-            <el-button
-                style="visibility:hidden;"
-            >
-            NEW ORDER
-            </el-button>
             <div class="input-box">
-                <!-- <title-group
-                    title="CUT DATE"
-                >
-                    <el-date-picker
-                        v-model="condition.cy_cut"
-                        range-separator="to"
-                        unlink-panels
-                        value-format="yyyy-MM-dd HH:mm:ss"
-                        :default-time="['00:00:00', '23:59:59']"
-                        type="daterange"
-                        size="mini"
-                        style="width:auto"
-                    ></el-date-picker>
-                </title-group> -->
-                <title-group
-                    title="BKG NO"
-                >
-                    <el-input
-                        v-model="condition.bkg_no"
-                        size="mini"
-                    ></el-input>
-                </title-group>
-                <title-group
-                    title="B/L NO"
-                >
-                    <el-input
-                        v-model="condition.bl_no"
-                        size="mini"
-                    ></el-input>
-                </title-group>
-                <title-group
-                    title="POL"
-                >
-                    <el-input
-                        v-model="condition.pol"
-                        size="mini"
-                    ></el-input>
-                </title-group>
-                <title-group
-                    title="POD"
-                >
-                    <el-input
-                        v-model="condition.pod"
-                        size="mini"
-                    ></el-input>
-                </title-group>
-                <title-group
-                    title="BOOKER"
-                >
-                    <el-input
-                        v-model="condition.booker"
-                        size="mini"
-                    ></el-input>
-                </title-group>
-                <title-group
-                    title="社内管理番号"
-                >
-                    <el-input
-                        v-model="condition.dg"
-                        size="mini"
-                    ></el-input>
-                </title-group>
-                <el-button
-                    size="mini"
-                    @click="clearCondition"
-                    type="primary"
-                    class="el-icon-refresh-right"
-                >
-                    CLEAR
-                </el-button>
+                <el-input v-model="condition.bkg_no" placeholder="BKG NO" size="mini" />
+                <el-input v-model="condition.bl_no" placeholder="B/L NO" size="mini" />
+                <el-input v-model="condition.pol" placeholder="POL" size="mini" />
+                <el-input v-model="condition.pod" placeholder="POD" size="mini" />
+                <el-input v-model="condition.booker" placeholder="BOOKER" size="mini" />
+                <el-input v-model="condition.dg" placeholder="社内管理番号" size="mini" />
+                <el-button size="mini" @click="clearCondition" type="primary" class="el-icon-refresh-right">CLEAR</el-button>
+                <el-button type="primary" size="mini" class="el-icon-search" @click="reLoad">SEARCH</el-button>
             </div>
-            <el-button
-                type="primary"
-                size="mini"
-                class="el-icon-search"
-                @click="reLoad"
-            >
-                SEARCH
-            </el-button>
         </header>
         <main>
             <el-table
@@ -94,7 +19,7 @@
                 size="mini"
                 :data="list"
                 :header-cell-style="{
-                    background:'#8BABCD',
+                    background:'#409eff',
                     color:'#fff',
                     fontSize:'16px'
                 }"
@@ -169,11 +94,6 @@
                         >{{scope.row.state.join('|')}}</div>
                     </template>
                 </el-table-column>
-                <!-- <el-table-column
-                    prop="in_sales"
-                    label="IN SALES"
-                >
-                </el-table-column> -->
                 <el-table-column
                     prop="id"
                     label="OPERATION"
@@ -215,7 +135,7 @@
         <footer>
             <el-pagination
                 background
-                :page-sizes="[10, 50, 100, 500]"
+                :page-sizes="[10, 50, 100]"
                 :page-size="page_size"
                 layout="sizes,total, prev, pager, next"
                 :total="total"
@@ -235,10 +155,13 @@
     </div>
 </template>
 <script>
-import TitleGroup from '../../components/titleGroup.vue'
 import { getOptionsAnsyc } from '@/mixin/main'
 import RequestBook from './book/RequestBook.vue'
 export default {
+    mixins:[
+        getOptionsAnsyc
+    ],
+    components: {  RequestBook },
     data(){
         return {
             condition:{
@@ -402,10 +325,6 @@ export default {
             this.$refs.rb.loadData(bkgId, copyId, true)
         }
     },
-    mixins:[
-        getOptionsAnsyc
-    ],
-    components: { TitleGroup, RequestBook },
 }
 </script>
 <style lang="less" scoped>
@@ -429,23 +348,19 @@ export default {
     }
 }
 header{
-    display:flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 1em;
+    line-height: 2rem;
+
+    .el-input{
+        width: 10%;
+    }
 }
 .header-row{
     background: gray;
 }
-.input-box{
-    display: flex;
-    margin: 0 10px;
-    align-items: flex-end;
-
-    & > * + *{
-        margin-left: 1em;
-    }
+.input-box> *:nth-child(n+2){
+    margin-left: 1em;
 }
+
 
 footer{
     margin-top: 1em;
@@ -458,5 +373,8 @@ footer{
         font-size: 20px;
         color: #000;
     }
+}
+/deep/.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell{
+    background: #f2f2f4;
 }
 </style>
