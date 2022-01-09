@@ -14,7 +14,7 @@
             <el-button class="add" v-if="showNewOrder" size="mini" type="primary" @click="addNewOrder"><span class="el-icon-plus" /> 新規作成</el-button>
         </header>
         <main>
-            <el-table border stripe size="mini" :data="list" height="100%" :header-cell-style="{
+            <el-table border size="mini" :data="list" height="100%" :header-cell-style="{
                 background:'#409eff',
                 color:'#fff',
                 fontSize:'16px'
@@ -278,8 +278,8 @@ footer{
         color: #000;
     }
 }
-/deep/.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell{
-    background: #f2f2f4;
+/deep/ .el-table .el-table__row:nth-child(even){
+    background: #f2f2f4 !important;
 }
 .add{
     margin: 1em 0;
