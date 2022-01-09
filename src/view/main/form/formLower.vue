@@ -57,7 +57,7 @@
                     PORT OF LOADING
                 </div>
                 <title-group 
-                    title="Country">
+                    title="Country/Region">
                     <el-select
                         filterable
                         :filter-method="val=>(keywords.port_of_loading_country=val)"
@@ -146,7 +146,7 @@
                     PORT OF DELIVERY
                 </div>
                 <title-group 
-                    title="Country">
+                    title="Country/Region">
                     <el-select
                         filterable
                         :filter-method="val=>(keywords.port_of_delivery_country=val)"
