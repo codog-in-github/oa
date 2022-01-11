@@ -4,7 +4,7 @@
             <template #title>
                 <div class="title">請求書</div>
             </template>
-            <el-form label-width="130px">
+            <el-form label-width="130px" v-loading="loading">
                 <el-row>
                     <el-col :span="12"><el-form-item label="〒"><el-input v-model="tel"></el-input></el-form-item></el-col>
                     <el-col :span="12"><el-form-item label="請求番号："><el-input v-model="no"></el-input></el-form-item></el-col>
@@ -194,7 +194,7 @@ export default {
     },
     data(){
         return {
-            isLoaded: false,
+            loading: false,
 
             id:'',
             tel: '',
@@ -213,8 +213,6 @@ export default {
                 unit: {item: [], loading: false},
             },
             
-            fromList: undefined,
-
             copyDialog: false,
             copy_field: 0,
             company_no: '',
@@ -256,45 +254,37 @@ export default {
         close() {
             this.form = false
         },
+        
+        getbook(requestId, isCopy = false){
+            const params = {
+                bkg_id: this.bkgId,
+                [isCopy ? 'copy_id' : 'id']:isCopy ? requestId : this.id,
+            } 
+            this.$getBook(params, ({ data: { data } })=>{
+                this.formatter(data)
+                this.form = true
+            });
+        },
 
-        loadData(bkgId, copyBkgId, reLoad = false){
+        loadData(bkgId, copyBkgId){
             this.copyDialog = false
             const isCopy = Boolean(copyBkgId)
-            if(bkgId){
-                this.fromList = bkgId
-            }
-            this.isLoaded = true;
+            this.bkgId = bkgId
+            this.loading = true;
 
-            if(reLoad){
-                this.extra = [];
-                this.detail = [];
-            }
+            this.extra = [];
+            this.detail = [];
 
-            this.$getBookList(isCopy ? copyBkgId : (bkgId || this.bkgId), async (data) => {
+            this.$getBookList(isCopy ? copyBkgId : bkgId, async (data) => {
                 const requestList  = data.data.data
                 if(requestList.length  < 2){
                     this.id = (isCopy ? this.id : requestList[0]?.id) || getRandomID()
-                    const params = {
-                        bkg_id: bkgId || this.bkgId,
-                        [isCopy ? 'copy_id' : 'id']:this.id,
-                    } 
-                    this.$getBook(params, ({ data: { data } })=>{
-                        this.formatter(data)
-                        this.form = true
-                    });
-                }else{
+                    this.getbook(isCopy ? requestList[0]?.id : this.id, isCopy)
+                } else {
                     try{
-                        console.log('requestList :', requestList)
                         const id =  await this.showList(requestList)
-                        this.id = (isCopy ? this.id : id) || getRandomID()
-                        const params = {
-                            bkg_id: bkgId || this.bkgId,
-                            [isCopy ? 'copy_id' : 'id']:isCopy ? id : this.id,
-                        }
-                        this.$getBook(params, ({ data: { data } })=>{
-                            this.formatter(data, isCopy)
-                            this.form = true
-                        });
+                        this.id = isCopy ? this.id || getRandomID() : id
+                        this.getbook(isCopy ? id : bkgId, isCopy)
                     }catch(e){
                         console.log(e)
                     }
@@ -305,7 +295,7 @@ export default {
         addReq(){
             this.id = getRandomID()
             const params = {
-                bkg_id: this.fromList || this.bkgId,
+                bkg_id: this.bkgId,
                 'id':this.id,
             }
             this.$getBook(params, ({ data: { data } })=>{
@@ -358,7 +348,7 @@ export default {
         beDownload(){
             postNewWindow(URL.REQUESTBOOK,{
                 id: this.id,
-                bkg_id: this.fromList || this.bkgId,
+                bkg_id:this.bkgId,
                 tel: this.tel,
                 no: this.no,
                 booker_place: this.booker_place,
@@ -428,6 +418,7 @@ export default {
                 })
             ):data.detail
             extraDefault = data.extraDefault
+            this.loading = false
         },
 
         reqbookSelect(reqId){
@@ -453,8 +444,7 @@ export default {
             const { company_no, copy_field } = this
             this.$hasBookByCompanyNo({ company_no, copy_field },async ({ data }) =>{
                 if(data.error === 0){
-                    this.loadData( this.fromList || this.bkgId, data.data, true)
-
+                    this.loadData(this.bkgId, data.data)
                 } else {
                     this.$message.warning(data.message)
                 }

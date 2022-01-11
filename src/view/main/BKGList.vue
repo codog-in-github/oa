@@ -11,15 +11,15 @@
                 <el-button type="primary" size="mini" @click="reLoad">SEARCH</el-button>
                 <el-button size="mini" @click="clearCondition">CLEAR</el-button>
             </div>
-            <el-button class="add" v-if="showNewOrder" size="mini" type="primary" @click="addNewOrder"><span class="el-icon-plus" /> 新規作成</el-button>
+            <el-button class="add" v-if="showNewOrder" size="mini" type="primary" @click="addNewOrder"><span class="el-icon-plus" />新規作成</el-button>
         </header>
         <main>
-            <el-table border size="mini" :data="list" height="100%" :header-cell-style="{
+            <el-table border size="mini" :data="list" height="100%" v-loading="loading" :header-cell-style="{
                 background:'#409eff',
                 color:'#fff',
                 fontSize:'16px'
             }">
-                <el-table-column prop="company_no" label="管理番号" width="100px" align="center"/>
+                <el-table-column prop="company_no" label="管理番号" width="100px" align="center" fixed />
                 <el-table-column prop="show_cy_cut" label="CUT" sortable :formatter="dateFormat" width="100px" align="center"/>
                 <el-table-column prop="bkg_date" label="BKG" sortable :formatter="dateFormat" width="100px" align="center"/>
                 <el-table-column prop="booker" label="BOOKER" width="180px" />
@@ -35,8 +35,7 @@
                         <div v-else>{{scope.row.state.join('|')}}</div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="id" label="OPERATION" width="320px"
-                >
+                <el-table-column prop="id" label="OPERATION" width="320px" fixed="right">
                     <template  slot-scope="scope">
                         <div style="text-align:center;">
                             <el-button v-if="showEdit" type="primary" size="mini" class="el-icon-edit" @click="doEdit(scope.row.id)">EDIT</el-button>
@@ -87,6 +86,7 @@ export default {
             options:{
                 state:{item:[],loading:false,},
             },
+            loading: false,
             stateChangeTimer:-1,
             newOrder: false,
             copy_no:'',
@@ -128,6 +128,7 @@ export default {
     },
     methods:{
         reLoad(){
+            this.loading = true
             this.$getList(
                 {
                     condition:this.condition,
@@ -147,6 +148,7 @@ export default {
                     }));
                     this.total = parseInt(data.data.total);
                     this.page = data.data.page;
+                    this.loading = false
                 }
             );
         },

@@ -5,13 +5,9 @@
                 <img src="~@/assets/img/logo.png" width="44px">
                 <span>春海組システム</span>
             </div>
-            <column-nav
-                :urls="menu"
-            ></column-nav>
+            <column-nav :urls="menu"></column-nav>
         </aside>
-        <main
-            class="shadow-card"
-        >
+        <main class="shadow-card">
             <header> 
                 <span>Hello! {{user.name}}</span>
                 <el-button 
@@ -23,11 +19,7 @@
                 </el-button>
             </header>
             <div class="view-box">
-
-                <router-view 
-                    class="view shadow-card"
-                    :key="$router.currentRoute.fullPath"
-                ></router-view>
+                <router-view  class="view shadow-card" :key="$router.currentRoute.fullPath"></router-view>
             </div>
         </main>
     </div>

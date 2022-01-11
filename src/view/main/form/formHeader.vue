@@ -4,106 +4,68 @@
             <div><b>管理情報</b></div>
             <div class="header-input-box">
                 <title-group title="BKG DATE">
-                    <el-date-picker
-                        v-model="bkg_date"
-                        size="mini"
-                        value-format="yyyy-MM-dd"
-                        style="width:auto;"
-                    ></el-date-picker>
+                    <el-date-picker v-model="bkg_date" size="mini" value-format="yyyy-MM-dd" style="width:auto;"></el-date-picker>
                 </title-group>
                 <title-group title="BKG NO.">
-                    <el-input
-                        v-model="bkg_no"
-                        @blur="bl_no = bkg_no?bkg_no:bl_no"
-                        size="mini"
-                    ></el-input>
+                    <el-input v-model="bkg_no" @blur="bl_no = bkg_no?bkg_no:bl_no" size="mini"></el-input>
                 </title-group>
                 <title-group title="B/L NO.">
-                    <el-input
-                        v-model="bl_no"
-                        size="mini"
-                    ></el-input>
+                    <el-input v-model="bl_no" size="mini"></el-input>
                 </title-group>
                 <title-group title="BKG TYPE">
-                    <el-select
-                        v-model="bkg_type"
-                        size="mini"
-                        @focus="getOptionsAnsyc(6, options.bkg_type)"
-                    >
+                    <el-select v-model="bkg_type" size="mini" @focus="getOptionsAnsyc(6, options.bkg_type)">
                         <el-option
                             v-for="{id, value, label} in options.bkg_type.item"
                             :key="id"
                             :value="value"
                             :label="label"
-                        ></el-option>
+                        />
                     </el-select>
                 </title-group>
                 <title-group title="INCOTERMS">
-                    <el-select
-                        v-model="incoterms"
-                        size="mini"
-                        @focus="getOptionsAnsyc(4, options.incoterms)"
-                    >
+                    <el-select v-model="incoterms" size="mini" @focus="getOptionsAnsyc(4, options.incoterms)">
                         <el-option
                             v-for="{id, value, label} in options.incoterms.item"
                             :key="id"
                             :value="value"
                             :label="label"
-                        ></el-option>
+                        />
                     </el-select>
                 </title-group>
                 <title-group title="BKG STAFF">
-                    <el-select
-                        v-model="bkg_staff"
-                        size="mini"
-                        :loading="options.user.loading"
-                        @focus="getOptionsAnsyc(1,options.user)"
-                    >
+                    <el-select v-model="bkg_staff" size="mini" :loading="options.user.loading" @focus="getOptionsAnsyc(1,options.user)">
                         <el-option
                             v-for="{id, value, label} in options.user.item"
                             :key="id"
                             :value="value"
                             :label="label"
-                        ></el-option>
+                        />
                     </el-select>
                 </title-group>
                 <title-group title="IN SALES">
-                    <el-select
-                        v-model="in_sales"
-                        size="mini"
-                        :loading="options.user.loading"
-                        @focus="getOptionsAnsyc(1,options.user)"
-                    >
+                    <el-select v-model="in_sales" size="mini" :loading="options.user.loading" @focus="getOptionsAnsyc(1,options.user)">
                         <el-option
                             v-for="{id, value, label} in options.user.item"
                             :key="id"
                             :value="value"
                             :label="label"
-                        ></el-option>
+                        />
                     </el-select>
                 </title-group>
                 <title-group title="社内管理番号">
-                    <el-input
-                        readonly
-                        v-model="dg"
-                        size="mini"
-                    ></el-input>
+                    <el-input readonly v-model="dg" size="mini"></el-input>
                 </title-group>
             </div>
         </div>
         <div class="header-right">
             <el-button size="mini" type="primary" :disabled="$route.params.mode ==='view'" @click="$emit('save-data')">BKG登録</el-button>
-            <el-button size="mini" type="primary" :disabled="$route.params.mode ==='view' || !$route.params.mode || isCopy" @click="deleteButtonHandler">BKG削除</el-button>
+            <el-button size="mini" type="danger" :disabled="$route.params.mode ==='view' || !$route.params.mode || isCopy" @click="deleteButtonHandler">BKG削除</el-button>
             <br>
             <br>
             <el-button  size="mini"  type="primary" :disabled="isCopy" @click="bookSelecter = true">各種書類作成</el-button>
             <el-button  size="mini"  :disabled="isCopy" type="primary" @click="showReqBook">請求書</el-button>
         </div>
-        <el-dialog
-            :visible="bookSelecter"
-            title="Please select a type"
-            @close="bookSelecter=false"
-        >
+        <el-dialog :visible="bookSelecter" title="Please select a type" @close="bookSelecter=false">
             <el-radio v-model="book" label="BOOKING NOTICE" border></el-radio>
             <el-radio v-model="book" label="荷捌表" border></el-radio>
             <template slot="footer">
@@ -118,7 +80,7 @@
                 <el-button @click="beClose">CLOSE</el-button>
             </template>
         </el-dialog>
-        <request-book :show="requestBookShow" @close="requestBookShow = false" :bkg-id="bkgId" :readonly="false" ref="rbook"/>
+        <request-book :bkg-id="bkgId" :readonly="false" ref="rbook"/>
     </div>
 </template>
 <script>
@@ -144,8 +106,7 @@ export default{
                 user: {item: [], loading: false},
                 incoterms: {item: [], loading: false},
                 bkg_type: {item: [], loading: false},
-            },
-            requestBookShow: false,
+            }
         };
     },
     computed:{
@@ -245,7 +206,7 @@ export default{
             this.dg = bkg.dg;
         },
         showReqBook(){
-            this.$refs.rbook.loadData();
+            this.$refs.rbook.loadData(this.bkgId);
         },
     },
     mixins:[
