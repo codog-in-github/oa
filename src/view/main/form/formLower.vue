@@ -368,12 +368,12 @@ export default{
             });
         },
         formatPort(witch){
-            this[witch].port = `${this[witch].country} ${findInArray(
+            this[witch].port = `${findInArray(
                 'label',
                 this[witch].port,
                 this.options[witch].item,
                 'code'
-            )}(${this[witch].port})` ;
+            )}(${this[witch].country} ${this[witch].port})` ;
         },
     },
     mixins:[
