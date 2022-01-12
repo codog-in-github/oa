@@ -373,7 +373,7 @@ export default{
                 this[witch].port,
                 this.options[witch].item,
                 'code'
-            )}(${this[witch].country} ${this[witch].port})` ;
+            )}(${this[witch].country}${this[witch].port})` ;
         },
     },
     mixins:[
