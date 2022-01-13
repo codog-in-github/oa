@@ -86,3 +86,20 @@ export const postNewWindow = (url, params = {}) => {
     form.submit()
     document.body.removeChild(form)
 }
+
+export const urlParamsStringify = params => {
+    let paramsStr = ''
+    let delimiter = '?'
+    for (const key in params) {
+        if (params[key] instanceof Array) {
+            for (const value of params[key]) {
+                paramsStr += `${delimiter}${key}[]=${value}`
+                delimiter = '&'
+            }
+        } else {
+            paramsStr += `${delimiter}${key}=${params[key]}`
+            delimiter = '&'
+        }
+    }
+    return paramsStr
+}

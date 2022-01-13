@@ -18,6 +18,7 @@ export const store = new Vuex.Store({
             loginState.info = info
             loginState.logined = true
             sessionStorage.setItem('logined', true)
+            router.push('/frame')
         },
         logout ({ loginState }) {
             loginState.info = {}
@@ -29,7 +30,6 @@ export const store = new Vuex.Store({
         // 强制退出
         logoutEnforce ({ commit }) {
             commit('logout')
-            // console.log(vm);
             router.push('/login')
         }
     },

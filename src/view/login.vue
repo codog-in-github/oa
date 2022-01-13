@@ -1,114 +1,54 @@
 <template>
-  <div class="container">
-    <div class="animation-position">
-        <img src="~@/assets/img/32.png" class="ship-img">
-        <div class="animation-logo">
-          <div>H</div>
-          <div>A</div>
-          <div>R</div>
-          <div>U</div>
-          <div>M</div>
-          <div>I</div>
-          <div>G</div>
-          <div>U</div>
-          <div>M</div>
-          <div>I</div>
+    <div class="container">
+        <div class="animation-position">
+            <img src="~@/assets/img/32.png" class="ship-img">
+            <div class="animation-logo">
+                <div>H</div><div>A</div><div>R</div><div>U</div><div>M</div><div>I</div><div>G</div><div>U</div><div>M</div><div>I</div>
+            </div>
+        </div>
+        <div class="login-card">
+            <div class="login-title">LOGIN</div>
+            <el-form :model='form' ref="form" label-position="top" :rules="rules">
+                <el-form-item label="USERNAME" prop="username">
+                    <el-input placeholder="Enter your name" v-model='form.username'/>
+                </el-form-item>
+                <el-form-item label="PASSWORD" prop="password">
+                    <el-input placeholder="Enter your password" type="password" v-model='form.password'/>
+                </el-form-item>
+                <el-form-item style="margin-top:30px;">
+                <el-button type="primary" @click="login" style="width:100%" :loading="loading">login</el-button>
+                </el-form-item>
+            </el-form>
         </div>
     </div>
-    <div class="login-card">
-        <div class="login-title">LOGIN</div>
-        <el-form :model='form' ref="form" label-position="top">
-          USERNAME
-          <el-form-item>
-            <el-input placeholder="Enter your name" v-model='form.username'/>
-          </el-form-item>
-          PASSWORD
-          <el-form-item>
-            <el-input placeholder="Enter your password" type="password" v-model='form.password'/>
-          </el-form-item>
-          <!-- VERIFY -->
-          <!-- <el-row>
-            <el-col :span="12">
-                <el-input placeholder="Enter your verify" v-model='form.verify'/>
-            </el-col>
-            <el-col :span="12">
-              <img :src="verifyUrl" title="CHANGE IT" @click="changeVerify" :style="{cursor:'pointer',width:'100%'}">
-            </el-col>
-          </el-row> -->
-        <el-form-item style="margin-top:30px;">
-          <el-button
-            type="primary"
-            @click="check"
-            style="width:100%"
-            :loading="loading"
-          >login</el-button>
-        </el-form-item>
-        </el-form>
-    </div>
-  </div>
 </template>
 <script>
-// import '@/assets/img/32.png';
-import { URL } from '@/api/main'
+import { doLogin } from '@/api/main'
 export default {
     data () {
         return {
             form: {
                 username: '',
-                password: '',
-                verify: ''
+                password: ''
             },
-            loading: false,
-            rand: parseInt(Math.random() * 10000)
-        }
-    },
-    computed: {
-        verifyUrl () {
-            return `${URL.LOGOUT_VERIFY_PATH}?rand=${this.rand}`
+            rules: {
+
+            },
+            loading: false
         }
     },
     methods: {
-        check () {
-            this.loading = true
-            if (this.form.username === '') {
-                // no user name
-                this.$notify.error({
-                    title: 'error',
-                    message: 'please enter username'
-                })
+        async login () {
+            try {
+                this.loading = true
+                await this.$refs.form.validate()
+                const userInfo = await doLogin(this.form.username, this.form.password)
+                this.$store.commit('doLogin', userInfo)
+            } catch (e) {
+                this.$message.error(e)
+            } finally {
                 this.loading = false
-                return void 0
             }
-            if (this.form.password === '') {
-                // no user password
-                this.$notify.error({
-                    title: 'error',
-                    message: 'please enter password'
-                })
-                this.loading = false
-                return void 0
-            }
-            // if(this.form.verify == ''){
-            //   //no user verify
-            //   this.$notify.error({
-            //       title: 'error',
-            //       message: `please enter verify`,
-            //   });
-            //   this.loading = false;
-            //   return void 0;
-            // }
-            this.$doLogin(
-                this.form.username,
-                this.form.password,
-                null,
-                () => {
-                    // this.changeVerify();
-                    this.loading = false
-                }
-            )
-        },
-        changeVerify () {
-            this.rand = parseInt(Math.random() * 10000)
         }
     }
 }

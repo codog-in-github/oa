@@ -1,3 +1,4 @@
+import { Http } from '@/utils/Http'
 import { store } from '@/vuex/main'
 import axios from 'axios'
 import qs from 'qs'
@@ -295,4 +296,14 @@ export class Api {
             data => successCall(data)
         )
     }
+}
+
+export const doLogin = (username, password) => {
+    return Http.post({
+        url: LOGIN_PATH,
+        params: {
+            username,
+            password
+        }
+    })
 }
