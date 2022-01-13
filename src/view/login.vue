@@ -32,7 +32,8 @@ export default {
                 password: ''
             },
             rules: {
-
+                username: { required: true, message: 'PLEASE ENTER USERNAME' },
+                password: { required: true, message: 'PLEASE ENTER PASSWORD' }
             },
             loading: false
         }
@@ -45,7 +46,8 @@ export default {
                 const userInfo = await doLogin(this.form.username, this.form.password)
                 this.$store.commit('doLogin', userInfo)
             } catch (e) {
-                this.$message.error(e)
+                console.log(e)
+                // this.$message.error(e)
             } finally {
                 this.loading = false
             }
@@ -54,7 +56,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .container {
   width: 100vw;
   height: 100vh;
@@ -63,6 +65,9 @@ export default {
   align-items: center;
   background: linear-gradient(45deg, #86C1F4 , #546CD8);
   overflow: hidden;
+}
+/deep/ .el-form-item__label::before{
+    content: '' !important;
 }
 .ship-img{
   height: 50vh;
