@@ -1,5 +1,5 @@
 // import Vue from 'vue'
-import { getRandomID } from '@/assets/js/utils'
+import { getRandomID } from '@/utils'
 
 const emptyContainer = {
     id: 0,

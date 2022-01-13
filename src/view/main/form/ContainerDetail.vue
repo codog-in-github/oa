@@ -33,7 +33,7 @@
 <script>
 import { mapState } from 'vuex'
 import DetailItem from '@/components/formitem/DetailItem.vue'
-import { getRandomID, findInArray } from '@/assets/js/utils'
+import { getRandomID, findInArray } from '@/utils'
 import { common, getOptionsAnsyc } from '@/mixin/main'
 export default {
     computed: {

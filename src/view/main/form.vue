@@ -31,7 +31,7 @@ import FormLower from './form/formLower.vue'
 import FormUpper from './form/formUpper.vue'
 import ContainerDetail from './form/ContainerDetail.vue'
 import { common } from '@/mixin/main'
-import { getRandomID } from '@/assets/js/utils'
+import { getRandomID } from '@/utils'
 
 export default {
     data () {

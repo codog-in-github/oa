@@ -167,7 +167,7 @@
 <script>
 import MulitSelect from '@/components/MulitSelect'
 import { getOptionsAnsyc } from '@/mixin/main'
-import { findInArray, getRandomID, postNewWindow } from '@/assets/js/utils'
+import { findInArray, getRandomID, postNewWindow } from '@/utils'
 import { URL } from '@/api/main'
 import moment from 'moment'
 

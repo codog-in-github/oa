@@ -216,7 +216,7 @@
 <script>
 import TitleGroup from '@/components/titleGroup.vue'
 import { common, getOptionsAnsyc } from '@/mixin/main'
-import { findInArray } from '@/assets/js/utils'
+import { findInArray } from '@/utils'
 
 export default {
     data () {

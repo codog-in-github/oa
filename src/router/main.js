@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Login from '@/view/login.vue'
 
 Vue.use(VueRouter)
 
@@ -16,10 +15,6 @@ let routes = [
             {
                 path: '/frame',
                 redirect: '/frame/list/normal'
-            },
-            {
-                path: '/frame/index',
-                component: () => import('@/view/main/index.vue')
             }, {
                 path: '/frame/form',
                 component: () => import('@/view/main/form.vue')

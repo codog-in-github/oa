@@ -148,7 +148,7 @@
 import { mapState } from 'vuex'
 import TitleGroup from '@/components/titleGroup'
 import { getOptionsAnsyc, common } from '@/mixin/main'
-import { getRandomID } from '@/assets/js/utils'
+import { getRandomID } from '@/utils'
 
 export default {
     data () {

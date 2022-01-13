@@ -27,7 +27,7 @@
 </template>
 <script>
 import { URL } from '@/api/main'
-import { postNewWindow } from '@/assets/js/utils'
+import { postNewWindow } from '@/utils'
 import { common } from '@/mixin/main'
 export default {
     mixins: [

@@ -141,7 +141,7 @@
 </template>
 <script>
 import { getOptionsAnsyc } from '@/mixin/main'
-import { timeCompare } from '@/assets/js/utils.js'
+import { timeCompare } from '@/utils'
 export default {
     mixins: [
         getOptionsAnsyc

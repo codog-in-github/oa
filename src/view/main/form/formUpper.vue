@@ -96,7 +96,7 @@
 </template>
 <script>
 import { getOptionsAnsyc } from '@/mixin/main.js'
-import { findInArray } from '@/assets/js/utils'
+import { findInArray } from '@/utils'
 import TitleGroup from '@/components/titleGroup.vue'
 
 export default {
