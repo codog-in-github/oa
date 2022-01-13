@@ -181,7 +181,7 @@ export default {
     props: {
         bkgId: {
             type: String,
-            default: '',
+            default: ''
         },
         requestId: {
             type: String,
@@ -192,11 +192,11 @@ export default {
             default: true
         }
     },
-    data(){
+    data () {
         return {
             loading: false,
 
-            id:'',
+            id: '',
             tel: '',
             no: '',
             booker_place: '',
@@ -206,122 +206,122 @@ export default {
             detail: [],
             bank: '',
             address: '',
-            sign:true,
+            sign: true,
 
             options: {
-                item: {item: [], loading: false},
-                unit: {item: [], loading: false},
+                item: { item: [], loading: false },
+                unit: { item: [], loading: false }
             },
-            
+
             copyDialog: false,
             copy_field: 0,
             company_no: '',
 
-            requestList:[],
-            form:false,
-            list:false,
-            
+            requestList: [],
+            form: false,
+            list: false
+
         }
     },
     computed: {
-        rate(){
-            for(const row of this.extra){
-                for(const col of row){
-                    if(col.label === RATE){
-                        return col.value;
+        rate () {
+            for (const row of this.extra) {
+                for (const col of row) {
+                    if (col.label === RATE) {
+                        return col.value
                     }
                 }
             }
-            return false;
+            return false
         },
-        inTak(){
+        inTak () {
             return this.detail
-                .filter(current=>current.tax === '課')
-                .reduce((prev,current)=>prev+current.total, 0)
+                .filter(current => current.tax === '課')
+                .reduce((prev, current) => prev + current.total, 0)
         },
-        subtotal(){
+        subtotal () {
             return this.detail
-                .reduce((prev,current)=>prev+current.total, 0)
+                .reduce((prev, current) => prev + current.total, 0)
         },
-        takTotal(){
-            return this.inTak * 0.1;
+        takTotal () {
+            return this.inTak * 0.1
         },
-        sum(){
-            return this.subtotal + this.takTotal;
+        sum () {
+            return this.subtotal + this.takTotal
         }
     },
     methods: {
-        close() {
+        close () {
             this.form = false
         },
-        
-        getbook(requestId, isCopy = false){
+
+        getbook (requestId, isCopy = false) {
             const params = {
                 bkg_id: this.bkgId,
-                [isCopy ? 'copy_id' : 'id']:isCopy ? requestId : this.id,
-            } 
-            this.$getBook(params, ({ data: { data } })=>{
+                [isCopy ? 'copy_id' : 'id']: isCopy ? requestId : this.id
+            }
+            this.$getBook(params, ({ data: { data } }) => {
                 this.formatter(data)
                 this.form = true
-            });
+            })
         },
 
-        loadData(bkgId, copyBkgId){
+        loadData (bkgId, copyBkgId) {
             this.copyDialog = false
             const isCopy = Boolean(copyBkgId)
             this.bkgId = bkgId
-            this.loading = true;
+            this.loading = true
 
-            this.extra = [];
-            this.detail = [];
+            this.extra = []
+            this.detail = []
 
             this.$getBookList(isCopy ? copyBkgId : bkgId, async (data) => {
-                const requestList  = data.data.data
-                if(requestList.length  < 2){
+                const requestList = data.data.data
+                if (requestList.length < 2) {
                     this.id = (isCopy ? this.id : requestList[0]?.id) || getRandomID()
                     this.getbook(isCopy ? requestList[0]?.id : this.id, isCopy)
                 } else {
-                    try{
-                        const id =  await this.showList(requestList)
+                    try {
+                        const id = await this.showList(requestList)
                         this.id = isCopy ? this.id || getRandomID() : id
                         this.getbook(isCopy ? id : bkgId, isCopy)
-                    }catch(e){
+                    } catch (e) {
                         console.log(e)
                     }
                 }
             })
         },
 
-        addReq(){
+        addReq () {
             this.id = getRandomID()
             const params = {
                 bkg_id: this.bkgId,
-                'id':this.id,
+                'id': this.id
             }
-            this.$getBook(params, ({ data: { data } })=>{
+            this.$getBook(params, ({ data: { data } }) => {
                 this.formatter(data)
                 this.$message.success('追加請求書成功')
                 this.form = true
-            });
-        },
-        
-        addCol(row){
-            row.push({
-                label: '',
-                value: '',
             })
         },
 
-        addRow(){
+        addCol (row) {
+            row.push({
+                label: '',
+                value: ''
+            })
+        },
+
+        addRow () {
             this.extra.push([{
                 label: '',
-                value: '',
-            }]);
+                value: ''
+            }])
         },
-        deleteCol(row, index) {
-            row.splice(index, 1);
+        deleteCol (row, index) {
+            row.splice(index, 1)
         },
-        detailAdd(){
+        detailAdd () {
             this.detail.push({
                 item_name: '',
                 detail: '',
@@ -330,25 +330,25 @@ export default {
                 num: 1,
                 unit: '',
                 tax: '免',
-                total: 0,
+                total: 0
             })
         },
-        detailDel(i){
-            this.detail.splice(i,1);
+        detailDel (i) {
+            this.detail.splice(i, 1)
         },
-        itemSearch(str, cb){
-            cb(this.options.item.item.filter(i=>i.label.indexOf(str||'') !== -1))
+        itemSearch (str, cb) {
+            cb(this.options.item.item.filter(i => i.label.indexOf(str || '') !== -1))
         },
-        setDefaultUnit(item, row){
-            row.unit = findInArray('extra', item.value, this.options.item.item, 'label');
+        setDefaultUnit (item, row) {
+            row.unit = findInArray('extra', item.value, this.options.item.item, 'label')
         },
-        unitSearch(str, cb){
+        unitSearch (str, cb) {
             cb(this.options.unit.item)
         },
-        beDownload(){
-            postNewWindow(URL.REQUESTBOOK,{
+        beDownload () {
+            postNewWindow(URL.REQUESTBOOK, {
                 id: this.id,
-                bkg_id:this.bkgId,
+                bkg_id: this.bkgId,
                 tel: this.tel,
                 no: this.no,
                 booker_place: this.booker_place,
@@ -358,92 +358,92 @@ export default {
                 detail: JSON.stringify(this.detail),
                 bank: this.bank,
                 address: this.address,
-                
-                in_tak:this.inTak,
-                subtotal:this.subtotal,
-                tak_total:this.takTotal,
-                total:this.sum,
+
+                in_tak: this.inTak,
+                subtotal: this.subtotal,
+                tak_total: this.takTotal,
+                total: this.sum,
                 sign: this.sign
-            });
+            })
         },
-        setDefaultExtra(value, col){
-            col.value = extraDefault[value] || '';
+        setDefaultExtra (value, col) {
+            col.value = extraDefault[value] || ''
         },
-        copyClose(){
+        copyClose () {
             this.copyDialog = false
             this.company_no = ''
         },
 
-        formatter(data, isCopy = false){
-            if(!isCopy){
-                this.id = data.id || getRandomID();
+        formatter (data, isCopy = false) {
+            if (!isCopy) {
+                this.id = data.id || getRandomID()
             }
-            this.tel = data.tel || '';
-            this.no = data.no || '';
-            this.date = isCopy ? moment().format('YYYY-MM-DD') : (data.date || moment().format('YYYY-MM-DD'));
-            this.booker_place = data.booker_place || '';
-            this.booker_name = data.booker_name || '';
-            this.bank = data.bank || '';
-            this.address = data.address || '';
+            this.tel = data.tel || ''
+            this.no = data.no || ''
+            this.date = isCopy ? moment().format('YYYY-MM-DD') : (data.date || moment().format('YYYY-MM-DD'))
+            this.booker_place = data.booker_place || ''
+            this.booker_name = data.booker_name || ''
+            this.bank = data.bank || ''
+            this.address = data.address || ''
 
             this.extra = []
             this.detail = []
 
-            const len = 10 ;
-            for(let i = 0; i<len; i+=2){
-                let row = [];
-                for(let j=0; j<2; j++){
-                    if(data.extra[`label_${i+j}`] !== undefined
-                    && !(i !== 0 && !data.extra[`label_${i+j}`] && !data.extra[`value_${i+j}`])){
-                        const label = data.extra[`label_${i+j}`]
+            const len = 10
+            for (let i = 0; i < len; i += 2) {
+                let row = []
+                for (let j = 0; j < 2; j++) {
+                    if (data.extra[`label_${i + j}`] !== undefined &&
+                    !(i !== 0 && !data.extra[`label_${i + j}`] && !data.extra[`value_${i + j}`])) {
+                        const label = data.extra[`label_${i + j}`]
 
                         row.push(isCopy ? {
                             label,
-                            value: extraDefault[label] ?? '',
-                        }:{
-                            label:data.extra[`label_${i+j}`],
-                            value:data.extra[`value_${i+j}`],
-                        });
+                            value: extraDefault[label] ?? ''
+                        } : {
+                            label: data.extra[`label_${i + j}`],
+                            value: data.extra[`value_${i + j}`]
+                        })
                     }
                 }
-                if(row.length>0){
-                    this.extra.push(row);
+                if (row.length > 0) {
+                    this.extra.push(row)
                 }
             }
             this.detail = isCopy ? data.detail.map(
                 detail => ({
                     ...detail,
                     num: 0,
-                    total:0,
+                    total: 0
                 })
-            ):data.detail
+            ) : data.detail
             extraDefault = data.extraDefault
             this.loading = false
         },
 
-        reqbookSelect(reqId){
+        reqbookSelect (reqId) {
             resolveRequestbookSelected(reqId)
             this.list = false
         },
 
-        closeList(){
+        closeList () {
             rejectRequestbookSelected('cancel')
             this.list = false
         },
 
-        showList(requestList){
+        showList (requestList) {
             this.list = true
             this.requestList = requestList
-            return new Promise((resolve,reject) =>{
+            return new Promise((resolve, reject) => {
                 resolveRequestbookSelected = resolve
                 rejectRequestbookSelected = reject
             })
         },
 
-        doCopy(){
+        doCopy () {
             const { company_no, copy_field } = this
-            this.$hasBookByCompanyNo({ company_no, copy_field },async ({ data }) =>{
-                if(data.error === 0){
+            this.$hasBookByCompanyNo({ company_no, copy_field }, async ({ data }) => {
+                if (data.error === 0) {
                     this.loadData(this.bkgId, data.data)
                 } else {
                     this.$message.warning(data.message)
@@ -451,27 +451,27 @@ export default {
             })
         }
     },
-    watch:{
-        detail:{
-            deep:true,
-            handler(value){
-                for(const row of value){
-                    if(this.rate && row.detail && row.currency){
+    watch: {
+        detail: {
+            deep: true,
+            handler (value) {
+                for (const row of value) {
+                    if (this.rate && row.detail && row.currency) {
                         const price = row.detail * this.rate.split('|')[1]
-                        if(row.price !== price){
-                            row.price = parseInt(price);
+                        if (row.price !== price) {
+                            row.price = parseInt(price)
                         }
                     }
-                    const sum = (row.price || 0 ) * (row.num || 0 )
-                    if(row.total !== sum){
+                    const sum = (row.price || 0) * (row.num || 0)
+                    if (row.total !== sum) {
                         row.total = sum
                     }
                 }
             }
         }
     },
-    mixins:[
-        getOptionsAnsyc,
+    mixins: [
+        getOptionsAnsyc
     ]
 }
 </script>

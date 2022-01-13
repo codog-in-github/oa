@@ -143,97 +143,97 @@
 import { getOptionsAnsyc } from '@/mixin/main'
 import { timeCompare } from '@/assets/js/utils.js'
 export default {
-    mixins:[
+    mixins: [
         getOptionsAnsyc
     ],
-    data(){
+    data () {
         return {
-            condition:{
-                vanning_date:[],
-                booker_place:'',
-                transprotation:'',
-                cy_cut:[],
-                booker:'',
-                bkg_no:'',
+            condition: {
+                vanning_date: [],
+                booker_place: '',
+                transprotation: '',
+                cy_cut: [],
+                booker: '',
+                bkg_no: ''
 
             },
-            page_size:50,
-            page:1,
-            total:0,
-            list:[],
-            options:{
-                state:{item:[],loading:false,},
+            page_size: 50,
+            page: 1,
+            total: 0,
+            list: [],
+            options: {
+                state: { item: [], loading: false }
             },
-            stateChangeTimer:-1,
+            stateChangeTimer: -1
         }
     },
-    computed:{
-        showDetail(){
-            return this.$route.params.state != 'normal';
-        },
+    computed: {
+        showDetail () {
+            return this.$route.params.state !== 'normal'
+        }
     },
-    mounted(){
-        this.reLoad();
+    mounted () {
+        this.reLoad()
     },
-    methods:{
-        reLoad(){
+    methods: {
+        reLoad () {
             this.$getContainerList(
                 {
-                    condition:this.condition,
-                    page_size:this.page_size,
-                    page:(this.page || 1) -1,
-                    state:this.$route.params.state || ''
+                    condition: this.condition,
+                    page_size: this.page_size,
+                    page: (this.page || 1) - 1,
+                    state: this.$route.params.state || ''
                 },
-                ({data})=>{
-                    this.list.splice(0, this.list.length);
-                    this.list.push(...data.data.list);
-                    this.total = parseInt(data.data.total);
-                    this.page = data.data.page;
+                ({ data }) => {
+                    this.list.splice(0, this.list.length)
+                    this.list.push(...data.data.list)
+                    this.total = parseInt(data.data.total)
+                    this.page = data.data.page
                 }
-            );
+            )
         },
-        dateFormat(row, column, cellValue){
-            return cellValue.substr(0,10);
+        dateFormat (row, column, cellValue) {
+            return cellValue.substr(0, 10)
         },
-        tableRowClassName({row}){
-            return timeCompare(row.vanning_date)?
-                'old':
-                row.is_confirm == 1?'confirm':'normal';
+        tableRowClassName ({ row }) {
+            return timeCompare(row.vanning_date)
+                ? 'old'
+                : row.is_confirm === 1 ? 'confirm' : 'normal'
         },
-        confirm(row){
-            this.$confirmDetail(row.id,()=>{
-                row.is_confirm = 1;
+        confirm (row) {
+            this.$confirmDetail(row.id, () => {
+                row.is_confirm = 1
                 this.$notify({
-                        title: 'SUCCESS',
-                        message: 'CONFIRM SUCCESS',
-                        type: 'success'
-                    });
+                    title: 'SUCCESS',
+                    message: 'CONFIRM SUCCESS',
+                    type: 'success'
+                })
             })
         },
-        showConfirm(vd){
-            return !timeCompare(vd);
+        showConfirm (vd) {
+            return !timeCompare(vd)
         },
-        sizeChangeHandler(size){
-            this.page_size = size;
-            this.reLoad();
+        sizeChangeHandler (size) {
+            this.page_size = size
+            this.reLoad()
         },
-        pageChangeHandler(current){
-            this.page = current;
-            this.reLoad();
+        pageChangeHandler (current) {
+            this.page = current
+            this.reLoad()
         },
-        doEdit(id){
-            this.$router.push(`/frame/form/${id}/edit`);
+        doEdit (id) {
+            this.$router.push(`/frame/form/${id}/edit`)
         },
-        displayDetail(id){
-            this.$router.push(`/frame/form/${id}/view`);
+        displayDetail (id) {
+            this.$router.push(`/frame/form/${id}/view`)
         },
-        clearCondition(){
-            for(const k in this.condition){
-                this.condition[k] = '';
+        clearCondition () {
+            for (const k in this.condition) {
+                this.condition[k] = ''
             }
-            this.reLoad();
-        },
-    },
+            this.reLoad()
+        }
+    }
 }
 </script>
 <style lang="less" scoped>
@@ -269,7 +269,6 @@ header{
 .input-box> *:nth-child(n+2){
     margin-left: 1em;
 }
-
 
 footer{
     margin-top: 1em;

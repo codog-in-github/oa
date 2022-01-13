@@ -17,48 +17,46 @@
                     </li>
                 </div>
             </div>
-            
-                
+
         </ul>
     </nav>
 </template>
 <script>
 export default {
-    props:{
-        urls:{
-            default:()=>[],
+    props: {
+        urls: {
+            default: () => []
         }
     },
-    computed:{},
-    methods:{
-        linkTo(url){
-            const { to, child } = url;
-            if(child){
-                url.toggle = !url.toggle;
-            }
-            else if(this.$route.path !== to){
-                if(this.$route.path.indexOf('/frame/form') !== -1 && this.$route.params.mode!=='view'){
+    computed: {},
+    methods: {
+        linkTo (url) {
+            const { to, child } = url
+            if (child) {
+                url.toggle = !url.toggle
+            } else if (this.$route.path !== to) {
+                if (this.$route.path.indexOf('/frame/form') !== -1 && this.$route.params.mode !== 'view') {
                     this.$confirm('Do you want to leave this page', 'warning', {
                         confirmButtonText: 'ok',
                         cancelButtonText: 'cancel',
                         type: 'warning'
                     }).then(() => {
-                        this.$router.push(to);
+                        this.$router.push(to)
                     }).catch(() => {
                         // this.$message({
                         //     type: 'info',
                         //     message: 'cancel'
-                        // });          
-                    });
-                }else{
-                    this.$router.push(to);
+                        // });
+                    })
+                } else {
+                    this.$router.push(to)
                 }
             }
         },
-        isFocus(to){
-            return this.$route.path.indexOf(to) != -1;
+        isFocus (to) {
+            return this.$route.path.indexOf(to) !== -1
         }
-    },
+    }
 }
 </script>
 <style lang="less" scoped>
@@ -80,7 +78,6 @@ export default {
     line-height: @label-height;
     box-sizing: border-box;
     position: relative;
-
 
     &:hover{
         background: @deep-background !important;

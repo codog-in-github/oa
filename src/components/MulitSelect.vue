@@ -14,71 +14,71 @@
             </template>
             <template #append>￥</template>
         </el-input>
-    </el-form-item> 
+    </el-form-item>
 </template>
 <script>
 import { getOptionsAnsyc } from '@/mixin/main'
 
-const RATE = 'RATE';
+const RATE = 'RATE'
 
 export default {
     props: {
         data: {
             type: Object,
-            default: ()=>({})
+            default: () => ({})
         }
     },
-    data(){
+    data () {
         return {
-            rate: ['JPY',''],
-            options:{
-                label: {item: [], loading: false},
+            rate: ['JPY', ''],
+            options: {
+                label: { item: [], loading: false }
             }
         }
     },
     computed: {
-        inputType() {
-            switch(this.data.label){
+        inputType () {
+            switch (this.data.label) {
                 case RATE:
-                    return 'rate';
-                default :
-                    return 'input';
+                    return 'rate'
+                default:
+                    return 'input'
             }
         },
-        currency:{
-            get(){
+        currency: {
+            get () {
                 return this.rate[0]
             },
-            set(value){
+            set (value) {
                 this.$set(this.rate, 0, value)
                 this.data.value = this.rate.join('|')
             }
         },
-        val:{
-            get(){
+        val: {
+            get () {
                 return this.rate[1]
             },
-            set(value){
+            set (value) {
                 this.$set(this.rate, 1, value)
                 this.data.value = this.rate.join('|')
             }
         }
     },
-    mounted(){
-        if(this.inputType === 'rate'){
-            const tmp = this.data.value.split('|');
-            this.$set(this.rate, 0, tmp[0]);
-            this.$set(this.rate, 1, tmp[1] || '');
+    mounted () {
+        if (this.inputType === 'rate') {
+            const tmp = this.data.value.split('|')
+            this.$set(this.rate, 0, tmp[0])
+            this.$set(this.rate, 1, tmp[1] || '')
         }
     },
     methods: {
-        querySearch(search, cb) {
-            cb(this.options.label.item);
+        querySearch (search, cb) {
+            cb(this.options.label.item)
         }
     },
-    mixins:[
-        getOptionsAnsyc,
-    ],
+    mixins: [
+        getOptionsAnsyc
+    ]
 }
 </script>
 <style lang="less" scoped>

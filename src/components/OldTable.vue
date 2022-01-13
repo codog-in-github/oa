@@ -30,58 +30,58 @@
         </tr>
     </table>
 </div>
-    
+
 </template>
 <script>
 export default {
-    computed:{
-        showData(){
-            let d = [];
-            let m = new Map();
-            this.todos.forEach(el=>{
-                let i=0;
-                while(m.has(i)){
-                    if(m.get(i)<el.start) break;
-                    i++;
+    computed: {
+        showData () {
+            let d = []
+            let m = new Map()
+            this.todos.forEach(el => {
+                let i = 0
+                while (m.has(i)) {
+                    if (m.get(i) < el.start) break
+                    i++
                 }
-                if(!m.has(i)) {
-                    m.set(i,-1);
-                    d[i] = {el:[],row:i}
+                if (!m.has(i)) {
+                    m.set(i, -1)
+                    d[i] = { el: [], row: i }
                 }
-                //生成空td
-                for(let f=m.get(i)+1;f<el.start;f++){   
-                    d[i].el.push({id:Symbol(0),start:f,end:f,content:''})
+                // 生成空td
+                for (let f = m.get(i) + 1;f < el.start;f++) {
+                    d[i].el.push({ id: Symbol(0), start: f, end: f, content: '' })
                 }
 
-                m.set(i,el.end);
+                m.set(i, el.end)
                 d[i].el.push(el)
-            });
-            let end = 14;
-            //补充剩余空td
-            for(let i in d){
-                for(let f=m.get(parseInt(i))+1; f<end; f++){   
-                    d[i].el.push({id:Symbol(0),start:f,end:f,content:''});
+            })
+            let end = 14
+            // 补充剩余空td
+            for (let i in d) {
+                for (let f = m.get(parseInt(i)) + 1; f < end; f++) {
+                    d[i].el.push({ id: Symbol(0), start: f, end: f, content: '' })
                 }
             }
-            return d;
+            return d
         }
     },
-    data(){
+    data () {
         return {
-            todos:[
-                {id:1,start:0,end:3,content:'xx月xx日\nxxxxxx\nxxx'},
-                {id:2,start:1,end:3,content:'xx月xx日\nxxxxxx\nxxx'},
-                {id:3,start:3,end:5,content:'xx月xx日\nxxxxxx\nxxx'},
-                {id:4,start:2,end:5,content:'xx月xx日\nxxxxxx\nxxx'},
-                {id:5,start:5,end:6,content:'xx月xx日\nxxxxxx\nxxx'},
-                {id:6,start:5,end:9,content:'xx月xx日\nxxxxxx\nxxx'},
-                {id:7,start:6,end:6,content:'xx月xx日\nxxxxxx\nxxx'},
-                {id:8,start:7,end:12,content:'xx月xx日\nxxxxxx\nxxx'},
+            todos: [
+                { id: 1, start: 0, end: 3, content: 'xx月xx日\nxxxxxx\nxxx' },
+                { id: 2, start: 1, end: 3, content: 'xx月xx日\nxxxxxx\nxxx' },
+                { id: 3, start: 3, end: 5, content: 'xx月xx日\nxxxxxx\nxxx' },
+                { id: 4, start: 2, end: 5, content: 'xx月xx日\nxxxxxx\nxxx' },
+                { id: 5, start: 5, end: 6, content: 'xx月xx日\nxxxxxx\nxxx' },
+                { id: 6, start: 5, end: 9, content: 'xx月xx日\nxxxxxx\nxxx' },
+                { id: 7, start: 6, end: 6, content: 'xx月xx日\nxxxxxx\nxxx' },
+                { id: 8, start: 7, end: 12, content: 'xx月xx日\nxxxxxx\nxxx' }
             ],
-            weekFlag:0,
+            weekFlag: 0
         }
     },
-    methods:{
+    methods: {
     }
 }
 </script>

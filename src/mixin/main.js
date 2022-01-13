@@ -1,29 +1,29 @@
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 
 export const getOptionsAnsyc = {
-    methods:{
-        getOptionsAnsyc(selectId , options, pid){
-            if(options.loaded !== true){
-                options.loaded = true;
-                this.$getOptions(selectId, options, pid);
+    methods: {
+        getOptionsAnsyc (selectId, options, pid) {
+            if (options.loaded !== true) {
+                options.loaded = true
+                this.$getOptions(selectId, options, pid)
             }
-        },
+        }
     }
 }
 export const common = {
-    computed:{
+    computed: {
         ...mapState({
-            name:state=>state.loginState.info.name,
-            userId:state=>state.loginState.info.id,
+            name: state => state.loginState.info.name,
+            userId: state => state.loginState.info.id
         }),
-        ...mapState('form',{
-            bkgId:state=>state.bkgId,
+        ...mapState('form', {
+            bkgId: state => state.bkgId
         }),
-        isNewOrder(){
-            return !this.$route.params.bkg_id;
+        isNewOrder () {
+            return !this.$route.params.bkg_id
         },
-        isCopy(){
-            return this.$route.params.mode === 'copy';
+        isCopy () {
+            return this.$route.params.mode === 'copy'
         }
-    },
+    }
 }

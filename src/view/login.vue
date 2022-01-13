@@ -36,8 +36,8 @@
             </el-col>
           </el-row> -->
         <el-form-item style="margin-top:30px;">
-          <el-button 
-            type="primary" 
+          <el-button
+            type="primary"
             @click="check"
             style="width:100%"
             :loading="loading"
@@ -49,68 +49,68 @@
 </template>
 <script>
 // import '@/assets/img/32.png';
-import { URL } from '@/api/main';
+import { URL } from '@/api/main'
 export default {
-  data(){
-    return {
-      form:{
-        username:'',
-        password:'',
-        verify:'',
-      },
-      loading:false,
-      rand: parseInt(Math.random()*10000),
-    }
-  },
-  computed:{
-    verifyUrl(){
-      return `${URL.LOGOUT_VERIFY_PATH}?rand=${this.rand}`; 
-    },
-  },
-  methods:{
-    check(){
-      this.loading = true;
-      if(this.form.username == ''){
-        //no user name
-        this.$notify.error({
-            title: 'error',
-            message: `please enter username`,
-        });
-        this.loading = false;
-        return void 0; 
-      }
-      if(this.form.password == ''){
-        //no user password
-        this.$notify.error({
-            title: 'error',
-            message: `please enter password`,
-        });
-        this.loading = false;
-        return void 0;
-      }
-      // if(this.form.verify == ''){
-      //   //no user verify
-      //   this.$notify.error({
-      //       title: 'error',
-      //       message: `please enter verify`,
-      //   });
-      //   this.loading = false;
-      //   return void 0;
-      // }
-      this.$doLogin(
-        this.form.username, 
-        this.form.password,
-        null,
-        ()=>{
-          // this.changeVerify();
-          this.loading = false;
+    data () {
+        return {
+            form: {
+                username: '',
+                password: '',
+                verify: ''
+            },
+            loading: false,
+            rand: parseInt(Math.random() * 10000)
         }
-      );
     },
-    changeVerify(){
-      this.rand = parseInt(Math.random()*10000);
+    computed: {
+        verifyUrl () {
+            return `${URL.LOGOUT_VERIFY_PATH}?rand=${this.rand}`
+        }
+    },
+    methods: {
+        check () {
+            this.loading = true
+            if (this.form.username === '') {
+                // no user name
+                this.$notify.error({
+                    title: 'error',
+                    message: 'please enter username'
+                })
+                this.loading = false
+                return void 0
+            }
+            if (this.form.password === '') {
+                // no user password
+                this.$notify.error({
+                    title: 'error',
+                    message: 'please enter password'
+                })
+                this.loading = false
+                return void 0
+            }
+            // if(this.form.verify == ''){
+            //   //no user verify
+            //   this.$notify.error({
+            //       title: 'error',
+            //       message: `please enter verify`,
+            //   });
+            //   this.loading = false;
+            //   return void 0;
+            // }
+            this.$doLogin(
+                this.form.username,
+                this.form.password,
+                null,
+                () => {
+                    // this.changeVerify();
+                    this.loading = false
+                }
+            )
+        },
+        changeVerify () {
+            this.rand = parseInt(Math.random() * 10000)
+        }
     }
-  }
 }
 </script>
 

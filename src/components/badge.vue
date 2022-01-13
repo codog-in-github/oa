@@ -3,7 +3,7 @@
         <slot>
             <div>{{title}}</div>
         </slot>
-        <div 
+        <div
             class="badge-state"
             :class="'badge-state-'+type"
             >{{value}}
@@ -12,7 +12,7 @@
 </template>
 <script>
 export default {
-    props:['value','title','type',],
+    props: ['value', 'title', 'type' ]
 }
 </script>
 <style scoped>

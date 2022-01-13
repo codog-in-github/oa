@@ -8,12 +8,12 @@
             <column-nav :urls="menu"></column-nav>
         </aside>
         <main class="shadow-card">
-            <header> 
+            <header>
                 <span>Hello! {{user.name}}</span>
-                <el-button 
-                    type="danger" 
-                    class="el-icon-switch-button" 
-                    circle 
+                <el-button
+                    type="danger"
+                    class="el-icon-switch-button"
+                    circle
                     size="mini"
                     @click.native="logout">
                 </el-button>
@@ -25,67 +25,67 @@
     </div>
 </template>
 <script>
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 import ColumnNav from '@/components/ColumnNav.vue'
 export default {
-    computed:{
+    computed: {
         ...mapState({
-            user: state => state.loginState.info,
-        }),
+            user: state => state.loginState.info
+        })
     },
-    data(){
+    data () {
         return {
-            menu:[
-                {   to:'-1',
-                    label:'データベース',
-                    toggle:true,
-                    class:"el-icon-s-order",
-                    child:[
-                        {to:'/frame/list/normal', label:'データベース', },
-                        {to:'/frame/list/draft', label:'DRAFT 準備',},
-                        {to:'/frame/list/ready', label:' サレンダー 準備',},
-                        {to:'/frame/list/complete', label:'案件終了',},
-                        {to:'/frame/list/delete', label:'DELETED',},
-                    ],
+            menu: [
+                { to: '-1',
+                    label: 'データベース',
+                    toggle: true,
+                    class: 'el-icon-s-order',
+                    child: [
+                        { to: '/frame/list/normal', label: 'データベース' },
+                        { to: '/frame/list/draft', label: 'DRAFT 準備' },
+                        { to: '/frame/list/ready', label: ' サレンダー 準備' },
+                        { to: '/frame/list/complete', label: '案件終了' },
+                        { to: '/frame/list/delete', label: 'DELETED' }
+                    ]
                 },
                 {
-                    to:'-1',
-                    label:'ドライバー情報',
-                    toggle:true,
-                    class:"el-icon-s-order",
-                    child:[
-                        {to:'/frame/container-list', label:'ドライバー情報', },
-                    ],
+                    to: '-1',
+                    label: 'ドライバー情報',
+                    toggle: true,
+                    class: 'el-icon-s-order',
+                    child: [
+                        { to: '/frame/container-list', label: 'ドライバー情報' }
+                    ]
                 },
-                {   to:'-1',
-                    label:'請求書',
-                    toggle:true,
-                    class:"el-icon-s-order",
-                    child:[
-                        {to:'/frame/req/0', label:'請求書未発行', },
-                        {to:'/frame/req/1', label:'請求書発行済',},
-                        {to:'/frame/req/2', label:'入金済',},
-                    ],
-                },
-            ],
-        };
+                { to: '-1',
+                    label: '請求書',
+                    toggle: true,
+                    class: 'el-icon-s-order',
+                    child: [
+                        { to: '/frame/req/0', label: '請求書未発行' },
+                        { to: '/frame/req/1', label: '請求書発行済' },
+                        { to: '/frame/req/2', label: '入金済' }
+                    ]
+                }
+            ]
+        }
     },
     methods: {
-        logout(){
-            this.$logout();
-        },
+        logout () {
+            this.$logout()
+        }
     },
-    beforeRouteEnter(to, from, next){
-        next(vm=>{
-            if(sessionStorage.getItem('logined')){
-               next(); 
+    beforeRouteEnter (to, from, next) {
+        next(vm => {
+            if (sessionStorage.getItem('logined')) {
+                next()
             } else {
-                vm.$router.push('/login');
+                vm.$router.push('/login')
             }
         })
     },
-    components:{
-        ColumnNav,
+    components: {
+        ColumnNav
     }
 }
 </script>

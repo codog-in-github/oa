@@ -34,102 +34,102 @@ import { common } from '@/mixin/main'
 import { getRandomID } from '@/assets/js/utils'
 
 export default {
-    data(){
+    data () {
         return {
-            loading:false,
-            uploadData:{},
+            loading: false,
+            uploadData: {}
         }
     },
-    mounted(){
-        if(this.$route.params.bkg_id){
-            this.setDataHandler();
-        }else{
+    mounted () {
+        if (this.$route.params.bkg_id) {
+            this.setDataHandler()
+        } else {
             this.$store.state.form.booker = {}
         }
     },
-    methods:{
-        loadinHandler(name, state){
-            this.loading[name] = state;
+    methods: {
+        loadinHandler (name, state) {
+            this.loading[name] = state
         },
-        saveDataHandler(){
-            this.loading = true;
+        saveDataHandler () {
+            this.loading = true
             const needUpload = [
                 'header',
                 'upper',
                 'lower',
                 'center',
-                'detail',
-            ];
-            const saveData = {};
-            for(const ref of needUpload){
-                if(this.$refs[ref].getData){
-                    saveData[ref] = this.$refs[ref].getData();
-                    if(saveData[ref] === false){
-                        this.loading = false;
-                        return ;
+                'detail'
+            ]
+            const saveData = {}
+            for (const ref of needUpload) {
+                if (this.$refs[ref].getData) {
+                    saveData[ref] = this.$refs[ref].getData()
+                    if (saveData[ref] === false) {
+                        this.loading = false
+                        return
                     }
                 }
             }
-            if(this.isCopy){
-                saveData.copy_id = this.$route.params.bkg_id;
+            if (this.isCopy) {
+                saveData.copy_id = this.$route.params.bkg_id
             }
-            this.$saveOrder(saveData,req => {
-                this.loading = false;
-                const {error, message} = req.data;
-                if(error != 0){
+            this.$saveOrder(saveData, req => {
+                this.loading = false
+                const { error, message } = req.data
+                if (error !== 0) {
                     this.$notify({
                         title: 'error',
                         message,
                         type: 'error'
-                    });
-                }else{
+                    })
+                } else {
                     this.$notify({
                         title: 'SUCCESS',
                         message: 'SAVE SUCCESSFUL!',
                         type: 'success'
-                    });
+                    })
                     setTimeout(() => {
                         this.$router.push(`/frame/form/${saveData.header.id}/edit`)
-                    }, 500);
+                    }, 500)
                 }
-            });
+            })
         },
-        
-        setDataHandler(){
-            this.loading = true;
+
+        setDataHandler () {
+            this.loading = true
             const needSet = [
                 'header',
                 'upper',
                 'lower',
                 'center',
-                'detail',
-            ];
-            this.$getOrder(this.$route.params.bkg_id,({data})=>{
-                for(const ref of needSet){
-                    if(this.$refs[ref].setData){
-                        this.$refs[ref].setData(data.data);
+                'detail'
+            ]
+            this.$getOrder(this.$route.params.bkg_id, ({ data }) => {
+                for (const ref of needSet) {
+                    if (this.$refs[ref].setData) {
+                        this.$refs[ref].setData(data.data)
                     }
                 }
-                this.loading = false;
-            });
-        },
+                this.loading = false
+            })
+        }
     },
-    beforeRouteEnter(to, from, next){
-        next(vm=>{
-            vm.$store.commit('form/setBkgId',vm.$route.params.mode === 'copy' ? getRandomID() : vm.$route.params.bkg_id)
-            next(); 
+    beforeRouteEnter (to, from, next) {
+        next(vm => {
+            vm.$store.commit('form/setBkgId', vm.$route.params.mode === 'copy' ? getRandomID() : vm.$route.params.bkg_id)
+            next()
         })
     },
-    mixins:[
-        common,
+    mixins: [
+        common
     ],
-    components: { 
+    components: {
         FormHeader,
         FormUpper,
         FormLower,
         FormCenter,
-        ContainerDetail,
-    },   
+        ContainerDetail
+    }
 }
 </script>
 <style lang="less" scoped>
@@ -191,7 +191,7 @@ export default {
     justify-content: flex-start;
     margin-right: 3px;
     flex-shrink: 0;
-    
+
 }
 .center{
     flex-flow: 0;

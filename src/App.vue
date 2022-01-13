@@ -8,15 +8,15 @@
 // import { checkLoginStatus } from '@/api/main'
 
 export default {
-  name: "App",
+    name: 'App',
 
-  components: {},
-  beforeCreate() {
-    this.$clearStrage();
-    this.$checkLoginStatus();
-  },
-  methods: {
+    components: {},
+    beforeCreate () {
+        this.$clearStrage()
+        this.$checkLoginStatus()
+    },
+    methods: {
 
-  },
-};
+    }
+}
 </script>

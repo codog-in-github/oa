@@ -84,12 +84,12 @@
     </div>
 </template>
 <script>
-import TitleGroup from '@/components/titleGroup';
+import TitleGroup from '@/components/titleGroup'
 import { getOptionsAnsyc, common } from '@/mixin/main'
 import RequestBook from '../book/RequestBook'
 
-export default{ 
-    data(){
+export default {
+    data () {
         return {
             bkg_date: new Date(),
             bkg_no: null,
@@ -103,120 +103,120 @@ export default{
             dialog: false,
             bookSelecter: false,
             options: {
-                user: {item: [], loading: false},
-                incoterms: {item: [], loading: false},
-                bkg_type: {item: [], loading: false},
+                user: { item: [], loading: false },
+                incoterms: { item: [], loading: false },
+                bkg_type: { item: [], loading: false }
             }
-        };
+        }
     },
-    computed:{
-        bookComponent(){
-            switch(this.book){
+    computed: {
+        bookComponent () {
+            switch (this.book) {
                 case 'BOOKING NOTICE':
-                    return ()=>import('../book/BookingNotice');
+                    return () => import('../book/BookingNotice')
                 case '荷捌表':
-                    return ()=>import('../book/HandlingTable');
+                    return () => import('../book/HandlingTable')
                 default:
-                    return ()=>{};
+                    return () => {}
             }
         }
     },
-    created(){
-        if(this.isNewOrder){
-            this.bkg_staff = this.name;
+    created () {
+        if (this.isNewOrder) {
+            this.bkg_staff = this.name
         }
     },
-    methods:{
-        deleteButtonHandler(){
+    methods: {
+        deleteButtonHandler () {
             this.$confirm('Are you sure?', 'alert', {
                 confirmButtonText: 'ok',
                 cancelButtonText: 'cancel',
                 type: 'warning'
             }).then(() => {
-                this.$deleteOrder(this.$route.params.bkg_id,'true',()=>{
-                    this.$router.push('/frame/list/normal');
-                });
+                this.$deleteOrder(this.$route.params.bkg_id, 'true', () => {
+                    this.$router.push('/frame/list/normal')
+                })
             }).catch(() => {
                 this.$message({
                     type: 'info',
                     message: 'BE CANCELED'
-                });
-            });
+                })
+            })
         },
-        displayBookForm(){
-            if(this.book === ''){
+        displayBookForm () {
+            if (this.book === '') {
                 this.$message({
                     type: 'info',
                     message: 'PLEASE SELECT A BOOK'
-                });
-                return void 0;
+                })
+                return void 0
             }
-            this.dialog= true;
-            this.bookSelecter = false;
-            this.$nextTick(()=>{
-                this.$refs.book.loadData();
-            });
+            this.dialog = true
+            this.bookSelecter = false
+            this.$nextTick(() => {
+                this.$refs.book.loadData()
+            })
         },
-        hiddenBookForm(){
-            this.dialog = false;
+        hiddenBookForm () {
+            this.dialog = false
         },
-        beDownload(){
-            if(this.$route.params.bkg_id === undefined){
+        beDownload () {
+            if (this.$route.params.bkg_id === undefined) {
                 this.$message({
                     type: 'info',
                     message: 'YOU MUST SAVE BEFORE'
-                });
-                return void 0;
+                })
+                return void 0
             }
-            if(this.$refs.book.beDownload){
-                this.$refs.book.beDownload();
-            }else{
-                console.error(`Can not found method 'beDownload' in ${this.book} componse`);
+            if (this.$refs.book.beDownload) {
+                this.$refs.book.beDownload()
+            } else {
+                console.error(`Can not found method 'beDownload' in ${this.book} componse`)
             }
         },
-        beClose(){
-            this.hiddenBookForm();
+        beClose () {
+            this.hiddenBookForm()
         },
-        getData(){
+        getData () {
             return {
-                id:this.bkgId,
-                bkg_date:this.bkg_date,
-                bkg_no:this.bkg_no,
-                bl_no:this.bl_no,
-                bkg_type:this.bkg_type,
-                incoterms:this.incoterms,
-                bkg_staff:this.bkg_staff,
-                in_sales:this.in_sales,
+                id: this.bkgId,
+                bkg_date: this.bkg_date,
+                bkg_no: this.bkg_no,
+                bl_no: this.bl_no,
+                bkg_type: this.bkg_type,
+                incoterms: this.incoterms,
+                bkg_staff: this.bkg_staff,
+                in_sales: this.in_sales
                 // dg:this.dg,
-            };
-        },
-        setData({bkg}){
-            // console.log(bkg);
-            if(this.isCopy){
-                this.bkg_date = new Date();
-            }else{
-                this.bkg_date = bkg.bkg_date;
             }
-            this.bkg_no = this.isCopy?'' : bkg.bkg_no;
-            this.bl_no = this.isCopy?'' : bkg.bl_no;
-            this.bkg_type = bkg.bkg_type;
-            this.incoterms = bkg.incoterms;
-            this.bkg_staff = bkg.bkg_staff;
-            this.in_sales = bkg.in_sales;
-            this.dg = bkg.dg;
         },
-        showReqBook(){
-            this.$refs.rbook.loadData(this.bkgId);
+        setData ({ bkg }) {
+            // console.log(bkg);
+            if (this.isCopy) {
+                this.bkg_date = new Date()
+            } else {
+                this.bkg_date = bkg.bkg_date
+            }
+            this.bkg_no = this.isCopy ? '' : bkg.bkg_no
+            this.bl_no = this.isCopy ? '' : bkg.bl_no
+            this.bkg_type = bkg.bkg_type
+            this.incoterms = bkg.incoterms
+            this.bkg_staff = bkg.bkg_staff
+            this.in_sales = bkg.in_sales
+            this.dg = bkg.dg
         },
+        showReqBook () {
+            this.$refs.rbook.loadData(this.bkgId)
+        }
     },
-    mixins:[
+    mixins: [
         getOptionsAnsyc,
-        common,
+        common
     ],
-    components:{
+    components: {
         TitleGroup,
-        RequestBook,
-    },
+        RequestBook
+    }
 }
 
 </script>

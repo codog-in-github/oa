@@ -5,7 +5,7 @@
                 船社情报
             </div>
                 <div class="group">
-                    <title-group 
+                    <title-group
                         title="CARRIER">
                         <el-autocomplete
                             v-model="carrier"
@@ -16,7 +16,7 @@
                         </el-autocomplete>
                     </title-group>
                     <span class="delimiter">&sol;</span>
-                    <title-group 
+                    <title-group
                         title="C/STAFF">
                         <el-input
                             size="mini"
@@ -25,7 +25,7 @@
                     </title-group>
             </div>
             <div class="group">
-                <title-group 
+                <title-group
                     title="SERVICE">
                     <el-input
                         size="mini"
@@ -33,7 +33,7 @@
                     ></el-input>
                 </title-group>
                 <div class="group">
-                    <title-group 
+                    <title-group
                         title="VESSEL NAME">
                         <el-input
                             v-model="vessel_name"
@@ -41,7 +41,7 @@
                         </el-input>
                     </title-group>
                     <span class="delimiter">&sol;</span>
-                    <title-group 
+                    <title-group
                         title="VOYAGE">
                         <el-input
                             size="mini"
@@ -56,7 +56,7 @@
                 <div class="title">
                     PORT OF LOADING
                 </div>
-                <title-group 
+                <title-group
                     title="Country/Region">
                     <el-select
                         filterable
@@ -75,7 +75,7 @@
                         </el-option>
                     </el-select>
                 </title-group>
-                <title-group 
+                <title-group
                     title="Port">
                     <el-select
                         filterable
@@ -95,7 +95,7 @@
                         </el-option>
                     </el-select>
                 </title-group>
-                <title-group 
+                <title-group
                     title="ETA">
                     <el-date-picker
                         style="width:auto;"
@@ -104,7 +104,7 @@
                         v-model="port_of_loading.eta"
                     ></el-date-picker>
                 </title-group>
-                <title-group 
+                <title-group
                     title="ETD">
                     <el-date-picker
                         style="width:auto;"
@@ -113,7 +113,7 @@
                         v-model="port_of_loading.etd"
                     ></el-date-picker>
                 </title-group>
-                <title-group 
+                <title-group
                     title="CY OPEN">
                     <el-date-picker
                         style="width:auto;"
@@ -122,7 +122,7 @@
                         v-model="port_of_loading.cy_open"
                     ></el-date-picker>
                 </title-group>
-                <title-group 
+                <title-group
                     title="CY CUT">
                     <el-date-picker
                         style="width:auto;"
@@ -131,7 +131,7 @@
                         v-model="port_of_loading.cy_cut"
                     ></el-date-picker>
                 </title-group>
-                <title-group 
+                <title-group
                     title="DOC CUT">
                     <el-date-picker
                         style="width:auto;"
@@ -145,7 +145,7 @@
                 <div class="title">
                     PORT OF DELIVERY
                 </div>
-                <title-group 
+                <title-group
                     title="Country/Region">
                     <el-select
                         filterable
@@ -164,7 +164,7 @@
                         </el-option>
                     </el-select>
                 </title-group>
-                <title-group 
+                <title-group
                     title="Port">
                     <el-select
                         filterable
@@ -184,7 +184,7 @@
                         </el-option>
                     </el-select>
                 </title-group>
-                <title-group 
+                <title-group
                     title="ETA">
                     <el-date-picker
                         style="width:auto;"
@@ -193,7 +193,7 @@
                         v-model="port_of_delivery.eta"
                     ></el-date-picker>
                 </title-group>
-                <title-group 
+                <title-group
                     title="FREE TIME DEM">
                     <el-input
                         size="mini"
@@ -201,7 +201,7 @@
                         v-model="port_of_delivery.free_time_dem"
                     ></el-input>
                 </title-group>
-                <title-group 
+                <title-group
                     title="FREE TIME DET">
                     <el-input
                         type="number"
@@ -214,175 +214,174 @@
     </div>
 </template>
 <script>
-import TitleGroup from '@/components/titleGroup.vue';
-import {common, getOptionsAnsyc} from '@/mixin/main';
-import { findInArray } from '@/assets/js/utils';
+import TitleGroup from '@/components/titleGroup.vue'
+import { common, getOptionsAnsyc } from '@/mixin/main'
+import { findInArray } from '@/assets/js/utils'
 
-export default{ 
-    data(){
+export default {
+    data () {
         return {
-            carrier:null,
-            c_staff:null,
-            service:null,
-            vessel_name:null,
-            voyage:null,
-            port_of_loading:{
-                country:null,
-                port:null,
-                eta:null,
-                etd:null,
-                cy_open:null,
-                cy_cut:null,
-                doc_cut:null,
+            carrier: null,
+            c_staff: null,
+            service: null,
+            vessel_name: null,
+            voyage: null,
+            port_of_loading: {
+                country: null,
+                port: null,
+                eta: null,
+                etd: null,
+                cy_open: null,
+                cy_cut: null,
+                doc_cut: null
             },
-            port_of_delivery:{
-                country:null,
-                port:null,
-                eta:null,
-                free_time_dem:null,
-                free_time_det:null,
+            port_of_delivery: {
+                country: null,
+                port: null,
+                eta: null,
+                free_time_dem: null,
+                free_time_det: null
             },
-            //下拉选项
-            options:{
-                country : {loading:false, item:[]},
-                port_of_loading : {loading:false, item:[]},
-                port_of_delivery : {loading:false, item:[]},
-                carrier : {loading:false, item:[]},
+            // 下拉选项
+            options: {
+                country: { loading: false, item: [] },
+                port_of_loading: { loading: false, item: [] },
+                port_of_delivery: { loading: false, item: [] },
+                carrier: { loading: false, item: [] }
             },
-            //用于搜索的关键字
-            keywords:{
-                port_of_loading_country:'',
-                port_of_delivery_country:'',
-                port_of_loading_port:'',
-                port_of_delivery_port:'',
-            },
-        }
-    },
-    computed:{
-        searchedOptios(){
-            return (keywordName, optionsName)=>{
-                return this.options[optionsName].item.filter(item=>
-                    item.label.toLowerCase().indexOf(this.keywords[keywordName].toLowerCase())!==-1
-                    ||
-                    item.code.toLowerCase().indexOf(this.keywords[keywordName].toLowerCase())!==-1
-                );
+            // 用于搜索的关键字
+            keywords: {
+                port_of_loading_country: '',
+                port_of_delivery_country: '',
+                port_of_loading_port: '',
+                port_of_delivery_port: ''
             }
         }
     },
-    watch:{
-        'port_of_loading.country'(newValue, oldValue){
-            if(oldValue === newValue) return;
-            this.port_of_loading.port = null;
-            this.options.port_of_loading.item = [];
-            this.options.port_of_loading.loaded = false;
+    computed: {
+        searchedOptios () {
+            return (keywordName, optionsName) => {
+                return this.options[optionsName].item.filter(item =>
+                    item.label.toLowerCase().indexOf(this.keywords[keywordName].toLowerCase()) !== -1 ||
+                    item.code.toLowerCase().indexOf(this.keywords[keywordName].toLowerCase()) !== -1
+                )
+            }
+        }
+    },
+    watch: {
+        'port_of_loading.country' (newValue, oldValue) {
+            if (oldValue === newValue) return
+            this.port_of_loading.port = null
+            this.options.port_of_loading.item = []
+            this.options.port_of_loading.loaded = false
             this.getOptionsAnsyc(
                 2,
                 this.options.port_of_loading,
                 newValue
-            );
+            )
         },
-        'port_of_delivery.country'(newValue, oldValue){
-            if(oldValue === newValue) return;
-            this.port_of_delivery.port = null;
-            this.options.port_of_delivery.item = [];
-            this.options.port_of_delivery.loaded = false;
+        'port_of_delivery.country' (newValue, oldValue) {
+            if (oldValue === newValue) return
+            this.port_of_delivery.port = null
+            this.options.port_of_delivery.item = []
+            this.options.port_of_delivery.loaded = false
             this.getOptionsAnsyc(
                 2,
                 this.options.port_of_delivery,
                 newValue
-            );
+            )
         }
     },
-    mounted(){
-        if(!this.$route.params.bkg_id){
-            this.port_of_loading.country = 'JP';
-            this.port_of_delivery.country = 'CN';
+    mounted () {
+        if (!this.$route.params.bkg_id) {
+            this.port_of_loading.country = 'JP'
+            this.port_of_delivery.country = 'CN'
         }
     },
-    methods:{
-        querySearch(str,cb){
-            cb(this.options.carrier.item.filter(item=>item.label.indexOf(str||'')!==-1));
+    methods: {
+        querySearch (str, cb) {
+            cb(this.options.carrier.item.filter(item => item.label.indexOf(str || '') !== -1))
         },
-        setCStaff(){
+        setCStaff () {
             this.c_staff = findInArray(
                 'extra',
                 this.carrier,
                 this.options.carrier.item,
                 'label',
-            );
+            )
         },
-        getData(){
-            if(!this.port_of_loading.cy_cut){
+        getData () {
+            if (!this.port_of_loading.cy_cut) {
                 this.$notify({
                     title: 'NOTICE',
                     message: 'PLEASE ENTER THE "CY CUT"!',
                     type: 'error'
-                });
-                return false;
+                })
+                return false
             }
-            return{
-                carrier:this.carrier,
-                c_staff:this.c_staff,
-                service:this.service,
-                vessel_name:this.vessel_name,
-                voyage:this.voyage,
-                port_of_loading:this.port_of_loading,
-                port_of_delivery:this.port_of_delivery,
+            return {
+                carrier: this.carrier,
+                c_staff: this.c_staff,
+                service: this.service,
+                vessel_name: this.vessel_name,
+                voyage: this.voyage,
+                port_of_loading: this.port_of_loading,
+                port_of_delivery: this.port_of_delivery
             }
         },
-        setData({shipper, loading, delivery}){
-            if(this.isCopy){
-                shipper.service = '';
-                shipper.vessel_name = '';
-                shipper.voyage = '';
+        setData ({ shipper, loading, delivery }) {
+            if (this.isCopy) {
+                shipper.service = ''
+                shipper.vessel_name = ''
+                shipper.voyage = ''
 
-                loading.eta = '';
-                loading.etd = '';
-                loading.cy_open = '';
-                loading.cy_cut = '';
-                loading.doc_cut = '';
+                loading.eta = ''
+                loading.etd = ''
+                loading.cy_open = ''
+                loading.cy_cut = ''
+                loading.doc_cut = ''
 
                 delivery.eta = ''
             }
-            this.carrier = shipper.carrier;
-            this.c_staff = shipper.c_staff;
-            this.service = shipper.service;
-            this.vessel_name = shipper.vessel_name;
-            this.voyage = shipper.voyage;
-            
-            this.port_of_loading.country = loading.country;
-            this.port_of_loading.eta = loading.eta;
-            this.port_of_loading.etd = loading.etd;
-            this.port_of_loading.cy_open = loading.cy_open;
-            this.port_of_loading.cy_cut = loading.cy_cut;
-            this.port_of_loading.doc_cut = loading.doc_cut;
+            this.carrier = shipper.carrier
+            this.c_staff = shipper.c_staff
+            this.service = shipper.service
+            this.vessel_name = shipper.vessel_name
+            this.voyage = shipper.voyage
 
-            this.port_of_delivery.country = delivery.country;
-            this.port_of_delivery.eta = delivery.eta;
-            this.port_of_delivery.free_time_dem = delivery.free_time_dem;
-            this.port_of_delivery.free_time_det = delivery.free_time_det;
-            //country监听器导致 port被更新 port需要在nexttick中更新
-            this.$nextTick(()=>{
-                this.port_of_loading.port = loading.port;
-                this.port_of_delivery.port = delivery.port;
-            });
+            this.port_of_loading.country = loading.country
+            this.port_of_loading.eta = loading.eta
+            this.port_of_loading.etd = loading.etd
+            this.port_of_loading.cy_open = loading.cy_open
+            this.port_of_loading.cy_cut = loading.cy_cut
+            this.port_of_loading.doc_cut = loading.doc_cut
+
+            this.port_of_delivery.country = delivery.country
+            this.port_of_delivery.eta = delivery.eta
+            this.port_of_delivery.free_time_dem = delivery.free_time_dem
+            this.port_of_delivery.free_time_det = delivery.free_time_det
+            // country监听器导致 port被更新 port需要在nexttick中更新
+            this.$nextTick(() => {
+                this.port_of_loading.port = loading.port
+                this.port_of_delivery.port = delivery.port
+            })
         },
-        formatPort(witch){
+        formatPort (witch) {
             this[witch].port = `${findInArray(
                 'label',
                 this[witch].port,
                 this.options[witch].item,
                 'code'
-            )}(${this[witch].country}${this[witch].port})` ;
-        },
+            )}(${this[witch].country}${this[witch].port})`
+        }
     },
-    mixins:[
+    mixins: [
         getOptionsAnsyc,
-        common,
+        common
     ],
-    components:{
-        TitleGroup,
-    },
+    components: {
+        TitleGroup
+    }
 }
 </script>
 <style scoped>

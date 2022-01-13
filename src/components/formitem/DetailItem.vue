@@ -108,19 +108,19 @@
             </title-group>
         </div>
         <div class="buttons">
-            <el-button 
-                type="primary" 
+            <el-button
+                type="primary"
                 size="mini"
                 @click="$emit('add')"
             >ADD</el-button>
-            <el-button 
-                type="primary" 
+            <el-button
+                type="primary"
                 size="mini"
                 @click="$emit('copy',detailData)"
             >COPY</el-button>
-            <el-button 
+            <el-button
                 v-if="no>0"
-                type="danger" 
+                type="danger"
                 size="mini"
                 @click="deleteSelf"
             >
@@ -130,58 +130,58 @@
     </div>
 </template>
 <script>
-import TitleGroup from '../titleGroup.vue';
+import TitleGroup from '../titleGroup.vue'
 
 export default {
-    props:{
-        detailData:{
-            default:()=>({
-                container_type:'',
-                common:'',
-                option:'',
-                expenses:'',
-                transprotation:'',
-                charge:'',
-                field:'',
-                field_tel:'',
-                chassis:'',
-                booker_place:'',
-                vanning_date:'',
-                vanning_during:'',
-                delete_at:'',
+    props: {
+        detailData: {
+            default: () => ({
+                container_type: '',
+                common: '',
+                option: '',
+                expenses: '',
+                transprotation: '',
+                charge: '',
+                field: '',
+                field_tel: '',
+                chassis: '',
+                booker_place: '',
+                vanning_date: '',
+                vanning_during: '',
+                delete_at: ''
             })
         },
-        options:{
-            default:()=>({}),
+        options: {
+            default: () => ({})
         },
-        no:{
-            default:1
-        },
+        no: {
+            default: 1
+        }
     },
-    computed:{
-        formatTime:{
-            get(){
-                const during = this.detailData.vanning_during;
-                return during?during.split('-') : '';
+    computed: {
+        formatTime: {
+            get () {
+                const during = this.detailData.vanning_during
+                return during ? during.split('-') : ''
             },
-            set(val){
-                if(val){
-                    this.detailData.vanning_during = val.join('-');
+            set (val) {
+                if (val) {
+                    this.detailData.vanning_during = val.join('-')
                 } else {
-                    this.detailData.vanning_during = '';
+                    this.detailData.vanning_during = ''
                 }
-            },
+            }
         }
     },
-    created(){
-        this.$emit('load-options', 3, this.options.containerType);
+    created () {
+        this.$emit('load-options', 3, this.options.containerType)
     },
-    methods:{
-        deleteSelf(){
-            this.detailData.delete_at = '1';
+    methods: {
+        deleteSelf () {
+            this.detailData.delete_at = '1'
         }
     },
-    components:{
+    components: {
         TitleGroup
     }
 }
@@ -196,7 +196,7 @@ export default {
     margin-top: 4px;
 }
 .flag{
-    flex: 0 0 2em;    
+    flex: 0 0 2em;
 }
 .inputs{
     width: 1px;

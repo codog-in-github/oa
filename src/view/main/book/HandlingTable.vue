@@ -307,128 +307,128 @@
 import { URL } from '@/api/main'
 import { postNewWindow } from '@/assets/js/utils'
 export default {
-    props:{
-        bkg_id:{
-            default:'',
+    props: {
+        bkg_id: {
+            default: ''
         }
     },
-    data(){
+    data () {
         return {
-            loading:false,
-            action :URL.BOOKING_NOTICE,
-            form :{
-                croporate:'',
-                outputer_symbol:'',
-                shipper:'',
-                doc_cut:'',
-                vessel_name:'',
-                cy_cut:'',
-                voyage:'',
-                etd:'',
-                carrier:'',
-                eta:'',
-                booking:'',
-                cy_open:'',
-                forwarder:'',
-                container_type:'',
-                sum_queantity:'',
-                unity:'',
-                transprotation:'',
-                expenses:'',
-                chassis:'',
-                item_type:[
+            loading: false,
+            action: URL.BOOKING_NOTICE,
+            form: {
+                croporate: '',
+                outputer_symbol: '',
+                shipper: '',
+                doc_cut: '',
+                vessel_name: '',
+                cy_cut: '',
+                voyage: '',
+                etd: '',
+                carrier: '',
+                eta: '',
+                booking: '',
+                cy_open: '',
+                forwarder: '',
+                container_type: '',
+                sum_queantity: '',
+                unity: '',
+                transprotation: '',
+                expenses: '',
+                chassis: '',
+                item_type: [
                     '',
                     '',
                     '',
                     '',
                     '',
-                    '',
+                    ''
                 ],
-                consignee:'',
-                hs_code:'',
-                free_day:'',
-                pick_order:'',
-                pick_order_request:'',
-                send_pick_order:'',
-                send_pick_order1:'',
-                van_day:'',
-                van_place:'',
-                pick_place:'',
-                bl_cut:'',
-                carry_place:'',
-                si_check:'',
-                in_no:'',
-                invoice_no:'',
-                content:'',
-                sea_insurance:'',
-                basel_charge:'',
-                bkg_no:'',
-                basel_back_time:'',
-                contoms_document:'',
-                request_date:'',
-                permission_date:'',
-                request_no:'',
-                type:'',
-                acl_insert:'',
-                surrender_arrangement:'',
-                bl_send:'',
-                extra_money:'',
-                bl_no:'',
-                request_book:'',
-                c_book:[
+                consignee: '',
+                hs_code: '',
+                free_day: '',
+                pick_order: '',
+                pick_order_request: '',
+                send_pick_order: '',
+                send_pick_order1: '',
+                van_day: '',
+                van_place: '',
+                pick_place: '',
+                bl_cut: '',
+                carry_place: '',
+                si_check: '',
+                in_no: '',
+                invoice_no: '',
+                content: '',
+                sea_insurance: '',
+                basel_charge: '',
+                bkg_no: '',
+                basel_back_time: '',
+                contoms_document: '',
+                request_date: '',
+                permission_date: '',
+                request_no: '',
+                type: '',
+                acl_insert: '',
+                surrender_arrangement: '',
+                bl_send: '',
+                extra_money: '',
+                bl_no: '',
+                request_book: '',
+                c_book: [
                     '',
                     '',
                     '',
                     '',
-                    '',
-                ],
+                    ''
+                ]
             }
-        };
+        }
     },
-    methods:{
-        loadData(){
-            this.clear();
-            this.$getHandingData(this.$route.params.bkg_id,({data})=>{
-                data = data.data;
-                for(let k in data){
-                    if(this.form[k] !== undefined){
-                        if(k === 'item_type' || k === 'c_book'){
-                            let sp = data[k]?.split('|');
-                            for(let i in sp){
-                                this.form[k][i] = sp[i];
+    methods: {
+        loadData () {
+            this.clear()
+            this.$getHandingData(this.$route.params.bkg_id, ({ data }) => {
+                data = data.data
+                for (let k in data) {
+                    if (this.form[k] !== undefined) {
+                        if (k === 'item_type' || k === 'c_book') {
+                            let sp = data[k]?.split('|')
+                            for (let i in sp) {
+                                this.form[k][i] = sp[i]
                             }
-                        }else{
-                            this.form[k] = data[k];
+                        } else {
+                            this.form[k] = data[k]
                         }
                     }
                 }
-            });
+            })
         },
-        clear(){
-            for(let k in this.form){
-                if(this.form[k] instanceof Array){
-                    for(let j in this.form[k]){
-                        this.form[k][j] = '';
+        clear () {
+            for (let k in this.form) {
+                if (this.form[k] instanceof Array) {
+                    for (let j in this.form[k]) {
+                        this.form[k][j] = ''
                     }
-                }else{
+                } else {
                     this.form[k] = ''
                 }
             }
         },
-        beDownload(){
-            let data = {...this.form};
-            data.bkg_id = this.$route.params.bkg_id;
-            postNewWindow(URL.HANDING,data);
+        beDownload () {
+            let data = { ...this.form }
+            data.bkg_id = this.$route.params.bkg_id
+            postNewWindow(URL.HANDING, data)
         },
-        cbookAdd(){
-            if(this.form.c_book >7){
-                return void 0;
+        cbookAdd () {
+            if (this.form.c_book > 7) {
+                return void 0
             }
-            this.form.c_book.push('');
+            this.form.c_book.push('')
         },
-        cbookDelete(i){
-            this.form.c_book.splice(i,1);
+        cbookDelete (i) {
+            this.form.c_book.splice(i, 1)
         }
-    },
+    }
 }
 </script>

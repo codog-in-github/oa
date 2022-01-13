@@ -65,172 +65,172 @@
 import { getOptionsAnsyc } from '@/mixin/main'
 
 export default {
-    mixins:[
+    mixins: [
         getOptionsAnsyc
     ],
-    data(){
+    data () {
         return {
-            condition:{
+            condition: {
                 // cy_cut:null,
-                bkg_no:'',
-                bl_no:'',
-                pod:'',
-                pol:'',
-                booker:'',
-                dg:'',
+                bkg_no: '',
+                bl_no: '',
+                pod: '',
+                pol: '',
+                booker: '',
+                dg: ''
             },
-            page_size:50,
-            page:1,
-            total:0,
-            list:[],
-            options:{
-                state:{item:[],loading:false,},
+            page_size: 50,
+            page: 1,
+            total: 0,
+            list: [],
+            options: {
+                state: { item: [], loading: false }
             },
             loading: false,
-            stateChangeTimer:-1,
+            stateChangeTimer: -1,
             newOrder: false,
-            copy_no:'',
+            copy_no: ''
         }
     },
-    computed:{
-        showNewOrder(){
-            return this.$route.params.state != 'delete';
+    computed: {
+        showNewOrder () {
+            return this.$route.params.state != 'delete'
         },
-        showNext(){
+        showNext () {
+            return this.$route.params.state == 'normal' ||
+                this.$route.params.state == 'draft' ||
+                this.$route.params.state == 'ready'
+        },
+        showPrevious () {
+            return this.$route.params.state == 'draft' ||
+                this.$route.params.state == 'ready' ||
+                this.$route.params.state == 'complete'
+        },
+        showDetail () {
+            return this.$route.params.state != 'normal' &&
+                this.$route.params.state != 'ready' &&
+                this.$route.params.state != 'draft'
+        },
+        showEdit () {
+            return this.$route.params.state == 'normal' ||
+                this.$route.params.state == 'ready' ||
+                this.$route.params.state == 'draft'
+        },
+        showDelete () {
             return this.$route.params.state == 'normal'
-                || this.$route.params.state == 'draft'
-                || this.$route.params.state == 'ready';
         },
-        showPrevious(){
-            return this.$route.params.state == 'draft'
-                || this.$route.params.state == 'ready'
-                || this.$route.params.state == 'complete';
-        },
-        showDetail(){
-            return this.$route.params.state != 'normal'
-                && this.$route.params.state != 'ready'
-                && this.$route.params.state != 'draft';
-        },
-        showEdit(){
-            return this.$route.params.state == 'normal'
-                || this.$route.params.state == 'ready'
-                || this.$route.params.state == 'draft';
-        },
-        showDelete(){
-            return this.$route.params.state == 'normal';
-        },
-        showRestore(){
-            return this.$route.params.state == 'delete';
-        },
+        showRestore () {
+            return this.$route.params.state == 'delete'
+        }
     },
-    mounted(){
-        this.reLoad();
+    mounted () {
+        this.reLoad()
     },
-    methods:{
-        reLoad(){
+    methods: {
+        reLoad () {
             this.loading = true
             this.$getList(
                 {
-                    condition:this.condition,
-                    page_size:this.page_size,
-                    page:(this.page || 1) -1,
-                    state:this.$route.params.state || ''
+                    condition: this.condition,
+                    page_size: this.page_size,
+                    page: (this.page || 1) - 1,
+                    state: this.$route.params.state || ''
                 },
-                ({data})=>{
-                    this.list.splice(0, this.list.length);
-                    this.list.push(...data.data.list.map(i=>{
-                        if(!i.state){
-                            i.state = [];
-                        }else{
-                            i.state = i.state.split('|');
+                ({ data }) => {
+                    this.list.splice(0, this.list.length)
+                    this.list.push(...data.data.list.map(i => {
+                        if (!i.state) {
+                            i.state = []
+                        } else {
+                            i.state = i.state.split('|')
                         }
-                        return i;
-                    }));
-                    this.total = parseInt(data.data.total);
-                    this.page = data.data.page;
+                        return i
+                    }))
+                    this.total = parseInt(data.data.total)
+                    this.page = data.data.page
                     this.loading = false
                 }
-            );
+            )
         },
-        dateFormat(row, column, cellValue){
-            return cellValue.substr(0,10);
+        dateFormat (row, column, cellValue) {
+            return cellValue.substr(0, 10)
         },
-        sizeChangeHandler(size){
-            this.page_size = size;
-            this.reLoad();
+        sizeChangeHandler (size) {
+            this.page_size = size
+            this.reLoad()
         },
-        pageChangeHandler(current){
-            this.page = current;
-            this.reLoad();
+        pageChangeHandler (current) {
+            this.page = current
+            this.reLoad()
         },
-        doEdit(id){
-            this.$router.push(`/frame/form/${id}/edit`);
+        doEdit (id) {
+            this.$router.push(`/frame/form/${id}/edit`)
         },
-        displayDetail(id){
-            this.$router.push(`/frame/form/${id}/view`);
+        displayDetail (id) {
+            this.$router.push(`/frame/form/${id}/view`)
         },
-        deleteHandler(id,index, isDelete=true){
-            this.$deleteOrder(id, isDelete, ()=>{
-                this.list.splice(index,1);
-            });
+        deleteHandler (id, index, isDelete = true) {
+            this.$deleteOrder(id, isDelete, () => {
+                this.list.splice(index, 1)
+            })
         },
-        clearCondition(){
-            for(const k in this.condition){
-                this.condition[k] = '';
+        clearCondition () {
+            for (const k in this.condition) {
+                this.condition[k] = ''
             }
-            this.reLoad();
+            this.reLoad()
         },
-        changeStep(id, index, isNext = true){
+        changeStep (id, index, isNext = true) {
             const step = [
                 'normal',
                 'draft',
                 'ready',
-                'complete',
-            ];
+                'complete'
+            ]
             this.$changeOrderStep(
                 id,
-                step[step.indexOf(this.$route.params.state) + (isNext?1:-1)],
-                ()=>{
-                    this.list.splice(index,1);
+                step[step.indexOf(this.$route.params.state) + (isNext ? 1 : -1)],
+                () => {
+                    this.list.splice(index, 1)
                 }
-            );
+            )
         },
-        changeState(id ,val){
-            console.log(id ,val);
-            clearTimeout(this.stateChangeTimer);
-            this.stateChangeTimer = setTimeout(()=>{
-                this.$changeOrderState(id, val.join('|'), ()=>{
+        changeState (id, val) {
+            console.log(id, val)
+            clearTimeout(this.stateChangeTimer)
+            this.stateChangeTimer = setTimeout(() => {
+                this.$changeOrderState(id, val.join('|'), () => {
                     this.$notify({
                         title: 'SUCCESS',
                         message: 'CHANGE SUCCESS',
                         type: 'success'
-                    });
-                });
-            },1000);
+                    })
+                })
+            }, 1000)
         },
-        addNewOrder(){
-            this.newOrder = true;
+        addNewOrder () {
+            this.newOrder = true
             // this.$router.push('/frame/form');
         },
-        getOrderID(){
-            if(this.copy_no === ''){
-                this.$router.push('/frame/form');
-            }else{
-                this.$getOrderID(this.copy_no,({data})=>{
-                    let id = data.data;
-                    if(id){
-                        this.$router.push(`/frame/form/${id}/copy`);
-                    }else{
+        getOrderID () {
+            if (this.copy_no === '') {
+                this.$router.push('/frame/form')
+            } else {
+                this.$getOrderID(this.copy_no, ({ data }) => {
+                    let id = data.data
+                    if (id) {
+                        this.$router.push(`/frame/form/${id}/copy`)
+                    } else {
                         this.$notify({
                             title: 'ERROR',
                             message: 'CAN NOT FOUND THIS ORDER',
                             type: 'error'
-                        });
+                        })
                     }
                 })
             }
         }
-    },
+    }
 }
 </script>
 <style lang="less" scoped>
@@ -266,7 +266,6 @@ header{
 .input-box> *:nth-child(n+2){
     margin-left: 1em;
 }
-
 
 footer{
     margin-top: 1em;

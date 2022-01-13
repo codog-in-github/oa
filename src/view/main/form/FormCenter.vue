@@ -25,8 +25,8 @@
             </el-input>
         </title-group>
         <div class="vaning-box">
-            <el-button 
-                size="mini" 
+            <el-button
+                size="mini"
                 type="primary"
                 @click="vannningPlaceAddHandler"
             >
@@ -42,7 +42,7 @@
                 :key="single.id"
             >
                 <span>{{i+1}}</span>
-                <el-select 
+                <el-select
                     size="mini"
                     @focus="getOptionsAnsyc(3, options.containerType)"
                     @change="$eventBus.$emit('containerTypeChange',single.id,single.container_type)"
@@ -54,7 +54,7 @@
                         :label="label"
                     ></el-option>
                 </el-select>
-                <el-input 
+                <el-input
                     size="mini"
                     type="number"
                     style="width:200px"
@@ -151,135 +151,135 @@ import { getOptionsAnsyc, common } from '@/mixin/main'
 import { getRandomID } from '@/assets/js/utils'
 
 export default {
-    data(){
-        return{
-            common:'PLASTIC',
-            van_place:[''],
-            consiginee:'',
-            remarks:'',
-            state:[],
-            pick_order:'',
-            pick_order_request:'',
-            send_pick_order:'',
+    data () {
+        return {
+            common: 'PLASTIC',
+            van_place: [''],
+            consiginee: '',
+            remarks: '',
+            state: [],
+            pick_order: '',
+            pick_order_request: '',
+            send_pick_order: '',
 
-            options:{
-                containerType:{item:[],loading:false,},
-                state:{item:[],loading:false,},
+            options: {
+                containerType: { item: [], loading: false },
+                state: { item: [], loading: false }
             }
-        };
+        }
     },
-    mounted(){
-        if(this.isNewOrder){
-            this.$store.commit('form/containerClear');
-            this.$store.commit('form/containerAddNew');
+    mounted () {
+        if (this.isNewOrder) {
+            this.$store.commit('form/containerClear')
+            this.$store.commit('form/containerAddNew')
             this.$nextTick(
-                ()=>this.$eventBus.$emit('container1Click')
-            );
+                () => this.$eventBus.$emit('container1Click')
+            )
         }
     },
-    watch:{
-        common(val){
-            this.$store.state.form.common = val;
+    watch: {
+        common (val) {
+            this.$store.state.form.common = val
         }
     },
-    computed:{
-        ...mapState('form',{
-            container:state=>state.container,
-            bkgId:state=>state.bkgId
-        }),
+    computed: {
+        ...mapState('form', {
+            container: state => state.container,
+            bkgId: state => state.bkgId
+        })
     },
-    methods:{
-        commonChange(common){
-            this.$eventBus.$emit('commonChange',common);
+    methods: {
+        commonChange (common) {
+            this.$eventBus.$emit('commonChange', common)
         },
-        vannningPlaceAddHandler(){
-            if(this.van_place.length < 6){
-                this.van_place.push('');
-            }else{
+        vannningPlaceAddHandler () {
+            if (this.van_place.length < 6) {
+                this.van_place.push('')
+            } else {
                 this.$notify.error({
                     title: 'error',
-                    message: `max 6`,
-                });
+                    message: 'max 6'
+                })
             }
         },
-        containerTypeAddHandler(){
-            if(this.container.filter(i=>!i.delete_at).length < 6){
-                this.$store.commit('form/containerAddNew');
-            }else{
+        containerTypeAddHandler () {
+            if (this.container.filter(i => !i.delete_at).length < 6) {
+                this.$store.commit('form/containerAddNew')
+            } else {
                 this.$notify.error({
                     title: 'error',
-                    message: `max 6`,
-                });
+                    message: 'max 6'
+                })
             }
         },
-        getData(){
+        getData () {
             return {
-                common:this.common,
-                van_place:this.van_place.join('|'),
-                consiginee:this.consiginee,
-                remarks:this.remarks,
-                container:this.container,
-                state:this.state.join('|'),
-                pick_order:this.pick_order,
-                pick_order_request:this.pick_order_request,
-                send_pick_order:this.send_pick_order,
+                common: this.common,
+                van_place: this.van_place.join('|'),
+                consiginee: this.consiginee,
+                remarks: this.remarks,
+                container: this.container,
+                state: this.state.join('|'),
+                pick_order: this.pick_order,
+                pick_order_request: this.pick_order_request,
+                send_pick_order: this.send_pick_order
             }
         },
-        setData({container, type}){
-            if(this.isCopy){
-                const idMap = {};
-                for(let t of type){
-                    const newId = getRandomID();
-                    idMap[t.id] = newId;
-                    t.id = newId;
+        setData ({ container, type }) {
+            if (this.isCopy) {
+                const idMap = {}
+                for (let t of type) {
+                    const newId = getRandomID()
+                    idMap[t.id] = newId
+                    t.id = newId
                 }
-                this.$eventBus.$emit('changeId',idMap);
-                for(const t of type){
-                    t.quantity = '';
+                this.$eventBus.$emit('changeId', idMap)
+                for (const t of type) {
+                    t.quantity = ''
                 }
-                container.state = '';
-                container.pick_order_request = '';
-                container.send_pick_order = '';
+                container.state = ''
+                container.pick_order_request = ''
+                container.send_pick_order = ''
             }
-            this.common = container.common;
-            this.van_place = container.van_place?.split('|') || [''];
-            if(!container.state){
-                this.state = [];
-            }else{
-                this.state = container.state?.split('|');
+            this.common = container.common
+            this.van_place = container.van_place?.split('|') || ['']
+            if (!container.state) {
+                this.state = []
+            } else {
+                this.state = container.state?.split('|')
             }
-            this.consiginee = container.consiginee;
-            this.remarks = container.remarks;
-            this.pick_order = container.pick_order;
-            this.pick_order_request = container.pick_order_request;
-            this.send_pick_order = container.send_pick_order;
-            this.$store.commit('form/containerClear');
-            this.$store.commit('form/containerPushArray',type);
+            this.consiginee = container.consiginee
+            this.remarks = container.remarks
+            this.pick_order = container.pick_order
+            this.pick_order_request = container.pick_order_request
+            this.send_pick_order = container.send_pick_order
+            this.$store.commit('form/containerClear')
+            this.$store.commit('form/containerPushArray', type)
             this.$nextTick(
-                ()=>this.$eventBus.$emit('container1Click')
-            );
+                () => this.$eventBus.$emit('container1Click')
+            )
         },
-        deleteType(id){
-            if(this.container.length === 1){
-                return false;
+        deleteType (id) {
+            if (this.container.length === 1) {
+                return false
             }
-            this.$store.commit('form/containerRemoveById',id);
-            this.$eventBus.$emit('deleteType', id);
+            this.$store.commit('form/containerRemoveById', id)
+            this.$eventBus.$emit('deleteType', id)
         },
-        vanDel(i){
-            if(this.van_place.length === 1){
-                return;
+        vanDel (i) {
+            if (this.van_place.length === 1) {
+                return
             }
-            this.van_place.splice(i,1)
+            this.van_place.splice(i, 1)
         }
     },
-    mixins:[
+    mixins: [
         getOptionsAnsyc,
-        common,
+        common
     ],
-    components: { 
-        TitleGroup,
-    },
+    components: {
+        TitleGroup
+    }
 }
 </script>
 <style scoped>
@@ -311,7 +311,7 @@ export default {
     background: gray;
     color: white;
     text-align: center;
-    
+
 }
 .vaning-box{
     text-align: right;

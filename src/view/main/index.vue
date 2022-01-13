@@ -8,13 +8,13 @@
 <script>
 import OldTable from '../../components/OldTable.vue'
 export default {
-    data(){
+    data () {
         return {}
     },
-    methods:{
+    methods: {
 
     },
-    components:{
+    components: {
         OldTable
     }
 }
