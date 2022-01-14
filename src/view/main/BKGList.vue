@@ -35,7 +35,7 @@
                         <div v-else>{{scope.row.state.join('|')}}</div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="id" label="OPERATION" width="320px" fixed="right">
+                <el-table-column prop="id" label="OPERATION" width="280px" fixed="right">
                     <template  slot-scope="scope">
                         <div style="text-align:center;">
                             <el-button v-if="showEdit" type="primary" size="mini" class="el-icon-edit" @click="doEdit(scope.row.id)">EDIT</el-button>

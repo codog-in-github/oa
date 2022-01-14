@@ -261,7 +261,7 @@ export default {
                 [isCopy ? 'copy_id' : 'id']: isCopy ? requestId : this.id
             }
             this.$getBook(params, ({ data: { data } }) => {
-                this.formatter(data)
+                this.formatter(data, isCopy)
                 this.form = true
             })
         },
@@ -284,7 +284,7 @@ export default {
                     try {
                         const id = await this.showList(requestList)
                         this.id = isCopy ? this.id || getRandomID() : id
-                        this.getbook(isCopy ? id : bkgId, isCopy)
+                        this.getbook(isCopy ? id : this.id, isCopy)
                     } catch (e) {
                         console.log(e)
                     }
