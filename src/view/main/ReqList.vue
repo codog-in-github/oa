@@ -157,6 +157,7 @@
 <script>
 import { getOptionsAnsyc } from '@/mixin/main'
 import RequestBook from './book/RequestBook.vue'
+import { getBkgList } from '@/api/main'
 export default {
     mixins: [
         getOptionsAnsyc
@@ -209,29 +210,31 @@ export default {
         this.reLoad()
     },
     methods: {
-        reLoad () {
-            this.$getList(
-                {
+        async reLoad () {
+            try {
+                const bkgList = await getBkgList({
                     condition: this.condition,
                     page_size: this.page_size,
                     page: (this.page || 1) - 1,
                     req_state: this.$route.params.state || ''
-                },
-                ({ data }) => {
-                    this.list.splice(0, this.list.length)
-                    this.list.push(...data.data.list.map(i => {
-                        if (!i.state) {
-                            i.state = []
-                        } else {
-                            i.state = i.state.split('|')
-                        }
-                        return i
-                    }))
-                    this.total = parseInt(data.data.total)
-                    this.page = data.data.page
-                }
-            )
+                })
+
+                this.list = bkgList.list.map(i => {
+                    if (!i.state) {
+                        i.state = []
+                    } else {
+                        i.state = i.state.split('|')
+                    }
+                    return i
+                })
+
+                this.total = parseInt(bkgList.total)
+                this.page = bkgList.page
+            } catch (e) {
+                console.log('e :', e)
+            }
         },
+
         dateFormat (row, column, cellValue) {
             return cellValue.substr(0, 10)
         },

@@ -142,6 +142,7 @@
 <script>
 import { getOptionsAnsyc } from '@/mixin/main'
 import { timeCompare } from '@/utils'
+import { getContainerList } from '@/api/main'
 export default {
     mixins: [
         getOptionsAnsyc
@@ -176,21 +177,21 @@ export default {
         this.reLoad()
     },
     methods: {
-        reLoad () {
-            this.$getContainerList(
-                {
+        async reLoad () {
+            try {
+                const containerList = await getContainerList({
                     condition: this.condition,
                     page_size: this.page_size,
                     page: (this.page || 1) - 1,
                     state: this.$route.params.state || ''
-                },
-                ({ data }) => {
-                    this.list.splice(0, this.list.length)
-                    this.list.push(...data.data.list)
-                    this.total = parseInt(data.data.total)
-                    this.page = data.data.page
-                }
-            )
+                })
+
+                this.list = containerList.list
+                this.total = parseInt(containerList.total)
+                this.page = containerList.page
+            } catch (error) {
+                console.log('error :', error)
+            }
         },
         dateFormat (row, column, cellValue) {
             return cellValue.substr(0, 10)

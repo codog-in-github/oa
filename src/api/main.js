@@ -24,7 +24,6 @@ import {
     HAS_BOOK_BY_COMPANY_NO,
     HAS_REQUESTBOOK,
     GET_BOOKING_NOTICE,
-    BOOK_DIR,
     BOOKING_NOTICE,
     GET_HANDING_DATA,
     HANDING,
@@ -46,38 +45,6 @@ const needInterceptorsMethods = [
     {
         // 需要被拦截器的方法
         methods: {
-            $getOptions (selectId, options, fatherOptionsId) {
-                const localOpt = localStorage.getItem(`options_${selectId}_${fatherOptionsId || ''}`)
-                if (localOpt) {
-                    // 检测是否本地缓存
-                    options.item.splice(0, options.item.length)
-                    options.item.push(...JSON.parse(localOpt))
-                } else {
-                    options.loading = true
-                    this.$api.queue = () => axios.get(`${OPTIONS_LIST}/sid/${selectId}/pid/${fatherOptionsId || ''}`)
-                    this.$api.queue = ({ data }) => {
-                        options.item.splice(0, options.item.length)
-                        options.item.push(...data.data)
-                        localStorage.setItem(`options_${selectId}_${fatherOptionsId || ''}`, JSON.stringify(data.data))
-                        localStorage.setItem('options', localStorage.getItem('options') + `|options_${selectId}_${fatherOptionsId || ''}`)
-                        options.loading = false
-                    }
-                }
-            },
-            $getList (query, cb) {
-                this.$api.queue = () => axios.post(
-                    GET_BKG_LIST,
-                    qs.stringify(query)
-                )
-                this.$api.queue = cb
-            },
-            $getContainerList (query, cb) {
-                this.$api.queue = () => axios.post(
-                    GET_CONTAINER_LIST,
-                    qs.stringify(query)
-                )
-                this.$api.queue = cb
-            },
             $saveOrder (data, cb) {
                 this.$api.queue = () => axios.post(
                     SAVE_ORDER,
@@ -256,7 +223,20 @@ export const checkLoginStatus = () => Http.get({ url: LOGIN_STATUS })
 
 export const logout = () => Http.get({ url: LOGOUT_PATH })
 
-export const getOptions = params => Http.get({
+export const getOptions = (sid, pid) => Http.get({
     url: OPTIONS_LIST,
+    params: {
+        sid,
+        pid
+    }
+})
+
+export const getBkgList = params => Http.post({
+    url: GET_BKG_LIST,
+    params
+})
+
+export const getContainerList = params => Http.post({
+    url: GET_CONTAINER_LIST,
     params
 })

@@ -63,6 +63,7 @@
 </template>
 <script>
 import { getOptionsAnsyc } from '@/mixin/main'
+import { getBkgList } from '@/api/main'
 
 export default {
     mixins: [
@@ -127,30 +128,31 @@ export default {
         this.reLoad()
     },
     methods: {
-        reLoad () {
+        async reLoad () {
             this.loading = true
-            this.$getList(
-                {
+            try {
+                const bkgList = await getBkgList({
                     condition: this.condition,
                     page_size: this.page_size,
                     page: (this.page || 1) - 1,
                     state: this.$route.params.state || ''
-                },
-                ({ data }) => {
-                    this.list.splice(0, this.list.length)
-                    this.list.push(...data.data.list.map(i => {
-                        if (!i.state) {
-                            i.state = []
-                        } else {
-                            i.state = i.state.split('|')
-                        }
-                        return i
-                    }))
-                    this.total = parseInt(data.data.total)
-                    this.page = data.data.page
-                    this.loading = false
-                }
-            )
+                })
+
+                this.list = bkgList.list.map(i => {
+                    if (!i.state) {
+                        i.state = []
+                    } else {
+                        i.state = i.state.split('|')
+                    }
+                    return i
+                })
+
+                this.total = parseInt(bkgList.total)
+                this.page = bkgList.page
+            } catch (error) {
+                console.log('error :', error)
+            }
+            this.loading = false
         },
         dateFormat (row, column, cellValue) {
             return cellValue.substr(0, 10)
