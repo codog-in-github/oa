@@ -3,34 +3,34 @@ import { store } from '@/vuex/main'
 import axios from 'axios'
 import qs from 'qs'
 import * as statecode from './statecode'
-
-const BASE_PATH = process.env.NODE_ENV === 'production' ? '/Oa' : 'http://127.0.0.1:81/Oa'
-const LOGIN_PATH = BASE_PATH + '/Index/login'
-const LOGOUT_PATH = BASE_PATH + '/Index/logout'
-const LOGOUT_VERIFY_PATH = BASE_PATH + '/Index/verify'
-const LOGIN_STATUS = BASE_PATH + '/Index/'
-const OPTIONS_LIST = BASE_PATH + '/Config/getOptions'
-const GET_BKG_LIST = BASE_PATH + '/Bkg/getList'
-const GET_CONTAINER_LIST = BASE_PATH + '/Container/getList'
-const CONFIRM_DETAIL = BASE_PATH + '/Container/confirm'
-const SAVE_ORDER = BASE_PATH + '/Bkg/saveData'
-const GET_ORDER = BASE_PATH + '/Bkg/getBkgOrder'
-const GET_ORDER_ID = BASE_PATH + '/Bkg/getBkgOrderID'
-const DELETE_ORDER = BASE_PATH + '/Bkg/deleteBkgOrder'
-const CHANGE_ORDER_STATE = BASE_PATH + '/Bkg/changeOrderState'
-const CHANGE_ORDER_STEP = BASE_PATH + '/Bkg/changeOrderStep'
-const CHANGE_ORDER_REQUEST_STEP = BASE_PATH + '/Bkg/changeOrderRequestStep'
-const GET_REQUESTBOOK = BASE_PATH + '/Requestbook/getBook'
-const GET_REQUESTBOOK_LIST = BASE_PATH + '/Requestbook/getBookList'
-const HAS_BOOK_BY_COMPANY_NO = BASE_PATH + '/Requestbook/hasBookByCompanyNo'
-const HAS_REQUESTBOOK = BASE_PATH + '/Requestbook/hasBook'
-const GET_BOOKING_NOTICE = BASE_PATH + '/BookingNotice/getBookingNotice'
-const BOOK_DIR = BASE_PATH + '/Export'
-const BOOKING_NOTICE = BOOK_DIR + '/bookingNotice'
-const GET_HANDING_DATA = BOOK_DIR + '/getHandlngData'
-const HANDING = BOOK_DIR + '/handling'
-const REQUESTBOOK = BOOK_DIR + '/requestbook'
-const LAST_UPDATE = BASE_PATH + '/Index/needClear'
+import {
+    LOGIN_PATH,
+    LOGOUT_PATH,
+    LOGOUT_VERIFY_PATH,
+    LOGIN_STATUS,
+    OPTIONS_LIST,
+    GET_BKG_LIST,
+    GET_CONTAINER_LIST,
+    CONFIRM_DETAIL,
+    SAVE_ORDER,
+    GET_ORDER,
+    GET_ORDER_ID,
+    DELETE_ORDER,
+    CHANGE_ORDER_STATE,
+    CHANGE_ORDER_STEP,
+    CHANGE_ORDER_REQUEST_STEP,
+    GET_REQUESTBOOK,
+    GET_REQUESTBOOK_LIST,
+    HAS_BOOK_BY_COMPANY_NO,
+    HAS_REQUESTBOOK,
+    GET_BOOKING_NOTICE,
+    BOOK_DIR,
+    BOOKING_NOTICE,
+    GET_HANDING_DATA,
+    HANDING,
+    REQUESTBOOK,
+    LAST_UPDATE
+} from '@/constant/API'
 
 axios.defaults.withCredentials = true
 
@@ -46,15 +46,6 @@ const needInterceptorsMethods = [
     {
         // 需要被拦截器的方法
         methods: {
-            $checkLoginStatus () {
-                this.$api.queue = () => axios.get(LOGIN_STATUS)
-                this.$api.queue = ({ data }) => {
-                    this.$store.commit('doLogin', data.data)
-                }
-            },
-            $logout () {
-                axios.get(LOGOUT_PATH)
-            },
             $getOptions (selectId, options, fatherOptionsId) {
                 const localOpt = localStorage.getItem(`options_${selectId}_${fatherOptionsId || ''}`)
                 if (localOpt) {
@@ -202,7 +193,7 @@ const needInterceptorsMethods = [
 
             switch (data.error) {
                 case statecode.WITHOUT_LOGIN: {
-                    store.dispatch('logoutEnforce', vm)
+                    store.dispatch('logout', vm)
                     return Promise.reject('WITHOUT_LOGIN')
                 }
                 case statecode.SUCCESS: {
@@ -221,50 +212,6 @@ export class Api {
 
     static install = function (Vue, options) {
         Vue.prototype.$api = new Api(options)
-        // 登录
-        Vue.prototype.$doLogin = function (username, password, verify, callback) {
-
-            this.$api.queue = () => axios.post(
-                LOGIN_PATH,
-                qs.stringify({
-                    username,
-                    password,
-                    verify
-                })
-            )
-
-            this.$api.queue = ({ data }) => {
-                switch (data.error) {
-                    case statecode.PASSWORD_ERROR: {
-                        callback()
-                        this.$notify.error({
-                            title: 'error',
-                            message: data.message
-                        })
-                        break
-                    }
-                    case statecode.SUCCESS: {
-                        callback()
-                        this.$store.commit('doLogin', data.data)
-                        this.$router.push('/frame')
-                        break
-                    }
-                }
-            }
-            this.$api.promise.catch(console.log)
-        }
-
-        Vue.prototype.$clearStrage = function () {
-            this.$api.queue = () => axios.get(LAST_UPDATE)
-            this.$api.queue = ({ data }) => {
-                let last = data.data
-                if (last !== localStorage.getItem('last')) {
-                    localStorage.clear()
-                    localStorage.setItem('last', last)
-                }
-            }
-        }
-
         // 注册代理监听器
         for (const item of needInterceptorsMethods) {
             for (const methodName in item.methods) {
@@ -298,12 +245,18 @@ export class Api {
     }
 }
 
-export const doLogin = (username, password) => {
-    return Http.post({
-        url: LOGIN_PATH,
-        params: {
-            username,
-            password
-        }
-    })
-}
+export const login = (username, password) => Http.post({
+    url: LOGIN_PATH,
+    params: { username, password }
+})
+
+export const clearStrage = () => Http.get({ url: LAST_UPDATE })
+
+export const checkLoginStatus = () => Http.get({ url: LOGIN_STATUS })
+
+export const logout = () => Http.get({ url: LOGOUT_PATH })
+
+export const getOptions = params => Http.get({
+    url: OPTIONS_LIST,
+    params
+})

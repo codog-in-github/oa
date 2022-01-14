@@ -5,15 +5,23 @@
 </template>
 
 <script>
-// import { checkLoginStatus } from '@/api/main'
+import { checkLoginStatus, clearStrage } from './api/main'
 
 export default {
     name: 'App',
 
     components: {},
     beforeCreate () {
-        this.$clearStrage()
-        this.$checkLoginStatus()
+        clearStrage().then(last => {
+            if (last !== localStorage.getItem('last')) {
+                localStorage.clear()
+                localStorage.setItem('last', last)
+            }
+        })
+
+        checkLoginStatus().then(userInfo => {
+            this.$store.commit('updateUserInfo', userInfo)
+        })
     },
     methods: {
 
