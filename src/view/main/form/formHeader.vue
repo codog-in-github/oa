@@ -87,6 +87,7 @@
 import TitleGroup from '@/components/titleGroup'
 import { getOptionsAnsyc, common } from '@/mixin/main'
 import RequestBook from '../book/RequestBook'
+import { deleteOrder } from '@/api/main'
 
 export default {
     data () {
@@ -127,21 +128,17 @@ export default {
         }
     },
     methods: {
-        deleteButtonHandler () {
-            this.$confirm('Are you sure?', 'alert', {
-                confirmButtonText: 'ok',
-                cancelButtonText: 'cancel',
-                type: 'warning'
-            }).then(() => {
-                this.$deleteOrder(this.$route.params.bkg_id, 'true', () => {
-                    this.$router.push('/frame/list/normal')
+        async deleteButtonHandler () {
+            try {
+                await this.$confirm('Are you sure?', 'alert', {
+                    confirmButtonText: 'ok',
+                    cancelButtonText: 'cancel',
+                    type: 'warning'
                 })
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: 'BE CANCELED'
-                })
-            })
+                await deleteOrder(this.$route.params.bkg_id, 'true')
+                this.$router.push('/frame/list/normal')
+            } catch (error) {
+            }
         },
         displayBookForm () {
             if (this.book === '') {

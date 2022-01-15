@@ -26,9 +26,10 @@
     </el-form>
 </template>
 <script>
-import { URL } from '@/api/main'
+import { getBookingNotice } from '@/api/main'
 import { postNewWindow } from '@/utils'
 import { common } from '@/mixin/main'
+import { BOOKING_NOTICE } from '@/constant/API'
 export default {
     mixins: [
         common
@@ -41,7 +42,7 @@ export default {
     data () {
         return {
             loading: false,
-            action: URL.BOOKING_NOTICE,
+            action: BOOKING_NOTICE,
             address: '本社',
             shipper: '',
             booking_no: '',
@@ -62,10 +63,10 @@ export default {
         }
     },
     methods: {
-        loadData () {
+        async loadData () {
             this.loading = true
-            this.$getBookingNotice(this.$route.params.bkg_id, ({ data }) => {
-                let fd = data.data
+            try {
+                const fd = await getBookingNotice(this.$route.params.bkg_id)
                 this.shipper = fd.trader.shipper
                 this.booking_no = fd.bkg.bkg_no
                 this.vessel = fd.shipper.vessel_name
@@ -103,11 +104,12 @@ export default {
                 }
                 this.common = fd.container.common
                 this.remarks = remarks
-                this.dialog.loading = false
-            })
+            } catch (error) {
+            }
+            this.dialog.loading = false
         },
         beDownload () {
-            postNewWindow(URL.BOOKING_NOTICE, {
+            postNewWindow(BOOKING_NOTICE, {
                 id: this.bkgId,
                 address: this.address,
                 shipper: this.shipper,

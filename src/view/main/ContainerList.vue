@@ -142,7 +142,7 @@
 <script>
 import { getOptionsAnsyc } from '@/mixin/main'
 import { timeCompare } from '@/utils'
-import { getContainerList } from '@/api/main'
+import { confirmDetail, getContainerList } from '@/api/main'
 export default {
     mixins: [
         getOptionsAnsyc
@@ -201,15 +201,13 @@ export default {
                 ? 'old'
                 : row.is_confirm === 1 ? 'confirm' : 'normal'
         },
-        confirm (row) {
-            this.$confirmDetail(row.id, () => {
+        async confirm (row) {
+            try {
+                await confirmDetail(row.id)
                 row.is_confirm = 1
-                this.$notify({
-                    title: 'SUCCESS',
-                    message: 'CONFIRM SUCCESS',
-                    type: 'success'
-                })
-            })
+                this.$message.success('CONFIRM SUCCESS')
+            } catch (error) {
+            }
         },
         showConfirm (vd) {
             return !timeCompare(vd)

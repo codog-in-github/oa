@@ -168,8 +168,9 @@
 import MulitSelect from '@/components/MulitSelect'
 import { getOptionsAnsyc } from '@/mixin/main'
 import { findInArray, getRandomID, postNewWindow } from '@/utils'
-import { URL } from '@/api/main'
+import { getRequestbook, getRequestbookList, hasBookByCompanyNo } from '@/api/main'
 import moment from 'moment'
+import { REQUESTBOOK } from '@/constant/API'
 
 const RATE = 'RATE'
 let extraDefault = {}
@@ -255,54 +256,54 @@ export default {
             this.form = false
         },
 
-        getbook (requestId, isCopy = false) {
-            const params = {
-                bkg_id: this.bkgId,
-                [isCopy ? 'copy_id' : 'id']: isCopy ? requestId : this.id
-            }
-            this.$getBook(params, ({ data: { data } }) => {
+        async getbook (requestId, isCopy = false) {
+            try {
+                const data = await getRequestbook({
+                    bkg_id: this.bkgId,
+                    [isCopy ? 'copy_id' : 'id']: isCopy ? requestId : this.id
+                })
                 this.formatter(data, isCopy)
                 this.form = true
-            })
+            } catch (error) {
+            }
         },
 
-        loadData (bkgId, copyBkgId) {
-            this.copyDialog = false
-            const isCopy = Boolean(copyBkgId)
-            this.bkgId = bkgId
-            this.loading = true
+        async loadData (bkgId, copyBkgId) {
+            try {
+                this.copyDialog = false
+                const isCopy = Boolean(copyBkgId)
+                this.bkgId = bkgId
+                this.loading = true
+                this.extra = []
+                this.detail = []
+                const requestList = await getRequestbookList(isCopy ? copyBkgId : bkgId)
 
-            this.extra = []
-            this.detail = []
-
-            this.$getBookList(isCopy ? copyBkgId : bkgId, async (data) => {
-                const requestList = data.data.data
                 if (requestList.length < 2) {
                     this.id = (isCopy ? this.id : requestList[0]?.id) || getRandomID()
                     this.getbook(isCopy ? requestList[0]?.id : this.id, isCopy)
                 } else {
-                    try {
-                        const id = await this.showList(requestList)
-                        this.id = isCopy ? this.id || getRandomID() : id
-                        this.getbook(isCopy ? id : this.id, isCopy)
-                    } catch (e) {
-                        console.log(e)
-                    }
+                    const id = await this.showList(requestList)
+                    this.id = isCopy ? this.id || getRandomID() : id
+                    this.getbook(isCopy ? id : this.id, isCopy)
                 }
-            })
+            } catch (error) {
+            }
         },
 
-        addReq () {
-            this.id = getRandomID()
-            const params = {
-                bkg_id: this.bkgId,
-                'id': this.id
-            }
-            this.$getBook(params, ({ data: { data } }) => {
+        async addReq () {
+            try {
+                this.id = getRandomID()
+                const params = {
+                    bkg_id: this.bkgId,
+                    'id': this.id
+                }
+                const data = await getRequestbook(params)
+
                 this.formatter(data)
                 this.$message.success('追加請求書成功')
                 this.form = true
-            })
+            } catch (error) {
+            }
         },
 
         addCol (row) {
@@ -346,7 +347,7 @@ export default {
             cb(this.options.unit.item)
         },
         beDownload () {
-            postNewWindow(URL.REQUESTBOOK, {
+            postNewWindow(REQUESTBOOK, {
                 id: this.id,
                 bkg_id: this.bkgId,
                 tel: this.tel,
@@ -440,15 +441,13 @@ export default {
             })
         },
 
-        doCopy () {
-            const { company_no, copy_field } = this
-            this.$hasBookByCompanyNo({ company_no, copy_field }, async ({ data }) => {
-                if (data.error === 0) {
-                    this.loadData(this.bkgId, data.data)
-                } else {
-                    this.$message.warning(data.message)
-                }
-            })
+        async doCopy () {
+            try {
+                const { company_no, copy_field } = this
+                const copyBkgId = await hasBookByCompanyNo({ company_no, copy_field })
+                this.loadData(this.bkgId, copyBkgId)
+            } catch (error) {
+            }
         }
     },
     watch: {

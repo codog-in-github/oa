@@ -157,7 +157,7 @@
 <script>
 import { getOptionsAnsyc } from '@/mixin/main'
 import RequestBook from './book/RequestBook.vue'
-import { getBkgList, getOrderId } from '@/api/main'
+import { changeOrderRequestStep, changeOrderState, deleteOrder, getBkgList, getOrderId, hasRequestbook } from '@/api/main'
 export default {
     mixins: [
         getOptionsAnsyc
@@ -252,10 +252,12 @@ export default {
         displayDetail (id) {
             this.$router.push(`/frame/form/${id}/view`)
         },
-        deleteHandler (id, index, isDelete = true) {
-            this.$deleteOrder(id, isDelete, () => {
+        async deleteHandler (id, index, isDelete = true) {
+            try {
+                await deleteOrder(id, isDelete)
                 this.list.splice(index, 1)
-            })
+            } catch (error) {
+            }
         },
         clearCondition () {
             for (const k in this.condition) {
@@ -263,46 +265,43 @@ export default {
             }
             this.reLoad()
         },
-        changeStep (id, index, isNext = true) {
+        async changeStep (id, index, isNext = true) {
             const step = [
                 '0',
                 '1',
                 '2'
             ]
-            this.$changeOrderRequestStep(
-                id,
-                step[step.indexOf(this.$route.params.state) + (isNext ? 1 : -1)],
-                () => {
-                    this.list.splice(index, 1)
-                }
-            )
+            try {
+                await changeOrderRequestStep(
+                    id,
+                    step[step.indexOf(this.$route.params.state) + (isNext ? 1 : -1)],
+                )
+                this.list.splice(index, 1)
+            } catch (error) {
+            }
         },
         changeState (id, val) {
-            console.log(id, val)
             clearTimeout(this.stateChangeTimer)
-            this.stateChangeTimer = setTimeout(() => {
-                this.$changeOrderState(id, val.join('|'), () => {
-                    this.$notify({
-                        title: 'SUCCESS',
-                        message: 'CHANGE SUCCESS',
-                        type: 'success'
-                    })
-                })
+            this.stateChangeTimer = setTimeout(async () => {
+                try {
+                    changeOrderState(id, val.join('|'))
+                    this.$message.success('CHANGE SUCCESS')
+                } catch (error) {
+                }
             }, 1000)
         },
         addNewOrder () {
             this.newOrder = true
             // this.$router.push('/frame/form');
         },
-        detailClickHandler (rowId) {
-            this.$hasBook(rowId, ({ data: { data } }) => {
-                if (!data) {
-                    this.selectId = rowId
-                    this.newOrder = true
-                } else {
-                    this.displayRequestbook(rowId)
-                }
-            })
+        async detailClickHandler (rowId) {
+            try {
+                await hasRequestbook(rowId)
+                this.displayRequestbook(rowId)
+            } catch (error) {
+                this.selectId = rowId
+                this.newOrder = true
+            }
         },
         async getOrderID () {
             const rowBkgId = this.selectId

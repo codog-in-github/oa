@@ -304,8 +304,9 @@
     </el-form>
 </template>
 <script>
-import { URL } from '@/api/main'
+import { getHandingData } from '@/api/main'
 import { postNewWindow } from '@/utils'
+import { BOOKING_NOTICE, HANDING } from '@/constant/API'
 export default {
     props: {
         bkg_id: {
@@ -315,7 +316,7 @@ export default {
     data () {
         return {
             loading: false,
-            action: URL.BOOKING_NOTICE,
+            action: BOOKING_NOTICE,
             form: {
                 croporate: '',
                 outputer_symbol: '',
@@ -386,10 +387,10 @@ export default {
         }
     },
     methods: {
-        loadData () {
+        async loadData () {
             this.clear()
-            this.$getHandingData(this.$route.params.bkg_id, ({ data }) => {
-                data = data.data
+            try {
+                const data = await getHandingData(this.$route.params.bkg_id)
                 for (let k in data) {
                     if (this.form[k] !== undefined) {
                         if (k === 'item_type' || k === 'c_book') {
@@ -402,7 +403,8 @@ export default {
                         }
                     }
                 }
-            })
+            } catch (error) {
+            }
         },
         clear () {
             for (let k in this.form) {
@@ -418,7 +420,7 @@ export default {
         beDownload () {
             let data = { ...this.form }
             data.bkg_id = this.$route.params.bkg_id
-            postNewWindow(URL.HANDING, data)
+            postNewWindow(HANDING, data)
         },
         cbookAdd () {
             if (this.form.c_book > 7) {
