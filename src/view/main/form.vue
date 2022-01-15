@@ -32,6 +32,7 @@ import FormUpper from './form/formUpper.vue'
 import ContainerDetail from './form/ContainerDetail.vue'
 import { common } from '@/mixin/main'
 import { getRandomID } from '@/utils'
+import { getOrder, saveOrder } from '@/api/main'
 
 export default {
     data () {
@@ -51,7 +52,8 @@ export default {
         loadinHandler (name, state) {
             this.loading[name] = state
         },
-        saveDataHandler () {
+
+        async saveDataHandler () {
             this.loading = true
             const needUpload = [
                 'header',
@@ -73,29 +75,19 @@ export default {
             if (this.isCopy) {
                 saveData.copy_id = this.$route.params.bkg_id
             }
-            this.$saveOrder(saveData, req => {
-                this.loading = false
-                const { error, message } = req.data
-                if (error !== 0) {
-                    this.$notify({
-                        title: 'error',
-                        message,
-                        type: 'error'
-                    })
-                } else {
-                    this.$notify({
-                        title: 'SUCCESS',
-                        message: 'SAVE SUCCESSFUL!',
-                        type: 'success'
-                    })
-                    setTimeout(() => {
-                        this.$router.push(`/frame/form/${saveData.header.id}/edit`)
-                    }, 500)
-                }
-            })
+            try {
+                await saveOrder(saveData)
+                this.$message.success('SAVE SUCCESSFUL!')
+                setTimeout(() => {
+                    this.$router.push(`/frame/form/${saveData.header.id}/edit`)
+                }, 500)
+            } catch (error) {
+            }
+            this.loading = false
+
         },
 
-        setDataHandler () {
+        async setDataHandler () {
             this.loading = true
             const needSet = [
                 'header',
@@ -104,14 +96,16 @@ export default {
                 'center',
                 'detail'
             ]
-            this.$getOrder(this.$route.params.bkg_id, ({ data }) => {
+            try {
+                const bkgDetail = await getOrder(this.$route.params.bkg_id)
                 for (const ref of needSet) {
                     if (this.$refs[ref].setData) {
-                        this.$refs[ref].setData(data.data)
+                        this.$refs[ref].setData(bkgDetail)
                     }
                 }
-                this.loading = false
-            })
+            } catch (error) {
+            }
+            this.loading = false
         }
     },
     beforeRouteEnter (to, from, next) {

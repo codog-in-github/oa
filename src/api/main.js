@@ -45,28 +45,6 @@ const needInterceptorsMethods = [
     {
         // 需要被拦截器的方法
         methods: {
-            $saveOrder (data, cb) {
-                this.$api.queue = () => axios.post(
-                    SAVE_ORDER,
-                    qs.stringify(data)
-                )
-                this.$api.queue = cb
-            },
-
-            $getOrder (bkg_id, cb) {
-                this.$api.queue = () => axios.get(
-                    GET_ORDER + `/bkg_id/${bkg_id}`,
-                )
-                this.$api.queue = cb
-            },
-
-            $getBookingNotice (bkg_id, cb) {
-                this.$api.queue = () => axios.get(
-                    GET_BOOKING_NOTICE + `/bkg_id/${bkg_id}`,
-                )
-                this.$api.queue = cb
-            },
-
             $getOrderID (bkg_no, cb) {
                 this.$api.queue = () => axios.get(
                     GET_ORDER_ID + `/bkg_no/${bkg_no}`,
@@ -239,4 +217,28 @@ export const getBkgList = params => Http.post({
 export const getContainerList = params => Http.post({
     url: GET_CONTAINER_LIST,
     params
+})
+
+export const saveOrder = params => Http.post({
+    url: SAVE_ORDER,
+    params
+})
+
+export const getOrder = bkg_id => Http.get({
+    url: GET_ORDER,
+    params: {
+        bkg_id
+    }
+})
+
+export const getBookingNotice = bkg_id => Http.get({
+    url: GET_BOOKING_NOTICE,
+    params: {
+        bkg_id
+    }
+})
+
+export const getOrderId = bkg_no => Http.get({
+    url: GET_ORDER_ID,
+    params: { bkg_no }
 })

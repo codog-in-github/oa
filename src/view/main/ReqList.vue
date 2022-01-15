@@ -157,7 +157,7 @@
 <script>
 import { getOptionsAnsyc } from '@/mixin/main'
 import RequestBook from './book/RequestBook.vue'
-import { getBkgList } from '@/api/main'
+import { getBkgList, getOrderId } from '@/api/main'
 export default {
     mixins: [
         getOptionsAnsyc
@@ -304,23 +304,16 @@ export default {
                 }
             })
         },
-        getOrderID () {
+        async getOrderID () {
             const rowBkgId = this.selectId
             if (this.copy_no === '') {
                 this.displayRequestbook(rowBkgId)
             } else {
-                this.$getOrderID(this.copy_no, ({ data }) => {
-                    let id = data.data
-                    if (id) {
-                        this.displayRequestbook(rowBkgId, id)
-                    } else {
-                        this.$notify({
-                            title: 'ERROR',
-                            message: 'CAN NOT FOUND THIS ORDER',
-                            type: 'error'
-                        })
-                    }
-                })
+                try {
+                    const id = await getOrderId(this.copy_no)
+                    this.displayRequestbook(rowBkgId, id)
+                } catch (error) {
+                }
             }
         },
         displayRequestbook (bkgId, copyId) {

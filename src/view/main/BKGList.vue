@@ -63,7 +63,7 @@
 </template>
 <script>
 import { getOptionsAnsyc } from '@/mixin/main'
-import { getBkgList } from '@/api/main'
+import { getBkgList, getOrderId } from '@/api/main'
 
 export default {
     mixins: [
@@ -214,22 +214,15 @@ export default {
             this.newOrder = true
             // this.$router.push('/frame/form');
         },
-        getOrderID () {
+        async getOrderID () {
             if (this.copy_no === '') {
                 this.$router.push('/frame/form')
             } else {
-                this.$getOrderID(this.copy_no, ({ data }) => {
-                    let id = data.data
-                    if (id) {
-                        this.$router.push(`/frame/form/${id}/copy`)
-                    } else {
-                        this.$notify({
-                            title: 'ERROR',
-                            message: 'CAN NOT FOUND THIS ORDER',
-                            type: 'error'
-                        })
-                    }
-                })
+                try {
+                    const id = await getOrderId(this.copy_no)
+                    this.$router.push(`/frame/form/${id}/copy`)
+                } catch (error) {
+                }
             }
         }
     }
