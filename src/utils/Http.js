@@ -23,7 +23,6 @@ export class Http {
             }
 
             if (data.error === STATE_CODE_NO_LOGIN) {
-                Message.error('please login')
                 router.push('/login')
                 return Promise.reject(data.message)
             }
