@@ -1,11 +1,7 @@
 import { Http } from '@/utils/Http'
-import { store } from '@/vuex/main'
-import axios from 'axios'
-import * as statecode from './statecode'
 import {
     LOGIN_PATH,
     LOGOUT_PATH,
-    LOGOUT_VERIFY_PATH,
     LOGIN_STATUS,
     OPTIONS_LIST,
     GET_BKG_LIST,
@@ -27,8 +23,6 @@ import {
     LAST_UPDATE
 } from '@/constant/API'
 
-axios.defaults.withCredentials = true
-
 export const login = (username, password) => Http.post({
     url: LOGIN_PATH,
     params: { username, password }
@@ -42,10 +36,7 @@ export const logout = () => Http.get({ url: LOGOUT_PATH })
 
 export const getOptions = (sid, pid) => Http.get({
     url: OPTIONS_LIST,
-    params: {
-        sid,
-        pid
-    }
+    params: { sid, pid }
 })
 
 export const getBkgList = params => Http.post({
@@ -65,16 +56,12 @@ export const saveOrder = params => Http.post({
 
 export const getOrder = bkg_id => Http.get({
     url: GET_ORDER,
-    params: {
-        bkg_id
-    }
+    params: { bkg_id }
 })
 
 export const getBookingNotice = bkg_id => Http.get({
     url: GET_BOOKING_NOTICE,
-    params: {
-        bkg_id
-    }
+    params: { bkg_id }
 })
 
 export const getOrderId = bkg_no => Http.get({

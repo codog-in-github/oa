@@ -284,7 +284,7 @@ export default {
             clearTimeout(this.stateChangeTimer)
             this.stateChangeTimer = setTimeout(async () => {
                 try {
-                    changeOrderState(id, val.join('|'))
+                    await changeOrderState(id, val.join('|'))
                     this.$message.success('CHANGE SUCCESS')
                 } catch (error) {
                 }

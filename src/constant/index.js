@@ -31,3 +31,5 @@ export const MENU = [
         ]
     }
 ]
+
+export const OREDER_STAUS = [ 'normal', 'draft', 'ready', 'complete' ]

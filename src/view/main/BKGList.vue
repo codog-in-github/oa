@@ -64,6 +64,7 @@
 <script>
 import { getOptionsAnsyc } from '@/mixin/main'
 import { changeOrderState, changeOrderStep, deleteOrder, getBkgList, getOrderId } from '@/api/main'
+import { OREDER_STAUS } from '@/constant'
 
 export default {
     mixins: [
@@ -150,11 +151,10 @@ export default {
                 this.total = parseInt(bkgList.total)
                 this.page = bkgList.page
             } catch (error) {
-                console.log('error :', error)
             }
             this.loading = false
         },
-        dateFormat (row, column, cellValue) {
+        dateFormat (_, __, cellValue) {
             return cellValue.substr(0, 10)
         },
         sizeChangeHandler (size) {
@@ -185,16 +185,10 @@ export default {
             this.reLoad()
         },
         async changeStep (id, index, isNext = true) {
-            const step = [
-                'normal',
-                'draft',
-                'ready',
-                'complete'
-            ]
             try {
                 await changeOrderStep(
                     id,
-                    step[step.indexOf(this.$route.params.state) + (isNext ? 1 : -1)],
+                    OREDER_STAUS[OREDER_STAUS.indexOf(this.$route.params.state) + (isNext ? 1 : -1)],
                 )
                 this.list.splice(index, 1)
             } catch (error) {
