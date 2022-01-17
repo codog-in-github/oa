@@ -42,6 +42,7 @@
                         v-model="forwarder"
                         @focus="getOptionsAnsyc(7, options.forwarder)"
                         @change="setFStaffDefaultVal"
+                        :clearable="true"
                         size="mini">
                         <el-option
                             v-for="{id, value, label} in options.forwarder.item"
@@ -175,11 +176,11 @@ export default {
             }
         },
         setFStaffDefaultVal () {
-            this.f_staff = findInArray('extra',
+            this.f_staff = this.forwarder ? findInArray('extra',
                 this.forwarder,
                 this.options.forwarder.item,
                 'value'
-            )
+            ) : ''
         }
     },
     mixins: [
@@ -190,5 +191,3 @@ export default {
     }
 }
 </script>
-<style scoped>
-</style>
