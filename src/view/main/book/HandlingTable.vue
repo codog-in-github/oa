@@ -376,6 +376,7 @@ export default {
                 extra_money: '',
                 bl_no: '',
                 request_book: '',
+                service: '',
                 c_book: [
                     '',
                     '',

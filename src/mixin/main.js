@@ -3,14 +3,13 @@ import { mapState } from 'vuex'
 
 export const getOptionsAnsyc = {
     methods: {
-        async getOptionsAnsyc (selectId, options, pid) {
+        async getOptionsAnsyc (selectId, options, pid = '') {
             if (options.loaded !== true) {
                 options.loaded = true
                 const localOpt = localStorage.getItem(`options_${selectId}_${pid || ''}`)
                 if (localOpt) {
                     // 检测是否本地缓存
-                    options.item.splice(0, options.item.length)
-                    options.item.push(...JSON.parse(localOpt))
+                    options.item = JSON.parse(localOpt)
                 } else {
                     options.loading = true
                     const optData = await getOptions(selectId, pid)

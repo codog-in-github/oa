@@ -179,22 +179,23 @@ export default {
 }
 .left{
     width: 33%;
-    flex-grow: 0;
+    flex: 0 0 auto;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     margin-right: 3px;
-    flex-shrink: 0;
 
 }
 .center{
     flex-flow: 0;
     margin-right: 3px;
+    overflow: auto;
     .common();
 }
 .right{
-    flex-grow: 1;
     .common();
+    flex-grow: 1;
+    flex-shrink: 1;
 }
 .upper{
     margin-bottom: 3px;

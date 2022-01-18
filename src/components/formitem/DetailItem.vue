@@ -38,11 +38,11 @@
                 <el-input v-model="detailData.booker_place" size="mini"/>
             </title-group>
             <title-group title="バンニング日">
-                <el-date-picker v-model="detailData.vanning_date" size="mini" value-format="yyyy-MM-dd"/>
+                <el-date-picker v-model="detailData.vanning_date" style="width:150px;" size="mini" value-format="yyyy-MM-dd"/>
             </title-group>
             <title-group title="空PICK日">
                 <el-date-picker
-                    style="width:auto;"
+                    style="width:150px;"
                     v-model="detailData.free_pick_day"
                     value-format="yyyy-MM-dd"
                     size="mini"
@@ -50,6 +50,7 @@
             </title-group>
             <title-group title="開時/終時">
                 <el-time-picker
+                    style="width:180px;"
                     v-model="formatTime"
                     is-range
                     value-format="HH:mm"
@@ -123,39 +124,46 @@ export default {
     }
 }
 </script>
-<style scoped>
+<style lang="less" scoped>
 .detail{
     display: flex;
     justify-content: space-around;
     border: solid #000 1px;
+    width: 100%;
+
+    &:nth-child(n + 2){
+        margin-top: .5em;
+    }
 }
-.detail+.detail{
-    margin-top: 4px;
-}
+
 .flag{
     flex: 0 0 2em;
 }
+
 .inputs{
-    width: 1px;
-    flex: 1 1 10px;
+    flex: 1 1 auto;
     display: flex;
     flex-flow: wrap;
+
+    /deep/ .el-input{
+        width: 14em;
+    }
+
+    & > div{
+        margin: .2em .5em;
+        flex: 0 0 auto;
+    }
 }
-.inputs > div{
-    width: 10em;
-    flex: 0 0 auto;
-}
-.inputs>div:last-child{
-    width: auto !important;
-}
+
 .buttons{
+    flex: 0 0 auto;
     display: flex;
     flex-flow: column;
     flex: 0 0  4em;
     align-items:inherit;
     justify-content: space-around;
-}
-.buttons>*{
-    margin-left: 0;
+    & > *{
+        margin-left: 0;
+    }
 }
 </style>

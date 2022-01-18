@@ -36,6 +36,13 @@ import DetailItem from '@/components/formitem/DetailItem.vue'
 import { getRandomID, findInArray } from '@/utils'
 import { common, getOptionsAnsyc } from '@/mixin/main'
 export default {
+    mixins: [
+        getOptionsAnsyc,
+        common
+    ],
+    components: {
+        DetailItem
+    },
     computed: {
         ...mapState('form', {
             container: state => state.container.filter(i => !i.delete_at),
@@ -117,9 +124,11 @@ export default {
                 this.containerDetailList.push(this.createFirstEmptyContainerDetailData(container.id, container.container_type))
             }
         },
+
         addHandler () {
             this.containerDetailList.push(this.createEmptyContainerDetailData(this.displayContainerId, findInArray('container_type', this.displayContainerId, this.container)))
         },
+
         copyHandler (data) {
             const copy = { ...data }
             copy.id = getRandomID()
@@ -147,6 +156,7 @@ export default {
             emptyData.container_id = containerId
             return emptyData
         },
+
         createFirstEmptyContainerDetailData (containerId, container_type) {
             const emptyData = {
                 container_type,
@@ -173,9 +183,11 @@ export default {
             emptyData.booker_place = this.booker.place
             return emptyData
         },
+
         getData () {
             return this.containerDetailList
         },
+
         setData ({ detail }) {
             if (this.isCopy) {
                 const clearCols = [
@@ -194,15 +206,7 @@ export default {
             }
             console.log(detail)
             this.containerDetailList = detail
-
         }
-    },
-    mixins: [
-        getOptionsAnsyc,
-        common
-    ],
-    components: {
-        DetailItem
     }
 }
 </script>
