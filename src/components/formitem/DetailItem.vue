@@ -38,11 +38,10 @@
                 <el-input v-model="detailData.booker_place" size="mini"/>
             </title-group>
             <title-group title="バンニング日">
-                <el-date-picker v-model="detailData.vanning_date" style="width:150px;" size="mini" value-format="yyyy-MM-dd"/>
+                <el-date-picker v-model="detailData.vanning_date" size="mini" value-format="yyyy-MM-dd"/>
             </title-group>
             <title-group title="空PICK日">
                 <el-date-picker
-                    style="width:150px;"
                     v-model="detailData.free_pick_day"
                     value-format="yyyy-MM-dd"
                     size="mini"
@@ -50,7 +49,6 @@
             </title-group>
             <title-group title="開時/終時">
                 <el-time-picker
-                    style="width:180px;"
                     v-model="formatTime"
                     is-range
                     value-format="HH:mm"
@@ -145,8 +143,9 @@ export default {
     display: flex;
     flex-flow: wrap;
 
-    /deep/ .el-input{
-        width: 14em;
+    /deep/ .el-input,
+    /deep/ .el-date-editor{
+        width: 180px;
     }
 
     & > div{
