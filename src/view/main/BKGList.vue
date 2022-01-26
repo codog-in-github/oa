@@ -96,33 +96,27 @@ export default {
     },
     computed: {
         showNewOrder () {
-            return this.$route.params.state != 'delete'
+            return this.$route.params.state !== 'delete'
         },
         showNext () {
-            return this.$route.params.state == 'normal' ||
-                this.$route.params.state == 'draft' ||
-                this.$route.params.state == 'ready'
+            const { state } = this.$route.params
+            return state === 'normal' || state === 'draft' || state === 'ready'
         },
         showPrevious () {
-            return this.$route.params.state == 'draft' ||
-                this.$route.params.state == 'ready' ||
-                this.$route.params.state == 'complete'
+            const { state } = this.$route.params
+            return state === 'draft' || state === 'ready' || state === 'complete'
         },
         showDetail () {
-            return this.$route.params.state != 'normal' &&
-                this.$route.params.state != 'ready' &&
-                this.$route.params.state != 'draft'
+            return this.$route.params.state === 'delete'
         },
         showEdit () {
-            return this.$route.params.state == 'normal' ||
-                this.$route.params.state == 'ready' ||
-                this.$route.params.state == 'draft'
+            return this.$route.params.state !== 'delete'
         },
         showDelete () {
-            return this.$route.params.state == 'normal'
+            return this.$route.params.state === 'normal'
         },
         showRestore () {
-            return this.$route.params.state == 'delete'
+            return this.$route.params.state === 'delete'
         }
     },
     mounted () {

@@ -120,20 +120,14 @@ export default {
             if (this.van_place.length < 6) {
                 this.van_place.push('')
             } else {
-                this.$notify.error({
-                    title: 'error',
-                    message: 'max 6'
-                })
+                this.$message.error('max 6')
             }
         },
         containerTypeAddHandler () {
             if (this.container.filter(i => !i.delete_at).length < 6) {
                 this.$store.commit('form/containerAddNew')
             } else {
-                this.$notify.error({
-                    title: 'error',
-                    message: 'max 6'
-                })
+                this.$message.error('max 6')
             }
         },
         getData () {
