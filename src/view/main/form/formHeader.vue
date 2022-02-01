@@ -136,7 +136,7 @@ export default {
                     type: 'warning'
                 })
                 await deleteOrder(this.$route.params.bkg_id, 'true')
-                this.$router.push('/frame/list/normal')
+                this.$router.push('/list/normal')
             } catch (error) {
             }
         },

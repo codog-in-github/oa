@@ -79,7 +79,7 @@ export default {
                 await saveOrder(saveData)
                 this.$message.success('SAVE SUCCESSFUL!')
                 setTimeout(() => {
-                    this.$router.push(`/frame/form/${saveData.header.id}/edit`)
+                    this.$router.push(`/form/${saveData.header.id}/edit`)
                 }, 500)
             } catch (error) {
             }

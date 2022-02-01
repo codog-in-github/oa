@@ -247,10 +247,10 @@ export default {
             this.reLoad()
         },
         doEdit (id) {
-            this.$router.push(`/frame/form/${id}/edit`)
+            this.$router.push(`/form/${id}/edit`)
         },
         displayDetail (id) {
-            this.$router.push(`/frame/form/${id}/view`)
+            this.$router.push(`/form/${id}/view`)
         },
         async deleteHandler (id, index, isDelete = true) {
             try {
@@ -292,7 +292,7 @@ export default {
         },
         addNewOrder () {
             this.newOrder = true
-            // this.$router.push('/frame/form');
+            // this.$router.push('/form');
         },
         async detailClickHandler (rowId) {
             try {

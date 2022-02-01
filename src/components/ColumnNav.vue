@@ -35,7 +35,7 @@ export default {
             if (child) {
                 url.toggle = !url.toggle
             } else if (this.$route.path !== to) {
-                if (this.$route.path.indexOf('/frame/form') !== -1 && this.$route.params.mode !== 'view') {
+                if (this.$route.path.indexOf('/form') !== -1 && this.$route.params.mode !== 'view') {
                     this.$confirm('Do you want to leave this page', 'warning', {
                         confirmButtonText: 'ok',
                         cancelButtonText: 'cancel',

@@ -221,10 +221,10 @@ export default {
             this.reLoad()
         },
         doEdit (id) {
-            this.$router.push(`/frame/form/${id}/edit`)
+            this.$router.push(`/form/${id}/edit`)
         },
         displayDetail (id) {
-            this.$router.push(`/frame/form/${id}/view`)
+            this.$router.push(`/form/${id}/view`)
         },
         clearCondition () {
             for (const k in this.condition) {

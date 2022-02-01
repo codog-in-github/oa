@@ -160,10 +160,10 @@ export default {
             this.reLoad()
         },
         doEdit (id) {
-            this.$router.push(`/frame/form/${id}/edit`)
+            this.$router.push(`/form/${id}/edit`)
         },
         displayDetail (id) {
-            this.$router.push(`/frame/form/${id}/view`)
+            this.$router.push(`/form/${id}/view`)
         },
         async deleteHandler (id, index, isDelete = true) {
             try {
@@ -203,11 +203,11 @@ export default {
         },
         async getOrderID () {
             if (this.copy_no === '') {
-                this.$router.push('/frame/form')
+                this.$router.push('/form')
             } else {
                 try {
                     const id = await getOrderId(this.copy_no)
-                    this.$router.push(`/frame/form/${id}/copy`)
+                    this.$router.push(`/form/${id}/copy`)
                 } catch (error) {
                 }
             }

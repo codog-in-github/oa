@@ -14,25 +14,28 @@ let routes = [
         children: [
             {
                 path: '/frame',
-                redirect: '/frame/list/normal'
+                redirect: '/list/normal'
             }, {
-                path: '/frame/form',
+                path: '/form',
                 component: () => import('@/view/main/form.vue')
             }, {
-                path: '/frame/form/:bkg_id/:mode',
+                path: '/form/:bkg_id/:mode',
                 component: () => import('@/view/main/form.vue')
             }, {
-                path: '/frame/list',
+                path: '/list',
                 component: () => import('@/view/main/BKGList.vue')
             }, {
-                path: '/frame/list/:state',
+                path: '/list/:state',
                 component: () => import('@/view/main/BKGList.vue')
             }, {
-                path: '/frame/container-list',
+                path: '/container-list',
                 component: () => import('@/view/main/ContainerList.vue')
             }, {
-                path: '/frame/req/:state',
+                path: '/req/:state',
                 component: () => import('@/view/main/ReqList.vue')
+            }, {
+                path: '/calender',
+                component: () => import('@/view/CutCalender.vue')
             }
 
         ]
