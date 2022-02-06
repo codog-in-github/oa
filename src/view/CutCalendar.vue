@@ -2,7 +2,7 @@
     <div class="box">
         <week-clandar v-model="currentDate">
             <div slot-scope="{day}" class="day">
-                <div>{{day.format('M-D')}}</div>
+                <div class="day-title">{{day.format('M-D')}}</div>
                 <div class="cell-row" v-for="bkg of calendarMap[day.format('YYYY-MM-DD')]" :key="bkg.id" @click.stop="showDetail(bkg.id)">
                     <div class="short-name">{{ bkg.short_name }}</div>
                     <div class="quantity">{{ bkg.quantity }}本</div>

@@ -2,7 +2,7 @@
     <div class="box">
         <week-clandar v-model="currentDate">
             <div slot-scope="{day}" class="day">
-                <div>{{day.format('M-D')}}</div>
+                <div class="day-title">{{day.format('M-D')}}</div>
                 <div class="cell-row" v-for="bkg of getRealDay(day)" :key="bkg.detail_id" @click.stop="showDetail(bkg.id)">
                     <div class="short-name">{{ bkg.short_name }}</div>
                     <div class="quantity">{{ bkg.quantity }}本</div>
@@ -11,12 +11,7 @@
                         <div>{{ bkg.dp }}</div>
                     </div>
                     <div class="bkg-no">{{ bkg.bkg_no }}</div>
-                    <el-popover trigger="click" v-if="bkg.calendar_status">
-                        <el-radio-group v-if="bkg.state" @change="value => changeStatus(value, bkg)" v-model="bkg.calendar_status">
-                            <el-radio v-for="(status, i) of bkg.state.split('|')" :key="i" :label="status">{{status}}</el-radio>
-                        </el-radio-group>
-                        <div slot="reference" @click.stop="" class="calendar-status">{{ bkg.calendar_status }}</div>
-                    </el-popover>
+                    <div v-if="bkg.transprotation_short_name"  class="calendar-status">{{ bkg.transprotation_short_name }}</div>
                     <div v-else class="calendar-status-empty"></div>
                 </div>
             </div>
