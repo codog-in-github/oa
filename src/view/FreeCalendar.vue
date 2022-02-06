@@ -3,7 +3,7 @@
         <week-clandar v-model="currentDate">
             <div slot-scope="{day}" class="day">
                 <div>{{day.format('M-D')}}</div>
-                <div class="cell-row" v-for="bkg of calendarMap[day.format('YYYY-MM-DD')]" :key="bkg.id" @click.stop="showDetail(bkg.id)">
+                <div class="cell-row" v-for="bkg of getRealDay(day)" :key="bkg.detail_id" @click.stop="showDetail(bkg.id)">
                     <div class="short-name">{{ bkg.short_name }}</div>
                     <div class="quantity">{{ bkg.quantity }}本</div>
                     <div>
@@ -26,7 +26,7 @@
 
 <script>
 import moment from 'moment'
-import { getCalendar, setCalendarStatus } from '@/api/main'
+import { getDetailCalendar, setCalendarStatus } from '@/api/main'
 import WeekClandar from '@/components/WeekClandar.vue'
 
 moment.locale('ja')
@@ -51,13 +51,13 @@ export default {
             this.loading = true
             try {
                 const params = { start_date, end_date }
-                const list = await getCalendar(params)
+                const list = await getDetailCalendar(params)
                 const map = {}
                 for (const item of list) {
-                    if (map[item.cy_cut]) {
-                        map[item.cy_cut].push(item)
+                    if (map[item.free_pick_day]) {
+                        map[item.free_pick_day].push(item)
                     } else {
-                        map[item.cy_cut] = [item]
+                        map[item.free_pick_day] = [item]
                     }
                 }
                 this.calendarMap = map
@@ -67,8 +67,8 @@ export default {
         },
 
         changeCurrentDate (date) {
-            const start_date = moment(date).startOf('month').format('YYYY-MM-DD')
-            const end_date = moment(date).endOf('month').format('YYYY-MM-DD')
+            const start_date = moment(date).day(2).format('YYYY-MM-DD')
+            const end_date = moment(date).day(8).format('YYYY-MM-DD')
 
             if (this.start_date !== start_date || this.end_date !== end_date) {
                 this.getMonthOrder(start_date, end_date)
@@ -82,6 +82,10 @@ export default {
             this.$router.push(`/form/${id}/edit`)
         },
 
+        format (date) {
+            return date.getDate()
+        },
+
         async changeStatus (status, bkg) {
             try {
                 await setCalendarStatus({
@@ -90,6 +94,11 @@ export default {
                 })
             } catch (error) {
             }
+        },
+
+        getRealDay (day) {
+            const real = day.clone().add(day.get('day') === 5 ? 3 : 1, 'day').format('YYYY-MM-DD')
+            return this.calendarMap[real]
         }
     },
 

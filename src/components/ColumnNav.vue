@@ -54,7 +54,7 @@ export default {
             }
         },
         isFocus (to) {
-            return this.$route.path.indexOf(to) !== -1
+            return this.$route.path === to
         }
     }
 }

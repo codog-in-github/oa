@@ -22,7 +22,8 @@ import {
     GET_HANDING_DATA,
     LAST_UPDATE,
     GET_CALENDAR,
-    SET_CALENDAR_STATUS
+    SET_CALENDAR_STATUS,
+    GET_DETAIL_CALENDAR
 } from '@/constant/API'
 
 export const login = (username, password) => Http.post({
@@ -128,5 +129,10 @@ export const getCalendar = params => Http.get({
 
 export const setCalendarStatus = params => Http.get({
     url: SET_CALENDAR_STATUS,
+    params
+})
+
+export const getDetailCalendar = params => Http.get({
+    url: GET_DETAIL_CALENDAR,
     params
 })

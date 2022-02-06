@@ -1,0 +1,51 @@
+.box{
+    padding: 10px;
+}
+
+.cell-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #efefef;
+
+    &:nth-child(n+2){
+        margin-top: 10px;
+    }
+
+    &>*:nth-child(n+2){
+        padding-left: .5em;
+    }
+}
+
+@icon-size: 1.2em;
+.calendar-status,
+.short-name{
+    width: @icon-size;
+    height: @icon-size;
+    line-height: @icon-size;
+    border-radius: 100%;
+    background: #000;
+    color: #fff;
+    text-align: center;
+    padding: @icon-size * 0.2;
+
+}
+
+.calendar-status-empty{
+    width: @icon-size;
+    height: @icon-size;
+    line-height: @icon-size;
+    padding: @icon-size * 0.2;
+}
+
+.bkg-no{
+    width: 25%;
+    word-wrap:break-word;
+}
+
+.quantity{
+    white-space: nowrap;
+}
+.day{
+    padding: 10px;
+}

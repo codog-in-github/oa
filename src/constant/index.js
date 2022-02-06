@@ -18,6 +18,7 @@ export const MENU = [
         toggle: true,
         class: 'el-icon-s-order',
         child: [
+            { to: '/calendar-d', label: 'PICK チェック' },
             { to: '/container-list', label: 'ドライバー情報' }
         ]
     },

@@ -2,12 +2,14 @@
     <div>
         <div class="title">
             <div></div>
-            <h2 class="left">{{value.format('YYYY-MM')}}</h2>
-            <el-button-group class="right">
-                <el-button @click="lastWeek">前週</el-button>
-                <el-button @click="thisWeek">本週</el-button>
-                <el-button @click="nextWeek">翌週</el-button>
-            </el-button-group>
+            <h2 class="month">{{value.format('YYYY-MM')}}</h2>
+            <div class="btn">
+                <el-button-group>
+                    <el-button @click="lastWeek">前週</el-button>
+                    <el-button @click="thisWeek">本週</el-button>
+                    <el-button @click="nextWeek">翌週</el-button>
+                </el-button-group>
+            </div>
         </div>
 
         <table class="calendar">
@@ -84,12 +86,20 @@ export default {
     }
 }
 
-.left{
-    float: left;
-    text-align: center;
-}
+.title{
+    display: flex;
+    justify-content: space-between;
 
-.right{
-    float: right;
+    .month{
+        text-align: center;
+    }
+
+    .btn{
+        text-align: right;
+    }
+
+    &>*{
+        width: 30%;
+    }
 }
 </style>

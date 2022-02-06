@@ -36,6 +36,9 @@ let routes = [
             }, {
                 path: '/calendar',
                 component: () => import('@/view/CutCalendar.vue')
+            }, {
+                path: '/calendar-d',
+                component: () => import('@/view/FreeCalendar.vue')
             }
 
         ]

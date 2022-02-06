@@ -34,6 +34,7 @@ export const CHANGE_ORDER_STEP = API_BASE_PATH + '/Bkg/changeOrderStep'
 export const SET_CALENDAR_STATUS = API_BASE_PATH + '/Bkg/setCalendarStatus'
 export const CHANGE_ORDER_REQUEST_STEP = API_BASE_PATH + '/Bkg/changeOrderRequestStep'
 export const GET_CALENDAR = API_BASE_PATH + '/bkg/getCalendar'
+export const GET_DETAIL_CALENDAR = API_BASE_PATH + '/bkg/getDetailCalendar'
 
 export const GET_REQUESTBOOK = API_BASE_PATH + '/Requestbook/getBook'
 export const GET_REQUESTBOOK_LIST = API_BASE_PATH + '/Requestbook/getBookList'
