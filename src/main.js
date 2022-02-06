@@ -5,7 +5,7 @@ import { router } from '@/router/main'
 import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
 import './assets/style/public.css'
-import locale from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale/lang/ja'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI, { locale })

@@ -34,8 +34,8 @@ let routes = [
                 path: '/req/:state',
                 component: () => import('@/view/main/ReqList.vue')
             }, {
-                path: '/calender',
-                component: () => import('@/view/CutCalender.vue')
+                path: '/calendar',
+                component: () => import('@/view/CutCalendar.vue')
             }
 
         ]

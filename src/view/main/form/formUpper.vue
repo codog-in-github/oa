@@ -10,34 +10,25 @@
                         size="mini"
                         @focus="getOptionsAnsyc(8, options.booker)"
                         @change="setBStaffDefaultVal"
-                        @select="val=>{booker=val.booker;shipper=val.booker;}"
+                        @select="val=>{ booker=val.booker; shipper=val.booker; short_name=val.short_name}"
                         :fetch-suggestions="querySearch"
-
                     >
-                    <template slot-scope="{ item }">
-                        {{ item.booker }}
-                    </template>
+                        <template slot-scope="{ item }">{{ item.booker }}</template>
                     </el-autocomplete>
                 </title-group>
                 <span class="delimiter">&sol;</span>
-                <title-group
-                    title="B/STAFF">
-                    <el-input
-                        size="mini"
-                        v-model="b_staff"
-                    ></el-input>
+                <title-group title="B/STAFF">
+                    <el-input size="mini" v-model="b_staff" ></el-input>
+                </title-group>
+                <title-group title="略称">
+                    <el-input size="mini" v-model="short_name"></el-input>
                 </title-group>
             </div>
-            <title-group
-                title="SHIPPER">
-                <el-input
-                    size="mini"
-                    v-model="shipper"
-                ></el-input>
+            <title-group title="SHIPPER">
+                <el-input size="mini" v-model="shipper"/>
             </title-group>
             <div class="group">
-                <title-group
-                    title="通関会社">
+                <title-group title="通関会社">
                     <el-select
                         v-model="forwarder"
                         @focus="getOptionsAnsyc(7, options.forwarder)"
@@ -49,47 +40,30 @@
                             :key="id"
                             :value="value"
                             :label="label"
-                        ></el-option>
+                        />
                     </el-select>
                 </title-group>
                 <span class="delimiter">&sol;</span>
-                <title-group
-                    title="F/STAFF">
-                    <el-input
-                        size="mini"
-                        v-model="f_staff"
-                    ></el-input>
+                <title-group title="F/STAFF">
+                    <el-input size="mini" v-model="f_staff"></el-input>
                 </title-group>
             </div>
-            <title-group
-                title="CONSIGNEE">
-                <el-input
-                    size="mini"
-                    v-model="consignee"
-                ></el-input>
+            <title-group title="CONSIGNEE">
+                <el-input size="mini" v-model="consignee"/>
             </title-group>
             <div class="group">
-                <title-group
-                    title="BOOKING先">
-                    <!-- <el-input
+                <title-group title="BOOKING先">
+                    <el-autocomplete
                         v-model="drayage"
+                        @focus="getOptionsAnsyc(5, options.drayage)"
+                        @select="setDStaff"
+                        :fetch-suggestions="queryDrayageSearch"
                         size="mini">
-                    </el-input> -->
-                        <el-autocomplete
-                            v-model="drayage"
-                            @focus="getOptionsAnsyc(5, options.drayage)"
-                            @select="setDStaff"
-                            :fetch-suggestions="queryDrayageSearch"
-                            size="mini">
-                        </el-autocomplete>
+                    </el-autocomplete>
                 </title-group>
                 <span class="delimiter">&sol;</span>
-                <title-group
-                    title="D/STAFF">
-                    <el-input
-                        size="mini"
-                        v-model="d_staff"
-                    ></el-input>
+                <title-group title="D/STAFF">
+                    <el-input size="mini" v-model="d_staff" />
                 </title-group>
             </div>
         </div>
@@ -111,7 +85,7 @@ export default {
             consignee: null,
             drayage: null,
             d_staff: null,
-
+            short_name: '',
             options: {
                 booker: { item: [], loading: false },
                 forwarder: { item: [], loading: false },
@@ -143,7 +117,8 @@ export default {
                 f_staff: this.f_staff,
                 consignee: this.consignee,
                 drayage: this.drayage,
-                d_staff: this.d_staff
+                d_staff: this.d_staff,
+                short_name: this.short_name
             }
         },
         setData ({ trader, booker }) {
@@ -155,6 +130,7 @@ export default {
             this.consignee = trader.consignee
             this.drayage = trader.drayage
             this.d_staff = trader.d_staff
+            this.short_name = trader.short_name
             if (booker) {
                 this.$store.state.form.booker = booker
             }

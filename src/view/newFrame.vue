@@ -127,6 +127,7 @@ header>*+*{
 .view{
     height: 100%;
     background-color: #fff;
+    overflow: auto;
 }
 @media print {
     header,

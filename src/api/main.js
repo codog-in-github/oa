@@ -20,7 +20,9 @@ import {
     HAS_REQUESTBOOK,
     GET_BOOKING_NOTICE,
     GET_HANDING_DATA,
-    LAST_UPDATE
+    LAST_UPDATE,
+    GET_CALENDAR,
+    SET_CALENDAR_STATUS
 } from '@/constant/API'
 
 export const login = (username, password) => Http.post({
@@ -117,4 +119,14 @@ export const hasBookByCompanyNo = params => Http.get({
 export const hasRequestbook = bkg_id => Http.get({
     url: HAS_REQUESTBOOK,
     params: { bkg_id }
+})
+
+export const getCalendar = params => Http.get({
+    url: GET_CALENDAR,
+    params
+})
+
+export const setCalendarStatus = params => Http.get({
+    url: SET_CALENDAR_STATUS,
+    params
 })

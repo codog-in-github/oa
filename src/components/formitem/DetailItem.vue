@@ -22,6 +22,9 @@
             <title-group title="運送業">
                 <el-input v-model="detailData.transprotation" size="mini"/>
             </title-group>
+            <title-group title="略称">
+                <el-input v-model="detailData.short_name" size="mini"/>
+            </title-group>
             <title-group title="担当者">
                 <el-input v-model="detailData.charge" size="mini"/>
             </title-group>
