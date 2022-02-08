@@ -5,8 +5,7 @@
                 船社情报
             </div>
                 <div class="group">
-                    <title-group
-                        title="CARRIER">
+                    <title-group     title="CARRIER">
                         <el-autocomplete
                             v-model="carrier"
                             @focus="getOptionsAnsyc(5, options.carrier)"
@@ -16,37 +15,24 @@
                         </el-autocomplete>
                     </title-group>
                     <span class="delimiter">&sol;</span>
-                    <title-group
-                        title="C/STAFF">
+                    <title-group     title="C/STAFF">
                         <el-input
                             size="mini"
                             v-model="c_staff"
-                        ></el-input>
+                        />
                     </title-group>
             </div>
             <div class="group">
-                <title-group
-                    title="SERVICE">
-                    <el-input
-                        size="mini"
-                        v-model="service"
-                    ></el-input>
+                <title-group title="SERVICE">
+                    <el-input size="mini" v-model="service"/>
                 </title-group>
                 <div class="group">
-                    <title-group
-                        title="VESSEL NAME">
-                        <el-input
-                            v-model="vessel_name"
-                            size="mini">
-                        </el-input>
+                    <title-group title="VESSEL NAME">
+                        <el-input v-model="vessel_name" size="mini" />
                     </title-group>
                     <span class="delimiter">&sol;</span>
-                    <title-group
-                        title="VOYAGE">
-                        <el-input
-                            size="mini"
-                            v-model="voyage"
-                        ></el-input>
+                    <title-group title="VOYAGE">
+                        <el-input size="mini" v-model="voyage"/>
                     </title-group>
                 </div>
             </div>
@@ -56,8 +42,7 @@
                 <div class="title">
                     PORT OF LOADING
                 </div>
-                <title-group
-                    title="Country/Region">
+                <title-group title="Country/Region">
                     <el-select
                         filterable
                         :filter-method="val=>(keywords.port_of_loading_country=val)"
@@ -75,8 +60,7 @@
                         </el-option>
                     </el-select>
                 </title-group>
-                <title-group
-                    title="Port">
+                <title-group title="Port">
                     <el-select
                         filterable
                         :filter-method="val=>(keywords.port_of_loading_port=val)"
@@ -90,63 +74,57 @@
                             :key="id"
                             :label="code"
                             :value="value"
-                        >
+                            >
                             <div class="country-opt"><span>{{label}}</span><span>({{code}})</span></div>
                         </el-option>
                     </el-select>
                 </title-group>
-                <title-group
-                    title="ETA">
+                <title-group title="ETA">
                     <el-date-picker
                         style="width:auto;"
                         size="mini"
                         value-format="yyyy-MM-dd"
                         v-model="port_of_loading.eta"
-                    ></el-date-picker>
+                    />
                 </title-group>
-                <title-group
-                    title="ETD">
+                <title-group title="ETD">
                     <el-date-picker
                         style="width:auto;"
                         size="mini"
                         value-format="yyyy-MM-dd"
                         v-model="port_of_loading.etd"
-                    ></el-date-picker>
+                    />
                 </title-group>
-                <title-group
-                    title="CY OPEN">
+                <title-group title="CY OPEN">
                     <el-date-picker
                         style="width:auto;"
                         size="mini"
                         value-format="yyyy-MM-dd"
                         v-model="port_of_loading.cy_open"
-                    ></el-date-picker>
+                    />
                 </title-group>
-                <title-group
-                    title="CY CUT">
+                <title-group title="CY CUT">
                     <el-date-picker
                         style="width:auto;"
                         size="mini"
                         value-format="yyyy-MM-dd"
                         v-model="port_of_loading.cy_cut"
-                    ></el-date-picker>
+                    />
                 </title-group>
-                <title-group
-                    title="DOC CUT">
+                <title-group title="DOC CUT">
                     <el-date-picker
                         style="width:auto;"
                         size="mini"
                         value-format="yyyy-MM-dd"
                         v-model="port_of_loading.doc_cut"
-                    ></el-date-picker>
+                    />
                 </title-group>
             </div>
             <div class="delivery">
                 <div class="title">
                     PORT OF DELIVERY
                 </div>
-                <title-group
-                    title="Country/Region">
+                <title-group title="Country/Region">
                     <el-select
                         filterable
                         :filter-method="val=>(keywords.port_of_delivery_country=val)"
@@ -164,8 +142,7 @@
                         </el-option>
                     </el-select>
                 </title-group>
-                <title-group
-                    title="Port">
+                <title-group title="Port">
                     <el-select
                         filterable
                         :filter-method="val=>(keywords.port_of_delivery_port=val)"
@@ -184,30 +161,67 @@
                         </el-option>
                     </el-select>
                 </title-group>
-                <title-group
-                    title="ETA">
+                <title-group title="ETA">
                     <el-date-picker
                         style="width:auto;"
                         size="mini"
                         value-format="yyyy-MM-dd"
                         v-model="port_of_delivery.eta"
-                    ></el-date-picker>
+                    />
                 </title-group>
-                <title-group
-                    title="FREE TIME DEM">
+                <title-group title="FREE TIME DEM">
                     <el-input
                         size="mini"
                         type="number"
                         v-model="port_of_delivery.free_time_dem"
-                    ></el-input>
+                    />
                 </title-group>
-                <title-group
-                    title="FREE TIME DET">
+                <title-group title="FREE TIME DET">
                     <el-input
                         type="number"
                         size="mini"
                         v-model="port_of_delivery.free_time_det"
-                    ></el-input>
+                    />
+                </title-group>
+                <div class="title" style="margin-top:2em;">
+                    PORT OF DISCHARGE
+                </div>
+                <title-group title="Country/Region">
+                    <el-select
+                        filterable
+                        :filter-method="val=>(keywords.port_of_discharge_country=val)"
+                        v-model="port_of_discharge.country"
+                        :loading="options.country.loading"
+                        @focus="getOptionsAnsyc(2, options.country)"
+                        size="mini">
+                        <el-option
+                            v-for="{id, label, value, code} in searchedOptios('port_of_discharge_country', 'country')"
+                            :key="id"
+                            :value="value"
+                            :label="code"
+                        >
+                            <div class="country-opt"><span>{{label}}</span><span>({{code}})</span></div>
+                        </el-option>
+                    </el-select>
+                </title-group>
+                <title-group title="Port">
+                    <el-select
+                        filterable
+                        :filter-method="val=>(keywords.port_of_discharge_port=val)"
+                        size="mini"
+                        :loading="options.port_of_discharge.loading"
+                        v-model="port_of_discharge.port"
+                        @change="formatPort('port_of_discharge')"
+                    >
+                        <el-option
+                            v-for="{id, label, value, code} in searchedOptios('port_of_discharge_port', 'port_of_discharge')"
+                            :key="id"
+                            :value="value"
+                            :label="code"
+                        >
+                            <div class="country-opt"><span>{{label}}</span><span>({{code}})</span></div>
+                        </el-option>
+                    </el-select>
                 </title-group>
             </div>
         </div>
@@ -242,29 +256,26 @@ export default {
                 free_time_dem: null,
                 free_time_det: null
             },
+            port_of_discharge: {
+                country: null,
+                port: ''
+            },
             // 下拉选项
             options: {
                 country: { loading: false, item: [] },
                 port_of_loading: { loading: false, item: [] },
                 port_of_delivery: { loading: false, item: [] },
+                port_of_discharge: { loading: false, item: [] },
                 carrier: { loading: false, item: [] }
             },
             // 用于搜索的关键字
             keywords: {
                 port_of_loading_country: '',
                 port_of_delivery_country: '',
+                port_of_discharge_country: '',
                 port_of_loading_port: '',
-                port_of_delivery_port: ''
-            }
-        }
-    },
-    computed: {
-        searchedOptios () {
-            return (keywordName, optionsName) => {
-                return this.options[optionsName].item.filter(item =>
-                    item.label.toLowerCase().indexOf(this.keywords[keywordName].toLowerCase()) !== -1 ||
-                    item.code.toLowerCase().indexOf(this.keywords[keywordName].toLowerCase()) !== -1
-                )
+                port_of_delivery_port: '',
+                port_of_discharge_port: ''
             }
         }
     },
@@ -290,6 +301,17 @@ export default {
                 this.options.port_of_delivery,
                 newValue
             )
+        },
+        'port_of_discharge.country' (newValue, oldValue) {
+            if (oldValue === newValue) return
+            this.port_of_discharge.port = null
+            this.options.port_of_discharge.item = []
+            this.options.port_of_discharge.loaded = false
+            this.getOptionsAnsyc(
+                2,
+                this.options.port_of_discharge,
+                newValue
+            )
         }
     },
     mounted () {
@@ -302,6 +324,14 @@ export default {
         querySearch (str, cb) {
             cb(this.options.carrier.item.filter(item => item.label.indexOf(str || '') !== -1))
         },
+
+        searchedOptios (keywordName, optionsName) {
+            return this.options[optionsName].item.filter(item =>
+                item.label.toLowerCase().indexOf(this.keywords[keywordName].toLowerCase()) !== -1 ||
+                item.code.toLowerCase().indexOf(this.keywords[keywordName].toLowerCase()) !== -1
+            )
+        },
+
         setCStaff () {
             this.c_staff = findInArray(
                 'extra',
@@ -310,15 +340,13 @@ export default {
                 'label',
             )
         },
+
         getData () {
             if (!this.port_of_loading.cy_cut) {
-                this.$notify({
-                    title: 'NOTICE',
-                    message: 'PLEASE ENTER THE "CY CUT"!',
-                    type: 'error'
-                })
+                this.$message.error('PLEASE ENTER THE "CY CUT"!')
                 return false
             }
+            console.log('this.port_of_discharge.port :', this.port_of_discharge.port)
             return {
                 carrier: this.carrier,
                 c_staff: this.c_staff,
@@ -326,7 +354,11 @@ export default {
                 vessel_name: this.vessel_name,
                 voyage: this.voyage,
                 port_of_loading: this.port_of_loading,
-                port_of_delivery: this.port_of_delivery
+                port_of_delivery: {
+                    ...this.port_of_delivery,
+                    discharge_country: this.port_of_discharge.country,
+                    discharge_port: this.port_of_discharge.port
+                }
             }
         },
         setData ({ shipper, loading, delivery }) {
@@ -360,13 +392,17 @@ export default {
             this.port_of_delivery.eta = delivery.eta
             this.port_of_delivery.free_time_dem = delivery.free_time_dem
             this.port_of_delivery.free_time_det = delivery.free_time_det
+            this.port_of_discharge.country = delivery.discharge_country
             // country监听器导致 port被更新 port需要在nexttick中更新
+            console.log('delivery :', delivery)
             this.$nextTick(() => {
                 this.port_of_loading.port = loading.port
                 this.port_of_delivery.port = delivery.port
+                this.port_of_discharge.port = delivery.discharge_port
             })
         },
         formatPort (witch) {
+            console.log('this[witch].port :', this[witch].port)
             this[witch].port = `${findInArray(
                 'label',
                 this[witch].port,

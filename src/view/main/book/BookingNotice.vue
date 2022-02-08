@@ -12,6 +12,7 @@
         <el-form-item label="POL:"><el-input v-model="pol"></el-input></el-form-item>
         <el-form-item label="POD:"><el-input v-model="pod"></el-input></el-form-item>
         <el-form-item label="ETD:"><el-input v-model="etd"></el-input></el-form-item>
+        <el-form-item v-if="this.ts" label="T/S:"><el-input v-model="ts"></el-input></el-form-item>
         <el-form-item label="ETA:"><el-input v-model="eta"></el-input></el-form-item>
         <el-form-item label="CY OPEN:"><el-input v-model="cy_open"></el-input></el-form-item>
         <el-form-item label="CY CUT:"><el-input v-model="cy_cut"></el-input></el-form-item>
@@ -51,6 +52,7 @@ export default {
             vessel_carrier: '',
             pol: '',
             pod: '',
+            ts: '',
             etd: '',
             eta: '',
             cy_open: '',
@@ -74,6 +76,7 @@ export default {
                 this.vessel_carrier = fd.shipper.carrier
                 this.pol = fd.loading.port
                 this.pod = fd.delivery.port
+                this.ts = fd.delivery.discharge_port
                 this.etd = fd.loading.etd
                 this.eta = fd.delivery.eta
                 this.cy_open = fd.loading.cy_open
@@ -109,7 +112,7 @@ export default {
             this.dialog.loading = false
         },
         beDownload () {
-            postNewWindow(BOOKING_NOTICE, {
+            const params = {
                 id: this.bkgId,
                 address: this.address,
                 shipper: this.shipper,
@@ -128,7 +131,11 @@ export default {
                 common: this.common,
                 consiginee: this.consiginee,
                 remarks: this.remarks
-            })
+            }
+            if (this.ts) {
+                params.ts = this.ts
+            }
+            postNewWindow(BOOKING_NOTICE, params)
         }
     }
 }

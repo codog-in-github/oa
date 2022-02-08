@@ -23,13 +23,12 @@ export const MENU = [
         ]
     },
     { to: '-1',
-        label: '請求書',
+        label: '請求関係',
         toggle: true,
         class: 'el-icon-s-order',
         child: [
-            { to: '/req/0', label: '請求書未発行' },
-            { to: '/req/1', label: '請求書発行済' },
-            { to: '/req/2', label: '入金済' }
+            { to: '/req/0', label: '請求書未完' },
+            { to: '/req/1', label: '請求書完' }
         ]
     }
 ]
