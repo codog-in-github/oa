@@ -5,7 +5,7 @@
                 船社情报
             </div>
                 <div class="group">
-                    <title-group     title="CARRIER">
+                    <title-group title="CARRIER">
                         <el-autocomplete
                             v-model="carrier"
                             @focus="getOptionsAnsyc(5, options.carrier)"
@@ -15,11 +15,8 @@
                         </el-autocomplete>
                     </title-group>
                     <span class="delimiter">&sol;</span>
-                    <title-group     title="C/STAFF">
-                        <el-input
-                            size="mini"
-                            v-model="c_staff"
-                        />
+                    <title-group title="C/STAFF">
+                        <el-input size="mini" v-model="c_staff"/>
                     </title-group>
             </div>
             <div class="group">
@@ -183,9 +180,7 @@
                         v-model="port_of_delivery.free_time_det"
                     />
                 </title-group>
-                <div class="title" style="margin-top:2em;">
-                    PORT OF DISCHARGE
-                </div>
+                <div class="title">PORT OF DISCHARGE</div>
                 <title-group title="Country/Region">
                     <el-select
                         filterable

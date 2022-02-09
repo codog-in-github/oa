@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <table class="calendar">
+        <table class="calendar" border="0" >
             <tr>
                 <th v-for="(day, i) of days" :key="i">{{day.format('dd')}}</th>
             </tr>
@@ -68,6 +68,7 @@ export default {
 
 <style lang="less" scoped>
 .calendar{
+    border-collapse:collapse;
     width: 100%;
 
     td{
@@ -75,15 +76,18 @@ export default {
     }
 
     td,th{
-        border-left: 1px solid #000;
-
         width: 14%;
 
         &:first-child,
         &:last-child{
             width: 5%;
         }
+
+        &:nth-child(n+2){
+            border-left: 1px solid #000;
+        }
     }
+
 }
 
 .title{
