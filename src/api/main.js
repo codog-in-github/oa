@@ -23,7 +23,13 @@ import {
     LAST_UPDATE,
     GET_CALENDAR,
     SET_CALENDAR_STATUS,
-    GET_DETAIL_CALENDAR
+    GET_DETAIL_CALENDAR,
+    GET_ROLE_LIST,
+    GET_AUTH_LIST,
+    GET_ROLE_AUTH_LIST,
+    GET_PARENT_AUTH,
+    ADD_MENU,
+    CHANGE_ROLE_AUTH
 } from '@/constant/API'
 
 export const login = (username, password) => Http.post({
@@ -134,5 +140,34 @@ export const setCalendarStatus = params => Http.get({
 
 export const getDetailCalendar = params => Http.get({
     url: GET_DETAIL_CALENDAR,
+    params
+})
+
+export const getRoleList = params => Http.get({
+    url: GET_ROLE_LIST,
+    params
+})
+
+export const getAuthList = () => Http.get({
+    url: GET_AUTH_LIST
+})
+
+export const getRoleAuthList = role_id => Http.get({
+    url: GET_ROLE_AUTH_LIST,
+    params: { role_id }
+})
+
+export const getParentAuth = type => Http.get({
+    url: GET_PARENT_AUTH,
+    params: { type }
+})
+
+export const addMenu = params => Http.post({
+    url: ADD_MENU,
+    params
+})
+
+export const changeRoleAuth = params => Http.post({
+    url: CHANGE_ROLE_AUTH,
     params
 })

@@ -39,6 +39,9 @@ let routes = [
             }, {
                 path: '/calendar-d',
                 component: () => import('@/view/FreeCalendar.vue')
+            }, {
+                path: '/auth',
+                component: () => import('@/view/system/Auth.vue')
             }
 
         ]

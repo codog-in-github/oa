@@ -25,8 +25,6 @@
     </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import { MENU } from '@/constant'
 import { logout } from '@/api/main'
 import ColumnNav from '@/components/ColumnNav.vue'
 
@@ -36,13 +34,11 @@ export default {
     },
     data () {
         return {
-            MENU
+            menu: []
         }
     },
-    computed: {
-        ...mapState({
-            user: state => state.loginState.info
-        })
+    mounted () {
+        this.getMenu()
     },
     methods: {
         async logout () {
@@ -52,6 +48,26 @@ export default {
             } catch (error) {
                 console.log('logout error :', error)
             }
+        },
+        async getMenu () {
+            this.$getMenu((menuGroups) => {
+                menuGroups = menuGroups.data.data
+                const menu = []
+                for (const id in menuGroups) {
+                    const tmpGroup = {
+                        to: '-1',
+                        label: menuGroups[id][0].extra.split('|')[0],
+                        toggle: true,
+                        class: menuGroups[id][0].extra.split('|')[1],
+                        child: []
+                    }
+                    for (const sigleMenu of menuGroups[id]) {
+                        tmpGroup.child.push({ to: sigleMenu.c_target, label: sigleMenu.c_extra })
+                    }
+                    menu.push(tmpGroup)
+                }
+                this.menu = menu
+            })
         }
     },
     beforeRouteEnter (to, from, next) {
