@@ -147,17 +147,18 @@ export default {
                 const authList = await getRoleAuthList(currentRole)
                 for (const group of this.methodList) {
                     for (const i of group) {
-                        i.checked = authList.data.data.indexOf(i.id) !== -1
-                        i.c_checked = authList.data.data.indexOf(i.c_id) !== -1
+                        i.checked = authList.indexOf(i.id) !== -1
+                        i.c_checked = authList.indexOf(i.c_id) !== -1
                     }
                 }
                 for (const group of this.menuList) {
                     for (const i of group) {
-                        i.checked = authList.data.data.indexOf(i.id) !== -1
-                        i.c_checked = authList.data.data.indexOf(i.c_id) !== -1
+                        i.checked = authList.indexOf(i.id) !== -1
+                        i.c_checked = authList.indexOf(i.c_id) !== -1
                     }
                 }
             } catch (error) {
+                console.log('currentRoleChange error :', error)
             }
         },
 
