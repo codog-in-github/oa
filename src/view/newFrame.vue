@@ -5,7 +5,7 @@
                 <img src="~@/assets/img/logo.png" width="44px">
                 <span>春海組システム</span>
             </div>
-            <column-nav :urls="MENU"></column-nav>
+            <column-nav :urls="menu"></column-nav>
         </aside>
         <main class="shadow-card">
             <header>
@@ -25,8 +25,9 @@
     </div>
 </template>
 <script>
-import { logout } from '@/api/main'
+import { getMenu, logout } from '@/api/main'
 import ColumnNav from '@/components/ColumnNav.vue'
+import { mapState } from 'vuex'
 
 export default {
     components: {
@@ -36,6 +37,11 @@ export default {
         return {
             menu: []
         }
+    },
+    computed: {
+        ...mapState({
+            user: state => state.loginState.info
+        })
     },
     mounted () {
         this.getMenu()
@@ -50,8 +56,8 @@ export default {
             }
         },
         async getMenu () {
-            this.$getMenu((menuGroups) => {
-                menuGroups = menuGroups.data.data
+            try {
+                const menuGroups = await getMenu()
                 const menu = []
                 for (const id in menuGroups) {
                     const tmpGroup = {
@@ -67,7 +73,9 @@ export default {
                     menu.push(tmpGroup)
                 }
                 this.menu = menu
-            })
+            } catch (error) {
+
+            }
         }
     },
     beforeRouteEnter (to, from, next) {

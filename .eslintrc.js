@@ -11,8 +11,6 @@ module.exports = {
       parser: 'babel-eslint'
     },
     rules: {
-      'no-console': process.env.NODE_ENV === 'production' ? 2 : 'off',
-      'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 'off',
       'indent': [2, 4, { 'SwitchCase': 1 }],
       'block-spacing': [2, 'always'],                                           // 在代码块的花括号间要有空格
       'func-call-spacing': [2, 'never'],                                        // 在函数标识符和其调用之间不能有空格
@@ -29,7 +27,7 @@ module.exports = {
       'arrow-spacing': 2,                                                       // 箭头函数的箭头前后要有空格
       'semi': [2, 'never'],                                                     // 句末不要分号
       'radix': 0,                                                               // parseInt解析的进制
-      'eqeqeq': 'off'
+      'eqeqeq': 'off',
     },
     overrides: [
       {

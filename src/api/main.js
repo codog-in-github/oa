@@ -29,13 +29,16 @@ import {
     GET_ROLE_AUTH_LIST,
     GET_PARENT_AUTH,
     ADD_MENU,
-    CHANGE_ROLE_AUTH
+    CHANGE_ROLE_AUTH,
+    MENU_PATH
 } from '@/constant/API'
 
 export const login = (username, password) => Http.post({
     url: LOGIN_PATH,
     params: { username, password }
 })
+
+export const getMenu = () => Http.get({ url: MENU_PATH })
 
 export const clearStrage = () => Http.get({ url: LAST_UPDATE })
 
