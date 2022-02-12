@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { stringify } from 'qs'
-import { STATE_CODE_NO_LOGIN, STATE_CODE_SUCCESS } from '@/constant/API'
+import { STATE_CODE_NO_AUTH, STATE_CODE_NO_LOGIN, STATE_CODE_SUCCESS } from '@/constant/API'
 import { urlParamsStringify } from '.'
 import { Message } from 'element-ui'
 import { router } from '@/router/main'
@@ -22,7 +22,8 @@ export class Http {
                 return Promise.reject('ERROR')
             }
 
-            if (data.error === STATE_CODE_NO_LOGIN) {
+            if (data.error === STATE_CODE_NO_LOGIN ||
+                data.error === STATE_CODE_NO_AUTH) {
                 router.push('/login')
                 return Promise.reject(data.message)
             }

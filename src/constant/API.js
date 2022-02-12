@@ -3,25 +3,28 @@ import { API_BASE_PATH } from './CONFIG'
 
 /**
  * 接口返回错误码
- * 0 成功
- * 1~99 系统级别错误
+ * 0       成功
+ * 1~99    系统级别错误
  * 100~999 操作错误
  */
 export const STATE_CODE_SUCCESS        = 0
 export const STATE_CODE_NO_LOGIN       = 1
 export const STATE_CODE_NO_AUTH        = 2
-export const STATE_CODE_PARAMS_ERROR   = 3
-export const STATE_CODE_ILLEGAL_PARAMS = 101
+export const STATE_CODE_ILLEGAL_PARAMS = 3
 export const STATE_CODE_PASSWORD_ERROR = 100
 export const STATE_CODE_OTHER          = 998
 export const STATE_CODE_UNKNOW         = 999
 
-export const LOGIN_STATUS              = API_BASE_PATH   + '/Index/checkLoginStatus'
-export const LOGIN_PATH                = API_BASE_PATH   + '/Index/login'
-export const LOGOUT_PATH               = API_BASE_PATH   + '/Index/logout'
-export const LOGOUT_VERIFY_PATH        = API_BASE_PATH   + '/Index/verify'
-export const LAST_UPDATE               = API_BASE_PATH   + '/Index/needClear'
-export const MENU_PATH                 = API_BASE_PATH   + '/Index/getMenu'
+/**
+ * 接口地址
+ */
+const INDEX_PATH                       = API_BASE_PATH   + '/Index'
+export const LOGIN_STATUS              = INDEX_PATH      + '/checkLoginStatus'
+export const LOGIN_PATH                = INDEX_PATH      + '/login'
+export const LOGOUT_PATH               = INDEX_PATH      + '/logout'
+export const LOGOUT_VERIFY_PATH        = INDEX_PATH      + '/verify'
+export const LAST_UPDATE               = INDEX_PATH      + '/needClear'
+export const MENU_PATH                 = INDEX_PATH      + '/getMenu'
 
 export const GET_CONTAINER_LIST        = API_BASE_PATH   + '/Container/getList'
 export const CONFIRM_DETAIL            = API_BASE_PATH   + '/Container/confirm'
@@ -39,17 +42,17 @@ export const CHANGE_ORDER_REQUEST_STEP = BKG_PATH        + '/changeOrderRequestS
 export const GET_CALENDAR              = BKG_PATH        + '/getCalendar'
 export const GET_DETAIL_CALENDAR       = BKG_PATH        + '/getDetailCalendar'
 
-const BOOKING_NOTICE                   = BOOK_DIR        + '/bookingNotice'
-export const GET_BOOKING_NOTICE        = BOOKING_NOTICE  + '/getBookingNotice'
+export const GET_BOOKING_NOTICE        = API_BASE_PATH   + '/BookingNotice/getBookingNotice'
 
-const BOOK_DIR                         = API_BASE_PATH   + '/Export'
-export const GET_HANDING_DATA          = BOOK_DIR        + '/getHandlngData'
-export const HANDING                   = BOOK_DIR        + '/handling'
-export const REQUESTBOOK               = BOOK_DIR        + '/requestbook'
-export const GET_REQUESTBOOK           = BOOK_DIR        + '/getBook'
-export const GET_REQUESTBOOK_LIST      = BOOK_DIR        + '/getBookList'
-export const HAS_BOOK_BY_COMPANY_NO    = BOOK_DIR        + '/hasBookByCompanyNo'
-export const HAS_REQUESTBOOK           = BOOK_DIR        + '/hasBook'
+const BOOK_PATH                        = API_BASE_PATH   + '/Export'
+export const GET_HANDING_DATA          = BOOK_PATH       + '/getHandlngData'
+export const HANDING                   = BOOK_PATH       + '/handling'
+export const REQUESTBOOK               = BOOK_PATH       + '/requestbook'
+export const BOOKING_NOTICE            = BOOK_PATH       + '/bookingNotice'
+export const GET_REQUESTBOOK           = BOOK_PATH       + '/getBook'
+export const GET_REQUESTBOOK_LIST      = BOOK_PATH       + '/getBookList'
+export const HAS_BOOK_BY_COMPANY_NO    = BOOK_PATH       + '/hasBookByCompanyNo'
+export const HAS_REQUESTBOOK           = BOOK_PATH       + '/hasBook'
 
 export const OPTIONS_LIST              = API_BASE_PATH   + '/Config/getOptions'
 

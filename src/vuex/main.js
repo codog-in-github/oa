@@ -28,7 +28,11 @@ export const store = new Vuex.Store({
     actions: {
         login ({ commit }, userInfo) {
             commit('updateUserInfo', userInfo)
-            router.push('/frame')
+            if (userInfo.index) {
+                router.push(userInfo.index)
+            } else {
+                router.push('/frame')
+            }
         },
 
         logout ({ commit }) {

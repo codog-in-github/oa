@@ -256,7 +256,7 @@ export default {
     }
 }
 
-.el-input{
+/deep/ .el-input{
     width: auto;
 }
 
