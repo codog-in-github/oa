@@ -30,7 +30,9 @@ import {
     GET_PARENT_AUTH,
     ADD_MENU,
     CHANGE_ROLE_AUTH,
-    MENU_PATH
+    MENU_PATH,
+    GET_REQ_LIST,
+    CHANGE_REQUEST_DETAIL
 } from '@/constant/API'
 
 export const login = (username, password) => Http.post({
@@ -172,5 +174,15 @@ export const addMenu = params => Http.post({
 
 export const changeRoleAuth = params => Http.post({
     url: CHANGE_ROLE_AUTH,
+    params
+})
+
+export const getReqList = params => Http.post({
+    url: GET_REQ_LIST,
+    params
+})
+
+export const changeRequestDetail = params => Http.post({
+    url: CHANGE_REQUEST_DETAIL,
     params
 })

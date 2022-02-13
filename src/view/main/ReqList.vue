@@ -2,144 +2,93 @@
     <div class="bkg-list">
         <header>
             <div class="input-box">
-                <el-input v-model="condition.bkg_no" placeholder="BKG NO" size="mini" />
-                <el-input v-model="condition.bl_no" placeholder="B/L NO" size="mini" />
-                <el-input v-model="condition.pol" placeholder="POL" size="mini" />
-                <el-input v-model="condition.pod" placeholder="POD" size="mini" />
-                <el-input v-model="condition.booker" placeholder="BOOKER" size="mini" />
-                <el-input v-model="condition.dg" placeholder="社内管理番号" size="mini" />
-                <el-button size="mini" @click="clearCondition" type="primary" class="el-icon-refresh-right">CLEAR</el-button>
-                <el-button type="primary" size="mini" class="el-icon-search" @click="reLoad">SEARCH</el-button>
+                <el-input v-model="condition.bkg_no" placeholder="BKG NO"     size="mini" />
+                <el-input v-model="condition.bl_no"  placeholder="B/L NO"     size="mini" />
+                <el-input v-model="condition.pol"    placeholder="POL"        size="mini" />
+                <el-input v-model="condition.pod"    placeholder="POD"        size="mini" />
+                <el-input v-model="condition.booker" placeholder="BOOKER"     size="mini" />
+                <el-input v-model="condition.dg"     placeholder="社内管理番号" size="mini" />
+                <el-button size="mini" type="primary" class="el-icon-refresh-right" @click="clearCondition" >CLEAR</el-button>
+                <el-button size="mini" type="primary" class="el-icon-search"        @click="reLoad">SEARCH</el-button>
             </div>
         </header>
         <main>
             <el-table
                 border
-                stripe
-                size="mini"
-                :data="list"
+                size              ="mini"
+                height            ="100%"
+                :data             ="list"
+                :span-method      ="arraySpanMethod"
+                :row-class-name   ="rowClassName"
                 :header-cell-style="{
                     background:'#409eff',
-                    color:'#fff',
-                    fontSize:'16px'
+                    color     :'#fff',
+                    fontSize  :'16px'
                 }"
-                height="100%"
             >
                 <el-table-column
-                    prop="show_cy_cut"
-                    label="CUT DATE"
-                    sortable
+                    prop      ="show_cy_cut"
+                    label     ="CUT DATE"
                     :formatter="dateFormat"
-                    width="130px"
-                    align="center"
-                >
-                </el-table-column>
+                    width     ="130px"
+                    align     ="center"
+                />
                 <el-table-column
                     prop="bkg_date"
                     label="BKG DATE"
-                    sortable
                     :formatter="dateFormat"
                     width="130px"
                     align="center"
-                >
+                />
+                <el-table-column prop="booker"         label="BOOKER" />
+                <el-table-column prop="ld"             label="POL/POD"/>
+                <el-table-column prop="bkg_no"         label="BKG NO" />
+                <el-table-column prop="quantity"       label="QUANTITY"  width="100"/>
+                <el-table-column prop="container_type" label="CONTAINER TYPE"/>
+                <el-table-column label="TYPE">
+                    <div slot-scope="{row}">{{row.bkgRowSpan !== 0 ? '払' : '入'}}</div>
                 </el-table-column>
-                <el-table-column
-                    prop="booker"
-                    label="BOOKER"
-                >
-                </el-table-column>
-                <el-table-column
-                    prop="ld"
-                    label="POL/POD"
-                >
-                </el-table-column>
-                <el-table-column
-                    prop="bkg_no"
-                    label="BKG NO"
-                >
-                </el-table-column>
-                <el-table-column
-                    prop="quantity"
-                    label="QUANTITY"
-                    width="100"
-                >
-                </el-table-column>
-                <el-table-column
-                    prop="container_type"
-                    label="CONTAINER TYPE"
-                >
-                </el-table-column>
-                <el-table-column
-                    label="状態"
-                    width="350px"
-                >
-                    <template slot-scope="scope">
-                        <el-select
-                            v-if="!showRestore"
-                            v-model="scope.row.state"
-                            multiple
-                            @change="changeState(scope.row.id, scope.row.state)"
-                            @focus="getOptionsAnsyc(10, options.state)"
-                            class="state"
-                        >
-                            <el-option
-                                v-for="{id, value, label} in options.state.item"
-                                :key="id"
-                                :value="value"
-                                :label="label"
-                            ></el-option>
-                        </el-select>
-                        <div
-                            v-else
-                        >{{scope.row.state.join('|')}}</div>
+                <el-table-column label="入出金データ">
+                    <template slot-scope="{row}">
+                        <el-input v-model.number="row.price" />
                     </template>
                 </el-table-column>
-                <el-table-column
-                    prop="id"
-                    label="OPERATION"
-                    width="320px"
-                >
-                    <template  slot-scope="scope">
-                        <div style="text-align:center;">
-                            <el-button
-                                type="primary"
-                                size="mini"
-                                class="el-icon-view"
-                                @click="detailClickHandler(scope.row.id)"
-                            >
-                                DETAIL
-                            </el-button>
-                             <el-button
-                                v-if="showPrevious"
-                                type="primary"
-                                size="mini"
-                                class="el-icon-d-arrow-left"
-                                @click="changeStep(scope.row.id, scope.$index, false)"
-                            >
-                                PREV
-                            </el-button>
-                             <el-button
-                                v-if="showNext"
-                                type="primary"
-                                size="mini"
-                                class="el-icon-d-arrow-right"
-                                @click="changeStep(scope.row.id, scope.$index)"
-                            >
-                                NEXT
-                            </el-button>
-                        </div>
+                <el-table-column label="TIME">
+                    <template slot-scope="{row}">
+                        <el-date-picker v-model="row.date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" style="width:100%;" />
                     </template>
+                </el-table-column>
+                <el-table-column label="OPT" width="100" align="center">
+                    <template slot-scope="{row}" >
+                        <el-button v-if="row.completeRowSpan !== 0" type="primary" @click.stop="add(row)">ADD</el-button>
+                        <el-button v-else                           type="danger"  @click.stop="del(row)">DEL</el-button>
+                    </template>
+                </el-table-column>
+                <el-table-column label="完" width="100" align="center">
+                    <el-button
+                        slot-scope ="{row}"
+                        :disabled  ="
+                            (row.bkgRowSpan !== 0 && row.state == 1) ||
+                            (row.bkgRowSpan === 0 && row.parent.state == 2) ||
+                            ((row.parent || row).state == 3)
+                        "
+                        @click.stop="doComplete(row)">
+                        完
+                    </el-button>
+                </el-table-column>
+                <el-table-column label="SAVE" width="100" align="center">
+                    <el-button slot-scope="{row}" @click.stop="changeDetail(row)">SAVE</el-button>
                 </el-table-column>
             </el-table>
         </main>
         <footer>
             <el-pagination
                 background
-                :page-sizes="[10, 50, 100]"
-                :page-size="page_size"
-                layout="sizes,total, prev, pager, next"
-                :total="total"
-                @size-change="sizeChangeHandler"
+                :page-sizes    ="[10, 50, 100]"
+                :page-size     ="page_size"
+                layout         ="sizes, total, prev, pager, next"
+                :total         ="total"
+                @size-change   ="sizeChangeHandler"
                 @current-change="pageChangeHandler"
             >
             </el-pagination>
@@ -155,13 +104,11 @@
     </div>
 </template>
 <script>
-import { getOptionsAnsyc } from '@/mixin/main'
+
 import RequestBook from './book/RequestBook.vue'
-import { changeOrderRequestStep, changeOrderState, deleteOrder, getBkgList, getOrderId, hasRequestbook } from '@/api/main'
+import { changeOrderRequestStep, getReqList, getOrderId, hasRequestbook, changeRequestDetail } from '@/api/main'
+
 export default {
-    mixins: [
-        getOptionsAnsyc
-    ],
     components: { RequestBook },
     data () {
         return {
@@ -174,13 +121,10 @@ export default {
                 booker: '',
                 dg: ''
             },
-            page_size: 50,
+            page_size: 10,
             page: 1,
             total: 0,
             list: [],
-            options: {
-                state: { item: [], loading: false }
-            },
             stateChangeTimer: -1,
             newOrder: false,
 
@@ -190,110 +134,223 @@ export default {
             rbShow: false
         }
     },
-    computed: {
-        showNewOrder () {
-            return this.$route.params.state != 'delete'
-        },
-        showNext () {
-            return this.$route.params.state == '0' ||
-                this.$route.params.state == '1'
-        },
-        showPrevious () {
-            return this.$route.params.state == '1' ||
-                this.$route.params.state == '2'
-        },
-        showRestore () {
-            return this.$route.params.state == 'delete'
-        }
-    },
     mounted () {
         this.reLoad()
     },
     methods: {
         async reLoad () {
             try {
-                const bkgList = await getBkgList({
+                const bkgList = await getReqList({
                     condition: this.condition,
                     page_size: this.page_size,
                     page: (this.page || 1) - 1,
                     req_state: this.$route.params.state || ''
                 })
 
-                this.list = bkgList.list.map(i => {
-                    if (!i.state) {
-                        i.state = []
-                    } else {
-                        i.state = i.state.split('|')
-                    }
-                    return i
-                })
+                const { list, total, page } = bkgList
 
-                this.total = parseInt(bkgList.total)
-                this.page = bkgList.page
+                const formatted = []
+                let isEven = true
+                for (const bkg of list) {
+                    isEven = !isEven
+                    bkg.isEven = isEven
+                    bkg.expendChildren = []
+                    bkg.bkgRowSpan = 1
+                    bkg.completeRowSpan = 1
+                    formatted.push(bkg)
+                    if (bkg.expend_detail) {
+                        let isFirst = true
+                        for (const item of bkg.expend_detail.split('|')) {
+                            const [ price, date ] = item.split(',')
+                            if (isFirst) {
+                                bkg.price = price
+                                bkg.date = date
+                            } else {
+                                bkg.bkgRowSpan++
+                                bkg.completeRowSpan++
+                                const row = {
+                                    ...bkg,
+                                    price,
+                                    date,
+                                    parent: bkg,
+                                    bkgRowSpan: 0,
+                                    completeRowSpan: 0
+                                }
+                                bkg.expendChildren.push(row)
+                                formatted.push(row)
+                            }
+                            isFirst = false
+                        }
+                    } else {
+                        bkg.price = ''
+                        bkg.date = ''
+                    }
+                    bkg.incomeChildren = []
+                    if (bkg.income_detail) {
+                        for (const item of bkg.income_detail.split('|')) {
+                            bkg.bkgRowSpan++
+                            const [ price, date ] = item.split(',')
+                            const row = {
+                                ...bkg,
+                                price,
+                                date,
+                                parent: bkg,
+                                bkgRowSpan: 0,
+                                completeRowSpan: 0
+                            }
+                            bkg.incomeChildren.push(row)
+                            bkg.incomeChildren[0].completeRowSpan++
+                            formatted.push(row)
+                        }
+                    } else {
+                        bkg.bkgRowSpan++
+                        const row = {
+                            ...bkg,
+                            price: bkg.total,
+                            date: '',
+                            parent: bkg,
+                            bkgRowSpan: 0,
+                            completeRowSpan: 1
+                        }
+                        bkg.incomeChildren.push(row)
+                        formatted.push(row)
+                    }
+                }
+
+                this.list = formatted
+                this.total = parseInt(total)
+                this.page = page
             } catch (e) {
                 console.log('e :', e)
             }
         },
 
-        dateFormat (row, column, cellValue) {
+        arraySpanMethod ({ row, columnIndex }) {
+            if (columnIndex < 7 || columnIndex === 12) {
+                return [row.bkgRowSpan, 1]
+            } else if (columnIndex === 7 || columnIndex === 11) {
+                return [row.completeRowSpan, 1]
+            }
+        },
+
+        add (row) {
+            const newRow = {
+                ...row,
+                date: '',
+                price: '',
+                bkgRowSpan: 0,
+                completeRowSpan: 0,
+                parent: row.parent || row
+            }
+            let lastRow
+            if (row.bkgRowSpan !== 0) {
+                row.completeRowSpan++
+                lastRow = row.expendChildren[row.expendChildren.length - 1] || row
+                row.expendChildren.push(newRow)
+            } else {
+                row.incomeChildren[0].completeRowSpan++
+                lastRow = row.incomeChildren[row.incomeChildren.length - 1]
+                row.incomeChildren.push(newRow)
+            }
+            (row.parent || row).bkgRowSpan++
+            const index = this.list.indexOf(lastRow)
+            this.list.splice(index + 1, 0, newRow)
+        },
+
+        del (row) {
+            const expendIndex = row.parent.expendChildren.indexOf(row)
+            if (expendIndex !== -1) {
+                row.parent.completeRowSpan--
+                row.parent.expendChildren.splice(expendIndex, 1)
+            } else {
+                row.parent.incomeChildren[0].completeRowSpan--
+                const incomeIndex = row.parent.expendChildren.indexOf(row)
+                row.parent.incomeChildren.splice(incomeIndex, 1)
+            }
+            const index = this.list.indexOf(row)
+            row.parent.bkgRowSpan--
+            this.list.splice(index, 1)
+        },
+
+        async changeDetail (row) {
+            try {
+                const { id } = row
+                const expend = [{
+                    price: row.price,
+                    date: row.date
+                }].concat(
+                    row.expendChildren
+                        .filter(expend => expend.price || expend.date)
+                        .map(({ price = '', date = '' }) => ({ price, date }))
+                )
+                const income = row.incomeChildren
+                    .filter(income => income.price || income.date)
+                    .map(({ price = '', date = '' }) => ({ price, date }))
+                await changeRequestDetail({ expend, income, id })
+                this.$message.success('SAVE SUCCESS')
+            } catch (error) {
+            }
+        },
+
+        dateFormat (_, __, cellValue) {
             return cellValue.substr(0, 10)
         },
+
         sizeChangeHandler (size) {
             this.page_size = size
             this.reLoad()
         },
+
         pageChangeHandler (current) {
             this.page = current
             this.reLoad()
         },
+
         doEdit (id) {
             this.$router.push(`/form/${id}/edit`)
         },
+
         displayDetail (id) {
             this.$router.push(`/form/${id}/view`)
         },
-        async deleteHandler (id, index, isDelete = true) {
-            try {
-                await deleteOrder(id, isDelete)
-                this.list.splice(index, 1)
-            } catch (error) {
-            }
-        },
+
         clearCondition () {
             for (const k in this.condition) {
                 this.condition[k] = ''
             }
             this.reLoad()
         },
-        async changeStep (id, index, isNext = true) {
-            const step = [
-                '0',
-                '1',
-                '2'
-            ]
+
+        rowClassName ({ row }) {
+            return row.isEven ? 'even' : ''
+        },
+
+        async doComplete (row) {
             try {
-                await changeOrderRequestStep(
-                    id,
-                    step[step.indexOf(this.$route.params.state) + (isNext ? 1 : -1)],
-                )
-                this.list.splice(index, 1)
+                const parent = row.parent || row
+                let state = Number(parent.state) || 0
+                if (row.bkgRowSpan !== 0) {
+                    state += 1
+                } else {
+                    state += 2
+                }
+
+                if (state === 3) {
+                    await this.$confirm('完？')
+                } else {
+                    await this.$confirm('check？')
+                }
+                await changeOrderRequestStep(parent.id, state)
+                if (state === 3) {
+                    const index = this.list.indexOf(parent)
+                    this.list.splice(index, 1 + parent.expendChildren.length + parent.incomeChildren.length)
+                } else {
+                    parent.state = state
+                }
             } catch (error) {
             }
         },
-        changeState (id, val) {
-            clearTimeout(this.stateChangeTimer)
-            this.stateChangeTimer = setTimeout(async () => {
-                try {
-                    await changeOrderState(id, val.join('|'))
-                    this.$message.success('CHANGE SUCCESS')
-                } catch (error) {
-                }
-            }, 1000)
-        },
-        addNewOrder () {
-            this.newOrder = true
-            // this.$router.push('/form');
-        },
+
         async detailClickHandler (rowId) {
             try {
                 await hasRequestbook(rowId)
@@ -303,6 +360,7 @@ export default {
                 this.newOrder = true
             }
         },
+
         async getOrderID () {
             const rowBkgId = this.selectId
             if (this.copy_no === '') {
@@ -315,6 +373,7 @@ export default {
                 }
             }
         },
+
         displayRequestbook (bkgId, copyId) {
             this.rbShow = true
             this.$refs.rb.loadData(bkgId, copyId, true)
@@ -368,7 +427,8 @@ footer{
         color: #000;
     }
 }
-/deep/.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell{
-    background: #f2f2f4;
+
+/deep/ .even{
+    background: #f2f2f4 !important;
 }
 </style>
