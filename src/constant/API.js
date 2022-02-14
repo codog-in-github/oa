@@ -1,5 +1,5 @@
 /* eslint-disable no-multi-spaces */
-import { API_BASE_PATH } from './CONFIG'
+import { API_BASE_PATH } from './config'
 
 /**
  * 接口返回错误码
