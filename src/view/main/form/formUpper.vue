@@ -29,19 +29,14 @@
             </title-group>
             <div class="group">
                 <title-group title="通関会社">
-                    <el-select
+                    <el-autocomplete
                         v-model="forwarder"
                         @focus="getOptionsAnsyc(7, options.forwarder)"
-                        @change="setFStaffDefaultVal"
+                        @select="setFStaffDefaultVal"
+                        :fetch-suggestions="queryForwarderSearch"
                         :clearable="true"
                         size="mini">
-                        <el-option
-                            v-for="{id, value, label} in options.forwarder.item"
-                            :key="id"
-                            :value="value"
-                            :label="label"
-                        />
-                    </el-select>
+                    </el-autocomplete>
                 </title-group>
                 <span class="delimiter">&sol;</span>
                 <title-group title="F/STAFF">
@@ -99,6 +94,9 @@ export default {
         },
         queryDrayageSearch (str, cb) {
             cb(this.options.drayage.item.filter(item => item.label.indexOf(str || '') !== -1))
+        },
+        queryForwarderSearch (str, cb) {
+            cb(this.options.forwarder.item.filter(item => item.label.indexOf(str || '') !== -1))
         },
         setDStaff () {
             this.d_staff = findInArray(
