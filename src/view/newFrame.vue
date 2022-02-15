@@ -106,6 +106,7 @@ aside{
     width: 220px;
     height: 100%;
     background: #434343;
+    overflow: auto;
 }
 .logo{
     display: flex;

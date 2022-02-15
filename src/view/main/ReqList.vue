@@ -1,15 +1,15 @@
 <template>
     <div class="bkg-list">
         <header>
-            <div class="input-box">
+            <div class="input-box" style="margin-bottom:1em;">
                 <el-input v-model="condition.bkg_no" placeholder="BKG NO"     size="mini" />
                 <el-input v-model="condition.bl_no"  placeholder="B/L NO"     size="mini" />
                 <el-input v-model="condition.pol"    placeholder="POL"        size="mini" />
                 <el-input v-model="condition.pod"    placeholder="POD"        size="mini" />
                 <el-input v-model="condition.booker" placeholder="BOOKER"     size="mini" />
                 <el-input v-model="condition.dg"     placeholder="社内管理番号" size="mini" />
-                <el-button size="mini" type="primary" class="el-icon-refresh-right" @click="clearCondition" >CLEAR</el-button>
-                <el-button size="mini" type="primary" class="el-icon-search"        @click="reLoad">SEARCH</el-button>
+                <el-button size="mini" type="primary" @click="clearCondition" >CLEAR</el-button>
+                <el-button size="mini"                @click="reLoad">SEARCH</el-button>
             </div>
         </header>
         <main>
@@ -28,40 +28,39 @@
             >
                 <el-table-column
                     prop      ="show_cy_cut"
-                    label     ="CUT DATE"
+                    label     ="CUT"
                     :formatter="dateFormat"
-                    width     ="130px"
+                    width     ="100px"
                     align     ="center"
                 />
                 <el-table-column
                     prop="bkg_date"
-                    label="BKG DATE"
+                    label="BKG"
                     :formatter="dateFormat"
-                    width="130px"
+                    width="100px"
                     align="center"
                 />
                 <el-table-column prop="booker"         label="BOOKER" />
                 <el-table-column prop="ld"             label="POL/POD"/>
                 <el-table-column prop="bkg_no"         label="BKG NO" />
-                <el-table-column prop="quantity"       label="QUANTITY"  width="100"/>
-                <el-table-column prop="container_type" label="CONTAINER TYPE"/>
-                <el-table-column label="TYPE">
-                    <div slot-scope="{row}">{{row.bkgRowSpan !== 0 ? '払' : '入'}}</div>
+                <el-table-column prop="quantity"       label="QTY"     width="50px"/>
+                <el-table-column prop="container_type" label="CT TYPE" width="100px"/>
+                <el-table-column label="NAME">
+                    <el-input v-if="row.type === PRICE_TYPE_EXPEND" slot-scope="{row}" v-model="row.name" :readonly="isDisabled(row)"/>
+                    <div      v-else                                slot-scope="{row}" v-text="row.short_name"/>
                 </el-table-column>
                 <el-table-column label="入出金データ">
                     <template slot-scope="{row}">
-                        <el-input v-model.number="row.price" />
+                        <el-input v-model.number="row.price" :readonly="isDisabled(row)" />
                     </template>
                 </el-table-column>
                 <el-table-column label="TIME">
-                    <template slot-scope="{row}">
-                        <el-date-picker v-model="row.date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" style="width:100%;" />
-                    </template>
+                    <el-date-picker slot-scope="{row}" v-model="row.date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" style="width:100%;" :readonly="isDisabled(row)" />
                 </el-table-column>
                 <el-table-column label="OPT" width="100" align="center">
                     <template slot-scope="{row}" >
-                        <el-button v-if="row.completeRowSpan !== 0" type="primary" @click.stop="add(row)">ADD</el-button>
-                        <el-button v-else                           type="danger"  @click.stop="del(row)">DEL</el-button>
+                        <el-button v-if="row.completeRowSpan !== 0" type="primary" :disabled="isDisabled(row)" @click.stop="add(row)">ADD</el-button>
+                        <el-button v-else                           type="danger"  :disabled="isDisabled(row)" @click.stop="del(row)">DEL</el-button>
                     </template>
                 </el-table-column>
                 <el-table-column label="完" width="100" align="center">
@@ -72,6 +71,11 @@
                             (row.bkgRowSpan === 0 && row.parent.state == 2) ||
                             ((row.parent || row).state == 3)
                         "
+                        :type="(
+                            (row.bkgRowSpan !== 0 && row.state == 1) ||
+                            (row.bkgRowSpan === 0 && row.parent.state == 2) ||
+                            ((row.parent || row).state == 3)
+                        ) ? 'success' : ''"
                         @click.stop="doComplete(row)">
                         完
                     </el-button>
@@ -108,6 +112,9 @@
 import RequestBook from './book/RequestBook.vue'
 import { changeOrderRequestStep, getReqList, getOrderId, hasRequestbook, changeRequestDetail } from '@/api/main'
 
+const PRICE_TYPE_EXPEND = 0
+const PRICE_TYPE_INCOME = 1
+
 export default {
     components: { RequestBook },
     data () {
@@ -131,7 +138,10 @@ export default {
             selectId: '',
             copy_no: '',
 
-            rbShow: false
+            rbShow: false,
+
+            PRICE_TYPE_EXPEND,
+            PRICE_TYPE_INCOME
         }
     },
     mounted () {
@@ -161,10 +171,12 @@ export default {
                     if (bkg.expend_detail) {
                         let isFirst = true
                         for (const item of bkg.expend_detail.split('|')) {
-                            const [ price, date ] = item.split(',')
+                            const [ price, date, name ] = item.split(',')
                             if (isFirst) {
                                 bkg.price = price
                                 bkg.date = date
+                                bkg.name = name
+                                bkg.type = PRICE_TYPE_EXPEND
                             } else {
                                 bkg.bkgRowSpan++
                                 bkg.completeRowSpan++
@@ -172,9 +184,11 @@ export default {
                                     ...bkg,
                                     price,
                                     date,
+                                    name,
                                     parent: bkg,
                                     bkgRowSpan: 0,
-                                    completeRowSpan: 0
+                                    completeRowSpan: 0,
+                                    type: PRICE_TYPE_EXPEND
                                 }
                                 bkg.expendChildren.push(row)
                                 formatted.push(row)
@@ -184,6 +198,7 @@ export default {
                     } else {
                         bkg.price = ''
                         bkg.date = ''
+                        bkg.type = PRICE_TYPE_EXPEND
                     }
                     bkg.incomeChildren = []
                     if (bkg.income_detail) {
@@ -196,7 +211,8 @@ export default {
                                 date,
                                 parent: bkg,
                                 bkgRowSpan: 0,
-                                completeRowSpan: 0
+                                completeRowSpan: 0,
+                                type: PRICE_TYPE_INCOME
                             }
                             bkg.incomeChildren.push(row)
                             bkg.incomeChildren[0].completeRowSpan++
@@ -210,7 +226,8 @@ export default {
                             date: '',
                             parent: bkg,
                             bkgRowSpan: 0,
-                            completeRowSpan: 1
+                            completeRowSpan: 1,
+                            type: PRICE_TYPE_INCOME
                         }
                         bkg.incomeChildren.push(row)
                         formatted.push(row)
@@ -228,7 +245,7 @@ export default {
         arraySpanMethod ({ row, columnIndex }) {
             if (columnIndex < 7 || columnIndex === 12) {
                 return [row.bkgRowSpan, 1]
-            } else if (columnIndex === 7 || columnIndex === 11) {
+            } else if (columnIndex === 11) {
                 return [row.completeRowSpan, 1]
             }
         },
@@ -277,11 +294,12 @@ export default {
                 const { id } = row
                 const expend = [{
                     price: row.price,
-                    date: row.date
+                    date: row.date,
+                    name: row.name
                 }].concat(
                     row.expendChildren
-                        .filter(expend => expend.price || expend.date)
-                        .map(({ price = '', date = '' }) => ({ price, date }))
+                        .filter(expend => expend.price || expend.date || expend.name)
+                        .map(({ price = '', date = '', name = '' }) => ({ price, date, name }))
                 )
                 const income = row.incomeChildren
                     .filter(income => income.price || income.date)
@@ -289,6 +307,15 @@ export default {
                 await changeRequestDetail({ expend, income, id })
                 this.$message.success('SAVE SUCCESS')
             } catch (error) {
+            }
+        },
+
+        isDisabled (row) {
+            const { state } = row.parent || row
+            if (row.type === PRICE_TYPE_INCOME) {
+                return state == 2 || state == 3
+            } else {
+                return state == 1 || state == 3
             }
         },
 
