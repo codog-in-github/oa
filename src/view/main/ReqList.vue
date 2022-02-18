@@ -26,6 +26,7 @@
                     fontSize  :'16px'
                 }"
             >
+                <el-table-column prop="company_no" label="管理番号" width="100px" align="center" fixed />
                 <el-table-column
                     prop      ="show_cy_cut"
                     label     ="CUT"
@@ -45,43 +46,49 @@
                 <el-table-column prop="bkg_no"         label="BKG NO" />
                 <el-table-column prop="quantity"       label="QTY"     width="50px"/>
                 <el-table-column prop="container_type" label="CT TYPE" width="100px"/>
-                <el-table-column label="NAME">
-                    <el-input v-if="row.type === PRICE_TYPE_EXPEND" slot-scope="{row}" v-model="row.name" :readonly="isDisabled(row)"/>
-                    <div      v-else                                slot-scope="{row}" v-text="row.short_name"/>
-                </el-table-column>
-                <el-table-column label="入出金データ">
-                    <template slot-scope="{row}">
-                        <el-input v-model.number="row.price" :readonly="isDisabled(row)" />
-                    </template>
-                </el-table-column>
-                <el-table-column label="TIME">
-                    <el-date-picker slot-scope="{row}" v-model="row.date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" style="width:100%;" :readonly="isDisabled(row)" />
-                </el-table-column>
-                <el-table-column label="OPT" width="100" align="center">
-                    <template slot-scope="{row}" >
-                        <el-button v-if="row.completeRowSpan !== 0" type="primary" :disabled="isDisabled(row)" @click.stop="add(row)">ADD</el-button>
-                        <el-button v-else                           type="danger"  :disabled="isDisabled(row)" @click.stop="del(row)">DEL</el-button>
-                    </template>
-                </el-table-column>
-                <el-table-column label="完" width="100" align="center">
-                    <el-button
-                        slot-scope ="{row}"
-                        :disabled  ="
-                            (row.bkgRowSpan !== 0 && row.state == 1) ||
-                            (row.bkgRowSpan === 0 && row.parent.state == 2) ||
-                            ((row.parent || row).state == 3)
-                        "
-                        :type="(
-                            (row.bkgRowSpan !== 0 && row.state == 1) ||
-                            (row.bkgRowSpan === 0 && row.parent.state == 2) ||
-                            ((row.parent || row).state == 3)
-                        ) ? 'success' : ''"
-                        @click.stop="doComplete(row)">
-                        完
-                    </el-button>
-                </el-table-column>
-                <el-table-column label="SAVE" width="100" align="center">
-                    <el-button slot-scope="{row}" @click.stop="changeDetail(row)">SAVE</el-button>
+                <el-table-column label="入出金データ" align="center">
+                    <el-table-column label="名前" align="center">
+                        <el-input slot-scope="{row}" v-model="row.name" :readonly="isDisabled(row)"/>
+                    </el-table-column>
+                    <el-table-column label="金額" align="center">
+                        <template slot-scope="{row}">
+                            <el-input v-model.number="row.price" :readonly="isDisabled(row)" />
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="時間" align="center">
+                        <el-date-picker slot-scope="{row}" v-model="row.date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" style="width:100%;" :readonly="isDisabled(row)" />
+                    </el-table-column>
+                    <el-table-column label="操作する" align="center">
+                        <el-table-column label="OPT" width="100" align="center" >
+                            <template slot-scope="{row}" >
+                                <el-button v-if="row.completeRowSpan !== 0" type="primary" :disabled="isDisabled(row)" @click.stop="add(row)">ADD</el-button>
+                                <el-button v-else                           type="danger"  :disabled="isDisabled(row)" @click.stop="del(row)">DEL</el-button>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="完" width="100" align="center" >
+                            <el-button
+                                slot-scope ="{row}"
+                                v-if  ="
+                                    (row.bkgRowSpan !== 0 && row.state == 1) ||
+                                    (row.bkgRowSpan === 0 && row.parent.state == 2) ||
+                                    ((row.parent || row).state == 3)
+                                "
+                                type="danger"
+                                @click.stop="doComplete(row, true)">
+                                返
+                            </el-button>
+                            <el-button
+                                slot-scope ="{row}"
+                                v-else
+                                type="primay"
+                                @click.stop="doComplete(row)">
+                                完
+                            </el-button>
+                        </el-table-column>
+                        <el-table-column label="保存する" width="100" align="center" >
+                            <el-button slot-scope="{row}" @click.stop="changeDetail(row)">保存する</el-button>
+                        </el-table-column>
+                    </el-table-column>
                 </el-table-column>
             </el-table>
         </main>
@@ -199,16 +206,18 @@ export default {
                         bkg.price = ''
                         bkg.date = ''
                         bkg.type = PRICE_TYPE_EXPEND
+                        bkg.name = bkg.short_name
                     }
                     bkg.incomeChildren = []
                     if (bkg.income_detail) {
                         for (const item of bkg.income_detail.split('|')) {
                             bkg.bkgRowSpan++
-                            const [ price, date ] = item.split(',')
+                            const [ price, date, name ] = item.split(',')
                             const row = {
                                 ...bkg,
                                 price,
                                 date,
+                                name,
                                 parent: bkg,
                                 bkgRowSpan: 0,
                                 completeRowSpan: 0,
@@ -224,6 +233,7 @@ export default {
                             ...bkg,
                             price: bkg.total,
                             date: '',
+                            name: bkg.short_name,
                             parent: bkg,
                             bkgRowSpan: 0,
                             completeRowSpan: 1,
@@ -243,9 +253,9 @@ export default {
         },
 
         arraySpanMethod ({ row, columnIndex }) {
-            if (columnIndex < 7 || columnIndex === 12) {
+            if (columnIndex < 8 || columnIndex === 13) {
                 return [row.bkgRowSpan, 1]
-            } else if (columnIndex === 11) {
+            } else if (columnIndex === 12) {
                 return [row.completeRowSpan, 1]
             }
         },
@@ -255,6 +265,7 @@ export default {
                 ...row,
                 date: '',
                 price: '',
+                name: row.short_name,
                 bkgRowSpan: 0,
                 completeRowSpan: 0,
                 parent: row.parent || row
@@ -352,17 +363,18 @@ export default {
             return row.isEven ? 'even' : ''
         },
 
-        async doComplete (row) {
+        async doComplete (row, isback = false) {
             try {
                 const parent = row.parent || row
                 let state = Number(parent.state) || 0
                 if (row.bkgRowSpan !== 0) {
-                    state += 1
+                    state += 1 * (isback ? -1 : 1)
                 } else {
-                    state += 2
+                    state += 2 * (isback ? -1 : 1)
                 }
-
-                if (state === 3) {
+                if (isback) {
+                    await this.$confirm('返？')
+                } else if (state === 3) {
                     await this.$confirm('完？')
                 } else {
                     await this.$confirm('check？')
