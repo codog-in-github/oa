@@ -314,7 +314,7 @@ export default {
                 )
                 const income = row.incomeChildren
                     .filter(income => income.price || income.date)
-                    .map(({ price = '', date = '' }) => ({ price, date }))
+                    .map(({ price = '', date = '', name = '' }) => ({ price, date, name }))
                 await changeRequestDetail({ expend, income, id })
                 this.$message.success('SAVE SUCCESS')
             } catch (error) {
