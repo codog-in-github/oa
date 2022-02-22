@@ -37,14 +37,14 @@
                 </el-table-column>
                 <el-table-column prop="id" label="OPERATION" width="280px" fixed="right">
                     <template  slot-scope="scope">
-                        <div style="text-align:center;">
-                            <el-button v-if="showEdit" type="primary" size="mini" class="el-icon-edit" @click="doEdit(scope.row.id)">EDIT</el-button>
-                            <el-button v-if="showDetail" type="primary" size="mini" class="el-icon-view" @click="displayDetail(scope.row.id)">DETAIL</el-button>
-                            <el-button v-if="showPrevious" type="primary" size="mini" class="el-icon-d-arrow-left" @click="changeStep(scope.row.id, scope.$index, false)">PREV</el-button>
-                            <el-button v-if="showNext" type="primary" size="mini" class="el-icon-d-arrow-right" @click="changeStep(scope.row.id, scope.$index)">NEXT</el-button>
-                            <el-button v-if="showDelete" type="danger" size="mini" class="el-icon-delete" @click="deleteHandler(scope.row.id, scope.$index)">DELETE</el-button>
-                            <el-button v-if="showRestore" type="success" size="mini" class="el-icon-circle-check" @click="deleteHandler(scope.row.id, scope.$index, false)">RESTORE</el-button>
-                        </div>
+                        <el-button-group>
+                            <el-button v-if="showEdit" type="primary" size="mini" icon="el-icon-edit" @click="doEdit(scope.row.id)">EDIT</el-button>
+                            <el-button v-if="showDetail" type="primary" size="mini" icon="el-icon-view" @click="displayDetail(scope.row.id)">DETAIL</el-button>
+                            <el-button v-if="showPrevious" type="primary" size="mini" icon="el-icon-d-arrow-left" @click="changeStep(scope.row.id, scope.$index, false)">PREV</el-button>
+                            <el-button v-if="showNext" type="primary" size="mini" icon="el-icon-d-arrow-right" @click="changeStep(scope.row.id, scope.$index)">NEXT</el-button>
+                            <el-button v-if="showDelete" type="danger" size="mini" icon="el-icon-delete" @click="deleteHandler(scope.row.id, scope.$index)">DELETE</el-button>
+                            <el-button v-if="showRestore" type="success" size="mini" icon="el-icon-circle-check" @click="deleteHandler(scope.row.id, scope.$index, false)">RESTORE</el-button>
+                        </el-button-group>
                     </template>
                 </el-table-column>
             </el-table>

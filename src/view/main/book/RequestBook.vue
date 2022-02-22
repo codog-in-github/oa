@@ -82,8 +82,12 @@
                         </template>
                     </el-table-column>
                     <el-table-column>
-                        <template slot-scope="scope">
-                            <el-button class="el-icon-remove" type="danger" circle size="mini" @click="detailDel(scope.$index)"></el-button>
+                        <template slot-scope="{ $index, row }">
+                            <el-button-group >
+                                <el-button icon="el-icon-caret-top"    v-if="$index !==0 " size="mini" circle  @click="moveUp($index, row)"></el-button>
+                                <el-button icon="el-icon-caret-bottom" v-if="$index !== detail.length-1 " size="mini" circle  @click="moveDown($index, row)"></el-button>
+                                <el-button icon="el-icon-remove"       size="mini" circle type="danger" @click="detailDel($index)" />
+                            </el-button-group>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -448,6 +452,31 @@ export default {
                 this.loadData(this.bkgId, copyBkgId)
             } catch (error) {
             }
+        },
+
+        moveUp (index, item) {
+            this.move(index, item, -1)
+        },
+
+        moveDown (index, item) {
+            this.move(index, item, 2)
+        },
+
+        move (index, item, step) {
+            const sort = []
+            const moveTo = Number(index) + step
+            for (let i = 0;i < this.detail.length;i++) {
+                if (i === moveTo) {
+                    sort.push(item)
+                }
+                if (item !== this.detail[i]) {
+                    sort.push(this.detail[i])
+                }
+            }
+            if (moveTo === this.detail.length) {
+                sort.push(item)
+            }
+            this.detail = sort
         }
     },
     watch: {
