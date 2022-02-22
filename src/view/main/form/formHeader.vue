@@ -188,7 +188,6 @@ export default {
             }
         },
         setData ({ bkg }) {
-            // console.log(bkg);
             if (this.isCopy) {
                 this.bkg_date = new Date()
             } else {

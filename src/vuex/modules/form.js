@@ -27,11 +27,7 @@ export default {
             state.container.push(newContainer)
         },
         containerRemoveById (state, id) {
-            // if(index>=0 && index < state.container.length){
-            //     state.container[index].delete_at = 'del'
-            // }
             state.container.map(item => {
-                console.log(item, id)
                 if (item.id === id) item.delete_at = 'del'
             })
         },

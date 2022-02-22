@@ -204,7 +204,6 @@ export default {
                     }
                 }
             }
-            console.log(detail)
             this.containerDetailList = detail
         }
     }
