@@ -83,7 +83,7 @@
                     </el-table-column>
                     <el-table-column>
                         <template slot-scope="{ $index, row }">
-                            <el-button-group >
+                            <el-button-group>
                                 <el-button icon="el-icon-caret-top"    v-if="$index !==0 " size="mini" circle  @click="moveUp($index, row)"></el-button>
                                 <el-button icon="el-icon-caret-bottom" v-if="$index !== detail.length-1 " size="mini" circle  @click="moveDown($index, row)"></el-button>
                                 <el-button icon="el-icon-remove"       size="mini" circle type="danger" @click="detailDel($index)" />

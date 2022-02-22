@@ -50,7 +50,7 @@
             </el-table>
         </main>
         <footer>
-            <el-pagination background :page-sizes="[10, 50, 100]" :page-size="page_size" layout="sizes,total, prev, pager, next" :total="total" @size-change="sizeChangeHandler" @current-change="pageChangeHandler"/>
+            <el-pagination background :page-sizes="[10, 50, 100]" :page-size="page_size" layout="sizes, total, prev, pager, next" :total="total" @size-change="sizeChangeHandler" @current-change="pageChangeHandler"/>
         </footer>
         <el-dialog :visible="newOrder" @close="newOrder = false" @open="copy_no = ''" title="NEW ORDER">
             BKG NO:<el-input v-model="copy_no"></el-input>
