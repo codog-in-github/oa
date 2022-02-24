@@ -60,6 +60,7 @@
                 <title-group title="Port">
                     <el-select
                         filterable
+                        clearable
                         :filter-method="val=>(keywords.port_of_loading_port=val)"
                         size="mini"
                         :loading="options.port_of_loading.loading"
@@ -142,6 +143,7 @@
                 <title-group title="Port">
                     <el-select
                         filterable
+                        clearable
                         :filter-method="val=>(keywords.port_of_delivery_port=val)"
                         size="mini"
                         :loading="options.port_of_delivery.loading"
@@ -202,6 +204,7 @@
                 <title-group title="Port">
                     <el-select
                         filterable
+                        clearable
                         :filter-method="val=>(keywords.port_of_discharge_port=val)"
                         size="mini"
                         :loading="options.port_of_discharge.loading"
@@ -397,13 +400,14 @@ export default {
             })
         },
         formatPort (witch) {
-            console.log('this[witch].port :', this[witch].port)
-            this[witch].port = `${findInArray(
-                'label',
-                this[witch].port,
-                this.options[witch].item,
-                'code'
-            )}(${this[witch].country}${this[witch].port})`
+            if (this[witch].port !== '') {
+                this[witch].port = `${findInArray(
+                    'label',
+                    this[witch].port,
+                    this.options[witch].item,
+                    'code'
+                )}(${this[witch].country}${this[witch].port})`
+            }
         }
     },
     mixins: [
