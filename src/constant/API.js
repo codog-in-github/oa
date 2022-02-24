@@ -25,6 +25,7 @@ export const LOGOUT_PATH               = INDEX_PATH      + '/logout'
 export const LOGOUT_VERIFY_PATH        = INDEX_PATH      + '/verify'
 export const LAST_UPDATE               = INDEX_PATH      + '/needClear'
 export const MENU_PATH                 = INDEX_PATH      + '/getMenu'
+export const CLEAR_CACHE               = INDEX_PATH      + '/clearCache'
 
 export const GET_CONTAINER_LIST        = API_BASE_PATH   + '/Container/getList'
 export const CONFIRM_DETAIL            = API_BASE_PATH   + '/Container/confirm'

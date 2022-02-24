@@ -11,12 +11,16 @@
             <header>
                 <span>Hello! {{user.name}}</span>
                 <el-button
+                    size="mini"
+                    @click.native="clearCache" >
+                    キャッシュの消去
+                </el-button>
+                <el-button
                     type="danger"
-                    class="el-icon-switch-button"
+                    icon="el-icon-switch-button"
                     circle
                     size="mini"
-                    @click.native="logout">
-                </el-button>
+                    @click.native="logout" />
             </header>
             <div class="view-box">
                 <router-view  class="view shadow-card" :key="$router.currentRoute.fullPath"></router-view>
@@ -25,7 +29,7 @@
     </div>
 </template>
 <script>
-import { getMenu, logout } from '@/api/main'
+import { clearCache, getMenu, logout } from '@/api/main'
 import ColumnNav from '@/components/ColumnNav.vue'
 import { mapState } from 'vuex'
 
@@ -74,7 +78,17 @@ export default {
                 }
                 this.menu = menu
             } catch (error) {
+            }
+        },
 
+        async clearCache () {
+            try {
+                await clearCache()
+                this.$message.success('正常にクリアされました')
+                setTimeout(() => {
+                    history.go(0)
+                }, 1000)
+            } catch (error) {
             }
         }
     },

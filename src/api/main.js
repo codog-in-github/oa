@@ -36,7 +36,8 @@ import {
     BOOKER_LIST,
     DELETE_BOOKER,
     EDIT_BOOKER,
-    ADD_BOOKER
+    ADD_BOOKER,
+    CLEAR_CACHE
 } from '@/constant/API'
 
 export const login = (username, password) => Http.post({
@@ -210,3 +211,5 @@ export const deleteBooker = id => Http.post({
     url: DELETE_BOOKER,
     params: { id }
 })
+
+export const clearCache = () => Http.get({ url: CLEAR_CACHE })

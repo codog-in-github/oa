@@ -32,7 +32,7 @@
                 <el-table-column label="操作" >
                     <el-button-group slot-scope="{row}">
                         <el-button icon="el-icon-edit"   size="mini" @click="showEdit(row)">修改</el-button>
-                        <el-button icon="el-icon-delete" size="mini" type="danger">删除</el-button>
+                        <el-button icon="el-icon-delete" size="mini" type="danger" @click="del(row)">删除</el-button>
                     </el-button-group>
                 </el-table-column>
             </el-table>
@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { addBooker, bookerList, editBooker } from '@/api/main'
+import { addBooker, bookerList, deleteBooker, editBooker } from '@/api/main'
 
 const createEmptyForm = () => {
     return {
@@ -136,12 +136,23 @@ export default {
                 await this.$refs.form.validate()
                 if ('id' in this.dialog.form) {
                     await editBooker({ ...this.dialog.form })
+                    this.$message.success('正常に変更されました')
                 } else {
                     await addBooker({ ...this.dialog.form })
+                    this.$message.success('正常に追加されました')
                 }
-                this.$message.success('正常に追加されました')
                 this.reLoad()
                 this.closeForm()
+            } catch (error) {
+            }
+        },
+
+        async del ({ id }) {
+            try {
+                await this.$confirm('削除を確認しますか？')
+                await deleteBooker(id)
+                this.$message.success('正常に削除されました')
+                this.reLoad()
             } catch (error) {
             }
         },
