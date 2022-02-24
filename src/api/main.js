@@ -32,7 +32,11 @@ import {
     CHANGE_ROLE_AUTH,
     MENU_PATH,
     GET_REQ_LIST,
-    CHANGE_REQUEST_DETAIL
+    CHANGE_REQUEST_DETAIL,
+    BOOKER_LIST,
+    DELETE_BOOKER,
+    EDIT_BOOKER,
+    ADD_BOOKER
 } from '@/constant/API'
 
 export const login = (username, password) => Http.post({
@@ -185,4 +189,24 @@ export const getReqList = params => Http.post({
 export const changeRequestDetail = params => Http.post({
     url: CHANGE_REQUEST_DETAIL,
     params
+})
+
+export const bookerList = params => Http.post({
+    url: BOOKER_LIST,
+    params
+})
+
+export const addBooker = params => Http.post({
+    url: ADD_BOOKER,
+    params
+})
+
+export const editBooker = params => Http.post({
+    url: EDIT_BOOKER,
+    params
+})
+
+export const deleteBooker = id => Http.post({
+    url: DELETE_BOOKER,
+    params: { id }
 })

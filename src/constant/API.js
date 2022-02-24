@@ -58,7 +58,12 @@ export const GET_REQUESTBOOK_LIST      = REQUESTBOOK_DIR + '/getBookList'
 export const HAS_BOOK_BY_COMPANY_NO    = REQUESTBOOK_DIR + '/hasBookByCompanyNo'
 export const HAS_REQUESTBOOK           = REQUESTBOOK_DIR + '/hasBook'
 
-export const OPTIONS_LIST              = API_BASE_PATH   + '/Config/getOptions'
+const CONFIG_PATH                      = API_BASE_PATH   + '/Config'
+export const OPTIONS_LIST              = CONFIG_PATH     + '/getOptions'
+export const BOOKER_LIST               = CONFIG_PATH     + '/bookerList'
+export const ADD_BOOKER                = CONFIG_PATH     + '/addBooker'
+export const EDIT_BOOKER               = CONFIG_PATH     + '/editBooker'
+export const DELETE_BOOKER             = CONFIG_PATH     + '/deleteBooker'
 
 const SYSTEM_PATH                      = API_BASE_PATH   + '/System'
 export const GET_ROLE_LIST             = SYSTEM_PATH     + '/getRoleList'

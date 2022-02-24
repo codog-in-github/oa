@@ -42,6 +42,9 @@ let routes = [
             }, {
                 path: '/auth',
                 component: () => import('@/view/system/Auth.vue')
+            }, {
+                path: '/booker',
+                component: () => import('@/view/config/BookerList.vue')
             }
 
         ]

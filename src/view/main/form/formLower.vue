@@ -419,6 +419,7 @@ export default {
     }
 }
 </script>
+
 <style scoped>
 .lower{
     display: flex;
@@ -438,14 +439,16 @@ export default {
     color: #000;
     padding: 10px;
 }
+
 .port-message{
     display: flex;
     justify-content: space-around;
 }
+
 .port-message > div{
     width: 45%;
-
 }
+
 .country-opt{
     display: flex;
     justify-content: space-between;
