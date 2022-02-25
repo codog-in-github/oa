@@ -4,6 +4,7 @@
             <div></div>
             <h2 class="month">{{value.format('YYYY-MM')}}</h2>
             <div class="btn">
+                <slot name="btn"></slot>
                 <el-button-group>
                     <el-button @click="lastWeek">前週</el-button>
                     <el-button @click="thisWeek">本週</el-button>

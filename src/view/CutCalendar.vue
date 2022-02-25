@@ -20,6 +20,20 @@
                     <div v-else class="calendar-status-empty"></div>
                 </div>
             </div>
+            <el-select
+                slot="btn"
+                clearable
+                placeholder="BKG TYPE"
+                v-model="query.bkg_type"
+                @change="changeCurrentDate()"
+                @focus="getOptionsAnsyc(6, options.bkg_type)">
+                <el-option
+                    v-for="{id, value, label} in options.bkg_type.item"
+                    :key="id"
+                    :value="value"
+                    :label="label"
+                />
+            </el-select>
         </week-clandar>
     </div>
 </template>
@@ -28,6 +42,7 @@
 import moment from 'moment'
 import { getCalendar, setCalendarStatus } from '@/api/main'
 import WeekClandar from '@/components/WeekClandar.vue'
+import { getOptionsAnsyc } from '@/mixin/main'
 
 moment.locale('ja')
 
@@ -35,14 +50,26 @@ export default {
     components: {
         WeekClandar
     },
+    mixins: [
+        getOptionsAnsyc
+    ],
 
     data () {
         return {
+            query: {
+                bkg_type: ''
+            },
             currentDate: moment(),
             start_date: '',
             end_date: '',
             calendarMap: {},
-            loading: false
+            loading: false,
+            options: {
+                bkg_type: {
+                    item: [],
+                    loading: false
+                }
+            }
         }
     },
 
@@ -50,7 +77,8 @@ export default {
         async getMonthOrder (start_date, end_date) {
             this.loading = true
             try {
-                const params = { start_date, end_date }
+                const query = this.query
+                const params = { start_date, end_date, ...query }
                 const list = await getCalendar(params)
                 const map = {}
                 for (const item of list) {
@@ -66,14 +94,10 @@ export default {
             this.loading = false
         },
 
-        changeCurrentDate (date) {
-            const start_date = moment(date).startOf('month').format('YYYY-MM-DD')
-            const end_date = moment(date).endOf('month').format('YYYY-MM-DD')
-
-            if (this.start_date !== start_date || this.end_date !== end_date) {
-                this.getMonthOrder(start_date, end_date)
-            }
-
+        changeCurrentDate (date = this.currentDate) {
+            const start_date = moment(date).startOf('week').format('YYYY-MM-DD')
+            const end_date = moment(date).endOf('week').format('YYYY-MM-DD')
+            this.getMonthOrder(start_date, end_date)
             this.start_date = start_date
             this.end_date = end_date
         },
