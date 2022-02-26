@@ -83,9 +83,9 @@ export const getBookingNotice = bkg_id => Http.get({
     params: { bkg_id }
 })
 
-export const getOrderId = bkg_no => Http.get({
+export const getOrderId = params => Http.post({
     url: GET_ORDER_ID,
-    params: { bkg_no }
+    params
 })
 
 export const deleteOrder = (id, is_delete) => Http.post({

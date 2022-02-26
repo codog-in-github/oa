@@ -52,11 +52,24 @@
         <footer>
             <el-pagination background :page-sizes="[10, 50, 100]" :page-size="page_size" layout="sizes, total, prev, pager, next" :total="total" @size-change="sizeChangeHandler" @current-change="pageChangeHandler"/>
         </footer>
-        <el-dialog :visible="newOrder" @close="newOrder = false" @open="copy_no = ''" title="NEW ORDER">
-            BKG NO:<el-input v-model="copy_no"></el-input>
+        <el-dialog :visible="newOrderForm.visible" @close="newOrderForm.visible = false" @open="dialogOpen" title="NEW ORDER" width="30em">
+            <el-form label-width="10em" ref="newOrderForm" :model="newOrderForm.data" :rules="newOrderForm.rules">
+                <el-form-item label="種類">
+                    <el-select v-model="newOrderForm.data.type" style="width:100%">
+                        <el-option :value="0" label="NEW ORDER"/>
+                        <el-option :value="1" label="BKG NO"/>
+                        <el-option :value="2" label="社内管理番号"/>
+                    </el-select>
+                </el-form-item>
+                <el-form-item v-if="newOrderForm.data.type" label="シリアルナンバー" prop="no">
+                    <el-input v-model="newOrderForm.data.no"></el-input>
+                </el-form-item>
+            </el-form>
             <template #footer>
-                <el-button @click="getOrderID" type="primary">{{copy_no === ''? 'ADD' : 'COPY'}}</el-button>
-                <el-button @click="newOrder = false">CANCLE</el-button>
+                <el-button @click="getOrderID" type="primary">{{
+                    newOrderForm.data.type === 0? '新規作成' : 'コピー'
+                }}</el-button>
+                <el-button @click="newOrderForm.visible = false">CANCLE</el-button>
             </template>
         </el-dialog>
     </div>
@@ -73,7 +86,6 @@ export default {
     data () {
         return {
             condition: {
-                // cy_cut:null,
                 bkg_no: '',
                 bl_no: '',
                 pod: '',
@@ -91,7 +103,16 @@ export default {
             loading: false,
             stateChangeTimer: -1,
             newOrder: false,
-            copy_no: ''
+            newOrderForm: {
+                visible: false,
+                rules: {
+                    no: { required: true, message: '番号を入力してください' }
+                },
+                data: {
+                    type: 0,
+                    no: ''
+                }
+            }
         }
     },
     computed: {
@@ -199,18 +220,24 @@ export default {
             }, 1000)
         },
         addNewOrder () {
-            this.newOrder = true
+            this.newOrderForm.visible = true
         },
         async getOrderID () {
-            if (this.copy_no === '') {
+            if (this.newOrderForm.data.type === 0) {
                 this.$router.push('/form')
             } else {
                 try {
-                    const id = await getOrderId(this.copy_no)
+                    const { newOrderForm } = this.$refs
+                    await newOrderForm.validate()
+                    const id = await getOrderId(this.newOrderForm.data)
                     this.$router.push(`/form/${id}/copy`)
                 } catch (error) {
                 }
             }
+        },
+        dialogOpen () {
+            this.newOrderForm.data.type = 0
+            this.newOrderForm.data.no = ''
         }
     }
 }

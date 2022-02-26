@@ -23,12 +23,12 @@
                     fontSize:'16px'
                 }"
                 >
-                <el-table-column prop="booker"       label="名前"/>
-                <el-table-column prop="tel"    label="電話番号"        width="100"/>
-                <el-table-column prop="place"    label="アドレス" />
-                <el-table-column prop="staff"       label="職員"      width="100"/>
+                <el-table-column prop="booker"     label="名前"/>
+                <el-table-column prop="tel"        label="電話番号"    width="100"/>
+                <el-table-column prop="place"      label="アドレス" />
+                <el-table-column prop="staff"      label="職員"       width="100"/>
                 <el-table-column prop="staff_tel"  label="職員の電話"  width="120"/>
-                <el-table-column prop="short_name"       label="略称" width="100"/>
+                <el-table-column prop="short_name" label="略称"       width="100"/>
                 <el-table-column label="操作" >
                     <el-button-group slot-scope="{row}">
                         <el-button icon="el-icon-edit"   size="mini" @click="showEdit(row)">修改</el-button>
