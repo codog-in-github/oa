@@ -37,7 +37,11 @@ import {
     DELETE_BOOKER,
     EDIT_BOOKER,
     ADD_BOOKER,
-    CLEAR_CACHE
+    CLEAR_CACHE,
+    GET_COUNTRY_LIST,
+    ADD_COUNTRY,
+    EDIT_COUNTRY,
+    DELETE_COUNTRY
 } from '@/constant/API'
 
 export const login = (username, password) => Http.post({
@@ -213,3 +217,26 @@ export const deleteBooker = id => Http.post({
 })
 
 export const clearCache = () => Http.get({ url: CLEAR_CACHE })
+
+export const getCountryList = (pid, query = '') => Http.post({
+    url: GET_COUNTRY_LIST,
+    params: {
+        pid: pid ?? 0,
+        query
+    }
+})
+
+export const addCountry = params => Http.post({
+    url: ADD_COUNTRY,
+    params
+})
+
+export const editCountry = (id, data) => Http.post({
+    url: EDIT_COUNTRY,
+    params: { id, data }
+})
+
+export const deleteCountry = id => Http.post({
+    url: DELETE_COUNTRY,
+    params: { id }
+})

@@ -66,6 +66,11 @@ export const ADD_BOOKER                = CONFIG_PATH     + '/addBooker'
 export const EDIT_BOOKER               = CONFIG_PATH     + '/editBooker'
 export const DELETE_BOOKER             = CONFIG_PATH     + '/deleteBooker'
 
+export const GET_COUNTRY_LIST          = CONFIG_PATH     + '/getCountryList'
+export const ADD_COUNTRY               = CONFIG_PATH     + '/addCountry'
+export const EDIT_COUNTRY              = CONFIG_PATH     + '/editCountry'
+export const DELETE_COUNTRY            = CONFIG_PATH     + '/deleteCountry'
+
 const SYSTEM_PATH                      = API_BASE_PATH   + '/System'
 export const GET_ROLE_LIST             = SYSTEM_PATH     + '/getRoleList'
 export const GET_AUTH_LIST             = SYSTEM_PATH     + '/getAuthList'

@@ -45,6 +45,9 @@ let routes = [
             }, {
                 path: '/booker',
                 component: () => import('@/view/config/BookerList.vue')
+            }, {
+                path: '/country',
+                component: () => import('@/view/config/Country.vue')
             }
 
         ]
