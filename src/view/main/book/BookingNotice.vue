@@ -4,7 +4,7 @@
             <el-radio v-model="address" label="本社" ></el-radio>
             <el-radio v-model="address" label="九州営業所"></el-radio>
         </el-form-item>
-        <el-form-item label="SHIPPER:"><el-input v-model="shipper" :value="shipper"></el-input></el-form-item>
+        <el-form-item label="BOOKER:"><el-input v-model="shipper" :value="shipper"></el-input></el-form-item>
         <el-form-item label="BOOKING NO:"><el-input v-model="booking_no"></el-input></el-form-item>
         <el-form-item label="VESSEL:"><el-input v-model="vessel"></el-input></el-form-item>
         <el-form-item label="VOY:"><el-input v-model="voy"></el-input></el-form-item>
