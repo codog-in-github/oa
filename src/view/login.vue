@@ -15,7 +15,7 @@
                 <el-form-item label="PASSWORD" prop="password">
                     <el-input placeholder="Enter your password" type="password" v-model='form.password'/>
                 </el-form-item>
-                <el-form-item label="PASSWORD" >
+                <el-form-item >
                     <el-checkbox v-model="isRememberMe">REMABER ME</el-checkbox>
                     <el-checkbox v-model="isAutoLogin">AUTO LOGIN</el-checkbox>
                 </el-form-item>
