@@ -923,55 +923,6 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
-"@fullcalendar/common@~5.10.1":
-  version "5.10.1"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/@fullcalendar/common/-/common-5.10.1.tgz#a019951743852277a4095e536fd7716f6f85b9aa"
-  integrity sha512-EumKIJcQTvQdTs75/9dmeREFgjcRVWzqHJS1Xvlz5mNsmB+w9EINCHETRjChtAQg1WD/lTQyVj4sHsKO7vCMSw==
-  dependencies:
-    tslib "^2.1.0"
-
-"@fullcalendar/core@^5.10.1", "@fullcalendar/core@~5.10.1":
-  version "5.10.1"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/@fullcalendar/core/-/core-5.10.1.tgz#05c7653e5004149a63bcb03e9dc8b049186ca50b"
-  integrity sha512-8sVuC6ywXV+cxqsqTZaR1hgUqeyjVed20NyZ7lGW9AY0kma1GIEwLgqPS5Q6uVhHyin68lmgecKfJCwhxENE8w==
-  dependencies:
-    "@fullcalendar/common" "~5.10.1"
-    preact "^10.0.5"
-    tslib "^2.1.0"
-
-"@fullcalendar/daygrid@^5.10.1", "@fullcalendar/daygrid@~5.10.1":
-  version "5.10.1"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/@fullcalendar/daygrid/-/daygrid-5.10.1.tgz#bdee4f58364fdab631b2abf8b56094ab5776f203"
-  integrity sha512-sfUMP+rew0krsBffgNcWWKhBCiyytGfRKZJoc64E8ohX7VWjPcPZuB1xgO5U4wPLmNkT0rZiHoGeQGTXw1+ZKg==
-  dependencies:
-    "@fullcalendar/common" "~5.10.1"
-    tslib "^2.1.0"
-
-"@fullcalendar/interaction@^5.10.1":
-  version "5.10.1"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/@fullcalendar/interaction/-/interaction-5.10.1.tgz#dfa74b5c50bbd5608eb50aeab6e579c8d20cb367"
-  integrity sha512-H1g1QeXg7yXtUcKmVtfg7uzm5R5ElFTvYniiXU+8kJda69IDg7Lee+Y7UDv5dvLb5/HxO86RhPVxRtcOQ8XdXw==
-  dependencies:
-    "@fullcalendar/common" "~5.10.1"
-    tslib "^2.1.0"
-
-"@fullcalendar/timegrid@^5.10.1":
-  version "5.10.1"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/@fullcalendar/timegrid/-/timegrid-5.10.1.tgz#fa7feb909bf599eac1466b9e70c0d56ce0d1aefc"
-  integrity sha512-0O0m+JzFBlg8gxYr/rIjZViRlbndCtjZlDjjIylQHFBeWC32e3cpHEavKGbTIBLN8SDilUYAJnE21abSqC2G/w==
-  dependencies:
-    "@fullcalendar/common" "~5.10.1"
-    "@fullcalendar/daygrid" "~5.10.1"
-    tslib "^2.1.0"
-
-"@fullcalendar/vue@^5.10.1":
-  version "5.10.1"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/@fullcalendar/vue/-/vue-5.10.1.tgz#900ffa55b9f57a3b35c6860e8028737b927d3374"
-  integrity sha512-fzWa76ztn4w6pWUHDGQnedrWeHaBUQ3uTuGT3nM7jr3NOKdufAfzh8y4UHRFN2P2pIWpcEV3wji6DZcHmqhyYw==
-  dependencies:
-    "@fullcalendar/core" "~5.10.1"
-    tslib "^2.1.0"
-
 "@handsontable/vue@^9.0.0":
   version "9.0.2"
   resolved "https://mirrors.huaweicloud.com/repository/npm/@handsontable/vue/-/vue-9.0.2.tgz#32969b34f9330e912ade1d4421a86ed9ecea555c"
@@ -3746,6 +3697,11 @@ eslint@^6.8.0:
     table "^5.2.3"
     text-table "^0.2.0"
     v8-compile-cache "^2.0.3"
+
+esm@^3.2.25:
+  version "3.2.25"
+  resolved "https://mirrors.huaweicloud.com/repository/npm/esm/-/esm-3.2.25.tgz#342c18c29d56157688ba5ce31f8431fbb795cc10"
+  integrity sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==
 
 espree@^6.1.2, espree@^6.2.1:
   version "6.2.1"
@@ -7076,11 +7032,6 @@ postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.14, postcss@^7.0.27, postcss@^7.0.3
     picocolors "^0.2.1"
     source-map "^0.6.1"
 
-preact@^10.0.5:
-  version "10.6.5"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/preact/-/preact-10.6.5.tgz#726d8bd12903a0d51cdd17e2e1b90cc539403e0c"
-  integrity sha512-i+LXM6JiVjQXSt2jG2vZZFapGpCuk1fl8o6ii3G84MA3xgj686FKjs4JFDkmUVhtxyq21+4ay74zqPykz9hU6w==
-
 prebuild-install@^5.3.6:
   version "5.3.6"
   resolved "https://mirrors.huaweicloud.com/repository/npm/prebuild-install/-/prebuild-install-5.3.6.tgz#7c225568d864c71d89d07f8796042733a3f54291"
@@ -8531,7 +8482,7 @@ tslib@^1.9.0:
   resolved "https://mirrors.huaweicloud.com/repository/npm/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.1.0, tslib@^2.3.0:
+tslib@^2.3.0:
   version "2.3.1"
   resolved "https://mirrors.huaweicloud.com/repository/npm/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==

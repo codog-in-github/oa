@@ -168,3 +168,40 @@ export const objectToArray = (obj, deep = false) => {
     }
     return arr
 }
+
+const PASSWORD_OFFSET_INITIAL = 5
+const LEADER_RAND_RAGE = 7
+/**
+ * 密码加密
+ * @param {String} password 明文
+ * @returns {String} 密文
+ */
+export const passwordEncoding = password => {
+    let ciphertext = ''
+    let currentOffset = PASSWORD_OFFSET_INITIAL
+    for (let i = 0; i < password.length; i++) {
+        if (i % LEADER_RAND_RAGE === 0) {
+            currentOffset += Math.floor(Math.random() * LEADER_RAND_RAGE)
+            ciphertext += String.fromCharCode(currentOffset)
+        }
+        ciphertext += String.fromCharCode(password.charCodeAt(i) + currentOffset)
+    }
+    return ciphertext
+}
+/**
+ * 密码解密
+ * @param {String} ciphertext 密文
+ * @returns {String} 明文
+*/
+export const passwordDecoding = ciphertext => {
+    let password = ''
+    let currentOffset = 0
+    for (let i = 0; i < ciphertext.length; i++) {
+        if (i % (LEADER_RAND_RAGE + 1) === 0) {
+            currentOffset = ciphertext.charCodeAt(i)
+            continue
+        }
+        password += String.fromCharCode(ciphertext.charCodeAt(i) - currentOffset)
+    }
+    return password
+}

@@ -32,6 +32,7 @@
 import { clearCache, getMenu, logout } from '@/api/main'
 import ColumnNav from '@/components/ColumnNav.vue'
 import { mapState } from 'vuex'
+import { AUTO_LOGIN_KEY, PASSWORD_KEY } from '@/constant'
 
 export default {
     components: {
@@ -53,6 +54,8 @@ export default {
     methods: {
         async logout () {
             try {
+                localStorage.removeItem(AUTO_LOGIN_KEY)
+                localStorage.removeItem(PASSWORD_KEY)
                 await logout()
                 this.$store.dispatch('logout')
             } catch (error) {

@@ -15,8 +15,12 @@
                 <el-form-item label="PASSWORD" prop="password">
                     <el-input placeholder="Enter your password" type="password" v-model='form.password'/>
                 </el-form-item>
+                <el-form-item label="PASSWORD" >
+                    <el-checkbox v-model="isRememberMe">REMABER ME</el-checkbox>
+                    <el-checkbox v-model="isAutoLogin">AUTO LOGIN</el-checkbox>
+                </el-form-item>
                 <el-form-item style="margin-top:30px;">
-                <el-button type="primary" @click="login" style="width:100%" :loading="loading">login</el-button>
+                    <el-button type="primary" @click="login" style="width:100%" :loading="loading">login</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -24,6 +28,9 @@
 </template>
 <script>
 import { login } from '@/api/main'
+import { AUTO_LOGIN_ENABLE, AUTO_LOGIN_KEY, PASSWORD_KEY, REMABER_ME_ENABLE, REMABER_ME_KEY, USERNAME_KEY } from '@/constant'
+import { passwordDecoding, passwordEncoding } from '@/utils'
+
 export default {
     data () {
         return {
@@ -35,7 +42,9 @@ export default {
                 username: { required: true, message: 'PLEASE ENTER USERNAME' },
                 password: { required: true, message: 'PLEASE ENTER PASSWORD' }
             },
-            loading: false
+            loading: false,
+            isRememberMe: false,
+            isAutoLogin: false
         }
     },
     methods: {
@@ -44,12 +53,44 @@ export default {
                 this.loading = true
                 await this.$refs.form.validate()
                 const userInfo = await login(this.form.username, this.form.password)
-                this.$store.dispatch('login', userInfo)
+                this.$store.dispatch('login', userInfo, this.isRememberMe)
+                if (this.isRememberMe) {
+                    localStorage.setItem(REMABER_ME_KEY, REMABER_ME_ENABLE)
+                    localStorage.setItem(USERNAME_KEY, this.form.username)
+                } else {
+                    localStorage.removeItem(REMABER_ME_KEY)
+                    localStorage.removeItem(USERNAME_KEY)
+                }
+                if (this.autoLogin) {
+                    localStorage.setItem(AUTO_LOGIN_KEY, AUTO_LOGIN_ENABLE)
+                    localStorage.setItem(PASSWORD_KEY, passwordEncoding(this.form.password))
+                }
             } catch (e) {
                 console.log(e)
             } finally {
                 this.loading = false
             }
+        },
+
+        async autoLogin () {
+            try {
+                const username = localStorage.getItem(USERNAME_KEY)
+                const password = passwordDecoding(localStorage.getItem(PASSWORD_KEY))
+                const userInfo = await login(username, password)
+                this.$store.dispatch('login', userInfo)
+            } catch (error) {
+                this.$message.error('自動ログインに失敗しました')
+            }
+        }
+    },
+    created () {
+        this.isAutoLogin = localStorage.getItem(AUTO_LOGIN_KEY) === AUTO_LOGIN_ENABLE
+        this.isRememberMe = localStorage.getItem(REMABER_ME_KEY) === REMABER_ME_ENABLE
+
+        if (this.isAutoLogin) {
+            this.autoLogin()
+        } else if (this.isRememberMe) {
+            this.form.username = localStorage.getItem(USERNAME_KEY)
         }
     }
 }
