@@ -171,6 +171,7 @@ export const objectToArray = (obj, deep = false) => {
 
 const PASSWORD_OFFSET_INITIAL = 5
 const LEADER_RAND_RAGE = 7
+
 /**
  * 密码加密
  * @param {String} password 明文
@@ -188,6 +189,7 @@ export const passwordEncoding = password => {
     }
     return ciphertext
 }
+
 /**
  * 密码解密
  * @param {String} ciphertext 密文

@@ -1,8 +1,7 @@
 require = require('esm')(module)
 const { passwordDecoding, passwordEncoding } = require('../src/utils')
 
-const ciphertext = passwordEncoding('1234567')
-
+const ciphertext = passwordEncoding('thisismypassword')
 console.log('ciphertext：', ciphertext)
 
 const password = passwordDecoding(ciphertext)

@@ -69,7 +69,7 @@ export default {
             this.loading = true
             try {
                 const fd = await getBookingNotice(this.$route.params.bkg_id)
-                this.shipper = fd.trader.shipper
+                this.shipper = fd.trader.booker
                 this.booking_no = fd.bkg.bkg_no
                 this.vessel = fd.shipper.vessel_name
                 this.voy = fd.shipper.voyage
