@@ -41,7 +41,9 @@ import {
     GET_COUNTRY_LIST,
     ADD_COUNTRY,
     EDIT_COUNTRY,
-    DELETE_COUNTRY
+    DELETE_COUNTRY,
+    HS_UPLOAD,
+    HS_ADD
 } from '@/constant/API'
 
 export const login = (username, password) => Http.post({
@@ -239,4 +241,24 @@ export const editCountry = (id, data) => Http.post({
 export const deleteCountry = id => Http.post({
     url: DELETE_COUNTRY,
     params: { id }
+})
+
+/**
+ * 
+ * @param {File} file 上传excel
+ * @returns {Promise<string>}
+ */
+export const hsUpload = (file, formData) => {
+    if(formData){
+        const data = new FormData()
+        data.append('config', JSON.stringify(formData))
+        return Http.upload(HS_UPLOAD, file, data)
+    } else {
+        return Http.upload(HS_UPLOAD, file)
+    }
+}
+
+export const hsAdd = (description,hs) => Http.post({
+    url: HS_ADD,
+    params: { description,hs }
 })

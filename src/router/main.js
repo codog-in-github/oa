@@ -48,8 +48,10 @@ let routes = [
             }, {
                 path: '/country',
                 component: () => import('@/view/config/Country.vue')
+            }, {
+                path: '/hs',
+                component: () => import('@/view/hs')
             }
-
         ]
     }, {
         path: '/login',

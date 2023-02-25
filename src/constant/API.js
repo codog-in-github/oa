@@ -78,3 +78,7 @@ export const GET_ROLE_AUTH_LIST        = SYSTEM_PATH     + '/getRoleAuthList'
 export const GET_PARENT_AUTH           = SYSTEM_PATH     + '/getParentAuth'
 export const ADD_MENU                  = SYSTEM_PATH     + '/addMenu'
 export const CHANGE_ROLE_AUTH          = SYSTEM_PATH     + '/changeRoleAuth'
+
+const HS_PATH                                 = API_BASE_PATH   + '/Hs'
+export const HS_ADD                           = HS_PATH   + '/add'
+export const HS_UPLOAD                        = HS_PATH   + '/upload'
