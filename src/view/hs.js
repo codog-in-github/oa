@@ -16,6 +16,15 @@ const configForm = {
             { label: '否', value: 0 }
         ],
         default: 1
+    },
+    update: {
+        name: 'el-radio-group',
+        label: '是否跟新字典',
+        children: [
+            { label: '是', value: 1 },
+            { label: '否', value: 0 }
+        ],
+        default: 1
     }
 }
 /**
