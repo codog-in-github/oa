@@ -76,8 +76,7 @@ export default {
         }
     },
     render () {
-        return <div>
-            <ElButton type="primary" onClick={this.upload} loading={this.loading}>upload</ElButton>
+        return <div style="padding: 2em">
             <ElForm labelWidth="180px">
                 <ElFormItem label="Description">
                     <ElInput value={this.description} onInput={val => this.description = val}></ElInput>
@@ -86,8 +85,13 @@ export default {
                     <ElInput value={this.hs} onInput={val => this.hs = val}></ElInput>
                 </ElFormItem>
             </ElForm>
-            <ElButton type="primary" onClick={this.add}>add</ElButton>
-            <ElButton onClick={this.clear}>clear</ElButton>
+            <div style="display: flex; justify-content: space-between">
+                <ElButton type="primary" onClick={this.upload} loading={this.loading}>upload</ElButton>
+                <div>
+                    <ElButton type="primary" onClick={this.add}>add</ElButton>
+                    <ElButton onClick={this.clear}>clear</ElButton>
+                </div>
+            </div>
         </div>
     }
 }
