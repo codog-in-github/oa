@@ -487,7 +487,7 @@ export default {
                     if (this.rate && row.detail && row.currency) {
                         const price = row.detail * this.rate.split('|')[1]
                         if (row.price !== price) {
-                            row.price = parseInt(price)
+                            row.price = parseInt(price.toFixed(2))
                         }
                     }
                     const sum = (row.price || 0) * (row.num || 0)
