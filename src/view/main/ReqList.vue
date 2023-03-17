@@ -15,6 +15,7 @@
         <main>
             <el-table
                 border
+                v-loading="loading"
                 size              ="mini"
                 height            ="100%"
                 :data             ="list"
@@ -74,16 +75,14 @@
                                     ((row.parent || row).state == 3)
                                 "
                                 type="danger"
-                                @click.stop="doComplete(row, true)">
-                                返
-                            </el-button>
+                                @click.stop="doComplete(row, true)"
+                            >返</el-button>
                             <el-button
                                 slot-scope ="{row}"
                                 v-else
                                 type="primay"
-                                @click.stop="doComplete(row)">
-                                完
-                            </el-button>
+                                @click.stop="doComplete(row)"
+                            >完</el-button>
                         </el-table-column>
                         <el-table-column label="保存する" width="100" align="center" >
                             <el-button slot-scope="{row}" @click.stop="changeDetail(row)">保存する</el-button>
@@ -147,6 +146,8 @@ export default {
 
             rbShow: false,
 
+            loading: false,
+
             PRICE_TYPE_EXPEND,
             PRICE_TYPE_INCOME
         }
@@ -157,6 +158,7 @@ export default {
     methods: {
         async reLoad () {
             try {
+                this.loading = true
                 const bkgList = await getReqList({
                     condition: this.condition,
                     page_size: this.page_size,
@@ -250,6 +252,7 @@ export default {
             } catch (e) {
                 console.log('e :', e)
             }
+            this.loading = false
         },
 
         arraySpanMethod ({ row, columnIndex }) {
@@ -331,7 +334,7 @@ export default {
         },
 
         dateFormat (_, __, cellValue) {
-            return cellValue.substr(0, 10)
+            return cellValue?.substr(0, 10) ?? ''
         },
 
         sizeChangeHandler (size) {
