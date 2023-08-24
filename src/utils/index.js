@@ -228,7 +228,7 @@ export function convertRes2Blob(response) {
         tempLink.setAttribute('download', decodeURI(fileName))
         // 兼容：某些浏览器不支持HTML5的download属性
         if (typeof tempLink.download === 'undefined') {
-        tempLink.setAttribute('target', '_blank')
+            tempLink.setAttribute('target', '_blank')
         }
         // 挂载a标签
         document.body.appendChild(tempLink)

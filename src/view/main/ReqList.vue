@@ -15,6 +15,7 @@
         <main>
             <el-table
                 border
+                v-loading         ="loading"
                 size              ="mini"
                 height            ="100%"
                 :data             ="list"
@@ -68,7 +69,7 @@
                         <el-table-column label="完" width="100" align="center" >
                             <el-button
                                 slot-scope ="{row}"
-                                v-if  ="
+                                v-if="
                                     (row.bkgRowSpan !== 0 && row.state == 1) ||
                                     (row.bkgRowSpan === 0 && row.parent.state == 2) ||
                                     ((row.parent || row).state == 3)
@@ -104,7 +105,7 @@
             >
             </el-pagination>
         </footer>
-        <el-dialog :visible="newOrder" @close="newOrder = false" @open="copy_no = ''" title="NEW ORDER">
+        <el-dialog :visible.sync="newOrder" @open="copy_no = ''" title="NEW ORDER">
             BKG NO:<el-input v-model="copy_no"></el-input>
             <template #footer>
                 <el-button @click="getOrderID" type="primary">{{copy_no === ''? 'ADD' : 'COPY'}}</el-button>
@@ -148,7 +149,9 @@ export default {
             rbShow: false,
 
             PRICE_TYPE_EXPEND,
-            PRICE_TYPE_INCOME
+            PRICE_TYPE_INCOME,
+
+            loading: false
         }
     },
     mounted () {
@@ -156,6 +159,7 @@ export default {
     },
     methods: {
         async reLoad () {
+            this.loading = true
             try {
                 const bkgList = await getReqList({
                     condition: this.condition,
@@ -250,6 +254,7 @@ export default {
             } catch (e) {
                 console.log('e :', e)
             }
+            this.loading = false
         },
 
         arraySpanMethod ({ row, columnIndex }) {
@@ -331,7 +336,7 @@ export default {
         },
 
         dateFormat (_, __, cellValue) {
-            return cellValue.substr(0, 10)
+            return cellValue?.substr(0, 10) ?? ''
         },
 
         sizeChangeHandler (size) {
