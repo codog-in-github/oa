@@ -6,6 +6,6 @@ module.exports = {
         devtool: 'source-map'
     },
     devServer: {
-        proxy: 'http://127.0.0.1:81/'
+        proxy: process.env.PROXY
     }
 }
