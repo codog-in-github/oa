@@ -1,30 +1,30 @@
 <template>
-<div class="root">
-  <router-view></router-view>
+  <div class="root">
+    <router-view />
   </div>
 </template>
 
 <script>
-import { checkLoginStatus, clearStrage } from './api/main'
+import { checkLoginStatus, clearStrage } from './api/main';
 
 export default {
-    name: 'App',
+  name: 'App',
 
-    components: {},
-    beforeCreate () {
-        clearStrage().then(last => {
-            if (last !== localStorage.getItem('last')) {
-                localStorage.clear()
-                localStorage.setItem('last', last)
-            }
-        })
+  components: {},
+  beforeCreate () {
+    clearStrage().then(last => {
+      if (last !== localStorage.getItem('last')) {
+        localStorage.clear();
+        localStorage.setItem('last', last);
+      }
+    });
 
-        checkLoginStatus().then(userInfo => {
-            this.$store.commit('updateUserInfo', userInfo)
-        })
-    },
-    methods: {
+    checkLoginStatus().then(userInfo => {
+      this.$store.commit('updateUserInfo', userInfo);
+    });
+  },
+  methods: {
 
-    }
-}
+  }
+};
 </script>

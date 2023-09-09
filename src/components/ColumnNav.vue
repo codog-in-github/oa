@@ -1,63 +1,81 @@
 <template>
-    <nav class="column-nav">
-        <ul>
-            <div v-for="(url, i) in urls" :key="i" :class="url.toggle?'grow':'shrink'">
-                <li :class="(isFocus(url.to)?'focus':'normal')" class="parent-li" @click="linkTo(url)">
-                    <span><span class="icon" :class="url.class || ''"></span>{{url.label}}</span>
-                    <div v-if="url.child" class="arrow" :class="url.toggle?'el-icon-caret-bottom':'el-icon-caret-left'"></div>
-                </li>
-                <div v-if="url.child" class="child" >
-                    <li v-for="(child, i) in url.child"
-                        :key="i"
-                        class="child-li"
-                        :class="(isFocus(child.to)?'focus':'normal') + ` ${child.class || ''}`"
-                        @click.stop="linkTo(child)"
-                    >
-                        <span>{{child.label}}</span>
-                    </li>
-                </div>
-            </div>
-
-        </ul>
-    </nav>
+  <nav class="column-nav">
+    <ul>
+      <div
+        v-for="(url, i) in urls"
+        :key="i"
+        :class="url.toggle?'grow':'shrink'"
+      >
+        <li
+          :class="(isFocus(url.to)?'focus':'normal')"
+          class="parent-li"
+          @click="linkTo(url)"
+        >
+          <span><span
+            class="icon"
+            :class="url.class || ''"
+          />{{ url.label }}</span>
+          <div
+            v-if="url.child"
+            class="arrow"
+            :class="url.toggle?'el-icon-caret-bottom':'el-icon-caret-left'"
+          />
+        </li>
+        <div
+          v-if="url.child"
+          class="child"
+        >
+          <li
+            v-for="(child, i) in url.child"
+            :key="i"
+            class="child-li"
+            :class="(isFocus(child.to)?'focus':'normal') + ` ${child.class || ''}`"
+            @click.stop="linkTo(child)"
+          >
+            <span>{{ child.label }}</span>
+          </li>
+        </div>
+      </div>
+    </ul>
+  </nav>
 </template>
 <script>
 export default {
-    props: {
-        urls: {
-            default: () => []
-        }
-    },
-    computed: {},
-    methods: {
-        linkTo (url) {
-            const { to, child } = url
-            if (child) {
-                url.toggle = !url.toggle
-            } else if (this.$route.path !== to) {
-                if (this.$route.path.indexOf('/form') !== -1 && this.$route.params.mode !== 'view') {
-                    this.$confirm('Do you want to leave this page', 'warning', {
-                        confirmButtonText: 'ok',
-                        cancelButtonText: 'cancel',
-                        type: 'warning'
-                    }).then(() => {
-                        this.$router.push(to)
-                    }).catch(() => {
-                        // this.$message({
-                        //     type: 'info',
-                        //     message: 'cancel'
-                        // });
-                    })
-                } else {
-                    this.$router.push(to)
-                }
-            }
-        },
-        isFocus (to) {
-            return this.$route.path === to
-        }
+  props: {
+    urls: {
+      default: () => []
     }
-}
+  },
+  computed: {},
+  methods: {
+    linkTo (url) {
+      const { to, child } = url;
+      if (child) {
+        url.toggle = !url.toggle;
+      } else if (this.$route.path !== to) {
+        if (this.$route.path.indexOf('/form') !== -1 && this.$route.params.mode !== 'view') {
+          this.$confirm('Do you want to leave this page', 'warning', {
+            confirmButtonText: 'ok',
+            cancelButtonText: 'cancel',
+            type: 'warning'
+          }).then(() => {
+            this.$router.push(to);
+          }).catch(() => {
+            // this.$message({
+            //     type: 'info',
+            //     message: 'cancel'
+            // });
+          });
+        } else {
+          this.$router.push(to);
+        }
+      }
+    },
+    isFocus (to) {
+      return this.$route.path === to;
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
 @deep-background: #1B1B1B;

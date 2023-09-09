@@ -1,0 +1,34 @@
+{
+  "root": true,
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "process": true
+  },
+  "extends": ["plugin:vue/essential", "eslint:recommended", "elemefe"],
+  "parserOptions": {
+    "parser": "babel-eslint"
+  },
+  "rules": {
+    "indent": ["error", 2, { "SwitchCase": 2 }],
+    "vue/html-indent": ["error", 2],
+    "vue/no-mutating-props": "off",
+    "block-spacing": ["error", "always"], // 在代码块的花括号间要有空格
+    "func-call-spacing": ["error", "never"], // 在函数标识符和其调用之间不能有空格
+    "keyword-spacing": ["error", { "after": true, "before": true }], // 在if/else这些关键字前后要有空格
+    "no-mixed-spaces-and-tabs": "error", // 禁止空格和tab混用
+    "no-trailing-spaces": "error", // 禁止行尾空格
+    "object-curly-spacing": ["error", "always", { "objectsInObjects": true }], // 在object的花括号间要有空格
+    "space-before-blocks": "error", // 在块之前要有空格
+    "space-before-function-paren": ["error", "always"], // 在函数左括号前要有空格
+    "space-infix-ops": "error", // 操作符周围要有空格
+    "space-unary-ops": "error", // 在一元操作符后面要有空格
+    "spaced-comment": ["error", "always"], // 注释后面要有空格
+    "switch-colon-spacing": "error", // switch的冒号后面要有空格
+    "arrow-spacing": "error", // 箭头函数的箭头前后要有空格
+    "semi": ["error", "always"], // 句末不要分号
+    "radix": 0, // parseInt解析的进制
+    "eqeqeq": "off"
+  }
+}

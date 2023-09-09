@@ -1,19 +1,20 @@
 <template>
-    <div class="badge">
-        <slot>
-            <div>{{title}}</div>
-        </slot>
-        <div
-            class="badge-state"
-            :class="'badge-state-'+type"
-            >{{value}}
-        </div>
+  <div class="badge">
+    <slot>
+      <div>{{ title }}</div>
+    </slot>
+    <div
+      class="badge-state"
+      :class="'badge-state-'+type"
+    >
+      {{ value }}
     </div>
+  </div>
 </template>
 <script>
 export default {
-    props: ['value', 'title', 'type' ]
-}
+  props: ['value', 'title', 'type' ]
+};
 </script>
 <style scoped>
 .badge{

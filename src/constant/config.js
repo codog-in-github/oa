@@ -1,1 +1,1 @@
-export const API_BASE_PATH = '/Oa'
+export const API_BASE_PATH = '/Oa';
