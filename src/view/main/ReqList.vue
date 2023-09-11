@@ -12,7 +12,7 @@
         <el-date-picker type="daterange" value-format="yyyy-MM-dd" v-model="condition.income_real_time" start-placeholder="入金日" size="mini" />
         <el-button type="primary" @click="reLoad">SEARCH</el-button>
         <el-button @click="clearCondition">CLEAR</el-button>
-        <el-button @click="exportAccounting" v-if="isEnd">EXPORT</el-button>
+        <el-button @click="exportAccounting">EXPORT</el-button>
       </div>
     </header>
     <main>
@@ -116,6 +116,7 @@ import RequestBook from './book/RequestBook.vue';
 import { getReqList, getOrderId, hasRequestbook, getIncomeList, getExpendList, saveRealTimeIncome, mvRequestStep } from '@/api/main';
 import { postNewWindow } from '@/utils';
 import { ACCOUNTING_INCOME } from '@/constant/API';
+import moment from 'moment';
 
 const PRICE_TYPE_EXPEND = 0;
 const PRICE_TYPE_INCOME = 1;
@@ -132,7 +133,13 @@ export default {
         pol: '',
         booker: '',
         dg: '',
+        /**
+         * @type {[string, string]}
+         */
         request_date: null,
+        /**
+         * @type {[string, string]}
+         */
         income_real_time: null
       },
       page_size: 10,
@@ -179,7 +186,7 @@ export default {
           condition: this.condition,
           page_size: this.page_size,
           page: (this.page || 1) - 1,
-          req_state: this.$route.params.state || ''
+          req_state: this.$route.params.state
         });
         const { list, total, page } = bkgList;
         this.list = Object.freeze(list);
@@ -191,8 +198,30 @@ export default {
       this.loading = false;
     },
 
+    validateExportQuery () {
+      const keys = ['request_date', 'income_real_time'];
+      for (const k of keys) {
+        const val = this.condition[k];
+        if (val && val.length === 2) {
+          let start = moment(val[0]);
+          let end = moment(val[1]);
+          const d = end.diff(start, 'day');
+          if (d <= 31) {
+            return true;
+          }
+        }
+      }
+      return false;
+    },
+
     exportAccounting () {
-      postNewWindow(ACCOUNTING_INCOME, this.condition);
+      if (!this.validateExportQuery()) {
+        return this.$message.error('请至多选择一个月的数据');
+      }
+      postNewWindow(ACCOUNTING_INCOME, {
+        ...this.condition,
+        'request_step': this.$route.params.state
+      });
     },
 
     save (id, time) {
