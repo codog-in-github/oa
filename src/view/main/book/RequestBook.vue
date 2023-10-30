@@ -417,6 +417,10 @@ export default {
     readonly: {
       type: Boolean,
       default: true
+    },
+    checkChangeStatus: {
+      type: Function,
+      default: () => Promise.resolve()
     }
   },
   data () {
@@ -600,7 +604,8 @@ export default {
     unitSearch (str, cb) {
       cb(this.options.unit.item);
     },
-    beDownload () {
+    async beDownload () {
+      await this.checkChangeStatus();
       postNewWindow(REQUESTBOOK, {
         id: this.id,
         bkg_id: this.bkgId,

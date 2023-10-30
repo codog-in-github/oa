@@ -12,6 +12,7 @@
   },
   "rules": {
     "indent": ["error", 2, { "SwitchCase": 2 }],
+    "no-unreachable": "warn",
     "vue/html-indent": ["error", 2],
     "vue/no-mutating-props": "off",
     "block-spacing": ["error", "always"], // 在代码块的花括号间要有空格

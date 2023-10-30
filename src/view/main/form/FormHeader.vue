@@ -113,6 +113,7 @@
       ref="rbook"
       :bkg-id="bkgId"
       :readonly="false"
+      :checkChangeStatus="checkChangeStatus"
     />
   </div>
 </template>
@@ -120,7 +121,8 @@
 import TitleGroup from '@/components/TitleGroup';
 import { getOptionsAnsyc, common } from '@/mixin/main';
 import RequestBook from '../book/RequestBook';
-import { deleteOrder } from '@/api/main';
+import { changeOrderStep, deleteOrder } from '@/api/main';
+import { OREDER_STAUS } from '@/constant';
 
 export default {
   components: {
@@ -229,6 +231,7 @@ export default {
       };
     },
     setData ({ bkg }) {
+      this.step = bkg.step;
       if (this.isCopy) {
         this.bkg_date = new Date();
       } else {
@@ -244,6 +247,20 @@ export default {
     },
     showReqBook () {
       this.$refs.rbook.loadData(this.bkgId);
+    },
+    async checkChangeStatus () {
+      try {
+        const complete = OREDER_STAUS[OREDER_STAUS.length - 1];
+        if (this.step !== complete) {
+          await this.$confirm('在の注文ステータスは終了していませんが、終了ステータスに変更しますか？', {
+            cancelButtonText: '変更せずに直接エクスポート'
+          });
+          await changeOrderStep(
+            this.$route.params.bkg_id, complete
+          );
+        }
+      } catch (error) {
+      }
     }
   }
 };
