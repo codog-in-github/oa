@@ -418,7 +418,7 @@ export default {
       type: Boolean,
       default: true
     },
-    checkChangeStatus: {
+    checkChangeRequestStep: {
       type: Function,
       default: () => Promise.resolve()
     }
@@ -605,7 +605,7 @@ export default {
       cb(this.options.unit.item);
     },
     async beDownload () {
-      await this.checkChangeStatus();
+      await this.checkChangeRequestStep();
       postNewWindow(REQUESTBOOK, {
         id: this.id,
         bkg_id: this.bkgId,

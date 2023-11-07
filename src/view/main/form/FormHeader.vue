@@ -113,7 +113,7 @@
       ref="rbook"
       :bkg-id="bkgId"
       :readonly="false"
-      :checkChangeStatus="checkChangeStatus"
+      :checkChangeRequestStep="checkChangeRequestStep"
     />
   </div>
 </template>
@@ -121,8 +121,7 @@
 import TitleGroup from '@/components/TitleGroup';
 import { getOptionsAnsyc, common } from '@/mixin/main';
 import RequestBook from '../book/RequestBook';
-import { changeOrderStep, deleteOrder } from '@/api/main';
-import { OREDER_STAUS } from '@/constant';
+import { changeOrderRequestStep, deleteOrder } from '@/api/main';
 
 export default {
   components: {
@@ -174,8 +173,6 @@ export default {
     async deleteButtonHandler () {
       try {
         await this.$confirm('Are you sure?', 'alert', {
-          confirmButtonText: 'ok',
-          cancelButtonText: 'cancel',
           type: 'warning'
         });
         await deleteOrder(this.$route.params.bkg_id, 'true');
@@ -232,6 +229,7 @@ export default {
     },
     setData ({ bkg }) {
       this.step = bkg.step;
+      this.request_step = Number(bkg.request_step);
       if (this.isCopy) {
         this.bkg_date = new Date();
       } else {
@@ -248,16 +246,17 @@ export default {
     showReqBook () {
       this.$refs.rbook.loadData(this.bkgId);
     },
-    async checkChangeStatus () {
+    async checkChangeRequestStep () {
       try {
-        const complete = OREDER_STAUS[OREDER_STAUS.length - 1];
-        if (this.step !== complete) {
+        const complete = 1;
+        if (this.request_step !== complete) {
           await this.$confirm('在の注文ステータスは終了していませんが、終了ステータスに変更しますか？', {
             cancelButtonText: '変更せずに直接エクスポート'
           });
-          await changeOrderStep(
+          await changeOrderRequestStep(
             this.$route.params.bkg_id, complete
           );
+          this.request_step = complete;
         }
       } catch (error) {
       }
