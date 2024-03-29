@@ -28,6 +28,9 @@ let routes = [
         path: '/list/:state',
         component: () => import('@/view/main/BKGList.vue')
       }, {
+        path: '/list/f/:status',
+        component: () => import('@/view/main/BKGList2.vue')
+      }, {
         path: '/container-list',
         component: () => import('@/view/main/ContainerList.vue')
       }, {

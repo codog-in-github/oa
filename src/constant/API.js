@@ -32,6 +32,7 @@ export const CONFIRM_DETAIL            = API_BASE_PATH   + '/Container/confirm';
 
 const BKG_PATH                         = API_BASE_PATH   + '/Bkg';
 export const GET_BKG_LIST              = BKG_PATH        + '/getList';
+export const GET_BKG_LIST2             = BKG_PATH        + '/getList2';
 export const GET_REQ_LIST              = BKG_PATH        + '/getReqList';
 export const SAVE_ORDER                = BKG_PATH        + '/saveData';
 export const GET_ORDER                 = BKG_PATH        + '/getBkgOrder';
@@ -86,6 +87,6 @@ export const GET_PARENT_AUTH           = SYSTEM_PATH     + '/getParentAuth';
 export const ADD_MENU                  = SYSTEM_PATH     + '/addMenu';
 export const CHANGE_ROLE_AUTH          = SYSTEM_PATH     + '/changeRoleAuth';
 
-const HS_PATH                                 = API_BASE_PATH   + '/Hs';
-export const HS_ADD                           = HS_PATH   + '/add';
-export const HS_UPLOAD                        = HS_PATH   + '/upload';
+const HS_PATH                          = API_BASE_PATH   + '/Hs';
+export const HS_ADD                    = HS_PATH         + '/add';
+export const HS_UPLOAD                 = HS_PATH         + '/upload';

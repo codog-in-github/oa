@@ -44,6 +44,7 @@ export const checkLoginStatus = get(API.LOGIN_STATUS);
 export const logout = get(API.LOGOUT_PATH);
 export const getOptions = get(API.OPTIONS_LIST, ['sid', 'pid']);
 export const getBkgList = post(API.GET_BKG_LIST);
+export const getBkgList2 = post(API.GET_BKG_LIST2);
 export const getContainerList = post(API.GET_CONTAINER_LIST);
 export const saveOrder = post(API.SAVE_ORDER);
 export const getOrder = get(API.GET_ORDER, ['bkg_id']);
