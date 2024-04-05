@@ -51,6 +51,7 @@
         border
         :data="list"
         height="100%"
+        @sort-change="sortChange"
         :header-cell-style="{
           background:'#409eff',
           color:'#fff',
@@ -67,7 +68,7 @@
         <el-table-column
           prop="show_cy_cut"
           label="CUT"
-          sortable
+          sortable="custom"
           :formatter="dateFormat"
           width="100px"
           align="center"
@@ -75,7 +76,7 @@
         <el-table-column
           prop="bkg_date"
           label="BKG"
-          sortable
+          sortable="custom"
           :formatter="dateFormat"
           width="100px"
           align="center"
@@ -303,7 +304,8 @@ export default {
           condition: this.condition,
           page_size: this.page_size,
           page: (this.page || 1) - 1,
-          status: this.$route.params.status || ''
+          status: this.$route.params.status || '',
+          sort: this.sort
         });
 
         this.list = bkgList.list.map(i => {
@@ -320,6 +322,12 @@ export default {
       } catch (error) {
       }
       this.loading = false;
+    },
+    sortChange ({ prop, order }) {
+      this.sort = {
+        prop, order
+      };
+      this.reLoad();
     },
     dateFormat (_, __, cellValue) {
       return cellValue.substr(0, 10);
