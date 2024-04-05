@@ -57,6 +57,7 @@ export const HANDING                   = EXPORT         + '/handling';
 export const REQUESTBOOK               = EXPORT         + '/requestbook';
 export const BOOKING_NOTICE            = EXPORT         + '/bookingNotice';
 export const ACCOUNTING_INCOME         = EXPORT         + '/accountingIncome';
+export const ACCOUNTING_INCOME_SIMPLE  = EXPORT         + '/accountingIncomeSimple';
 
 const REQUESTBOOK_DIR                  = API_BASE_PATH   + '/Requestbook';
 export const GET_REQUESTBOOK           = REQUESTBOOK_DIR + '/getBook';

@@ -12,7 +12,8 @@
         <el-date-picker type="daterange" value-format="yyyy-MM-dd" v-model="condition.income_real_time" start-placeholder="入金日" size="mini" />
         <el-button type="primary" @click="reLoad">SEARCH</el-button>
         <el-button @click="clearCondition">CLEAR</el-button>
-        <el-button @click="exportAccounting">EXPORT</el-button>
+        <el-button @click="exportAccounting()">EXPORT</el-button>
+        <el-button @click="exportAccountingSimple">SIMPLE EXPORT</el-button>
       </div>
     </header>
     <main>
@@ -115,7 +116,7 @@
 import RequestBook from './book/RequestBook.vue';
 import { getReqList, getOrderId, hasRequestbook, getIncomeList, getExpendList, saveRealTimeIncome, mvRequestStep } from '@/api/main';
 import { postNewWindow } from '@/utils';
-import { ACCOUNTING_INCOME } from '@/constant/API';
+import { ACCOUNTING_INCOME, ACCOUNTING_INCOME_SIMPLE } from '@/constant/API';
 import moment from 'moment';
 
 const PRICE_TYPE_EXPEND = 0;
@@ -214,14 +215,17 @@ export default {
       return false;
     },
 
-    exportAccounting () {
+    exportAccounting (url = ACCOUNTING_INCOME) {
       if (!this.validateExportQuery()) {
         return this.$message.error('请至多选择一个月的数据');
       }
-      postNewWindow(ACCOUNTING_INCOME, {
+      postNewWindow(url, {
         ...this.condition,
         'request_step': this.$route.params.state
       });
+    },
+    exportAccountingSimple () {
+      this.exportAccounting(ACCOUNTING_INCOME_SIMPLE);
     },
 
     save (id, time) {
