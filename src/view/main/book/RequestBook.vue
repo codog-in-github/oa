@@ -92,7 +92,11 @@
           </el-col>
         </el-row>
         <el-divider />
-        <el-table :data="detail">
+        <el-table
+          :data="detail"
+          ref="dragTable"
+          row-key="key"
+          @cell-mouse-enter.once='rowDrop'>
           <el-table-column label="明細項目">
             <template slot-scope="scope">
               <el-autocomplete
@@ -181,27 +185,22 @@
             </template>
           </el-table-column>
           <el-table-column>
-            <template slot-scope="{ $index, row }">
+            <template slot-scope="{ $index }">
               <el-button-group>
-                <el-button
-                  v-if="$index !==0 "
-                  icon="el-icon-caret-top"
-                  circle
-                  @click="moveUp($index, row)"
-                />
-                <el-button
-                  v-if="$index !== detail.length-1 "
-                  icon="el-icon-caret-bottom"
-                  circle
-                  @click="moveDown($index, row)"
-                />
                 <el-button
                   icon="el-icon-remove"
                   circle
                   type="danger"
                   @click="detailDel($index)"
                 />
+                <el-button
+                  icon="el-icon-rank"
+                  circle
+                  type="info"
+                  class="handle"
+                />
               </el-button-group>
+              
             </template>
           </el-table-column>
         </el-table>
@@ -394,6 +393,7 @@ import { findInArray, getRandomID, postNewWindow } from '@/utils';
 import { getBankList, getDepartmentList, getRequestbook, getRequestbookList, hasBookByCompanyNo } from '@/api/main';
 import moment from 'moment';
 import { REQUESTBOOK } from '@/constant/API';
+import sortable from 'sortablejs'
 
 const RATE = 'RATE';
 let extraDefault = {};
@@ -606,6 +606,11 @@ export default {
     },
     async beDownload () {
       await this.checkChangeRequestStep();
+      const newDetail = this.detail.map(item => {
+        const cp = { ...item }
+        delete cp.key
+        return cp
+      })
       postNewWindow(REQUESTBOOK, {
         id: this.id,
         bkg_id: this.bkgId,
@@ -615,7 +620,7 @@ export default {
         date: this.date,
         booker_name: this.booker_name,
         extra: JSON.stringify(this.extra),
-        detail: JSON.stringify(this.detail),
+        detail: JSON.stringify(newDetail),
         bank: this.bank,
         address: this.address,
 
@@ -671,12 +676,13 @@ export default {
         }
       }
       this.detail = isCopy ? data.detail.map(
-        detail => ({
+        (detail, i) => ({
           ...detail,
           num: 0,
-          total: 0
+          total: 0,
+          key: i
         })
-      ) : data.detail;
+      ) : data.detail.map((item, i) => ({ ...item, key: i}));
       extraDefault = data.extraDefault;
       this.loading = false;
     },
@@ -732,8 +738,19 @@ export default {
         sort.push(item);
       }
       this.detail = sort;
-    }
-  }
+    },
+    rowDrop() {
+        const tbody2 = this.$refs.dragTable.$el.querySelector('.el-table__body-wrapper tbody');
+        sortable.create(tbody2, {
+          handle: '.handle',
+          animation: 150,
+          onEnd: ({ newIndex, oldIndex }) => {
+            const target = this.detail.splice(oldIndex, 1)[0]
+            this.detail.splice(newIndex, 0, target)
+          }
+        });
+      },
+    },
 };
 </script>
 <style lang="less" scoped>
@@ -749,4 +766,21 @@ export default {
 .value{
     text-align: right;
 }
+.handle, .canDrag {
+  cursor: move
+}
+
+::v-deep .hover-row > td {
+  background-color: #fff !important;
+}
+
+::v-deep .sortable-chosen > td {
+  // 拖动的样式
+  background-color: #eff2f6 !important;
+}
+
+::v-deep .el-table--enable-row-hover .el-table__body tr:hover > td {
+  // 修复拖拽的时候hover的不消失的问题
+  background-color: #fff;
+  }
 </style>
