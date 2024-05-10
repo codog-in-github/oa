@@ -122,7 +122,7 @@ import TitleGroup from '@/components/TitleGroup';
 import { getOptionsAnsyc, common } from '@/mixin/main';
 import RequestBook from '../book/RequestBook';
 import { changeOrderRequestStep, deleteOrder } from '@/api/main';
-
+import moment from 'moment';
 export default {
   components: {
     TitleGroup,
@@ -134,7 +134,7 @@ export default {
   ],
   data () {
     return {
-      bkg_date: new Date(),
+      bkg_date: moment().format('YYYY-MM-DD'),
       bkg_no: null,
       bl_no: null,
       bkg_type: null,

@@ -42,7 +42,6 @@ export const CHANGE_ORDER_STATE        = BKG_PATH        + '/changeOrderState';
 export const CHANGE_ORDER_STEP         = BKG_PATH        + '/changeOrderStep';
 export const SET_CALENDAR_STATUS       = BKG_PATH        + '/setCalendarStatus';
 export const CHANGE_ORDER_REQUEST_STEP = BKG_PATH        + '/changeOrderRequestStep';
-export const CHANGE_REQUEST_DETAIL     = BKG_PATH        + '/changeRequestDetail';
 export const GET_CALENDAR              = BKG_PATH        + '/getCalendar';
 export const GET_DETAIL_CALENDAR       = BKG_PATH        + '/getDetailCalendar';
 export const IMCOME_LIST               = BKG_PATH        + '/incomeList';
@@ -61,6 +60,7 @@ export const ACCOUNTING_INCOME_SIMPLE  = EXPORT         + '/accountingIncomeSimp
 
 const REQUESTBOOK_DIR                  = API_BASE_PATH   + '/Requestbook';
 export const GET_REQUESTBOOK           = REQUESTBOOK_DIR + '/getBook';
+export const SAVE_REQUESTBOOK          = REQUESTBOOK_DIR + '/save';
 export const GET_REQUESTBOOK_LIST      = REQUESTBOOK_DIR + '/getBookList';
 export const HAS_BOOK_BY_COMPANY_NO    = REQUESTBOOK_DIR + '/hasBookByCompanyNo';
 export const HAS_REQUESTBOOK           = REQUESTBOOK_DIR + '/hasBook';

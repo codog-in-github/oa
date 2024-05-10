@@ -200,7 +200,7 @@
                   class="handle"
                 />
               </el-button-group>
-              
+
             </template>
           </el-table-column>
         </el-table>
@@ -327,6 +327,13 @@
         >
           出力
         </el-button>
+        <el-button
+          v-if="!readonly"
+          type="primary"
+          @click="onlySave"
+        >
+          保存
+        </el-button>
         <el-button @click="close">
           戻る
         </el-button>
@@ -390,10 +397,17 @@
 import MulitSelect from '@/components/MulitSelect';
 import { getOptionsAnsyc } from '@/mixin/main';
 import { findInArray, getRandomID, postNewWindow } from '@/utils';
-import { getBankList, getDepartmentList, getRequestbook, getRequestbookList, hasBookByCompanyNo } from '@/api/main';
+import {
+  getBankList,
+  getDepartmentList,
+  getRequestbook,
+  getRequestbookList,
+  hasBookByCompanyNo,
+  saveRequest
+} from '@/api/main';
 import moment from 'moment';
 import { REQUESTBOOK } from '@/constant/API';
-import sortable from 'sortablejs'
+import sortable from 'sortablejs';
 
 const RATE = 'RATE';
 let extraDefault = {};
@@ -604,13 +618,39 @@ export default {
     unitSearch (str, cb) {
       cb(this.options.unit.item);
     },
+    onlySave () {
+      const newDetail = this.detail.map(item => {
+        const cp = { ...item };
+        delete cp.key;
+        return cp;
+      });
+      saveRequest({
+        id: this.id,
+        bkg_id: this.bkgId,
+        tel: this.tel,
+        no: this.no,
+        booker_place: this.booker_place,
+        date: this.date,
+        booker_name: this.booker_name,
+        extra: JSON.stringify(this.extra),
+        detail: JSON.stringify(newDetail),
+        bank: this.bank,
+        address: this.address,
+
+        in_tak: this.inTak,
+        subtotal: this.subtotal,
+        tak_total: this.takTotal,
+        total: this.sum,
+        sign: this.sign
+      });
+    },
     async beDownload () {
       await this.checkChangeRequestStep();
       const newDetail = this.detail.map(item => {
-        const cp = { ...item }
-        delete cp.key
-        return cp
-      })
+        const cp = { ...item };
+        delete cp.key;
+        return cp;
+      });
       postNewWindow(REQUESTBOOK, {
         id: this.id,
         bkg_id: this.bkgId,
@@ -682,7 +722,7 @@ export default {
           total: 0,
           key: i
         })
-      ) : data.detail.map((item, i) => ({ ...item, key: i}));
+      ) : data.detail.map((item, i) => ({ ...item, key: i }));
       extraDefault = data.extraDefault;
       this.loading = false;
     },
@@ -739,18 +779,18 @@ export default {
       }
       this.detail = sort;
     },
-    rowDrop() {
-        const tbody2 = this.$refs.dragTable.$el.querySelector('.el-table__body-wrapper tbody');
-        sortable.create(tbody2, {
-          handle: '.handle',
-          animation: 150,
-          onEnd: ({ newIndex, oldIndex }) => {
-            const target = this.detail.splice(oldIndex, 1)[0]
-            this.detail.splice(newIndex, 0, target)
-          }
-        });
-      },
-    },
+    rowDrop () {
+      const tbody2 = this.$refs.dragTable.$el.querySelector('.el-table__body-wrapper tbody');
+      sortable.create(tbody2, {
+        handle: '.handle',
+        animation: 150,
+        onEnd: ({ newIndex, oldIndex }) => {
+          const target = this.detail.splice(oldIndex, 1)[0];
+          this.detail.splice(newIndex, 0, target);
+        }
+      });
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
